@@ -250,7 +250,101 @@ namespace BLTAdoptAHero
                 {
                     action();
                 }
+
+                if (!IsDeploymentPhase())
+                {
+                    EnforceHeroFormationRules();
+                }
             });
+        }
+
+        private void EnforceHeroFormationRules()
+        {
+            if (Mission.Current?.PlayerTeam == null)
+                return;
+
+            var targetIndices = Mission.Current.IsSiegeBattle
+                ? new[] { 6, 7 }
+                : new[] { 4, 5, 6, 7 };
+
+            foreach (var i in targetIndices)
+            {
+                var fc = (FormationClass)i;
+                if (Mission.Current.PlayerTeam.GetFormation(fc) == null)
+                {
+                    Mission.Current.PlayerTeam.FormationsIncludingEmpty
+                        .Add(new Formation(Mission.Current.PlayerTeam, i));
+                }
+            }
+
+            foreach (var agent in Mission.Current.Agents)
+            {
+                if (!agent.IsActive() || !agent.IsHuman || !agent.IsAIControlled)
+                    continue;
+
+                if (agent.Character == null || !agent.Character.IsHero)
+                    continue;
+
+                if (agent.Team == null || !agent.Team.IsFriendOf(Mission.Current.PlayerTeam))
+                    continue;
+
+                var adoptedHero = agent.GetAdoptedHero();
+                if (adoptedHero == null)
+                    continue;
+
+                FormationClass fClass;
+                if (agent.HasMount && HasRanged(agent) && HasAmmo(agent))
+                    fClass = FormationClass.HorseArcher;
+                else if (HasRanged(agent) && HasAmmo(agent))
+                    fClass = FormationClass.Ranged;
+                else if (agent.HasMount)
+                    fClass = FormationClass.Cavalry;
+                else
+                    fClass = FormationClass.Infantry;
+
+                int index = Mission.Current.IsSiegeBattle
+                    ? (fClass == FormationClass.Ranged ? 7 : 6)
+                    : 4 + (int)fClass;
+
+                var form = Mission.Current.PlayerTeam.GetFormation((FormationClass)index);
+                if (form != null && agent.Formation != form)
+                {
+                    agent.Formation = form;
+                }
+            }
+        }
+
+        private bool HasAmmo(Agent agent)
+        {
+            if (agent.Equipment == null)
+                return false;
+
+            foreach (var index in new[]
+            {
+        EquipmentIndex.Weapon0,
+        EquipmentIndex.Weapon1,
+        EquipmentIndex.Weapon2,
+        EquipmentIndex.Weapon3
+    })
+            {
+                var item = agent.Equipment[index];
+                if (item.IsAnyAmmo() && item.Amount > 0)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private bool HasRanged(Agent agent)
+        {
+            var eq = agent.SpawnEquipment;
+            return eq?.HasWeaponOfClass(WeaponClass.Bow) == true
+                || eq?.HasWeaponOfClass(WeaponClass.Crossbow) == true;
+        }
+
+        private bool IsDeploymentPhase()
+        {
+            return Mission.Current?.Mode == MissionMode.Deployment;
         }
 
         protected override void OnEndMission()
