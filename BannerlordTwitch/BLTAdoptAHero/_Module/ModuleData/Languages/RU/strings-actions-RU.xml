@@ -1134,6 +1134,7 @@
 		<string id="9ZgQKk2L" text="Произошла ошибка" original="An error occurred"/>
 		<string id="Gf2Lk9aP" text="Недостаточно прав" original="Insufficient permissions"/>
 		<string id="Yt7mPp4E" text="Команда отключена" original="Command is disabled"/>
-		
-	</strings>
+
+        <string id="Yp3nKs8W" text="Команда смены формации отключена, пока включено автоматическое распределение BLT героев по формациям." />
+    </strings>
 </base>
