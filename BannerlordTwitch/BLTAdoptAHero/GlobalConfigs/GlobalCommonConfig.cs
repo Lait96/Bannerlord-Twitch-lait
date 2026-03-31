@@ -208,40 +208,40 @@ namespace BLTAdoptAHero
             Enumerable.Range(1, 10)
                 .Select(i => $"{i}: {GetCooldownTime(i):0}s"));
 
-        [LocDisplayName("{=TESTING}Nametags"),
+        [LocDisplayName("{=A7kP2xQm}Nametags"),
          LocCategory("Battle", "{=9qAD6eZR}Battle"),
-         LocDescription("{=TESTING}Nametags"),
+         LocDescription("{=Z3nL8vRt}Nametags"),
          PropertyOrder(9), Document, UsedImplicitly]
 
         public bool NametagEnabled { get; set; } = true;
 
-        [LocDisplayName("{=TESTING}Nametag width"),
+        [LocDisplayName("{=Qw4T9mKs}Nametag width"),
          LocCategory("Battle", "{=9qAD6eZR}Battle"),
-         LocDescription("{=TESTING}Nametag width"),
+         LocDescription("{=Lp8D2fYx}Nametag width"),
          PropertyOrder(10),
          Range(50, float.MaxValue),
          Document, UsedImplicitly]
         public float NametagWidth { get; set; } = 150f;
 
-        [LocDisplayName("{=TESTING}Nametag height"),
+        [LocDisplayName("{=H2vN6pQa}Nametag height"),
                 LocCategory("Battle", "{=9qAD6eZR}Battle"),
-                LocDescription("{=TESTING}Nametag height"),
+                LocDescription("{=J9rX4cWd}Nametag height"),
                 PropertyOrder(10),
                 Range(10, float.MaxValue),
                 Document, UsedImplicitly]
         public float NametagHeight { get; set; } = 30f;
 
-        [LocDisplayName("{=TESTING}Nametag fontsize"),
+        [LocDisplayName("{=M5tK8zBx}Nametag fontsize"),
                  LocCategory("Battle", "{=9qAD6eZR}Battle"),
-                 LocDescription("{=TESTING}Nametag fontsize"),
+                 LocDescription("{=R2yF7uLp}Nametag fontsize"),
                  PropertyOrder(11),
                  Range(15, float.MaxValue),
                  Document, UsedImplicitly]
         public float NametagFontsize { get; set; } = 20f;
 
-        [LocDisplayName("{=TESTING}Nametag toggle key"),
+        [LocDisplayName("{=V8nC3sQw}Nametag toggle key"),
                  LocCategory("Battle", "{=9qAD6eZR}Battle"),
-                 LocDescription("{=TESTING}Case sensitive"),
+                 LocDescription("{=D4pL9xZm}Case sensitive"),
                  PropertyOrder(12),
                  Document, UsedImplicitly]
         public string NametagKey { get; set; } = "H";

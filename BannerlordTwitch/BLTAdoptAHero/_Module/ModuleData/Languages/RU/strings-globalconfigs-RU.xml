@@ -347,5 +347,20 @@
 		<string id="N8vTx4Hd" text="Автоматически распределяет BLT героев по формациям во время боя. Обычный бой: пехота (4), лучники (5), конница (6), конные лучники (7). Осада: пехота (6), лучники (7). При включении команды смены формации отключаются." />
 		<string id="Yp3nKs8W" text="Команда смены формации отключена, пока включено автоматическое распределение BLT героев по формациям." />
 		
+
+		<string id="A7kP2xQm" text="Включить неймтеги" original="Enable Nametags"/>
+		<string id="Z3nL8vRt" text="Включает или отключает отображение неймтегов над героями в бою" original="Enable or disable nametags above heroes in battle"/>
+
+		<string id="Qw4T9mKs" text="Ширина неймтега" original="Nametag Width"/>
+		<string id="Lp8D2fYx" text="Ширина неймтега в пикселях" original="Width of the nametag in pixels"/>
+
+		<string id="H2vN6pQa" text="Высота неймтега" original="Nametag Height"/>
+		<string id="J9rX4cWd" text="Высота неймтега в пикселях" original="Height of the nametag in pixels"/>
+
+		<string id="M5tK8zBx" text="Размер шрифта неймтега" original="Nametag Font Size"/>
+		<string id="R2yF7uLp" text="Размер шрифта, используемый в неймтегах" original="Font size used in nametags"/>
+
+		<string id="V8nC3sQw" text="Клавиша переключения неймтегов" original="Nametag Toggle Key"/>
+		<string id="D4pL9xZm" text="Клавиша для включения/выключения неймтегов (учитывается регистр)" original="Key used to toggle nametags on or off (case sensitive)"/>
     </strings>
 </base>
