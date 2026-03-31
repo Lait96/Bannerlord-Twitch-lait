@@ -351,5 +351,21 @@
         <string id="FHkvQbcR" text="Rewards"/>
         <!-- Betting -->
         <string id="n1Agm9uJ" text="Betting"/>
+
+		<string id="A7kP2xQm" text="Enable Nametags"/>
+		<string id="Z3nL8vRt" text="Enable or disable nametags above heroes in battle"/>
+
+		<string id="Qw4T9mKs" text="Nametag Width"/>
+		<string id="Lp8D2fYx" text="Width of the nametag in pixels"/>
+
+		<string id="H2vN6pQa" text="Nametag Height"/>
+		<string id="J9rX4cWd" text="Height of the nametag in pixels"/>
+
+		<string id="M5tK8zBx" text="Nametag Font Size"/>
+		<string id="R2yF7uLp" text="Font size used in nametags"/>
+
+		<string id="V8nC3sQw" text="Nametag Toggle Key"/>
+		<string id="D4pL9xZm" text="Key used to toggle nametags on or off (case sensitive)"/>
+		
     </strings>
 </base>
