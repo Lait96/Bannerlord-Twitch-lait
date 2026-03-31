@@ -351,5 +351,11 @@
         <string id="FHkvQbcR" text="Rewards"/>
         <!-- Betting -->
         <string id="n1Agm9uJ" text="Betting"/>
+		
+		<!-- Auto Formation -->
+		<string id="Qk7rLm2P" text="Auto Formation For BLT Heroes" />
+		<string id="N8vTx4Hd" text="Automatically assign adopted BLT heroes to predefined formations during battle. Field battles: infantry (4), ranged (5), cavalry (6), horse archers (7). Sieges: infantry (6), ranged (7). When enabled, the formation command is disabled." />
+		<string id="Yp3nKs8W" text="Formation command is disabled while automatic BLT hero formation is enabled." />
+		
     </strings>
 </base>

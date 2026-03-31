@@ -51,6 +51,13 @@ namespace BLTAdoptAHero.Actions
                 onFailure("{=TESTING}No mission!".Translate());
                 return;
             }
+
+            if (BLTAdoptAHeroModule.CommonConfig.AutoFormationForHeroes)
+            {
+                onFailure("{=Yp3nKs8W}Formation command is disabled while automatic BLT hero formation is enabled.".Translate());
+                return;
+            }
+
             string num = "";
             if (context.Args.Length > 0)
                 num = context.Args[0].ToString();

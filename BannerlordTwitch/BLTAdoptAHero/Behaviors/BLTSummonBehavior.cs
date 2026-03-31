@@ -251,7 +251,7 @@ namespace BLTAdoptAHero
                     action();
                 }
 
-                if (!IsDeploymentPhase())
+                if (BLTAdoptAHeroModule.CommonConfig.AutoFormationForHeroes && !IsDeploymentPhase())
                 {
                     EnforceHeroFormationRules();
                 }

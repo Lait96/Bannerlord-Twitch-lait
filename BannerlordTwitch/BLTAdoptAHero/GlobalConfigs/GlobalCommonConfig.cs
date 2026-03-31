@@ -245,6 +245,12 @@ namespace BLTAdoptAHero
                  PropertyOrder(12),
                  Document, UsedImplicitly]
         public string NametagKey { get; set; } = "H";
+
+        [LocDisplayName("{=Qk7rLm2P}Auto Formation For BLT Heroes"),
+                 LocCategory("Battle", "{=9qAD6eZR}Battle"),
+                 LocDescription("{=N8vTx4Hd}Automatically assign adopted BLT heroes to predefined formations during battle. Field battles: infantry (4), ranged (5), cavalry (6), horse archers (7). Sieges: infantry (6), ranged (7). When enabled, the formation command is disabled."),
+                 PropertyOrder(14), Document, UsedImplicitly]
+        public bool AutoFormationForHeroes { get; set; } = true;
         #endregion
 
         #region Death
