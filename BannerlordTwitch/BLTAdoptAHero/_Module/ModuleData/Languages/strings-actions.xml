@@ -1233,5 +1233,7 @@
 		<string id="lJXxLdFz" text="Please enter the name of the leader you wish to adopt"/>
 		<!-- Error could not find a clan with the name {clanName} -->
 		<string id="bzsT7oy0" text="Error could not find a clan with the name {clanName}"/>
+
+		<string id="Yp3nKs8W" text="Formation command is disabled while automatic BLT hero formation is enabled." />
     </strings>
 </base>

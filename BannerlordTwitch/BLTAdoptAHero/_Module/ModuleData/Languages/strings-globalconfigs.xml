@@ -63,7 +63,9 @@
         <string id="GlobalCommonConfig_Category_Battle_NametagFontsize_Desc" text="Font size of the nametag text"/>
         <string id="GlobalCommonConfig_Category_Battle_NametagKey_Name" text="Nametag Toggle Key"/>
         <string id="GlobalCommonConfig_Category_Battle_NametagKey_Desc" text="Key used to toggle nametags (case sensitive)"/>
-
+        <string id="GlobalCommonConfig_Category_Battle_AutoFormationForHeroes_Name" text="Auto Formation For BLT Heroes"/>
+        <string id="GlobalCommonConfig_Category_Battle_AutoFormationForHeroes_Desc" text="Automatically assign adopted BLT heroes to predefined formations during battle. Field battles: infantry (4), ranged (5), cavalry (6), horse archers (7). Sieges: infantry (6), ranged (7). When enabled, the formation command is disabled."/>
+        
         <!-- Death -->
         <string id="GlobalCommonConfig_Category_Death" text="Death"/>
         <string id="GlobalCommonConfig_Category_Death_AllowDeath_Name" text="Allow Death"/>
@@ -155,9 +157,6 @@
         <string id="GlobalCommonConfig_Category_BattleEndRewards_DifficultyScalingMin_Desc" text="Minimum difficulty scaling multiplier"/>
         <string id="GlobalCommonConfig_Category_BattleEndRewards_DifficultyScalingMax_Name" text="Difficulty Scaling Max"/>
         <string id="GlobalCommonConfig_Category_BattleEndRewards_DifficultyScalingMax_Desc" text="Maximum difficulty scaling multiplier"/>
-        <string id="Qk7rLm2P" text="Auto Formation For BLT Heroes" />
-        <string id="N8vTx4Hd" text="Automatically assign adopted BLT heroes to predefined formations during battle. Field battles: infantry (4), ranged (5), cavalry (6), horse archers (7). Sieges: infantry (6), ranged (7). When enabled, the formation command is disabled." />
-        <string id="Yp3nKs8W" text="Formation command is disabled while automatic BLT hero formation is enabled." />
 
         <!-- Kill Streak Rewards -->
         <string id="GlobalCommonConfig_Category_KillStreakRewards" text="Kill Streak Rewards"/>

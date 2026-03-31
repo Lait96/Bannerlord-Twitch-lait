@@ -807,5 +807,7 @@
 		<string id="lJXxLdFz" text="Пожалуйста, введите имя лидера, которого вы хотите усыновить." original="Please enter the name of the leader you wish to adopt"/>
 		<!-- Error could not find a clan with the name {clanName} -->
 		<string id="bzsT7oy0" text="Ошибка: не удалось найти клан с названием {clanName}." original="Error could not find a clan with the name {clanName}"/>
+
+        <string id="Yp3nKs8W" text="Команда смены формации отключена, пока включено автоматическое распределение BLT героев по формациям." />
     </strings>
 </base>

@@ -63,10 +63,9 @@
         <string id="GlobalCommonConfig_Category_Battle_NametagFontsize_Desc" text="Размер шрифта текста никнейма." original="Font size of the nametag text"/>
         <string id="GlobalCommonConfig_Category_Battle_NametagKey_Name" text="Клавиша переключения никнеймов" original="Nametag Toggle Key"/>
         <string id="GlobalCommonConfig_Category_Battle_NametagKey_Desc" text="Клавиша для включения/выключения никнеймов (учитывается регистр)." original="Key used to toggle nametags (case sensitive)"/>
-        <string id="Qk7rLm2P" text="Автоформации для BLT героев" />
-        <string id="N8vTx4Hd" text="Автоматически распределяет BLT героев по формациям во время боя. Обычный бой: пехота (4), лучники (5), конница (6), конные лучники (7). Осада: пехота (6), лучники (7). При включении команды смены формации отключаются." />
-        <string id="Yp3nKs8W" text="Команда смены формации отключена, пока включено автоматическое распределение BLT героев по формациям." />
-
+        <string id="GlobalCommonConfig_Category_Battle_AutoFormationForHeroes_Name" text="Авторасстановка героев BLT" original="Auto Formation For BLT Heroes"/>
+        <string id="GlobalCommonConfig_Category_Battle_AutoFormationForHeroes_Desc" text="Автоматически распределяет героев BLT по заранее заданным формациям в бою. Полевые сражения: пехота (4), стрелки (5), кавалерия (6), конные лучники (7). Осады: пехота (6), стрелки (7). При включении команда формирования отключается." original="Automatically assign adopted BLT heroes to predefined formations during battle. Field battles: infantry (4), ranged (5), cavalry (6), horse archers (7). Sieges: infantry (6), ranged (7). When enabled, the formation command is disabled."/>
+        
         <!-- Death -->
         <string id="GlobalCommonConfig_Category_Death" text="Смерть" original="Death"/>
         <string id="GlobalCommonConfig_Category_Death_AllowDeath_Name" text="Разрешить смерть" original="Allow Death"/>
