@@ -752,6 +752,12 @@ namespace BLTAdoptAHero
 
         public void IncreaseParticipationCount(Hero hero, bool playerSide, bool forced)
         {
+            
+            if (MissionHelpers.InHideOutMission())
+            {
+                return;
+            }
+            
             IncreaseStatistic(hero, playerSide
                 ? AchievementStatsData.Statistic.Summons
                 : AchievementStatsData.Statistic.Attacks, 1, forced);
