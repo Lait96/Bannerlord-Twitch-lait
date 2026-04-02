@@ -6,15 +6,15 @@ using JetBrains.Annotations;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=kn4uxAWs}Add Gold To Hero"),
-     LocDescription("{=vkgPfcAu}Gives gold to the adopted hero"),
+    [LocDisplayName("{=action_add_gold_to_hero_name}Add Gold To Hero"),
+     LocDescription("{=action_add_gold_to_hero_desc}Gives gold to the adopted hero"),
      UsedImplicitly]
     internal class AddGoldToHero : IRewardHandler
     {
         private class Settings : IDocumentable
         {
-            [LocDisplayName("{=DKfKt4qP}Amount"),
-             LocDescription("{=S2CeRdjR}How much gold to give the adopted hero"),
+            [LocDisplayName("{=action_add_gold_to_hero_amount_name}Amount"),
+             LocDescription("{=action_add_gold_to_hero_amount_desc}How much gold to give the adopted hero"),
              UsedImplicitly, Document]
             public int Amount { get; set; }
 

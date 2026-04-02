@@ -11,31 +11,31 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=TmUJ8VU7}Add Attribute Points"),
-     LocDescription("{=YrYFBWaw}Improve adopted heroes attribute points"),
+    [LocDisplayName("{=action_attribute_points_name}Add Attribute Points"),
+     LocDescription("{=action_attribute_points_desc}Improve adopted heroes attribute points"),
      UsedImplicitly]
     internal class AttributePoints : ImproveAdoptedHero
     {
         protected class AttributePointsSettings : SettingsBase, IDocumentable
         {
-            [LocDisplayName("{=ibuIZ39r}Random"),
-             LocDescription("{=2F4MZn5h}If set a random attribute is improved, otherwise the viewer should provide part of the name of the attribute to improve (this works best as a chat command)"),
+            [LocDisplayName("{=random}Random"),
+             LocDescription("{=action_attribute_points_random_desc}If set a random attribute is improved, otherwise the viewer should provide part of the name of the attribute to improve (this works best as a chat command)"),
              PropertyOrder(1), UsedImplicitly]
             public bool Random { get; set; } = true;
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
                 generator.P(Random ?
-                    "{=JQdCfO2H}Random attribute".Translate()
-                    : "{=hSPAbHWb}Provide the attribute name (or part of it) when calling this".Translate());
-                generator.PropertyValuePair("{=DKfKt4qP}Amount".Translate(),
+                    "{=random_attribute}Random attribute".Translate()
+                    : "{=action_attribute_points_enter_attribute}Provide the attribute name (or part of it) when calling this".Translate());
+                generator.PropertyValuePair("{=amount}Amount".Translate(),
                     AmountLow == AmountHigh
                         ? AmountLow.ToString()
-                        : "{=yVydxRHh}{From} to {To}".Translate(
+                        : "{=range}{From} to {To}".Translate(
                             ("From", AmountLow), ("To", AmountHigh)));
                 if (GoldCost != 0)
                 {
-                    generator.P("{=Diwd7dBo}Costs {GoldCost}".Translate(("GoldCost", GoldCost)) + $"{Naming.Gold}");
+                    generator.P("{=action_attribute_points_cost}Costs {GoldCost}".Translate(("GoldCost", GoldCost)) + $"{Naming.Gold}");
                 }
             }
         }
@@ -60,12 +60,12 @@ namespace BLTAdoptAHero
 
             if (!improvableAttributes.Any())
             {
-                return (false, "{=VxproTE2}Couldn't improve any attributes, they are all at max level!".Translate());
+                return (false, "{=action_attribute_points_all_max}Couldn't improve any attributes, they are all at max level!".Translate());
             }
 
             if (!random && string.IsNullOrEmpty(args))
             {
-                return (false, "{=i9ziqTXG}Provide the attribute name to improve (or part of it)".Translate());
+                return (false, "{=action_attribute_points_need_attribute}Provide the attribute name to improve (or part of it)".Translate());
             }
 
             // ReSharper disable once RedundantAssignment
@@ -80,13 +80,13 @@ namespace BLTAdoptAHero
                 if (!CampaignHelpers.AllAttributes
                     .Any(a => CampaignHelpers.GetAttributeName(a).ToLower().Contains(args.ToLower())))
                 {
-                    return (false, "{=LE3POzUs}Couldn't find attribute matching '{Args}'!".Translate(("Args", args)));
+                    return (false, "{=action_attribute_points_not_found}Couldn't find attribute matching '{Args}'!".Translate(("Args", args)));
                 }
                 attribute = CampaignHelpers.AllAttributes
                     .First(a => CampaignHelpers.GetAttributeName(a).ToLower().Contains(args.ToLower()));
                 if (!improvableAttributes.Contains(attribute))
                 {
-                    return (false, "{=R7X1dTqL}Couldn't improve {Attribute} attribute, it is already at max level!"
+                    return (false, "{=action_attribute_points_already_max}Couldn't improve {Attribute} attribute, it is already at max level!"
                         .Translate(("Attribute", attribute)));
                 }
             }
@@ -95,8 +95,8 @@ namespace BLTAdoptAHero
             adoptedHero.HeroDeveloper.AddAttribute(attribute, amount, checkUnspentPoints: false);
             return (true,
                     (amount > 1
-                        ? "{=Sl1bdnfy}You have gained {Amount} points in {Attribute}, you now have {NewAmount}!"
-                        : "{=2vli3BCR}You have gained a point in {Attribute}, you now have {NewAmount}!")
+                        ? "{=action_attribute_points_success_multi}You have gained {Amount} points in {Attribute}, you now have {NewAmount}!"
+                        : "{=action_attribute_points_success_single}You have gained a point in {Attribute}, you now have {NewAmount}!")
                     .Translate(
                         ("Amount", amount),
                         ("Attribute", CampaignHelpers.GetAttributeName(attribute)),

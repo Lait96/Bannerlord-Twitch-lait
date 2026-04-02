@@ -23,12 +23,12 @@ using YamlDotNet.Serialization;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=NkZXnSQI}Adopt A Hero"),
-     LocDescription("{=fd7G5N0Q}Allows viewer to 'adopt' or create a hero in game -- the hero name will change to the viewers name, and they can control it with further commands"),
+    [LocDisplayName("{=action_adopt_hero_name}Adopt A Hero"),
+     LocDescription("{=action_adopt_hero_desc}Allows viewer to 'adopt' or create a hero in game -- the hero name will change to the viewers name, and they can control it with further commands"),
      UsedImplicitly]
     public class AdoptAHero : IRewardHandler, ICommandHandler
     {
-        public static string NoHeroMessage => "{=r8nXZgcY}Couldn't find your hero, did you adopt one yet?".Translate();
+        public static string NoHeroMessage => "{=action_adopt_hero_no_hero_message}Couldn't find your hero, did you adopt one yet?".Translate();
 
         [CategoryOrder("General", 0),
          CategoryOrder("Random Selection (if CreateNew is false)", 1),
@@ -37,14 +37,14 @@ namespace BLTAdoptAHero
          CategoryOrder("Inheretance", 4)]
         private class Settings : IDocumentable
         {
-            [LocDisplayName("{=TLrDxhlh}Create New Hero?"),
-             LocCategory("General", "{=C5T5nnix}General"),
-             LocDescription("{=F1KDzuZZ}Create a new hero instead of adopting an existing one (they will be a wanderer at a random tavern)"),
+            [LocDisplayName("{=action_adopt_hero_create_new_name}Create New Hero?"),
+             LocCategory("General", "{=action_adopt_hero_category_general}General"),
+             LocDescription("{=action_adopt_hero_create_new_desc}Create a new hero instead of adopting an existing one (they will be a wanderer at a random tavern)"),
              PropertyOrder(1), UsedImplicitly]
             public bool CreateNew { get; set; }
-            [LocDisplayName("{=EWlUcw9W}In-game Notification?"),
-             LocCategory("General", "{=C5T5nnix}General"),
-             LocDescription("{=F1KDzuZZ}Enable/Disable the ingame adoption notification)"),
+            [LocDisplayName("{=action_adopt_hero_notifications_name}In-game Notification?"),
+             LocCategory("General", "{=action_adopt_hero_category_general}General"),
+             LocDescription("{=action_adopt_hero_create_new_desc}Enable/Disable the ingame adoption notification)"),
              PropertyOrder(2), UsedImplicitly]
             public bool Notifications { get; set; }
 
@@ -57,77 +57,77 @@ namespace BLTAdoptAHero
                 Faction,
             }
 
-            [LocDisplayName("{=NoKO59t1}Viewer Selects"),
-             LocCategory("Random Selection  (if CreateNew is false)", "{=1lHWj3nT}Random Selection (if CreateNew is false)"),
-             LocDescription("{=VSYokFLH}What criteria the viewer selects via text input (make sure to enable 'Is User Input " +
+            [LocDisplayName("{=action_adopt_hero_viewer_select_name}Viewer Selects"),
+             LocCategory("Random Selection  (if CreateNew is false)", "{=action_adopt_hero_category_random_selection}Random Selection (if CreateNew is false)"),
+             LocDescription("{=action_adopt_hero_viewer_select_desc}What criteria the viewer selects via text input (make sure to enable 'Is User Input " +
                             "Required' it in the Reward Specification > Misc section if you set this to something other than None). "),
              PropertyOrder(1), UsedImplicitly]
             public ViewerSelect ViewerSelects { get; set; }
 
-            [LocDisplayName("{=nPIcT2s7}Allow Noble"),
-             LocCategory("Random Selection (if CreateNew is false)", "{=1lHWj3nT}Random Selection (if CreateNew is false)"),
-             LocDescription("{=XvZN7OOY}Allow noble heroes"),
+            [LocDisplayName("{=action_adopt_hero_allow_noble_name}Allow Noble"),
+             LocCategory("Random Selection (if CreateNew is false)", "{=action_adopt_hero_category_random_selection}Random Selection (if CreateNew is false)"),
+             LocDescription("{=action_adopt_hero_allow_noble_desc}Allow noble heroes"),
              PropertyOrder(2), UsedImplicitly]
             public bool AllowNoble { get; set; } = true;
 
-            [LocDisplayName("{=VVFsa8LQ}Allow Wanderer"),
-             LocCategory("Random Selection (if CreateNew is false)", "{=1lHWj3nT}Random Selection (if CreateNew is false)"),
-             LocDescription("{=9lE2KSvC}Allow wanderer heroes"),
+            [LocDisplayName("{=action_adopt_hero_allow_wanderer_name}Allow Wanderer"),
+             LocCategory("Random Selection (if CreateNew is false)", "{=action_adopt_hero_category_random_selection}Random Selection (if CreateNew is false)"),
+             LocDescription("{=action_adopt_hero_allow_wanderer_desc}Allow wanderer heroes"),
              PropertyOrder(3), UsedImplicitly]
             public bool AllowWanderer { get; set; } = true;
 
-            [LocDisplayName("{=FUsqiXdp}Allow Party Leader"),
-             LocCategory("Random Selection (if CreateNew is false)", "{=1lHWj3nT}Random Selection (if CreateNew is false)"),
-             LocDescription("{=L4cLwv9E}Allow heroes that lead parties"),
+            [LocDisplayName("{=action_adopt_hero_allow_party_leader_name}Allow Party Leader"),
+             LocCategory("Random Selection (if CreateNew is false)", "{=action_adopt_hero_category_random_selection}Random Selection (if CreateNew is false)"),
+             LocDescription("{=action_adopt_hero_allow_party_leader_desc}Allow heroes that lead parties"),
              PropertyOrder(4), UsedImplicitly]
             public bool AllowPartyLeader { get; set; } = false;
 
-            [LocDisplayName("{=9DdalaHK}Allow Minor Faction Hero"),
-             LocCategory("Random Selection (if CreateNew is false)", "{=1lHWj3nT}Random Selection (if CreateNew is false)"),
-             LocDescription("{=NCrSbTGc}Allow heroes that lead minor factions"),
+            [LocDisplayName("{=action_adopt_hero_allow_minor_faction_name}Allow Minor Faction Hero"),
+             LocCategory("Random Selection (if CreateNew is false)", "{=action_adopt_hero_category_random_selection}Random Selection (if CreateNew is false)"),
+             LocDescription("{=action_adopt_hero_allow_minor_faction_desc}Allow heroes that lead minor factions"),
              PropertyOrder(5), UsedImplicitly]
             public bool AllowMinorFactionHero { get; set; } = false;
 
-            [LocDisplayName("{=A8G9ctbn}Allow Player Companion"),
-             LocCategory("Random Selection (if CreateNew is false)", "{=1lHWj3nT}Random Selection (if CreateNew is false)"),
-             LocDescription("{=6EjGRMkt}Allow companions"),
+            [LocDisplayName("{=action_adopt_hero_allow_companion_name}Allow Player Companion"),
+             LocCategory("Random Selection (if CreateNew is false)", "{=action_adopt_hero_category_random_selection}Random Selection (if CreateNew is false)"),
+             LocDescription("{=action_adopt_hero_allow_companion_desc}Allow companions"),
              PropertyOrder(6), UsedImplicitly]
             public bool AllowPlayerCompanion { get; set; }
 
-            [LocDisplayName("{=O4DGlP9Z}Subscriber Only"),
-             LocCategory("Subscribers", "{=26cIeQzp}Subscribers"),
-             LocDescription("{=TBNkHsLC}Only subscribers can adopt"),
+            [LocDisplayName("{=action_adopt_hero_subscriber_only_name}Subscriber Only"),
+             LocCategory("Subscribers", "{=action_adopt_hero_category_subscribers}Subscribers"),
+             LocDescription("{=action_adopt_hero_subscriber_only_desc}Only subscribers can adopt"),
              PropertyOrder(1), UsedImplicitly]
             public bool SubscriberOnly { get; set; }
 
-            [LocDisplayName("{=dO41CKIU}Minimum Subscribed Months"),
-             LocCategory("Subscribers", "{=26cIeQzp}Subscribers"),
-             LocDescription("{=BVZwDqR0}Only viewers who have been subscribers for at least this many months can adopt, ignored if not specified"),
+            [LocDisplayName("{=action_adopt_hero_min_sub_months_name}Minimum Subscribed Months"),
+             LocCategory("Subscribers", "{=action_adopt_hero_category_subscribers}Subscribers"),
+             LocDescription("{=action_adopt_hero_min_sub_months_desc}Only viewers who have been subscribers for at least this many months can adopt, ignored if not specified"),
              PropertyOrder(2), UsedImplicitly]
             public int? MinSubscribedMonths { get; set; }
 
-            [LocDisplayName("{=iOmYBC7I}Starting Gold"),
-             LocCategory("Initialization", "{=DRNO9OAl}Initialization"),
-             LocDescription("{=pZMkJLix}Gold the adopted hero will start with"),
+            [LocDisplayName("{=action_adopt_hero_starting_gold_name}Starting Gold"),
+             LocCategory("Initialization", "{=action_adopt_hero_category_initialization}Initialization"),
+             LocDescription("{=action_adopt_hero_starting_gold_desc}Gold the adopted hero will start with"),
              PropertyOrder(1), UsedImplicitly,
              Document]
             public int StartingGold { get; set; }
 
-            [LocDisplayName("{=ZXwbvbbq}Override Age"),
-             LocCategory("Initialization", "{=DRNO9OAl}Initialization"),
-             LocDescription("{=gxQgrAey}Override the heroes age"),
+            [LocDisplayName("{=action_adopt_hero_override_age_name}Override Age"),
+             LocCategory("Initialization", "{=action_adopt_hero_category_initialization}Initialization"),
+             LocDescription("{=action_adopt_hero_override_age_desc}Override the heroes age"),
              PropertyOrder(2), UsedImplicitly]
             public bool OverrideAge { get; set; }
 
-            [LocDisplayName("{=NEBQgHiX}Starting Age Range"),
-             LocCategory("Initialization", "{=DRNO9OAl}Initialization"),
-             LocDescription("{=TYqEBuLW}Random range of age when overriding it"),
+            [LocDisplayName("{=action_adopt_hero_starting_age_range_name}Starting Age Range"),
+             LocCategory("Initialization", "{=action_adopt_hero_category_initialization}Initialization"),
+             LocDescription("{=action_adopt_hero_starting_age_range_desc}Random range of age when overriding it"),
              PropertyOrder(3), UsedImplicitly]
             public RangeFloat StartingAgeRange { get; set; } = new(18, 35);
 
-            [LocDisplayName("{=9IOFHQjS}Starting Skills"),
-             LocCategory("Initialization", "{=DRNO9OAl}Initialization"),
-             LocDescription("{=C4rV4f2F}Starting skills, if empty then default skills of the adopted hero will be left in tact"),
+            [LocDisplayName("{=action_adopt_hero_starting_skills_name}Starting Skills"),
+             LocCategory("Initialization", "{=action_adopt_hero_category_initialization}Initialization"),
+             LocDescription("{=action_adopt_hero_starting_skills_desc}Starting skills, if empty then default skills of the adopted hero will be left in tact"),
              Editor(typeof(DefaultCollectionEditor), typeof(DefaultCollectionEditor)),
              PropertyOrder(4), UsedImplicitly]
             public ObservableCollection<SkillRangeDef> StartingSkills { get; set; } = new();
@@ -136,30 +136,30 @@ namespace BLTAdoptAHero
             public IEnumerable<SkillRangeDef> ValidStartingSkills
                 => StartingSkills?.Where(s => s.Skill != SkillsEnum.None);
 
-            [LocDisplayName("{=IAKQCRa1}Starting Equipment Tier"),
-             LocCategory("Initialization", "{=DRNO9OAl}Initialization"),
-             LocDescription("{=mQwjHXfC}Equipment tier the adopted hero will start with, if you don't specify then they get the heroes existing equipment"),
+            [LocDisplayName("{=action_adopt_hero_equipment_tier_name}Starting Equipment Tier"),
+             LocCategory("Initialization", "{=action_adopt_hero_category_initialization}Initialization"),
+             LocDescription("{=action_adopt_hero_equipment_tier_desc}Equipment tier the adopted hero will start with, if you don't specify then they get the heroes existing equipment"),
              Range(0, 6),
              PropertyOrder(5), UsedImplicitly]
             public int? StartingEquipmentTier { get; set; }
 
-            [LocDisplayName("{=0vGFJdO1}Starting Class"),
-             LocCategory("Initialization", "{=DRNO9OAl}Initialization"),
-             LocDescription("{=zgjyFL6i}Starting class of the hero"),
+            [LocDisplayName("{=action_adopt_hero_starting_class_name}Starting Class"),
+             LocCategory("Initialization", "{=action_adopt_hero_category_initialization}Initialization"),
+             LocDescription("{=action_adopt_hero_starting_class_desc}Starting class of the hero"),
              PropertyOrder(6), ItemsSource(typeof(HeroClassDef.ItemSource)), UsedImplicitly]
             public Guid StartingClass { get; set; }
 
-            [LocDisplayName("{=dvbkxJQz}Inheritance Percentage"),
-             LocCategory("Inheritance", "{=biICJtC2}Inheritance"),
-             LocDescription("{=KLJtpEjg}What fraction of assets will be inherited when a new character is adopted after an old one died (0 to 1)"),
+            [LocDisplayName("{=action_adopt_hero_inheritance_name}Inheritance Percentage"),
+             LocCategory("Inheritance", "{=action_adopt_hero_category_inheritance}Inheritance"),
+             LocDescription("{=action_adopt_hero_inheritance_desc}What fraction of assets will be inherited when a new character is adopted after an old one died (0 to 1)"),
              UIRangeAttribute(0, 1, 0.05f),
              Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
              PropertyOrder(1), UsedImplicitly]
             public float Inheritance { get; set; } = 0.25f;
 
-            [LocDisplayName("{=Bi19tTPj}Maximum Inherited Custom Items"),
-             LocCategory("Inheritance", "{=biICJtC2}Inheritance"),
-             LocDescription("{=tFolfAOn}How many custom items can be inherited"),
+            [LocDisplayName("{=action_adopt_hero_max_items_name}Maximum Inherited Custom Items"),
+             LocCategory("Inheritance", "{=action_adopt_hero_category_inheritance}Inheritance"),
+             LocDescription("{=action_adopt_hero_max_items_desc}How many custom items can be inherited"),
              Range(0, Int32.MaxValue),
              PropertyOrder(2), UsedImplicitly]
             public int MaxInheritedCustomItems { get; set; } = 2;
@@ -169,56 +169,56 @@ namespace BLTAdoptAHero
                 if (SubscriberOnly)
                 {
                     generator.Value("<strong>" +
-                                    "{=4zAUTiSP}Subscriber Only".Translate() +
+                                    "{=subscriber_only_short}Subscriber Only".Translate() +
                                     "</strong>");
                 }
 
                 //if (CreateClan) generator.Value("{=xjmF7XjL}Create the selected clan if it does not exist".Translate());
-                if (ViewerSelects == ViewerSelect.Culture) generator.Value("{=Lg6V3rzn}Viewer selects hero by culture".Translate());
-                if (ViewerSelects == ViewerSelect.Faction) generator.Value("{=kps5JINU}Viewer selects hero by faction".Translate());
-                if (ViewerSelects == ViewerSelect.Name) generator.Value("{=EUJZfjFj}Viewer selects hero by name".Translate());
-                if (ViewerSelects == ViewerSelect.Clan) generator.Value("{=y2U378lu}Viewer selects hero by clan".Translate());
+                if (ViewerSelects == ViewerSelect.Culture) generator.Value("{=action_adopt_hero_doc_select_culture}Viewer selects hero by culture".Translate());
+                if (ViewerSelects == ViewerSelect.Faction) generator.Value("{=action_adopt_hero_doc_select_faction}Viewer selects hero by faction".Translate());
+                if (ViewerSelects == ViewerSelect.Name) generator.Value("{=action_adopt_hero_doc_select_name}Viewer selects hero by name".Translate());
+                if (ViewerSelects == ViewerSelect.Clan) generator.Value("{=action_adopt_hero_doc_select_clan}Viewer selects hero by clan".Translate());
 
                 if (CreateNew)
                 {
-                    generator.Value("{=cJQCU33B}Newly created wanderer".Translate());
+                    generator.Value("{=newly_created_wanderer}Newly created wanderer".Translate());
                 }
                 else
                 {
                     var allowed = new List<string>();
-                    if (AllowNoble) allowed.Add("{=fP84ES0X}Noble".Translate());
-                    if (AllowWanderer) allowed.Add("{=ozRaAx6L}Wanderer".Translate());
-                    if (AllowPlayerCompanion) allowed.Add("{=YucejFfO}Companions".Translate());
-                    generator.PropertyValuePair("{=UNtHwNhx}Allowed".Translate(), string.Join(", ", allowed));
+                    if (AllowNoble) allowed.Add("{=noble}Noble".Translate());
+                    if (AllowWanderer) allowed.Add("{=wanderer}Wanderer".Translate());
+                    if (AllowPlayerCompanion) allowed.Add("{=companions}Companions".Translate());
+                    generator.PropertyValuePair("{=allowed}Allowed".Translate(), string.Join(", ", allowed));
                 }
 
                 if (OverrideAge)
                 {
-                    generator.PropertyValuePair("{=pDP8b5HR}Starting Age Range".Translate(),
+                    generator.PropertyValuePair("{=starting_age_range}Starting Age Range".Translate(),
                         StartingAgeRange.IsFixed
                             ? $"{StartingAgeRange.Min}"
                             : $"{StartingAgeRange.Min} to {StartingAgeRange.Max}"
                         );
                 }
 
-                generator.PropertyValuePair("{=FvhsCSd3}Starting Gold".Translate(), $"{StartingGold}");
+                generator.PropertyValuePair("{=starting_gold}Starting Gold".Translate(), $"{StartingGold}");
 
                 if (Inheritance != 0.25f || MaxInheritedCustomItems != 2)
                 {
-                    generator.PropertyValuePair("{=wP0lfTf3}Inheritance".Translate(),
-                        "{=mDK67efh}{Inheritance}% of gold spent on equipment and retinue"
+                    generator.PropertyValuePair("{=inheritance}Inheritance".Translate(),
+                        "{=action_adopt_hero_doc_inheritance_text}{Inheritance}% of gold spent on equipment and retinue"
                             .Translate(("Inheritance", (int)(Inheritance * 100))) +
                         ", " +
                         (MaxInheritedCustomItems == 0
-                            ? "{=76NtQIGB}no custom items".Translate()
-                            : "{=sEDQrZCp}up to {MaxInheritedCustomItems} custom items"
+                            ? "{=no_custom_items}no custom items".Translate()
+                            : "{=action_adopt_hero_doc_max_items}up to {MaxInheritedCustomItems} custom items"
                                 .Translate(("MaxInheritedCustomItems", MaxInheritedCustomItems))
                         ));
                 }
 
                 if (StartingEquipmentTier.HasValue)
                 {
-                    generator.PropertyValuePair("{=IAKQCRa1}Starting Equipment Tier".Translate(), $"{StartingEquipmentTier.Value}");
+                    generator.PropertyValuePair("{=action_adopt_hero_equipment_tier_name}Starting Equipment Tier".Translate(), $"{StartingEquipmentTier.Value}");
                 }
 
                 if (StartingClass != Guid.Empty)
@@ -226,18 +226,18 @@ namespace BLTAdoptAHero
                     var classDef = BLTAdoptAHeroModule.HeroClassConfig.GetClass(StartingClass);
                     if (classDef != null)
                     {
-                        generator.PropertyValuePair("{=0vGFJdO1}Starting Class".Translate(),
+                        generator.PropertyValuePair("{=action_adopt_hero_starting_class_name}Starting Class".Translate(),
                             () => generator.LinkToAnchor(classDef.Name.ToString(), classDef.Name.ToString()));
                     }
                 }
 
                 if (ValidStartingSkills.Any())
                 {
-                    generator.PropertyValuePair("{=9IOFHQjS}Starting Skills".Translate(), () =>
+                    generator.PropertyValuePair("{=action_adopt_hero_starting_skills_name}Starting Skills".Translate(), () =>
                         generator.Table("starting-skills", () =>
                         {
                             generator.TR(() =>
-                                generator.TH("{=OEMBeawy}Skill".Translate()).TH("{=iu0dtUP5}Level".Translate())
+                                generator.TH("{=skill}Skill".Translate()).TH("{=level}Level".Translate())
                             );
                             foreach (var s in ValidStartingSkills)
                             {
@@ -246,7 +246,7 @@ namespace BLTAdoptAHero
                                     generator.TD(s.Skill.GetDisplayName());
                                     generator.TD(s.IsFixed
                                         ? $"{s.MinLevel}"
-                                        : "{=yVydxRHh}{From} to {To}".Translate(
+                                        : "{=action_adopt_hero_doc_range}{From} to {To}".Translate(
                                             ("From", s.MinLevel), ("To", s.MaxLevel)));
                                 });
                             }
@@ -261,19 +261,19 @@ namespace BLTAdoptAHero
             var hero = BLTAdoptAHeroCampaignBehavior.Current.GetAdoptedHero(context.UserName);
             if (hero?.IsAlive == true)
             {
-                ActionManager.NotifyCancelled(context, "{=mJfD7e2g}You have already adopted a hero!".Translate());
+                ActionManager.NotifyCancelled(context, "{=action_adopt_hero_already_adopted}You have already adopted a hero!".Translate());
                 return;
             }
             var settings = (Settings)config;
             if (settings.MinSubscribedMonths > 0 && context.SubscribedMonthCount < settings.MinSubscribedMonths)
             {
                 ActionManager.NotifyCancelled(context,
-                    "{=4K7Q7gR0}You must be subscribed for at least {MinSubscribedMonths} months to adopt a hero with this command!".Translate(("MinSubscribedMonths", settings.MinSubscribedMonths)));
+                    "{=action_adopt_hero_sub_required_months}You must be subscribed for at least {MinSubscribedMonths} months to adopt a hero with this command!".Translate(("MinSubscribedMonths", settings.MinSubscribedMonths)));
                 return;
             }
             if (!context.IsSubscriber && settings.SubscriberOnly)
             {
-                ActionManager.NotifyCancelled(context, "{=0QeQPxYi}You must be subscribed to adopt a hero with this command!".Translate());
+                ActionManager.NotifyCancelled(context, "{=action_adopt_hero_sub_required}You must be subscribed to adopt a hero with this command!".Translate());
                 return;
             }
             (bool success, string message) = ExecuteInternal(context.UserName, settings, context.Args);
@@ -292,7 +292,7 @@ namespace BLTAdoptAHero
         {
             if (BLTAdoptAHeroCampaignBehavior.Current.GetAdoptedHero(context.UserName) != null)
             {
-                ActionManager.SendReply(context, "{=mJfD7e2g}You have already adopted a hero!".Translate());
+                ActionManager.SendReply(context, "{=action_adopt_hero_already_adopted}You have already adopted a hero!".Translate());
                 return;
             }
 
@@ -300,12 +300,12 @@ namespace BLTAdoptAHero
             if (settings.MinSubscribedMonths > 0 && context.SubscribedMonthCount < settings.MinSubscribedMonths)
             {
                 ActionManager.SendReply(context,
-                    "{=4K7Q7gR0}You must be subscribed for at least {MinSubscribedMonths} months to adopt a hero with this command!".Translate(("MinSubscribedMonths", settings.MinSubscribedMonths)));
+                    "{=action_adopt_hero_sub_required_months}You must be subscribed for at least {MinSubscribedMonths} months to adopt a hero with this command!".Translate(("MinSubscribedMonths", settings.MinSubscribedMonths)));
                 return;
             }
             if (!context.IsSubscriber && settings.SubscriberOnly)
             {
-                ActionManager.SendReply(context, "{=0QeQPxYi}You must be subscribed to adopt a hero with this command!".Translate());
+                ActionManager.SendReply(context, "{=action_adopt_hero_sub_required}You must be subscribed to adopt a hero with this command!".Translate());
                 return;
             }
 
@@ -319,7 +319,7 @@ namespace BLTAdoptAHero
 
             if (settings.CreateNew && (settings.ViewerSelects == Settings.ViewerSelect.Clan || settings.ViewerSelects == Settings.ViewerSelect.Faction || settings.ViewerSelects == Settings.ViewerSelect.Name))
             {
-                return (false, "{=98Hl4Gnd}Config Error: Can't create new hero and have random selection filters".Translate());
+                return (false, "{=action_adopt_hero_config_error}Config Error: Can't create new hero and have random selection filters".Translate());
             }
 
             CultureObject desiredCulture = null;
@@ -333,28 +333,28 @@ namespace BLTAdoptAHero
                 //Set Culture filter if enabled
                 if (settings.ViewerSelects == Settings.ViewerSelect.Culture)
                 {
-                    if (contextArgs.Trim() == "{=fQKXPB5C}list".Translate() || contextArgs.Trim() == "{=z9cGIl8j}a".Translate())
-                        return (false, "{=jjUmUpia}Culture list: {Cultures}".Translate(("Cultures", string.Join(", ", CampaignHelpers.MainCultures.Select(c => c.Name.ToString())))));
+                    if (contextArgs.Trim() == "{=list}list".Translate() || contextArgs.Trim() == "{=all_short}a".Translate())
+                        return (false, "{=action_adopt_hero_culture_list}Culture list: {Cultures}".Translate(("Cultures", string.Join(", ", CampaignHelpers.MainCultures.Select(c => c.Name.ToString())))));
                     if (contextArgs.Length > 1)
                     {
                         desiredCulture = CampaignHelpers.MainCultures.FirstOrDefault(c =>
                             c.Name.ToString().StartsWith(contextArgs, StringComparison.CurrentCultureIgnoreCase));
                         if (desiredCulture == null)
                         {
-                            return (false, "{=dVVduPvy}No culture starting with '{Text}' found".Translate(("Text", contextArgs)));
+                            return (false, "{=action_adopt_hero_no_culture}No culture starting with '{Text}' found".Translate(("Text", contextArgs)));
                         }
                     }
                     else
                     {
-                        return (false, "{=SViljL0E}Please enter the name of the culture you wish to adopt a hero from".Translate());
+                        return (false, "{=action_adopt_hero_enter_culture}Please enter the name of the culture you wish to adopt a hero from".Translate());
                     }
                 }
 
                 //Set Faction filter if enabled
                 else if (settings.ViewerSelects == Settings.ViewerSelect.Faction)
                 {
-                    if (contextArgs.Trim() == "{=fQKXPB5C}list".Translate() || contextArgs.Trim() == "{=z9cGIl8j}a".Translate())
-                        return (false, "{=7DN9p01E}Faction list: {Factions}".Translate(("Factions", string.Join(", ", CampaignHelpers.MainFactions.Select(c => c.Name.ToString())))));
+                    if (contextArgs.Trim() == "{=list}list".Translate() || contextArgs.Trim() == "{=all_short}a".Translate())
+                        return (false, "{=action_adopt_hero_faction_list}Faction list: {Factions}".Translate(("Factions", string.Join(", ", CampaignHelpers.MainFactions.Select(c => c.Name.ToString())))));
                     if (contextArgs.Length > 1)
                     {
                         desiredFaction = CampaignHelpers.MainFactions.FirstOrDefault(c =>
@@ -362,12 +362,12 @@ namespace BLTAdoptAHero
 
                         if (desiredFaction == null)
                         {
-                            return (false, "{=k4Hj2rxu}No faction starting with '{Text}' found".Translate(("Text", contextArgs)));
+                            return (false, "{=action_adopt_hero_no_faction}No faction starting with '{Text}' found".Translate(("Text", contextArgs)));
                         }
                     }
                     else
                     {
-                        return (false, "{=kAeOPuZc}Please enter the name of the faction you wish to adopt a hero from".Translate());
+                        return (false, "{=action_adopt_hero_enter_faction}Please enter the name of the faction you wish to adopt a hero from".Translate());
                     }
                 }
 
@@ -387,11 +387,11 @@ namespace BLTAdoptAHero
 
                         });
                         if (desiredName == null)
-                            return (false, "{=q9m9Yp1F}Error could not find a hero with the name {desiredName}".Translate(("desiredName", desiredName)));
+                            return (false, "{=action_adopt_hero_no_name}Error could not find a hero with the name {desiredName}".Translate(("desiredName", desiredName)));
                     }
                     else
                     {
-                        return (false, "{=lJXxLdFz}Please enter the name of the leader you wish to adopt".Translate());
+                        return (false, "{=action_adopt_hero_enter_name}Please enter the name of the leader you wish to adopt".Translate());
                     }
                 }
 
@@ -410,11 +410,11 @@ namespace BLTAdoptAHero
                             return false;
                         });
                         if (desiredClan == null)
-                            return (false, "{=bzsT7oy0}Error could not find a clan with the name {clanName}".Translate(("clanName", contextArgs)));
+                            return (false, "{=action_adopt_hero_no_clan}Error could not find a clan with the name {clanName}".Translate(("clanName", contextArgs)));
                     }
                     else
                     {
-                        return (false, "{=sN23nt5M}Please enter the name of the clan you wish to adopt a hero from".Translate());
+                        return (false, "{=action_adopt_hero_enter_clan}Please enter the name of the clan you wish to adopt a hero from".Translate());
                     }
                 }
             }
@@ -456,7 +456,7 @@ namespace BLTAdoptAHero
             }
             if (newHero == null)
             {
-                return (false, "{=E7wqQ2kg}You can't adopt a hero: no available hero matching the requirements was found!".Translate());
+                return (false, "{=action_adopt_hero_no_available}You can't adopt a hero: no available hero matching the requirements was found!".Translate());
             }
             if (settings.OverrideAge)
             {
@@ -539,19 +539,19 @@ namespace BLTAdoptAHero
             }
             if (settings.Notifications)
                 Log.ShowInformation(
-                    "{=K7nuJVCN}{OldName} is now known as {NewName}!".Translate(("OldName", oldName), ("NewName", newHero.Name)),
+                    "{=action_adopt_hero_renamed}{OldName} is now known as {NewName}!".Translate(("OldName", oldName), ("NewName", newHero.Name)),
                     newHero.CharacterObject, Log.Sound.Horns2);
             else
-                Log.Info("{=K7nuJVCN}{OldName} is now known as {NewName}!".Translate(("OldName", oldName), ("NewName", newHero.Name)));
+                Log.Info("{=action_adopt_hero_renamed}{OldName} is now known as {NewName}!".Translate(("OldName", oldName), ("NewName", newHero.Name)));
 
             return inherited.Any()
-                ? (true, "{=PAc5S0GY}{OldName} is now known as {NewName}, they have {NewGold} (inheriting {Inherited})!"
+                ? (true, "{=action_adopt_hero_renamed_with_inheritance}{OldName} is now known as {NewName}, they have {NewGold} (inheriting {Inherited})!"
                     .Translate(
                         ("OldName", oldName),
                         ("NewName", newHero.Name),
                         ("NewGold", newGold + Naming.Gold),
                         ("Inherited", string.Join(", ", inherited))))
-                : (true, "{=lANBKEFN}{OldName} is now known as {NewName}, they have {NewGold}!".Translate(
+                : (true, "{=action_adopt_hero_renamed_simple}{OldName} is now known as {NewName}, they have {NewGold}!".Translate(
                     ("OldName", oldName),
                     ("NewName", newHero.Name),
                     ("NewGold", newGold + Naming.Gold)));

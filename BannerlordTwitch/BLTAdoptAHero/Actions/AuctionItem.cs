@@ -11,20 +11,20 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=Q1QZbwR3}Auction Item"),
-     LocDescription("{=024hOo3G}Allows viewers to auction custom items, for other viewers to bid on (make sure to add a bid command also)"),
+    [LocDisplayName("{=auction_item}Auction Item"),
+     LocDescription("{=action_auction_item_desc}Allows viewers to auction custom items, for other viewers to bid on (make sure to add a bid command also)"),
      UsedImplicitly]
     public class AuctionItem : HeroCommandHandlerBase
     {
         private class Settings
         {
-            [LocDisplayName("{=34GjlaWu}Auction Duration In Seconds"),
-             LocDescription("{=zsvhQABf}How long the auction should last before the highest bidder wins"),
+            [LocDisplayName("{=auction_duration_seconds}Auction Duration In Seconds"),
+             LocDescription("{=action_auction_duration_desc}How long the auction should last before the highest bidder wins"),
              PropertyOrder(1), UsedImplicitly]
             public int AuctionDurationInSeconds { get; set; } = 60;
 
-            [LocDisplayName("{=ssmJ9c5L}Auction Reminder Interval In Seconds"),
-             LocDescription("{=ijkjWj5q}Interval at which to output a reminder of the auction"),
+            [LocDisplayName("{=auction_reminder_interval_seconds}Auction Reminder Interval In Seconds"),
+             LocDescription("{=action_auction_reminder_desc}Interval at which to output a reminder of the auction"),
              PropertyOrder(2), UsedImplicitly]
             public int AuctionReminderIntervalInSeconds { get; set; } = 15;
         }
@@ -39,7 +39,7 @@ namespace BLTAdoptAHero
             if (BLTAdoptAHeroCampaignBehavior.Current.AuctionInProgress)
             {
                 ActionManager.SendReply(context,
-                    "{=T2R35HHV}Another auction is already in progress".Translate());
+                    "{=action_auction_already_in_progress}Another auction is already in progress".Translate());
                 return;
             }
 
@@ -66,7 +66,7 @@ namespace BLTAdoptAHero
 
             if (!int.TryParse(argParts[1], out int reservePrice) || reservePrice < 0)
             {
-                ActionManager.SendReply(context, "{=mm1ay4I7}Invalid reserve price '{Arg}'".Translate(("Arg", argParts[1])));
+                ActionManager.SendReply(context, "{=action_auction_invalid_reserve_price}Invalid reserve price '{Arg}'".Translate(("Arg", argParts[1])));
                 return;
             }
 
@@ -75,7 +75,7 @@ namespace BLTAdoptAHero
                 s => ActionManager.SendNonReply(context, s));
 
             ActionManager.SendNonReply(context,
-                "{=BH5rnHNq}Auction of '{ItemName}' is OPEN! Reserve price is {ReservePrice}{GoldIcon}, bidding closes in {AuctionDurationInSeconds} seconds."
+                "{=action_auction_open_message}Auction of '{ItemName}' is OPEN! Reserve price is {ReservePrice}{GoldIcon}, bidding closes in {AuctionDurationInSeconds} seconds."
                     .Translate(
                         ("ItemName", RewardHelpers.GetItemNameAndModifiers(element)),
                         ("ReservePrice", reservePrice),
@@ -85,8 +85,8 @@ namespace BLTAdoptAHero
         }
     }
 
-    [LocDisplayName("{=rBAvqAh7}Bid On Item"),
-     LocDescription("{=XuvGyCwD}Allows viewers bid on an active custom item auction (make sure to add an auction command also)"),
+    [LocDisplayName("{=bid_on_item}Bid On Item"),
+     LocDescription("{=action_bid_on_item_desc}Allows viewers bid on an active custom item auction (make sure to add an auction command also)"),
      UsedImplicitly]
     public class BidOnItem : HeroCommandHandlerBase
     {
@@ -96,13 +96,13 @@ namespace BLTAdoptAHero
             if (string.IsNullOrWhiteSpace(context.Args))
             {
                 ActionManager.SendReply(context,
-                    context.ArgsErrorMessage("{=ewjqhPqj}(bid amount)".Translate()));
+                    context.ArgsErrorMessage("{=bid_amount}(bid amount)".Translate()));
                 return;
             }
 
             if (!int.TryParse(context.Args, out int bid) || bid < 0)
             {
-                ActionManager.SendReply(context, "{=dgG5WPrC}Invalid bid amount".Translate());
+                ActionManager.SendReply(context, "{=action_invalid_bid_amount}Invalid bid amount".Translate());
                 return;
             }
 
