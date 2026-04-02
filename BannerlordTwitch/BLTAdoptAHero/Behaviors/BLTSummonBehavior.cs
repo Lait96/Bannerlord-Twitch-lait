@@ -255,6 +255,14 @@ namespace BLTAdoptAHero
                 {
                     EnforceHeroFormationRules();
                 }
+
+                if (BLTAdoptAHeroModule.CommonConfig.EnableEnemyBltAttackCommand
+                    && !IsDeploymentPhase()
+                    && Mission.Current != null
+                    && !Mission.Current.IsSiegeBattle)
+                {
+                    EnforceEnemyBltAttackFormationRules();
+                }
             });
         }
 
@@ -340,6 +348,62 @@ namespace BLTAdoptAHero
             var eq = agent.SpawnEquipment;
             return eq?.HasWeaponOfClass(WeaponClass.Bow) == true
                 || eq?.HasWeaponOfClass(WeaponClass.Crossbow) == true;
+        }
+        
+        private void EnforceEnemyBltAttackFormationRules()
+        {
+            if (Mission.Current?.PlayerEnemyTeam == null)
+                return;
+
+            var enemyTeam = Mission.Current.PlayerEnemyTeam;
+
+            const int targetIndex = 7;
+            var targetClass = (FormationClass)targetIndex;
+
+            if (enemyTeam.GetFormation(targetClass) == null)
+            {
+                enemyTeam.FormationsIncludingEmpty.Add(new Formation(enemyTeam, targetIndex));
+            }
+
+            var targetFormation = enemyTeam.GetFormation(targetClass);
+            if (targetFormation == null)
+                return;
+
+            bool hasAnyBltHeroes = false;
+
+            foreach (var agent in Mission.Current.Agents)
+            {
+                if (!agent.IsActive() || !agent.IsHuman || !agent.IsAIControlled)
+                    continue;
+
+                if (agent.Team != enemyTeam)
+                    continue;
+
+                if (agent.Character?.IsHero != true)
+                    continue;
+
+                var adoptedHero = agent.GetAdoptedHero();
+                if (adoptedHero == null)
+                    continue;
+
+                hasAnyBltHeroes = true;
+
+                if (agent.Formation != targetFormation)
+                {
+                    agent.Formation = targetFormation;
+                }
+            }
+
+            if (!hasAnyBltHeroes)
+                return;
+
+            var controller = enemyTeam.MasterOrderController;
+            if (controller == null)
+                return;
+
+            controller.ClearSelectedFormations();
+            controller.SelectFormation(targetFormation);
+            controller.SetOrder(OrderType.Charge);
         }
 
         private bool IsDeploymentPhase()
