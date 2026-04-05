@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using BannerlordTwitch.Helpers;
 using BannerlordTwitch.Util;
+using BannerlordTwitch;
+using BannerlordTwitch.Twitch;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.AgentOrigins;
@@ -240,6 +242,9 @@ namespace BLTAdoptAHero
             onTickActions.Add(action);
         }
 
+        
+        private float autoSummonTimer = 0f;
+        
         public override void OnMissionTick(float dt)
         {
             SafeCall(() =>
@@ -250,7 +255,112 @@ namespace BLTAdoptAHero
                 {
                     action();
                 }
+                
+                if (BLTAdoptAHeroModule.CommonConfig.AutoSummonStreamerOnly)
+                {
+                    AutoSummonHeroes(dt);
+                }
+                else
+                {
+                    autoSummonTimer = 0f;
+                }
             });
+        }
+        
+        private void AutoSummonHeroes(float dt)
+        {
+            autoSummonTimer += dt;
+            if (autoSummonTimer < 3f)
+            {
+                return;
+            }
+
+            autoSummonTimer = 0f;
+
+            if (Mission.Current == null)
+            {
+                return;
+            }
+            
+
+            if (!Mission.Current.IsFieldBattle && !Mission.Current.IsSiegeBattle)
+            {
+                return;
+            }
+
+            var cfg = BLTAdoptAHeroModule.CommonConfig;
+            if (cfg == null)
+            {
+                return;
+            }
+            
+            if (!cfg.AutoSummonStreamerOnly)
+            {
+                return;
+            }
+
+            var streamerLogin = TwitchSharedState.StreamerLogin;
+
+            if (string.IsNullOrWhiteSpace(streamerLogin))
+            {
+                return;
+            }
+
+            var expectedHeroName = streamerLogin + " [BLT]";
+
+            var adoptedHeroes = Hero.AllAliveHeroes
+                .Where(h => h.IsAdopted())
+                .ToList();
+            
+
+            var targetHero = adoptedHeroes.FirstOrDefault(h =>
+                string.Equals(h.Name?.ToString(), expectedHeroName, StringComparison.OrdinalIgnoreCase));
+
+            if (targetHero == null)
+            {
+                return;
+            }
+            
+            var targetState = GetHeroSummonState(targetHero);
+
+            if (targetState != null && targetState.State == AgentState.Active)
+            {
+                return;
+            }
+
+            if (targetState != null && targetState.InCooldown)
+            {
+                return;
+            }
+
+            var summonCfg = new SummonHero.Settings
+            {
+                AllowFieldBattle = true,
+                AllowSiegeBattle = true,
+                AllowVillageBattle = false,
+                AllowFriendlyMission = false,
+                AllowHideOut = false,
+
+                OnPlayerSide = !cfg.AutoSummonStreamerEnemySide,
+                WithRetinue = true,
+                AllowWhenDepleted = true,
+                HealPerSecond = 2,
+                GoldCost = 0,
+                PreferredFormation = "Infantry"
+            };
+
+
+            var fakeContext = ReplyContext.FromUser(null, targetHero.Name.ToString(), "");
+
+            try
+            {
+                SummonHero.AutoSummon(targetHero, summonCfg, fakeContext);
+                Log.Trace("[AutoSummon] SummonHero.AutoSummon call finished.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"[AutoSummon] Exception during summon: {ex}");
+            }
         }
 
         protected override void OnEndMission()
