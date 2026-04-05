@@ -65,9 +65,13 @@
         <string id="GlobalCommonConfig_Category_Battle_NametagKey_Desc" text="Key used to toggle nametags (case sensitive)"/>
         <string id="GlobalCommonConfig_Category_Battle_AutoFormationForHeroes_Name" text="Auto Formation For BLT Heroes"/>
         <string id="GlobalCommonConfig_Category_Battle_AutoFormationForHeroes_Desc" text="Automatically assign adopted BLT heroes to predefined formations during battle. Field battles: infantry (4), ranged (5), cavalry (6), horse archers (7). Sieges: infantry (6), ranged (7). When enabled, the formation command is disabled."/>
-        <string id="GlobalCommonConfig_Category_Battle_EnableEnemyBltAttack_Name" text="Атака вражеских BLT" original="Enable Enemy BLT Attack"/>
-        <string id="GlobalCommonConfig_Category_Battle_EnableEnemyBltAttack_Desc" text="Постоянно перемещает всех вражеских призванных BLT-героев в последнюю формацию и отправляет эту формацию в атаку в полевых боях. Осады игнорируются. Если в этой формации уже есть не-BLT бойцы, они тоже могут пойти в атаку." original="Continuously moves all enemy adopted BLT heroes into the last formation and forces that formation to attack during field battles. Siege battles are ignored. Non-BLT units already assigned to that formation may also be sent into attack."/>
-        
+        <string id="GlobalCommonConfig_Category_Battle_EnableEnemyBltAttack_Name" text="Enable Enemy BLT Attack"/>
+        <string id="GlobalCommonConfig_Category_Battle_EnableEnemyBltAttack_Desc" text="Continuously moves all enemy adopted BLT heroes into the last formation and forces that formation to attack during field battles. Siege battles are ignored. Non-BLT units already assigned to that formation may also be sent into attack."/>
+        <string id="GlobalCommonConfig_Category_Battle_AutoSummonStreamerOnly_Name" text="Auto Summon Streamer Only"/>
+        <string id="GlobalCommonConfig_Category_Battle_AutoSummonStreamerOnly_Desc" text="Automatically summons only the streamer's adopted hero in field and siege battles."/>
+        <string id="GlobalCommonConfig_Category_Battle_AutoSummonStreamerEnemySide_Name" text="Summon Streamer On Enemy Side"/>
+        <string id="GlobalCommonConfig_Category_Battle_AutoSummonStreamerEnemySide_Desc" text="If enabled, the streamer's hero is auto-summoned on the enemy side. If disabled, the hero is summoned on the player side."/>
+
         <!-- Death -->
         <string id="GlobalCommonConfig_Category_Death" text="Death"/>
         <string id="GlobalCommonConfig_Category_Death_AllowDeath_Name" text="Allow Death"/>
