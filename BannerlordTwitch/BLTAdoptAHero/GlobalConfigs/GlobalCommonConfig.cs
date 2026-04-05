@@ -258,6 +258,19 @@ namespace BLTAdoptAHero
          PropertyOrder(15), Document, UsedImplicitly]
         public bool EnableEnemyBltAttackCommand { get; set; } = false;
         
+        
+        [LocDisplayName("{=GccBattleAutoSummonStreamerOnlyName}Auto Summon Streamer Only"),
+         LocCategory("Battle", "{=9qAD6eZR}Battle"),
+         LocDescription("{=GccBattleAutoSummonStreamerOnlyDesc}Automatically summons only the streamer's adopted hero in field and siege battles."),
+         PropertyOrder(9), Document, UsedImplicitly]
+        public bool AutoSummonStreamerOnly { get; set; }
+
+        [LocDisplayName("{=GccBattleAutoSummonStreamerEnemySideName}Summon Streamer On Enemy Side"),
+         LocCategory("Battle", "{=9qAD6eZR}Battle"),
+         LocDescription("{=GccBattleAutoSummonStreamerEnemySideDesc}If enabled, the streamer's hero is auto-summoned on the enemy side. If disabled, the hero is summoned on the player side."),
+         PropertyOrder(10), Document, UsedImplicitly]
+        public bool AutoSummonStreamerEnemySide { get; set; }
+        
         #endregion
 
         #region Death

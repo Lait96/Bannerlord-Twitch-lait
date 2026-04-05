@@ -66,7 +66,7 @@ namespace BLTAdoptAHero
          CategoryOrder("Effects", 2),
          CategoryOrder("End Effects", 3),
          CategoryOrder("Kill Effects", 4)]
-        private class Settings : IDocumentable
+        public class Settings : IDocumentable
         {
             [LocDisplayName("{=DkCdNiwF}Allow Field Battle"),
              LocCategory("Allowed Missions", "{=i8P1EnE1}Allowed Missions"),
@@ -372,6 +372,17 @@ namespace BLTAdoptAHero
             }
         }
 
+        public static void AutoSummon(Hero adoptedHero, Settings settings, ReplyContext context)
+        {
+            new SummonHero().ExecuteInternal(
+                adoptedHero,
+                context,
+                settings,
+                onSuccess: _ => { },
+                onFailure: _ => { }
+            );
+        }
+        
         public class SimpleAgentOrigin : IAgentOriginBase
         {
             private readonly BasicCharacterObject _troop;
