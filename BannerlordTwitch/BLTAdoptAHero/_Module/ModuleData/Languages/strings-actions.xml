@@ -124,8 +124,30 @@
         <string id="action_bid_on_item_desc" text="Allows viewers bid on an active custom item auction (make sure to add an auction command also)"/>
         <string id="bid_amount" text="(bid amount)"/>
         <string id="action_invalid_bid_amount" text="Invalid bid amount"/>
-        
-        
+
+        <!-- BattleInfo -->
+        <string id="battle_info" text="Battle Info"/>
+        <string id="action_battle_info_desc" text="Shows hero battle info"/>
+        <string id="battle_info_no_mission" text="No mission!"/>
+        <string id="battle_info_no_behavior" text="Mission behavior not found!"/>
+        <string id="battle_info_not_in_battle" text="Hero is not currently in battle!"/>
+        <string id="battle_info_unknown" text="unknown"/>
+        <string id="battle_info_unarmed" text="Unarmed"/>
+        <string id="battle_info_ammo" text="Ammo: {Current}/{Max}"/>
+        <string id="battle_info_killed_by" text="Killed by {Killer} with {Weapon} ({Damage})"/>
+        <string id="battle_info_death_chance" text="Death chance: {Chance}%"/>
+        <string id="battle_info_player_enemy_counts" text="{PlayerFaction} vs {EnemyFaction}(P/E): {PlayerCount}/{EnemyCount} - "/>
+        <string id="battle_info_class_none" text="No class"/>
+        <string id="battle_info_class_line" text="Class: {Class}"/>
+        <string id="battle_info_hp_line" text="- HP: {Current}/{Max}"/>
+        <string id="battle_info_mount_hp_line" text="- Mount HP: {Current}/{Max}"/>
+        <string id="battle_info_weapon_line" text="- Weapon: {Weapon}"/>
+        <string id="battle_info_kills_line" text="- Kills: {Kills}"/>
+        <string id="battle_info_retinue_line" text="- Retinue({Count}): {Kills}"/>
+        <string id="battle_info_gold_line" text="- Gold: {Gold}"/>
+        <string id="battle_info_xp_line" text="- XP: {XP}"/>
+        <string id="battle_info_power_line" text="- Power: {Power}%"/>
+        <string id="battle_info_active_combat" text="- Active combat"/>
         
     </strings>
 </base>

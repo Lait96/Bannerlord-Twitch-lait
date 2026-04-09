@@ -124,8 +124,30 @@
         <string id="action_bid_on_item_desc" text="Позволяет зрителям делать ставки на активном аукционе предмета (не забудьте добавить команду аукциона)" original="Allows viewers bid on an active custom item auction (make sure to add an auction command also)"/>
         <string id="bid_amount" text="(сумма ставки)" original="(bid amount)"/>
         <string id="action_invalid_bid_amount" text="Некорректная сумма ставки" original="Invalid bid amount"/>
-        
-        
+
+        <!-- BattleInfo -->
+        <string id="battle_info" text="Информация о бое" original="Battle Info"/>
+        <string id="action_battle_info_desc" text="Показывает информацию о бое героя" original="Shows hero battle info"/>
+        <string id="battle_info_no_mission" text="Нет активной миссии!" original="No mission!"/>
+        <string id="battle_info_no_behavior" text="Не найдено поведение миссии!" original="Mission behavior not found!"/>
+        <string id="battle_info_not_in_battle" text="Герой сейчас не участвует в бою!" original="Hero is not currently in battle!"/>
+        <string id="battle_info_unknown" text="неизвестно" original="unknown"/>
+        <string id="battle_info_unarmed" text="Без оружия" original="Unarmed"/>
+        <string id="battle_info_ammo" text="Боеприпасы: {Current}/{Max}" original="Ammo: {Current}/{Max}"/>
+        <string id="battle_info_killed_by" text="Убит: {Killer}, оружие: {Weapon} ({Damage})" original="Killed by {Killer} with {Weapon} ({Damage})"/>
+        <string id="battle_info_death_chance" text="Шанс смерти: {Chance}%" original="Death chance: {Chance}%"/>
+        <string id="battle_info_player_enemy_counts" text="{PlayerFaction} vs {EnemyFaction}(P/E): {PlayerCount}/{EnemyCount} - " original="{PlayerFaction} vs {EnemyFaction}(P/E): {PlayerCount}/{EnemyCount} - "/>
+        <string id="battle_info_class_none" text="Без класса" original="No class"/>
+        <string id="battle_info_class_line" text="Класс: {Class}" original="Class: {Class}"/>
+        <string id="battle_info_hp_line" text="- HP: {Current}/{Max}" original="- HP: {Current}/{Max}"/>
+        <string id="battle_info_mount_hp_line" text="- HP маунта: {Current}/{Max}" original="- Mount HP: {Current}/{Max}"/>
+        <string id="battle_info_weapon_line" text="- Оружие: {Weapon}" original="- Weapon: {Weapon}"/>
+        <string id="battle_info_kills_line" text="- Убийства: {Kills}" original="- Kills: {Kills}"/>
+        <string id="battle_info_retinue_line" text="- Свита({Count}): {Kills}" original="- Retinue({Count}): {Kills}"/>
+        <string id="battle_info_gold_line" text="- Золото: {Gold}" original="- Gold: {Gold}"/>
+        <string id="battle_info_xp_line" text="- XP: {XP}" original="- XP: {XP}"/>
+        <string id="battle_info_power_line" text="- Сила: {Power}%" original="- Power: {Power}%"/>
+        <string id="battle_info_active_combat" text="- Активный бой" original="- Active combat"/>
         
     </strings>
 </base>

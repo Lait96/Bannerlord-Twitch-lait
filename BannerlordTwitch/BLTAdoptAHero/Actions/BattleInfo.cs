@@ -14,8 +14,8 @@ using BLTAdoptAHero;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=TESTING}BattleInfo"),
-     LocDescription("{=TESTING}Shows hero battle info"),
+    [LocDisplayName("{=battle_info}Battle Info"),
+     LocDescription("{=action_battle_info_desc}Shows hero battle info"),
      UsedImplicitly]
     public class BattleInfo : HeroCommandHandlerBase
     {
@@ -30,7 +30,7 @@ namespace BLTAdoptAHero
 
             if (Mission.Current == null)
             {
-                onFailure("{=TESTING}No mission!".Translate());
+                onFailure("{=battle_info_no_mission}No mission!".Translate());
                 return;
             }
 
@@ -59,7 +59,7 @@ namespace BLTAdoptAHero
             var missionBehavior = BLTAdoptAHeroCommonMissionBehavior.Current;
             if (missionBehavior == null)
             {
-                onFailure("Mission behavior not found!");
+                onFailure("{=battle_info_no_behavior}Mission behavior not found!".Translate());
                 return;
             }
 
@@ -79,25 +79,32 @@ namespace BLTAdoptAHero
 
             if (agent == null && !MissionHelpers.InTournament())
             {
-                string playerFaction = playerTeam.Leader.GetHero().MapFaction.Name.ToString() ?? "unknown"; string enemyFaction = (isDefend ? mapEvent.AttackerSide.MapFaction.Name.ToString() : mapEvent.DefenderSide.MapFaction.Name.ToString());
-                string battlestring = $"{playerFaction} vs {enemyFaction}(P/E):" + (isDefend ? $"{defendCount}/{attackCount} - " : $"{attackCount}/{defendCount} - ");
-
-                battlestring += $"Hero is not currently in battle! ({cd}s)";
+                string playerFaction = playerTeam.Leader.GetHero().MapFaction.Name.ToString() ?? "{=battle_info_unknown}unknown".Translate(); string enemyFaction = (isDefend ? mapEvent.AttackerSide.MapFaction.Name.ToString() : mapEvent.DefenderSide.MapFaction.Name.ToString());
+                string battlestring = "{=battle_info_player_enemy_counts}{PlayerFaction} vs {EnemyFaction}(P/E): {PlayerCount}/{EnemyCount} - "
+                    .Translate(
+                        ("PlayerFaction", playerFaction),
+                        ("EnemyFaction", enemyFaction),
+                        ("PlayerCount", isDefend ? defendCount : attackCount),
+                        ("EnemyCount", isDefend ? attackCount : defendCount));
+                battlestring += " | " + "{=battle_info_not_in_battle}Hero is not currently in battle!".Translate() + $" ({cd}s)";
 
                 if (diedInfo.killer != null)
                 {                   
                     var weaponClass = (WeaponClass)diedInfo.blow.WeaponClass;
                     string weaponName = weaponClass.ToString();
 
-                    battlestring +=
-                        $" | Killed by {diedInfo.killer.Name} with {weaponName}({diedInfo.blow.InflictedDamage})";
+                    battlestring += " | " + "{=battle_info_killed_by}Killed by {Killer} with {Weapon} ({Damage})"
+                        .Translate(
+                            ("Killer", diedInfo.killer.Name),
+                            ("Weapon", weaponName),
+                            ("Damage", diedInfo.blow.InflictedDamage));
 
                     if (canDie)
                     {
                         float deathMod = GlobalCommonConfig.Get().DeathChance;
                         var deathChance = Campaign.Current.Models.PartyHealingModel.GetSurvivalChance(adoptedHero.PartyBelongedTo.Party, adoptedHero.CharacterObject, diedInfo.blow.DamageType, true);
-                        battlestring +=
-                            $" | Death chance: {(deathChance * deathMod * 100)}%";
+                        battlestring += " | " + "{=battle_info_death_chance}Death chance: {Chance}%"
+                            .Translate(("Chance", deathChance * deathMod * 100));
                     }
                         
 
@@ -108,7 +115,7 @@ namespace BLTAdoptAHero
             }
             else if (agent == null && MissionHelpers.InTournament())
             {
-                onFailure($"Hero is not currently in battle!");
+                onFailure("{=battle_info_not_in_battle}Hero is not currently in battle!".Translate());
                 return;
             }
 
@@ -148,7 +155,7 @@ namespace BLTAdoptAHero
             // --- Main hand ---
             var mainIndex = agent.GetPrimaryWieldedItemIndex();
             var mainItemObj = mainIndex != EquipmentIndex.None ? equipment[mainIndex].Item : null;
-            string weaponInfo = "Unarmed";
+            string weaponInfo = "{=battle_info_unarmed}Unarmed".Translate();
 
             if (mainItemObj != null)
             {
@@ -162,7 +169,7 @@ namespace BLTAdoptAHero
                 {
                     int ammo = equipment.GetAmmoAmount(mainIndex);
                     int maxAmmo = equipment.GetMaxAmmo(mainIndex);
-                    ammoInfo = $" - Ammo: {ammo}/{maxAmmo}";
+                    ammoInfo = " - " + "{=battle_info_ammo}Ammo: {Current}/{Max}".Translate(("Current", ammo), ("Max", maxAmmo));
                 }
 
                 weaponInfo = $"{mainItemObj.Name} ({mainItemObj.ItemType}){ammoInfo}";
@@ -232,25 +239,22 @@ namespace BLTAdoptAHero
             if (!MissionHelpers.InTournament())
             {
                 var leader = enemyTeam?.Leader ?? enemyTeam?.GeneralAgent;
-                string playerFaction = playerTeam.Leader.GetHero().MapFaction.Name.ToString() ?? "unknown"; string enemyFaction = (isDefend ? mapEvent.AttackerSide.MapFaction.Name.ToString() : mapEvent.DefenderSide.MapFaction.Name.ToString());
+                string playerFaction = playerTeam.Leader.GetHero().MapFaction.Name.ToString() ?? "{=battle_info_unknown}unknown".Translate(); string enemyFaction = (isDefend ? mapEvent.AttackerSide.MapFaction.Name.ToString() : mapEvent.DefenderSide.MapFaction.Name.ToString());
                 message += $"{playerFaction} vs {enemyFaction}(P/E):" + (isDefend ? $"{defendCount}/{attackCount} - " : $"{attackCount}/{defendCount} - ");
             }
                 
-            message +=
-                $"Class: {adoptedHero.GetClass()?.Name.ToString() ?? "No class"}\n" +
-                $"- HP: {(int)agent.Health}/{(int)agent.HealthLimit}\n";
+            message += "{=battle_info_class_line}Class: {Class}".Translate(("Class", adoptedHero.GetClass()?.Name.ToString() ?? "{=battle_info_class_none}No class".Translate())) + "\n"
+                + "{=battle_info_hp_line}- HP: {Current}/{Max}".Translate(("Current", (int)agent.Health), ("Max", (int)agent.HealthLimit)) + "\n";
             if (agent.MountAgent != null)
-                message += $"- Mount HP: {mountInfo}\n";
-
-            message +=
-                $"- Weapon: {weaponInfo}\n" +
-                $"- Kills: {state.Kills}\n" +
-                $"- Retinue({state2.ActiveRetinue + state2.ActiveRetinue2}): {state.RetinueKills}\n" +
-                $"- Gold: {state.WonGold}\n" +
-                $"- XP: {state.WonXP}\n" +
-                $"- Power: { ActivePowerFraction(adoptedHero) * 100:0}% ";
+                message += "{=battle_info_mount_hp_line}- Mount HP: {Current}/{Max}".Translate(("Current", agent.MountAgent.Health), ("Max", agent.MountAgent.HealthLimit)) + "\n";
+            message += "{=battle_info_weapon_line}- Weapon: {Weapon}".Translate(("Weapon", weaponInfo)) + "\n"
+                + "{=battle_info_kills_line}- Kills: {Kills}".Translate(("Kills", state.Kills)) + "\n"
+                + "{=battle_info_retinue_line}- Retinue({Count}): {Kills}".Translate(("Count", state2.ActiveRetinue + state2.ActiveRetinue2), ("Kills", state.RetinueKills)) + "\n"
+                + "{=battle_info_gold_line}- Gold: {Gold}".Translate(("Gold", state.WonGold)) + "\n"
+                + "{=battle_info_xp_line}- XP: {XP}".Translate(("XP", state.WonXP)) + "\n"
+                + "{=battle_info_power_line}- Power: {Power}%".Translate(("Power", $"{ActivePowerFraction(adoptedHero) * 100:0}"));
             if (hasAttacked)
-                message += $"- Active combat";
+                message += " " + "{=battle_info_active_combat}- Active combat".Translate();
 
             onSuccess(message);
         }
