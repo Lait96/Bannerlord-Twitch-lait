@@ -640,7 +640,7 @@ namespace BLTAdoptAHero
                                 int silentXp = (int)(finalRewardScaling * BLTAdoptAHeroModule.CommonConfig.WinXP * 10);
                                 if (silentXp > 0)
                                 {
-                                    SkillXP.ImproveSkill(adoptedHero, silentXp, SkillsEnum.All, auto: true);
+                                    SkillXP.GiveMagicRewardXp(adoptedHero, silentXp);
                                 }
                             }
                             
