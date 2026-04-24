@@ -330,11 +330,13 @@
     <Compile Include="Achievements\StatisticClassSpecificRequirement.cs" />
     <Compile Include="Achievements\StatisticTotalRequirement.cs" />
     <Compile Include="Actions\AddGoldToHero.cs" />
+    <Compile Include="Actions\BanditWaveAction.cs" />
     <Compile Include="Actions\CampaignInfo.cs" />
     <Compile Include="Actions\BattleInfo.cs" />
     <Compile Include="Actions\CampaignLogs.cs" />
     <Compile Include="Actions\FormationCommand.cs" />
     <Compile Include="Actions\EquipCustomItem.cs" />
+    <Compile Include="Actions\LeaveBattle.cs" />
     <Compile Include="Actions\ManageFief.cs" />
     <Compile Include="Actions\FamilyManagement.cs" />
     <Compile Include="Actions\GoldIncomeFeature.cs" />
@@ -379,6 +381,8 @@
     <Compile Include="Actions\Util\ItemModifierAccess.cs" />
     <Compile Include="Actions\Util\KillStreakDef.cs" />
     <Compile Include="Actions\Util\SkillRangeDef.cs" />
+    <Compile Include="Behaviors\BanditWaveBehavior.cs" />
+    <Compile Include="Behaviors\BanditWaveCampaignBehavior.cs" />
     <Compile Include="Behaviors\BLTAdoptAHeroCampaignBehavior.cs" />
     <Compile Include="Behaviors\BLTAdoptAHeroCommonMissionBehavior.cs" />
     <Compile Include="Behaviors\BLTAdoptAHeroCustomMissionBehavior.cs" />

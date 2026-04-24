@@ -80,6 +80,11 @@ namespace BLTAdoptAHero
                 mission.AddMissionBehavior(new BLTSummonBehavior());
                 mission.AddMissionBehavior(new BLTRemoveAgentsBehavior());
                 mission.AddMissionBehavior(new BLTHeroPowersMissionBehavior());
+                var banditWaveState = BanditWaveCampaignBehavior.Current?.State;
+                if (banditWaveState?.IsEnabled == true && !mission.HasMissionBehavior<BanditWaveBehavior>())
+                {
+                    mission.AddMissionBehavior(new BanditWaveBehavior());
+                }
                 //if (mission.CombatType == Mission.MissionCombatType.Combat && mission.PlayerTeam != null && mission.HasMissionBehavior<BLTAdoptAHeroCommonMissionBehavior>())
                 //{
                 //    mission.AddMissionBehavior(new HeroWidgetMissionView());
@@ -199,6 +204,7 @@ namespace BLTAdoptAHero
                     var campaignStarter = (CampaignGameStarter)gameStarterObject;
                     campaignStarter.AddBehavior(new BLTAdoptAHeroCampaignBehavior());
                     campaignStarter.AddBehavior(new BLTTournamentQueueBehavior());
+                    campaignStarter.AddBehavior(new BanditWaveCampaignBehavior());
                     campaignStarter.AddBehavior(new BLTCustomItemsCampaignBehavior());
                     campaignStarter.AddBehavior(new BLTClanBehavior());
                     campaignStarter.AddBehavior(new GoldIncomeBehavior()); 

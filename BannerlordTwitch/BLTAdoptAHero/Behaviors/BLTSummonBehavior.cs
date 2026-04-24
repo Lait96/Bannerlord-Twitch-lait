@@ -260,10 +260,7 @@ namespace BLTAdoptAHero
                 // Remove still living retinue troops from their parties
                 foreach (var h in heroSummonStates)
                 {
-                    foreach (var r in h.Retinue.Where(r => r.State != AgentState.Killed))
-                    {
-                        h.Party?.MemberRoster?.AddToCounts(r.Troop, -1);
-                    }
+                    RemoveRetinueFromParty(h.Hero);
                 }
             });
         }
@@ -429,6 +426,40 @@ namespace BLTAdoptAHero
                 // Always return true, ignoring original logic
                 __result = true;
                 return false; // skip original method
+            }
+        }
+        
+        public void ResetHeroSummonState(Hero hero)
+        {
+            var summonState = GetHeroSummonState(hero);
+            if (summonState == null)
+                return;
+
+            summonState.CurrentAgent = null;
+            summonState.State = AgentState.Unconscious;
+            summonState.TimesSummoned = 0;
+            summonState.SummonTime = 0f;
+
+            summonState.Retinue.Clear();
+            summonState.Retinue2.Clear();
+
+            HeroDeathSpecifics.Remove(hero);
+        }
+        
+        public void RemoveRetinueFromParty(Hero hero)
+        {
+            var summonState = GetHeroSummonState(hero);
+            if (summonState == null)
+                return;
+
+            foreach (var r in summonState.Retinue.Where(r => r.State != AgentState.Killed))
+            {
+                summonState.Party?.MemberRoster?.AddToCounts(r.Troop, -1);
+            }
+
+            foreach (var r in summonState.Retinue2.Where(r => r.State != AgentState.Killed))
+            {
+                summonState.Party?.MemberRoster?.AddToCounts(r.Troop, -1);
             }
         }
     }

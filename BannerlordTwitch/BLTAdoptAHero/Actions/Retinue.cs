@@ -4,6 +4,8 @@ using BannerlordTwitch.Localization;
 using BannerlordTwitch.Rewards;
 using BannerlordTwitch.Util;
 using JetBrains.Annotations;
+using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
@@ -45,12 +47,12 @@ namespace BLTAdoptAHero
                 return;
             }
 
-            if (Mission.Current != null)
+            if (Mission.Current != null && IsHeroInCurrentMission(adoptedHero))
             {
-                onFailure("{=mCcpMwrN}You cannot modify retinue while a mission is active!".Translate());
+                onFailure("{=mCcpMwrN}You cannot modify retinue while you are active in the current mission!".Translate());
                 return;
             }
-
+            
             int numToUpgrade = settings.AllByDefault ? int.MaxValue : 1;
 
             if (!string.IsNullOrEmpty(context.Args))
@@ -92,6 +94,27 @@ namespace BLTAdoptAHero
                 onSuccess(status);
             else
                 onFailure(status);
-        }   
+        }
+        
+        private static bool IsHeroInCurrentMission(Hero hero)
+        {
+            if (hero == null || Mission.Current == null || BLTSummonBehavior.Current == null)
+                return false;
+
+            var summonState = BLTSummonBehavior.Current.GetHeroSummonState(hero);
+            if (summonState == null)
+                return false;
+
+            if (summonState.TimesSummoned > 0)
+                return true;
+
+            if (summonState.CurrentAgent != null)
+                return true;
+
+            if (summonState.ActiveRetinue > 0 || summonState.ActiveRetinue2 > 0)
+                return true;
+
+            return false;
+        }
     }
 }

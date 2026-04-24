@@ -807,5 +807,70 @@
 		<string id="lJXxLdFz" text="Пожалуйста, введите имя лидера, которого вы хотите усыновить." original="Please enter the name of the leader you wish to adopt"/>
 		<!-- Error could not find a clan with the name {clanName} -->
 		<string id="bzsT7oy0" text="Ошибка: не удалось найти клан с названием {clanName}." original="Error could not find a clan with the name {clanName}"/>
+
+        <string id="BanditWaveAction_DisplayName" text="Волны бандитов" original="Bandit Waves"/>
+        <string id="BanditWaveAction_Description" text="Запускает и останавливает бесконечные волны бандитов" original="Starts and stops endless bandit waves"/>
+        <string id="BanditWaveAction_Category_General" text="Основное" original="General"/>
+        <string id="BanditWaveAction_Enabled_Name" text="Включено" original="Enabled"/>
+        <string id="BanditWaveAction_Enabled_Desc" text="Включает команду режима волн бандитов" original="Enables the bandit wave mode command"/>
+        <string id="BanditWaveAction_AllowEnemySide_Name" text="Разрешить BLT на стороне врага" original="Allow BLT on Enemy Side"/>
+        <string id="BanditWaveAction_AllowEnemySide_Desc" text="Разрешает героям BLT присоединяться к стороне врага, пока активен режим волн бандитов" original="Allows BLT heroes to join the enemy side while bandit wave mode is active"/>
+        <string id="BanditWaveAction_RespawnThreshold_Name" text="Порог респавна" original="Respawn Threshold"/>
+        <string id="BanditWaveAction_RespawnThreshold_Desc" text="Спавнит следующую волну, когда число живых врагов становится меньше или равно этому значению" original="Spawns the next wave when the number of alive enemies is less than or equal to this value"/>
+        <string id="BanditWaveAction_DelayBetweenWaves_Name" text="Задержка между волнами" original="Delay Between Waves"/>
+        <string id="BanditWaveAction_DelayBetweenWaves_Desc" text="Задержка в секундах перед спавном следующей волны" original="Delay in seconds before spawning the next wave"/>
+        <string id="BanditWaveAction_Error_Disabled" text="Режим волн бандитов отключён." original="Bandit waves are disabled."/>
+        <string id="BanditWaveAction_Error_AlreadyActive" text="Режим волн бандитов уже активен." original="Bandit waves are already active."/>
+        <string id="BanditWaveAction_Error_BehaviorUnavailable" text="Поведение режима волн бандитов недоступно." original="Bandit wave behavior is not available."/>
+        <string id="BanditWaveAction_Usage" text="Использование: !bandits start | stop | status" original="Usage: !bandits start | stop | status"/>
+        <string id="BanditWaveAction_Success_Armed" text="Режим волн бандитов подготовлен. Запустите бой." original="Bandit wave mode is armed. Start the battle entry point."/>
+        <string id="BanditWaveAction_Success_StopRequested" text="Волны бандитов будут остановлены после зачистки текущих врагов." original="Bandit waves will stop after the current enemies are cleared."/>
+        <string id="BanditWaveAction_Status_Inactive" text="Режим волн бандитов неактивен." original="Bandit waves are inactive."/>
+        <string id="BanditWaveAction_Status_Active" text="Режим волн бандитов активен. Волна={WAVE}, остановка={STOP_REQUESTED}" original="Bandit waves active. Wave={WAVE}, stopRequested={STOP_REQUESTED}"/>
+
+        <string id="BanditWaveAction_Error_NoBanditTypesEnabled" text="Не включён ни один тип бандитов." original="No bandit types are enabled."/>
+        <string id="BanditWaveAction_Looters_Category" text="Обычные бандиты" original="Looters"/>
+        <string id="BanditWaveAction_Looters_Enabled_Name" text="Включить обычных бандитов" original="Enable Looters"/>
+        <string id="BanditWaveAction_Looters_Enabled_Desc" text="Разрешает появление обычных бандитов в волнах" original="Allows looters to appear in waves"/>
+        <string id="BanditWaveAction_Looters_Min_Name" text="Обычные бандиты минимум" original="Looters Min"/>
+        <string id="BanditWaveAction_Looters_Min_Desc" text="Минимальное число обычных бандитов в волне" original="Minimum number of looters in a wave"/>
+        <string id="BanditWaveAction_Looters_Max_Name" text="Обычные бандиты максимум" original="Looters Max"/>
+        <string id="BanditWaveAction_Looters_Max_Desc" text="Максимальное число обычных бандитов в волне" original="Maximum number of looters in a wave"/>
+        <string id="BanditWaveAction_Forest_Category" text="Лесные бандиты" original="Forest Bandits"/>
+        <string id="BanditWaveAction_Forest_Enabled_Name" text="Включить лесных бандитов" original="Enable Forest Bandits"/>
+        <string id="BanditWaveAction_Forest_Enabled_Desc" text="Разрешает появление лесных бандитов в волнах" original="Allows forest bandits to appear in waves"/>
+        <string id="BanditWaveAction_Forest_Min_Name" text="Лесные бандиты минимум" original="Forest Bandits Min"/>
+        <string id="BanditWaveAction_Forest_Min_Desc" text="Минимальное число лесных бандитов в волне" original="Minimum number of forest bandits in a wave"/>
+        <string id="BanditWaveAction_Forest_Max_Name" text="Лесные бандиты максимум" original="Forest Bandits Max"/>
+        <string id="BanditWaveAction_Forest_Max_Desc" text="Максимальное число лесных бандитов в волне" original="Maximum number of forest bandits in a wave"/>
+        <string id="BanditWaveAction_Mountain_Category" text="Горные бандиты" original="Mountain Bandits"/>
+        <string id="BanditWaveAction_Mountain_Enabled_Name" text="Включить горных бандитов" original="Enable Mountain Bandits"/>
+        <string id="BanditWaveAction_Mountain_Enabled_Desc" text="Разрешает появление горных бандитов в волнах" original="Allows mountain bandits to appear in waves"/>
+        <string id="BanditWaveAction_Mountain_Min_Name" text="Горные бандиты минимум" original="Mountain Bandits Min"/>
+        <string id="BanditWaveAction_Mountain_Min_Desc" text="Минимальное число горных бандитов в волне" original="Minimum number of mountain bandits in a wave"/>
+        <string id="BanditWaveAction_Mountain_Max_Name" text="Горные бандиты максимум" original="Mountain Bandits Max"/>
+        <string id="BanditWaveAction_Mountain_Max_Desc" text="Максимальное число горных бандитов в волне" original="Maximum number of mountain bandits in a wave"/>
+        <string id="BanditWaveAction_Sea_Category" text="Морские налётчики" original="Sea Raiders"/>
+        <string id="BanditWaveAction_Sea_Enabled_Name" text="Включить морских налётчиков" original="Enable Sea Raiders"/>
+        <string id="BanditWaveAction_Sea_Enabled_Desc" text="Разрешает появление морских налётчиков в волнах" original="Allows sea raiders to appear in waves"/>
+        <string id="BanditWaveAction_Sea_Min_Name" text="Морские налётчики минимум" original="Sea Raiders Min"/>
+        <string id="BanditWaveAction_Sea_Min_Desc" text="Минимальное число морских налётчиков в волне" original="Minimum number of sea raiders in a wave"/>
+        <string id="BanditWaveAction_Sea_Max_Name" text="Морские налётчики максимум" original="Sea Raiders Max"/>
+        <string id="BanditWaveAction_Sea_Max_Desc" text="Максимальное число морских налётчиков в волне" original="Maximum number of sea raiders in a wave"/>
+        <string id="BanditWaveAction_Steppe_Category" text="Степные бандиты" original="Steppe Bandits"/>
+        <string id="BanditWaveAction_Steppe_Enabled_Name" text="Включить степных бандитов" original="Enable Steppe Bandits"/>
+        <string id="BanditWaveAction_Steppe_Enabled_Desc" text="Разрешает появление степных бандитов в волнах" original="Allows steppe bandits to appear in waves"/>
+        <string id="BanditWaveAction_Steppe_Min_Name" text="Степные бандиты минимум" original="Steppe Bandits Min"/>
+        <string id="BanditWaveAction_Steppe_Min_Desc" text="Минимальное число степных бандитов в волне" original="Minimum number of steppe bandits in a wave"/>
+        <string id="BanditWaveAction_Steppe_Max_Name" text="Степные бандиты максимум" original="Steppe Bandits Max"/>
+        <string id="BanditWaveAction_Steppe_Max_Desc" text="Максимальное число степных бандитов в волне" original="Maximum number of steppe bandits in a wave"/>
+        <string id="BanditWaveAction_Desert_Category" text="Пустынные бандиты" original="Desert Bandits"/>
+        <string id="BanditWaveAction_Desert_Enabled_Name" text="Включить пустынных бандитов" original="Enable Desert Bandits"/>
+        <string id="BanditWaveAction_Desert_Enabled_Desc" text="Разрешает появление пустынных бандитов в волнах" original="Allows desert bandits to appear in waves"/>
+        <string id="BanditWaveAction_Desert_Min_Name" text="Пустынные бандиты минимум" original="Desert Bandits Min"/>
+        <string id="BanditWaveAction_Desert_Min_Desc" text="Минимальное число пустынных бандитов в волне" original="Minimum number of desert bandits in a wave"/>
+        <string id="BanditWaveAction_Desert_Max_Name" text="Пустынные бандиты максимум" original="Desert Bandits Max"/>
+        <string id="BanditWaveAction_Desert_Max_Desc" text="Максимальное число пустынных бандитов в волне" original="Maximum number of desert bandits in a wave"/>
+        
     </strings>
 </base>

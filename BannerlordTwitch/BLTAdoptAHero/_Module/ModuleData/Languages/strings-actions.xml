@@ -1233,5 +1233,75 @@
 		<string id="lJXxLdFz" text="Please enter the name of the leader you wish to adopt"/>
 		<!-- Error could not find a clan with the name {clanName} -->
 		<string id="bzsT7oy0" text="Error could not find a clan with the name {clanName}"/>
-    </strings>
+
+		<string id="BanditWaveAction_DisplayName" text="Bandit Waves" />
+		<string id="BanditWaveAction_Description" text="Starts and stops endless bandit waves" />
+		<string id="BanditWaveAction_Category_General" text="General" />
+		<string id="BanditWaveAction_Enabled_Name" text="Enabled" />
+		<string id="BanditWaveAction_Enabled_Desc" text="Enables the bandit wave mode command" />
+		<string id="BanditWaveAction_AllowEnemySide_Name" text="Allow BLT on Enemy Side" />
+		<string id="BanditWaveAction_AllowEnemySide_Desc" text="Allows BLT heroes to join the enemy side while bandit wave mode is active" />
+		<string id="BanditWaveAction_RespawnThreshold_Name" text="Respawn Threshold" />
+		<string id="BanditWaveAction_RespawnThreshold_Desc" text="Spawns the next wave when the number of alive enemies is less than or equal to this value" />
+		<string id="BanditWaveAction_DelayBetweenWaves_Name" text="Delay Between Waves" />
+		<string id="BanditWaveAction_DelayBetweenWaves_Desc" text="Delay in seconds before spawning the next wave" />
+		<string id="BanditWaveAction_Error_Disabled" text="Bandit waves are disabled." />
+		<string id="BanditWaveAction_Error_AlreadyActive" text="Bandit waves are already active." />
+		<string id="BanditWaveAction_Error_BehaviorUnavailable" text="Bandit wave behavior is not available." />
+		<string id="BanditWaveAction_Usage" text="Usage: !bandits start | stop | status" />
+		<string id="BanditWaveAction_Success_Armed" text="Bandit wave mode is armed. Start the battle entry point." />
+		<string id="BanditWaveAction_Success_StopRequested" text="Bandit waves will stop after the current enemies are cleared." />
+		<string id="BanditWaveAction_Status_Inactive" text="Bandit waves are inactive." />
+		<string id="BanditWaveAction_Status_Active" text="Bandit waves active. Wave={WAVE}, stopRequested={STOP_REQUESTED}" />
+
+		<string id="BanditWaveAction_Error_NoBanditTypesEnabled" text="No bandit types are enabled."/>
+		<string id="BanditWaveAction_Looters_Category" text="Looters"/>
+		<string id="BanditWaveAction_Looters_Enabled_Name" text="Enable Looters"/>
+		<string id="BanditWaveAction_Looters_Enabled_Desc" text="Allows looters to appear in waves"/>
+		<string id="BanditWaveAction_Looters_Min_Name" text="Looters Min"/>
+		<string id="BanditWaveAction_Looters_Min_Desc" text="Minimum number of looters in a wave"/>
+		<string id="BanditWaveAction_Looters_Max_Name" text="Looters Max"/>
+		<string id="BanditWaveAction_Looters_Max_Desc" text="Maximum number of looters in a wave"/>
+
+		<string id="BanditWaveAction_Forest_Category" text="Forest Bandits"/>
+		<string id="BanditWaveAction_Forest_Enabled_Name" text="Enable Forest Bandits"/>
+		<string id="BanditWaveAction_Forest_Enabled_Desc" text="Allows forest bandits to appear in waves"/>
+		<string id="BanditWaveAction_Forest_Min_Name" text="Forest Bandits Min"/>
+		<string id="BanditWaveAction_Forest_Min_Desc" text="Minimum number of forest bandits in a wave"/>
+		<string id="BanditWaveAction_Forest_Max_Name" text="Forest Bandits Max"/>
+		<string id="BanditWaveAction_Forest_Max_Desc" text="Maximum number of forest bandits in a wave"/>
+
+		<string id="BanditWaveAction_Mountain_Category" text="Mountain Bandits"/>
+		<string id="BanditWaveAction_Mountain_Enabled_Name" text="Enable Mountain Bandits"/>
+		<string id="BanditWaveAction_Mountain_Enabled_Desc" text="Allows mountain bandits to appear in waves"/>
+		<string id="BanditWaveAction_Mountain_Min_Name" text="Mountain Bandits Min"/>
+		<string id="BanditWaveAction_Mountain_Min_Desc" text="Minimum number of mountain bandits in a wave"/>
+		<string id="BanditWaveAction_Mountain_Max_Name" text="Mountain Bandits Max"/>
+		<string id="BanditWaveAction_Mountain_Max_Desc" text="Maximum number of mountain bandits in a wave"/>
+
+		<string id="BanditWaveAction_Sea_Category" text="Sea Raiders"/>
+		<string id="BanditWaveAction_Sea_Enabled_Name" text="Enable Sea Raiders"/>
+		<string id="BanditWaveAction_Sea_Enabled_Desc" text="Allows sea raiders to appear in waves"/>
+		<string id="BanditWaveAction_Sea_Min_Name" text="Sea Raiders Min"/>
+		<string id="BanditWaveAction_Sea_Min_Desc" text="Minimum number of sea raiders in a wave"/>
+		<string id="BanditWaveAction_Sea_Max_Name" text="Sea Raiders Max"/>
+		<string id="BanditWaveAction_Sea_Max_Desc" text="Maximum number of sea raiders in a wave"/>
+
+		<string id="BanditWaveAction_Steppe_Category" text="Steppe Bandits"/>
+		<string id="BanditWaveAction_Steppe_Enabled_Name" text="Enable Steppe Bandits"/>
+		<string id="BanditWaveAction_Steppe_Enabled_Desc" text="Allows steppe bandits to appear in waves"/>
+		<string id="BanditWaveAction_Steppe_Min_Name" text="Steppe Bandits Min"/>
+		<string id="BanditWaveAction_Steppe_Min_Desc" text="Minimum number of steppe bandits in a wave"/>
+		<string id="BanditWaveAction_Steppe_Max_Name" text="Steppe Bandits Max"/>
+		<string id="BanditWaveAction_Steppe_Max_Desc" text="Maximum number of steppe bandits in a wave"/>
+
+		<string id="BanditWaveAction_Desert_Category" text="Desert Bandits"/>
+		<string id="BanditWaveAction_Desert_Enabled_Name" text="Enable Desert Bandits"/>
+		<string id="BanditWaveAction_Desert_Enabled_Desc" text="Allows desert bandits to appear in waves"/>
+		<string id="BanditWaveAction_Desert_Min_Name" text="Desert Bandits Min"/>
+		<string id="BanditWaveAction_Desert_Min_Desc" text="Minimum number of desert bandits in a wave"/>
+		<string id="BanditWaveAction_Desert_Max_Name" text="Desert Bandits Max"/>
+		<string id="BanditWaveAction_Desert_Max_Desc" text="Maximum number of desert bandits in a wave"/>
+		
+	</strings>
 </base>
