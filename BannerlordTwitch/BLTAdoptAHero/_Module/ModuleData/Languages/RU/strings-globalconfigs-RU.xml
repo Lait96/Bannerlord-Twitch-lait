@@ -260,7 +260,16 @@
         <string id="GlobalTournamentConfig_Category_Equipment_NormalizeArmorTier_Desc" text="Уровень брони для всех участников (от 1 до 6) при включённой нормализации." original="Armor tier applied to all contestants (1 to 6) if normalization is enabled"/>
         <string id="GlobalTournamentConfig_Category_Equipment_RandomizeWeaponTypes_Name" text="Случайное оружие" original="Randomize Weapon Types"/>
         <string id="GlobalTournamentConfig_Category_Equipment_RandomizeWeaponTypes_Desc" text="Случайно выбирает оружие в каждом раунде с учётом классов участников." original="Randomize weapons each round based on participant classes"/>
-
+        <string id="GlobalTournamentConfig_Category_Equipment_NoUnarmed_Name" text="Отключить кулачный бой" original="No Unarmed"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_NoUnarmed_Desc" text="Отключает раунды без оружия (кулачный бой) в турнирах." original="Disable unarmed (fist) rounds in tournaments"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_NoRanged_Name" text="Отключить стрелковое оружие" original="No Ranged Weapons"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_NoRanged_Desc" text="Отключает луки, арбалеты и метательное оружие в турнирах." original="Disable bows, crossbows and throwing weapons in tournaments"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_OverrideAmmo_Name" text="Фиксированный боезапас" original="Override Ammo"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_OverrideAmmo_Desc" text="Принудительно устанавливает фиксированный боезапас для стрелкового и метательного оружия." original="Force all ranged ammo to a fixed amount"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_AmmoAmount_Name" text="Количество боезапаса" original="Ammo Amount"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_AmmoAmount_Desc" text="Количество стрел/болтов/метательного оружия у участников турнира." original="Amount of ammo for bows, crossbows and throwing weapons"/>
+        
+        
         <!-- Tournament Balancing -->
         <string id="GlobalTournamentConfig_Category_Balancing" text="Баланс" original="Balancing"/>
         <string id="GlobalTournamentConfig_Category_Balancing_PreviousWinnerDebuffs_Name" text="Ослабления победителей" original="Previous Winner Debuffs"/>

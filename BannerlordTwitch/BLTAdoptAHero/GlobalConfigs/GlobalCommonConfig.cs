@@ -259,15 +259,15 @@ namespace BLTAdoptAHero
         public bool EnableEnemyBltAttackCommand { get; set; } = false;
         
         
-        [LocDisplayName("{=GccBattleAutoSummonStreamerOnlyName}Auto Summon Streamer Only"),
-         LocCategory("Battle", "{=9qAD6eZR}Battle"),
-         LocDescription("{=GccBattleAutoSummonStreamerOnlyDesc}Automatically summons only the streamer's adopted hero in field and siege battles."),
+        [LocDisplayName("{=GlobalCommonConfig_Category_Battle_AutoSummonStreamerOnly_Name}Auto Summon Streamer Only"),
+         LocCategory("Battle", "{=GlobalCommonConfig_Category_Battle}Battle"),
+         LocDescription("{=GlobalCommonConfig_Category_Battle_AutoSummonStreamerOnly_Desc}Automatically summons only the streamer's adopted hero in field and siege battles."),
          PropertyOrder(9), Document, UsedImplicitly]
         public bool AutoSummonStreamerOnly { get; set; }
 
-        [LocDisplayName("{=GccBattleAutoSummonStreamerEnemySideName}Summon Streamer On Enemy Side"),
-         LocCategory("Battle", "{=9qAD6eZR}Battle"),
-         LocDescription("{=GccBattleAutoSummonStreamerEnemySideDesc}If enabled, the streamer's hero is auto-summoned on the enemy side. If disabled, the hero is summoned on the player side."),
+        [LocDisplayName("{=GlobalCommonConfig_Category_Battle_AutoSummonStreamerEnemySide_Name}Summon Streamer On Enemy Side"),
+         LocCategory("Battle", "{=GlobalCommonConfig_Category_Battle}Battle"),
+         LocDescription("{=GlobalCommonConfig_Category_Battle_AutoSummonStreamerEnemySide_Desc}If enabled, the streamer's hero is auto-summoned on the enemy side. If disabled, the hero is summoned on the player side."),
          PropertyOrder(10), Document, UsedImplicitly]
         public bool AutoSummonStreamerEnemySide { get; set; }
         

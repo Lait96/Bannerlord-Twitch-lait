@@ -12,6 +12,7 @@ using BannerlordTwitch.UI;
 using BannerlordTwitch.Util;
 using JetBrains.Annotations;
 using TaleWorlds.CampaignSystem.TournamentGames;
+using TaleWorlds.Core;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using YamlDotNet.Serialization;
 
@@ -89,6 +90,30 @@ namespace BLTAdoptAHero
          LocDescription("{=GlobalTournamentConfig_Category_Equipment_RandomizeWeaponTypes_Desc}Randomize weapons each round based on participant classes"),
          PropertyOrder(6), UsedImplicitly, Document]
         public bool RandomizeWeaponTypes { get; set; } = true;
+        
+        [LocDisplayName("{=GlobalTournamentConfig_Category_Equipment_NoUnarmed_Name}No Unarmed"),
+         LocCategory("Equipment", "{=GlobalTournamentConfig_Category_Equipment}Equipment"),
+         LocDescription("{=GlobalTournamentConfig_Category_Equipment_NoUnarmed_Desc}Disable unarmed (fist) rounds in tournaments"),
+         PropertyOrder(4), UsedImplicitly, Document]
+        public bool NoUnarmed { get; set; } = false;
+
+        [LocDisplayName("{=GlobalTournamentConfig_Category_Equipment_NoRanged_Name}No Ranged Weapons"),
+         LocCategory("Equipment", "{=GlobalTournamentConfig_Category_Equipment}Equipment"),
+         LocDescription("{=GlobalTournamentConfig_Category_Equipment_NoRanged_Desc}Disable bows, crossbows and throwing weapons in tournaments"),
+         PropertyOrder(5), UsedImplicitly, Document]
+        public bool NoRanged { get; set; } = false;
+
+        [LocDisplayName("{=GlobalTournamentConfig_Category_Equipment_OverrideAmmo_Name}Override Ammo"),
+         LocCategory("Equipment", "{=GlobalTournamentConfig_Category_Equipment}Equipment"),
+         LocDescription("{=GlobalTournamentConfig_Category_Equipment_OverrideAmmo_Desc}Force all ranged ammo to a fixed amount"),
+         PropertyOrder(6), UsedImplicitly, Document]
+        public bool OverrideAmmo { get; set; } = false;
+
+        [LocDisplayName("{=GlobalTournamentConfig_Category_Equipment_AmmoAmount_Name}Ammo Amount"),
+         LocCategory("Equipment", "{=GlobalTournamentConfig_Category_Equipment}Equipment"),
+         LocDescription("{=GlobalTournamentConfig_Category_Equipment_AmmoAmount_Desc}Amount of ammo for bows, crossbows and throwing weapons"),
+         PropertyOrder(7), Range(0, 200), UsedImplicitly, Document]
+        public int AmmoAmount { get; set; } = 20;
         #endregion
 
         #region Balancing

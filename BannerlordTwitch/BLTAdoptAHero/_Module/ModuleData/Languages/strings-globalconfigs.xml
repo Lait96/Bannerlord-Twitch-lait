@@ -247,7 +247,16 @@
         <string id="GlobalTournamentConfig_Category_General_DisableKillRewardsInTournament_Desc" text="Heroes won't get any kill rewards in tournaments"/>
         <string id="GlobalTournamentConfig_Category_General_DisableTrackingKillsTournament_Name" text="Disable Tracking Kills In Tournament"/>
         <string id="GlobalTournamentConfig_Category_General_DisableTrackingKillsTournament_Desc" text="Tournament kills/deaths won't be counted towards achievements or kill streaks"/>
-
+        <string id="GlobalTournamentConfig_Category_Equipment_NoUnarmed_Name" text="No Unarmed"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_NoUnarmed_Desc" text="Disable unarmed (fist) rounds in tournaments"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_NoRanged_Name" text="No Ranged Weapons"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_NoRanged_Desc" text="Disable bows, crossbows and throwing weapons in tournaments"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_OverrideAmmo_Name" text="Override Ammo"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_OverrideAmmo_Desc" text="Force all ranged ammo to a fixed amount"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_AmmoAmount_Name" text="Ammo Amount"/>
+        <string id="GlobalTournamentConfig_Category_Equipment_AmmoAmount_Desc" text="Amount of ammo for bows, crossbows and throwing weapons"/>
+        
+        
         <!-- Tournament Equipment -->
         <string id="GlobalTournamentConfig_Category_Equipment" text="Equipment"/>
         <string id="GlobalTournamentConfig_Category_Equipment_NoHorses_Name" text="No Horses"/>

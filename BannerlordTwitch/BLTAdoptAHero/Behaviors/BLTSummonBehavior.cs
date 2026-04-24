@@ -241,10 +241,11 @@ namespace BLTAdoptAHero
         {
             onTickActions.Add(action);
         }
-
         
         private float autoSummonTimer = 0f;
-        
+        private float autoFormationTimer = 0f;
+        private float autoAttackTimer = 0f;
+
         public override void OnMissionTick(float dt)
         {
             SafeCall(() =>
@@ -256,17 +257,38 @@ namespace BLTAdoptAHero
                     action();
                 }
 
+                var mission = Mission.Current;
+                if (mission == null || mission.IsNavalBattle)
+                    return;
+                
                 if (BLTAdoptAHeroModule.CommonConfig.AutoFormationForHeroes && !IsDeploymentPhase())
                 {
-                    EnforceHeroFormationRules();
+                    autoFormationTimer += dt;
+                    if (autoFormationTimer >= 1f)
+                    {
+                        autoFormationTimer = 0f;
+                        EnforceHeroFormationRules();
+                    }
                 }
-
+                else
+                {
+                    autoFormationTimer = 0f;
+                }
+                
                 if (BLTAdoptAHeroModule.CommonConfig.EnableEnemyBltAttackCommand
                     && !IsDeploymentPhase()
-                    && Mission.Current != null
-                    && !Mission.Current.IsSiegeBattle)
+                    && !mission.IsSiegeBattle)
                 {
-                    EnforceEnemyBltAttackFormationRules();
+                    autoAttackTimer += dt;
+                    if (autoAttackTimer >= 1f)
+                    {
+                        autoAttackTimer = 0f;
+                        EnforceEnemyBltAttackFormationRules();
+                    }
+                }
+                else
+                {
+                    autoAttackTimer = 0f;
                 }
                 
                 if (BLTAdoptAHeroModule.CommonConfig.AutoSummonStreamerOnly)
@@ -429,67 +451,39 @@ namespace BLTAdoptAHero
         {
             autoSummonTimer += dt;
             if (autoSummonTimer < 3f)
-            {
                 return;
-            }
 
             autoSummonTimer = 0f;
 
-            if (Mission.Current == null)
-            {
+            var mission = Mission.Current;
+            if (mission == null)
                 return;
-            }
-            
 
-            if (!Mission.Current.IsFieldBattle && !Mission.Current.IsSiegeBattle)
-            {
+            if (!mission.IsFieldBattle && !mission.IsSiegeBattle)
                 return;
-            }
 
             var cfg = BLTAdoptAHeroModule.CommonConfig;
-            if (cfg == null)
-            {
+            if (cfg == null || !cfg.AutoSummonStreamerOnly)
                 return;
-            }
-            
-            if (!cfg.AutoSummonStreamerOnly)
-            {
-                return;
-            }
 
             var streamerLogin = TwitchSharedState.StreamerLogin;
-
             if (string.IsNullOrWhiteSpace(streamerLogin))
-            {
                 return;
-            }
 
             var expectedHeroName = streamerLogin + " [BLT]";
 
-            var adoptedHeroes = Hero.AllAliveHeroes
+            var targetHero = Hero.AllAliveHeroes
                 .Where(h => h.IsAdopted())
-                .ToList();
-            
-
-            var targetHero = adoptedHeroes.FirstOrDefault(h =>
-                string.Equals(h.Name?.ToString(), expectedHeroName, StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(h =>
+                    string.Equals(h.Name?.ToString(), expectedHeroName, StringComparison.OrdinalIgnoreCase));
 
             if (targetHero == null)
-            {
                 return;
-            }
-            
+
             var targetState = GetHeroSummonState(targetHero);
 
-            if (targetState != null && targetState.State == AgentState.Active)
-            {
+            if (targetState != null && (targetState.State == AgentState.Active || targetState.InCooldown))
                 return;
-            }
-
-            if (targetState != null && targetState.InCooldown)
-            {
-                return;
-            }
 
             var summonCfg = new SummonHero.Settings
             {
@@ -507,13 +501,11 @@ namespace BLTAdoptAHero
                 PreferredFormation = "Infantry"
             };
 
-
             var fakeContext = ReplyContext.FromUser(null, targetHero.Name.ToString(), "");
 
             try
             {
                 SummonHero.AutoSummon(targetHero, summonCfg, fakeContext);
-                Log.Trace("[AutoSummon] SummonHero.AutoSummon call finished.");
             }
             catch (Exception ex)
             {
