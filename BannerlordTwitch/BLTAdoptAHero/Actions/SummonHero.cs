@@ -564,6 +564,7 @@ namespace BLTAdoptAHero
                 }
 
                 var originalParty = adoptedHero.PartyBelongedTo;
+                int oldHP = adoptedHero.HitPoints;
                 bool wasLeader = adoptedHero.PartyBelongedTo?.LeaderHero == adoptedHero;
                 if (originalParty?.Party != party)
                 {
@@ -591,6 +592,8 @@ namespace BLTAdoptAHero
 
                         if (adoptedHero.PartyBelongedTo != originalParty)
                         {
+                            if (originalParty?.Party?.MemberRoster != null && originalParty?.Party?.MemberRoster.TotalHealthyCount > 0)
+                                adoptedHero.HitPoints = oldHP;
                             party.AddMember(adoptedHero.CharacterObject, -1);
                             originalParty?.Party?.MemberRoster.AddToCounts(adoptedHero.CharacterObject, 1, insertAtFront: wasLeader);
                             // Make sure to reassign the hero as party leader if they were previously
@@ -930,6 +933,7 @@ namespace BLTAdoptAHero
                 }
 
                 var originalParty = adoptedHero.PartyBelongedTo;
+                int oldHP = adoptedHero.HitPoints;
                 bool wasLeader = adoptedHero.PartyBelongedTo?.LeaderHero == adoptedHero;
                 if (originalParty?.Party != party)
                 {
@@ -956,6 +960,8 @@ namespace BLTAdoptAHero
                     {
                         if (adoptedHero.PartyBelongedTo != originalParty)
                         {
+                            if (originalParty?.Party?.MemberRoster != null && originalParty?.Party?.MemberRoster.TotalHealthyCount > 0)
+                                adoptedHero.HitPoints = oldHP;
                             party.AddMember(adoptedHero.CharacterObject, -1);
                             originalParty?.Party?.MemberRoster.AddToCounts(adoptedHero.CharacterObject, 1, insertAtFront: wasLeader);
                             // Make sure to reassign the hero as party leader if they were previously

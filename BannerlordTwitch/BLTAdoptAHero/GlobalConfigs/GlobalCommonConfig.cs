@@ -25,16 +25,17 @@ using static BLTAdoptAHero.Actions.UpgradeAction;
 namespace BLTAdoptAHero
 {
     [CategoryOrder("General", 1),
-     CategoryOrder("Battle", 2),
-     CategoryOrder("Death", 3),
-     CategoryOrder("Income", 4),
+     CategoryOrder("Training", 2),
+     CategoryOrder("Battle", 3),
+     CategoryOrder("Death", 4),
      CategoryOrder("Income", 5),
-     CategoryOrder("XP", 6),
-     CategoryOrder("Kill Rewards", 7),
-     CategoryOrder("Battle End Rewards", 8),
-     CategoryOrder("Kill Streak Rewards", 9),
-     CategoryOrder("Achievements", 10),
-     CategoryOrder("Shouts", 11),
+     CategoryOrder("Upgrades", 6),
+     CategoryOrder("XP", 7),
+     CategoryOrder("Kill Rewards", 8),
+     CategoryOrder("Battle End Rewards", 9),
+     CategoryOrder("Kill Streak Rewards", 10),
+     CategoryOrder("Achievements", 11),
+     CategoryOrder("Shouts", 12),
      LocDisplayName("{=GlobalCommonConfig_Name}Common Config")]
     internal class GlobalCommonConfig : IUpdateFromDefault, IDocumentable, INotifyPropertyChanged
     {
@@ -44,6 +45,8 @@ namespace BLTAdoptAHero
         internal static void Register() => ActionManager.RegisterGlobalConfigType(ID, typeof(GlobalCommonConfig));
         internal static GlobalCommonConfig Get() => ActionManager.GetGlobalConfig<GlobalCommonConfig>(ID);
         internal static GlobalCommonConfig Get(BannerlordTwitch.Settings fromSettings) => fromSettings.GetGlobalConfig<GlobalCommonConfig>(ID);
+
+        public CapitalConfig CapitalConfig { get; set; } = new CapitalConfig();
         #endregion
 
         #region User Editable
@@ -85,47 +88,59 @@ namespace BLTAdoptAHero
          PropertyOrder(6), UsedImplicitly]
         public int BLTChildAgeMult { get; set; } = 3;
 
-        [LocDisplayName("{=GlobalCommonConfig_Category_General_ShowCampaignMapOverlay_Name}Show Campaign Map Overlay"),
-         LocDescription("{=GlobalCommonConfig_Category_General_ShowCampaignMapOverlay_Desc}Enable or disable the campaign map overlay that shows in the top portion of the overlay. The map automatically hides during missions."),
-         LocCategory("General", "{=GlobalCommonConfig_Category_General}General"),
+        [LocDisplayName("{=BLTAdoptAHero_ShowCampaignMap}Show Campaign Map Overlay"),
+         LocDescription("{=BLTAdoptAHero_ShowCampaignMap_Desc}Enable or disable the campaign map overlay that shows in the top portion of the overlay. The map automatically hides during missions."),
+        LocCategory("General", "{=C5T6nnix}General"),
          PropertyOrder(7)]
         public bool ShowCampaignMapOverlay { get; set; } = true;
 
-        [LocDisplayName("{=GlobalCommonConfig_Category_General_MapOverlayMinSpacing_Name}Overlay Map Settlement Spacing"),
-         LocDescription("{=GlobalCommonConfig_Category_General_MapOverlayMinSpacing_Desc}Minimum centre-to-centre space between settlements."),
-         LocCategory("General", "{=GlobalCommonConfig_Category_General}General"),
+        [LocDisplayName("{=GlobalCommonConfig_Category_General_MapOverlayMinSpacing_Name}Overlay Map Settlement town radius"),
+         LocDescription("{=GlobalCommonConfig_Category_General_MapOverlayMinSpacing_Desc}Overlay Map Settlement town radius"),
+        LocCategory("General", "{=GlobalCommonConfig_Category_General}General"),
          PropertyOrder(8)]
-        public float MapOverlayMinSpacing { get; set; } = 3.5f;
+        public float MapTownRadius { get; set; } = 2.15f;
+
+        [LocDisplayName("{=BLTAdoptAHero_ShowCampaignMap}Overlay Map Settlement castle length"),
+         LocDescription("{=BLTAdoptAHero_ShowCampaignMap_Desc}Overlay Map Settlement castle length"),
+        LocCategory("General", "{=C5T6nnix}General"),
+         PropertyOrder(9)]
+        public float MapCastleLength { get; set; } = 2.5f;
 
         [LocDisplayName("{=GlobalCommonConfig_Category_General_UncapFoodStocks_Name}Uncap Maximum Foodstocks in Settlements"),
          LocCategory("General", "{=GlobalCommonConfig_Category_General}General"),
          LocDescription("{=GlobalCommonConfig_Category_General_UncapFoodStocks_Desc}Enable or disable the vanilla maximum of 300 foodstocks in towns and castles for all settlements."),
-         PropertyOrder(9)]
+         PropertyOrder(10)]
         public bool UncapFoodStocks { get; set; } = false;
 
         [LocDisplayName("{=GlobalCommonConfig_Category_General_HearthPerVillageTier_Name}Hearth Per Village Tier"),
          LocCategory("General", "{=GlobalCommonConfig_Category_General}General"),
          LocDescription("{=GlobalCommonConfig_Category_General_HearthPerVillageTier_Desc}How much hearth is required per village prosperity level (affects food and goods production)."),
-         PropertyOrder(10)]
+         PropertyOrder(11)]
         public float HearthPerVillageTier { get; set; } = 200f;
 
         [LocDisplayName("{=GlobalCommonConfig_Category_General_BLTArmyMinLifetimeDays_Name}Minimum BLT-Led Army Lifetime"),
          LocCategory("General", "{=GlobalCommonConfig_Category_General}General"),
          LocDescription("{=GlobalCommonConfig_Category_General_BLTArmyMinLifetimeDays_Desc}Minimum days a BLT-led army will persist before being allowed to disband."),
-         PropertyOrder(11)]
+         PropertyOrder(12)]
         public float BLTArmyMinLifetimeDays { get; set; } = 30f;
 
         [LocDisplayName("{=GlobalCommonConfig_Category_General_LockBLTArmyCohesion_Name}Lock BLT Army Cohesion"),
          LocCategory("General", "{=GlobalCommonConfig_Category_General}General"),
          LocDescription("{=GlobalCommonConfig_Category_General_LockBLTArmyCohesion_Desc}When enabled, standard armies led by adopted heroes also have their cohesion locked at 100 and are exempt from automatic dispersion checks. Mercenary armies always have this applied regardless."),
-         PropertyOrder(12), UsedImplicitly]
+         PropertyOrder(13), UsedImplicitly]
         public bool LockBLTArmyCohesion { get; set; } = true;
 
         [LocDisplayName("{=GlobalCommonConfig_Category_General_AllowAIJoinBLT_Name}Allow AI Clans to Join BLT Kingdoms"),
          LocCategory("General", "{=GlobalCommonConfig_Category_General}General"),
          LocDescription("{=GlobalCommonConfig_Category_General_AllowAIJoinBLT_Desc}Allow AI clans to join BLT kingdoms."),
-         PropertyOrder(13)]
+         PropertyOrder(14)]
         public bool AllowAIJoinBLT { get; set; } = true;
+
+        [LocDisplayName("Non-blt party size effectiveness"),
+         LocCategory("General", "{=GeneralCat}General"),
+         LocDescription("Percentage effectiveness party size upgrades non-blt heroes get."),
+         PropertyOrder(15), UsedImplicitly, DefaultValue(1f), Range(0f, 1f)]
+        public float PartySizeEffectiveness { get; set; } = 1f;
 
         [YamlIgnore, Browsable(false)]
         public HashSet<string> RestrictedItemIds
@@ -142,6 +157,22 @@ namespace BLTAdoptAHero
             }
         }
 
+        #endregion
+
+        #region Training
+        [LocDisplayName("Train Max Daily Spend"),
+         LocCategory("Training", "Training"),
+         LocDescription("Hard cap on gold spent on training per in-game day regardless of fund size. 0 = no cap."),
+         PropertyOrder(1), UsedImplicitly]
+        public int TrainMaxDailySpend { get; set; } = 100000;
+
+        [LocDisplayName("Train Gold Cost Multiplier"),
+         LocCategory("Training", "Training"),
+         LocDescription("Multiplies the gold cost of troop upgrades when using !party train. 1.0 = same cost as player. (This multiplies a very low value, setting this lower than 100 may ruin your game's balance.)"),
+         UIRange(0f, 1000f, 10f),
+         Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
+         PropertyOrder(2), UsedImplicitly]
+        public float TrainGoldCostMultiplier { get; set; } = 500f;
         #endregion
 
         #region Battle
@@ -280,13 +311,19 @@ namespace BLTAdoptAHero
          PropertyOrder(1), Document, UsedImplicitly]
         public bool AllowDeath { get; set; } = true;
 
+        [LocDisplayName("{=4sNJRQyw}Minimum age"),
+         LocCategory("Death", "{=dbU7WEKG}Death"),
+         LocDescription("{=VbBUYOfc}Minimum age death before adopted hero can die"),
+         PropertyOrder(2), Document, UsedImplicitly]
+        public int MinimumAge { get; set; } = 30;
+
         [Browsable(false), UsedImplicitly]
         public float DeathChance { get; set; } = 0.1f;
 
         [LocDisplayName("{=GlobalCommonConfig_Category_Death_FinalDeathChancePercent_Name}Final Death Chance Percent"),
          LocCategory("Death", "{=GlobalCommonConfig_Category_Death}Death"),
          LocDescription("{=GlobalCommonConfig_Category_Death_FinalDeathChancePercent_Desc}Final death chance percent (includes vanilla chance)"),
-         PropertyOrder(2),
+         PropertyOrder(3),
          Range(0, 10), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          YamlIgnore, Document, UsedImplicitly]
         public float FinalDeathChancePercent
@@ -512,6 +549,12 @@ namespace BLTAdoptAHero
                 ProsperityDailyFlat = 0.5f
             }
         };
+
+        [LocDisplayName("{=BLT_BlockNegativesAtFloor}Block Negative Upgrades At Minimum"),
+         LocCategory("Upgrades", "{=BLT_Upgrades}Upgrades"),
+         LocDescription("{=BLT_BlockNegativesAtFloorDesc}When enabled, upgrade effects with negative values will not be applied if the stat they affect is already at zero (or would be pushed below zero). Disable this to allow negative upgrades to always apply regardless of the current stat value."),
+         PropertyOrder(4), UsedImplicitly]
+        public bool BlockNegativesAtFloor { get; set; } = true;
         #endregion
 
         #region XP
@@ -837,7 +880,8 @@ namespace BLTAdoptAHero
                 if (kingdoms == null || kingdoms.Count == 0)
                     return;
 
-                generator.H1("{=GlobalCommonConfig_Doc_MapLegend}Map Legend".Translate());
+                generator.H1("Campaign Map");
+                generator.H2("{=GlobalCommonConfig_Doc_MapLegend}Map Legend".Translate());
 
                 generator.Table("legend", () =>
                 {
@@ -865,9 +909,79 @@ namespace BLTAdoptAHero
 
                             var rkingdom = Kingdom.All.FirstOrDefault(f => f.StringId == kingdom.Id);
                             string names = $"{kingdom.Name} - Leader: {rkingdom?.Leader?.Name}";
-                            generator.TD("vertical-align:middle;", names);
+                            generator.TD(names);
                         });
                     }
+                });
+
+                // Map
+                var settlements = MapHub.CurrentMapData?.Settlements;
+                if (settlements == null || settlements.Count == 0)
+                    return;
+
+                var segments = MapHub.CurrentMapData.Coastline;
+                generator.H2("Map");
+
+                generator.Div(() =>
+                {
+                    // Outer container div with inline style
+                    generator.P("<div style=\"position:relative; width:1500px; height:1000px;" +
+                                "background-color:#1f1f1f; border:3px solid #111; overflow:hidden; left:-25%; \">");
+
+                    float margin = 35f;
+                    float mapWidth = 1500f - 2 * margin;
+                    float mapHeight = 1000f - 2 * margin;
+
+                    float minX = settlements.Min(s => s.X);
+                    float maxX = settlements.Max(s => s.X);
+                    float minY = settlements.Min(s => s.Y);
+                    float maxY = settlements.Max(s => s.Y);
+
+                    var kingdomDict = MapHub.CurrentMapData.Kingdoms.ToDictionary(k => k.Id, k => k.Color1);
+                    var kingdomBorderDict = MapHub.CurrentMapData.Kingdoms.ToDictionary(k => k.Id, k => k.Color2);
+
+                    if (segments?.Count > 0)
+                    {
+                        float worldWidth = maxX - minX;
+                        float worldHeight = maxY - minY;
+
+                        if (worldWidth == 0) worldWidth = 1;
+                        if (worldHeight == 0) worldHeight = 1;
+
+                        foreach (var seg in segments)
+                        {
+                            float scaledX1 = (seg.X1 - minX) / worldWidth * mapWidth + margin;
+                            float scaledY1 = (seg.Y1 - minY) / worldHeight * mapHeight + margin;
+
+                            float scaledX2 = (seg.X2 - minX) / worldWidth * mapWidth + margin;
+                            float scaledY2 = (seg.Y2 - minY) / worldHeight * mapHeight + margin;
+
+                            generator.MapSegment(
+                                scaledX1,
+                                scaledY1,
+                                scaledX2,
+                                scaledY2
+                            );
+                        }
+                    }
+
+                    foreach (var s in settlements)
+                    {
+                        float scaledX = (s.X - minX) / (maxX - minX) * mapWidth + margin;
+                        float scaledY = (s.Y - minY) / (maxY - minY) * mapHeight + margin;
+
+                        generator.MapLabel(
+                            scaledX,
+                            scaledY,
+                            s.Name,
+                            s.Type,
+                            s.KingdomId,
+                            kingdomId => kingdomDict.TryGetValue(kingdomId, out var c) ? c : "#000080",
+                            kingdomId => kingdomBorderDict.TryGetValue(kingdomId, out var c) ? c : "#000000"
+                        );
+                    }
+
+                    generator.P("</div>"); // close container
                 });
             }
         }
