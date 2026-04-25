@@ -381,9 +381,11 @@ namespace BLTAdoptAHero.Actions
 
             // Push the accumulation setting to the behavior so daily ticks respect it immediately.
             if (UpgradeBehavior.Current != null)
+            {
                 UpgradeBehavior.Current.AccumulateWhenFull = settings.AccumulateWhenFull;
-                UpgradeBehavior.Current.IndependentClansCountAsLords = settings.IndependentClansCountAsLords;  // ← add
-                UpgradeBehavior.Current.IndependentClansCountAsMercs = settings.IndependentClansCountAsMercs;  // ← add
+                UpgradeBehavior.Current.IndependentClansCountAsLords = settings.IndependentClansCountAsLords; // ← add
+                UpgradeBehavior.Current.IndependentClansCountAsMercs = settings.IndependentClansCountAsMercs; // ← add
+            }
 
             var globalConfig = GlobalCommonConfig.Get();
             if (globalConfig == null) { onFailure("Configuration not available"); return; }
@@ -701,9 +703,20 @@ namespace BLTAdoptAHero.Actions
                         PurchaseFiefUpgrade(name, upgradeId, hero, settings, gc, autoBuy, ok, fail);
                     break;
                 case "clan":
+                    if (upgradeId.Equals("all", OIC))
+                    {
+                        PurchaseAllClanUpgrades(hero, gc, autoBuy, ok, fail);
+                        return;
+                    }
                     PurchaseClanUpgrade(upgradeId, hero, settings, gc, autoBuy, ok, fail);
                     break;
                 case "kingdom":
+                    if (upgradeId.Equals("all", OIC))
+                    {
+                        PurchaseAllKingdomUpgrades(hero, gc, ok, fail);
+                        return;
+                    }
+                    
                     PurchaseKingdomUpgrade(upgradeId, hero, gc, autoBuy, ok, fail);
                     break;
             }
@@ -780,7 +793,125 @@ namespace BLTAdoptAHero.Actions
         // ════════════════════════════════════════════════════════════════════════
         // Fief purchase — multi-settlement (all / allk)
         // ════════════════════════════════════════════════════════════════════════
+        
+        private void PurchaseAllClanUpgrades(
+            Hero hero,
+            GlobalCommonConfig gc,
+            bool autoBuy,
+            Action<string> ok,
+            Action<string> fail)
+        {
+            var clan = hero?.Clan;
+            if (clan == null)
+            {
+                fail("You are not in a clan!");
+                return;
+            }
 
+            var owned = new HashSet<string>(
+                UpgradeBehavior.Current?.GetClanUpgrades(clan) ?? new(),
+                StringComparer.OrdinalIgnoreCase);
+
+            int bought = 0;
+
+            foreach (var up in gc.ClanUpgrades.OrderBy(u => u.TierLevel))
+            {
+                if (owned.Contains(up.ID))
+                    continue;
+
+                var chain = BuildClanPurchaseChain(up.ID, owned, gc);
+
+                var results = ExecuteClanChain(
+                    clan,
+                    chain,
+                    hero,
+                    gc,
+                    owned);
+
+                bought += results.Count(x => x.Success);
+
+                if (results.Any(x => !x.Success))
+                    break;
+            }
+
+            if (bought > 0)
+                ok($"Purchased {bought} clan upgrades.");
+            else
+                fail("No upgrades could be purchased.");
+        }
+        
+        private void PurchaseAllKingdomUpgrades(
+            Hero hero,
+            GlobalCommonConfig gc,
+            Action<string> ok,
+            Action<string> fail)
+        {
+            if (hero.Clan == null)
+            {
+                fail("You're not in a clan!");
+                return;
+            }
+
+            var kingdom = hero.Clan.Kingdom;
+            if (kingdom == null)
+            {
+                fail("You're not in a kingdom!");
+                return;
+            }
+
+            if (kingdom.Leader != hero)
+            {
+                fail("Only the kingdom ruler can purchase kingdom upgrades");
+                return;
+            }
+
+            if (gc.KingdomUpgrades == null || gc.KingdomUpgrades.Count == 0)
+            {
+                fail("No kingdom upgrades configured");
+                return;
+            }
+
+            var owned = new HashSet<string>(
+                UpgradeBehavior.Current?.GetKingdomUpgrades(kingdom) ?? new List<string>(),
+                StringComparer.OrdinalIgnoreCase);
+
+            int bought = 0;
+            var failed = new List<string>();
+
+            foreach (var up in gc.KingdomUpgrades.OrderBy(u => u.TierLevel))
+            {
+                if (owned.Contains(up.ID))
+                    continue;
+
+                var chain = BuildKingdomPurchaseChain(up.ID, owned, gc);
+                if (chain.Count == 0)
+                    continue;
+
+                var results = ExecuteKingdomChain(kingdom, chain, hero, gc, owned);
+
+                bought += results.Count(r => r.Success);
+
+                var blocked = results.FirstOrDefault(r => !r.Success);
+                if (blocked != null)
+                {
+                    failed.Add($"{up.ID}: {blocked.Message}");
+                    break;
+                }
+            }
+
+            if (bought > 0)
+            {
+                var message = $"Purchased {bought} kingdom upgrade(s) for {kingdom.Name}.";
+                if (failed.Count > 0)
+                    message += $" Stopped: {failed[0]}";
+
+                ok(message);
+                return;
+            }
+
+            fail(failed.Count > 0 ? failed[0] : "No kingdom upgrades could be purchased.");
+        }
+        
         private void PurchaseFiefUpgradeMulti(
             string upgradeId,
             Hero hero, Settings settings, GlobalCommonConfig gc,
