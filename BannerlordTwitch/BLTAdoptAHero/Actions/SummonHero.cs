@@ -634,13 +634,13 @@ namespace BLTAdoptAHero
 
                             if (hasMagicReward)
                             {
-                                int silentGold = (int)(finalRewardScaling * BLTAdoptAHeroModule.CommonConfig.WinGold * 5);
+                                int silentGold = (int)(finalRewardScaling * BLTAdoptAHeroModule.CommonConfig.WinGold * 10);
                                 if (silentGold > 0)
                                 {
                                     BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, silentGold);
                                 }
 
-                                int silentXp = (int)(finalRewardScaling * BLTAdoptAHeroModule.CommonConfig.WinXP * 10);
+                                int silentXp = (int)(finalRewardScaling * BLTAdoptAHeroModule.CommonConfig.WinXP * 25);
                                 if (silentXp > 0)
                                 {
                                     SkillXP.GiveMagicRewardXp(adoptedHero, silentXp);
