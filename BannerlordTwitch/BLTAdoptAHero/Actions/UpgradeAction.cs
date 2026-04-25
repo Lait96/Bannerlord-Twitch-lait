@@ -375,7 +375,7 @@ namespace BLTAdoptAHero.Actions
             if (Mission.Current != null) { onFailure("{=BLT_NoMission}Cannot use this command during a mission".Translate()); return; }
             if (context.Args.IsEmpty())
             {
-                onFailure("Usage:  [auto|bulk] <fief|clan|kingdom> [all|allk] <name> <upgrade>  |  info <fief|clan|kingdom> <name>  |  list [fief|clan|kingdom]  |  remove <fief|clan|kingdom> <name> <upgrade>");
+                onFailure("Usage: [auto|bulk] fief [all|allk] <settlement_name> <upgrade_id> | clan <upgrade_id|all> | kingdom <upgrade_id|all> | info <fief|clan|kingdom> <name> | list [fief|clan|kingdom] | remove <fief|clan|kingdom> <name> <upgrade_id>");
                 return;
             }
 
@@ -394,8 +394,21 @@ namespace BLTAdoptAHero.Actions
             var rawArgs = context.Args.Split(' ');
 
             bool autoBuy = rawArgs.Any(a => a.Equals("auto", OIC) || a.Equals("bulk", OIC));
-            bool applyAll = rawArgs.Any(a => a.Equals("all", OIC));
-            bool applyAllK = rawArgs.Any(a => a.Equals("allk", OIC));
+
+            var rawWithoutAuto = rawArgs
+                .Where(a => !a.Equals("auto", OIC) && !a.Equals("bulk", OIC))
+                .ToArray();
+
+            if (rawWithoutAuto.Length == 0)
+            {
+                onFailure("No command specified after flags");
+                return;
+            }
+
+            var command = rawWithoutAuto[0].ToLowerInvariant();
+
+            bool applyAll = command == "fief" && rawWithoutAuto.Any(a => a.Equals("all", OIC));
+            bool applyAllK = command == "fief" && rawWithoutAuto.Any(a => a.Equals("allk", OIC));
 
             if (applyAll && applyAllK)
             {
@@ -403,10 +416,8 @@ namespace BLTAdoptAHero.Actions
                 return;
             }
 
-            // Strip flag keywords so remaining args match the original parsing logic
-            var cleanArgs = rawArgs
-                .Where(a => !a.Equals("auto", OIC) && !a.Equals("bulk", OIC)
-                         && !a.Equals("all", OIC) && !a.Equals("allk", OIC))
+            var cleanArgs = rawWithoutAuto
+                .Where(a => command != "fief" || (!a.Equals("all", OIC) && !a.Equals("allk", OIC)))
                 .ToArray();
 
             if (cleanArgs.Length == 0)
@@ -414,9 +425,7 @@ namespace BLTAdoptAHero.Actions
                 onFailure("No command specified after flags");
                 return;
             }
-
-            var command = cleanArgs[0].ToLowerInvariant();
-
+            
             // ── list ────────────────────────────────────────────────────────────
             if (command == "list")
             {
