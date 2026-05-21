@@ -165,6 +165,15 @@ namespace BLTAdoptAHero
             }
         }
 
+        /// <summary>
+        /// Check if an EquipmentElement is a registered custom item by matching its modifier's StringId
+        /// </summary>
+        public bool IsCustomItem(EquipmentElement element)
+        {
+            if (element.ItemModifier == null) return false;
+            return customItemModifiers.Any(kvp => kvp.Key.StringId == element.ItemModifier.StringId);
+        }
+
         private ItemModifier RegisterModifier(ItemModifierData modifierData)
         {
             modifierData.StringId = Guid.NewGuid().ToString();

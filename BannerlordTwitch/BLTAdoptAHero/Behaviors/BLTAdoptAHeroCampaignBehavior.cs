@@ -80,11 +80,15 @@ namespace BLTAdoptAHero
                 public SavedEquipment(EquipmentElement element)
                 {
                     Item = element.Item;
-                    ItemModifierId = element.ItemModifier.StringId;
+                    // Store null if there's no modifier to avoid issues on load
+                    ItemModifierId = element.ItemModifier?.StringId;
                 }
 
                 public static explicit operator EquipmentElement(SavedEquipment m)
-                    => new(m.Item, MBObjectManager.Instance.GetObject<ItemModifier>(m.ItemModifierId));
+                {
+                    var modifier = m.ItemModifierId != null ? MBObjectManager.Instance.GetObject<ItemModifier>(m.ItemModifierId) : null;
+                    return new(m.Item, modifier);
+                }
             }
 
             [UsedImplicitly]
@@ -101,6 +105,9 @@ namespace BLTAdoptAHero
             public void PostLoad()
             {
                 CustomItems = SavedCustomItems.Select(c => (EquipmentElement)c).ToList();
+                
+                // Filter out items with null modifiers (can happen if modifier wasn't loaded correctly)
+                CustomItems.RemoveAll(ci => ci.ItemModifier == null);
             }
         }
 
@@ -889,7 +896,8 @@ namespace BLTAdoptAHero
 
         public void AddCustomItem(Hero hero, EquipmentElement element)
         {
-            if (!BLTCustomItemsCampaignBehavior.Current.IsRegistered(element.ItemModifier))
+            // Use IsCustomItem which checks by StringId to handle cases where the modifier object reference may differ
+            if (!BLTCustomItemsCampaignBehavior.Current.IsCustomItem(element))
             {
                 Log.Error($"Item {element.GetModifiedItemName()} of {hero.Name} is NOT a custom item, so shouldn't be added to Custom Items storage");
                 return;

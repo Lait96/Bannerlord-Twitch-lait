@@ -96,16 +96,16 @@ namespace BannerlordTwitch.Helpers
             {
                 EquipmentType.None => false,
                 EquipmentType.Dagger => item.PrimaryWeaponClass(WeaponClass.Dagger) && !item.IsRanged(),
-                EquipmentType.OneHandedSword => item.PrimaryWeaponClass(WeaponClass.OneHandedSword) && !item.IsRanged(),
-                EquipmentType.TwoHandedSword => item.PrimaryWeaponClass(WeaponClass.TwoHandedSword) && !item.IsRanged(),
-                EquipmentType.OneHandedAxe => item.PrimaryWeaponClass(WeaponClass.OneHandedAxe) && !item.IsRanged(),
-                EquipmentType.TwoHandedAxe => item.PrimaryWeaponClass(WeaponClass.TwoHandedAxe) && !item.IsRanged(),
-                EquipmentType.OneHandedMace => item.PrimaryWeaponClass(WeaponClass.Mace) && !item.IsRanged(),
-                EquipmentType.TwoHandedMace => item.PrimaryWeaponClass(WeaponClass.TwoHandedMace) && !item.IsRanged(),
-                EquipmentType.OneHandedLance => item.PrimaryWeaponClass(WeaponClass.OneHandedPolearm) && !item.IsSwingable() && !item.IsRanged(),
-                EquipmentType.TwoHandedLance => item.PrimaryWeaponClass(WeaponClass.TwoHandedPolearm) && !item.IsSwingable() && !item.IsRanged(),
-                EquipmentType.OneHandedGlaive => item.PrimaryWeaponClass(WeaponClass.OneHandedPolearm) && item.IsSwingable() && !item.IsRanged(),
-                EquipmentType.TwoHandedGlaive => item.PrimaryWeaponClass(WeaponClass.TwoHandedPolearm) && item.IsSwingable() && !item.IsRanged(),
+                EquipmentType.OneHandedSword => item.PrimaryWeaponClass(WeaponClass.OneHandedSword) && !item.IsRanged() && !item.IsTwoHanded(),
+                EquipmentType.TwoHandedSword => (item.PrimaryWeaponClass(WeaponClass.TwoHandedSword) || (item.PrimaryWeaponClass(WeaponClass.OneHandedSword) && item.IsTwoHanded())) && !item.IsRanged(),
+                EquipmentType.OneHandedAxe => item.PrimaryWeaponClass(WeaponClass.OneHandedAxe) && !item.IsRanged() && !item.IsTwoHanded(),
+                EquipmentType.TwoHandedAxe => (item.PrimaryWeaponClass(WeaponClass.TwoHandedAxe) || (item.PrimaryWeaponClass(WeaponClass.OneHandedAxe) && item.IsTwoHanded())) && !item.IsRanged(),
+                EquipmentType.OneHandedMace => item.PrimaryWeaponClass(WeaponClass.Mace) && !item.IsRanged() && !item.IsTwoHanded(),
+                EquipmentType.TwoHandedMace => (item.PrimaryWeaponClass(WeaponClass.TwoHandedMace) || (item.PrimaryWeaponClass(WeaponClass.Mace) && item.IsTwoHanded())) && !item.IsRanged(),
+                EquipmentType.OneHandedLance => item.PrimaryWeaponClass(WeaponClass.OneHandedPolearm) && !item.IsSwingable() && !item.IsRanged() && !item.IsTwoHanded(),
+                EquipmentType.TwoHandedLance => ((item.PrimaryWeaponClass(WeaponClass.TwoHandedPolearm) || item.PrimaryWeaponClass(WeaponClass.OneHandedPolearm)) && !item.IsSwingable() && !item.IsRanged() && item.IsTwoHanded()) || (item.PrimaryWeaponClass(WeaponClass.TwoHandedPolearm) && !item.IsSwingable() && !item.IsRanged()),
+                EquipmentType.OneHandedGlaive => item.PrimaryWeaponClass(WeaponClass.OneHandedPolearm) && item.IsSwingable() && !item.IsRanged() && !item.IsTwoHanded(),
+                EquipmentType.TwoHandedGlaive => ((item.PrimaryWeaponClass(WeaponClass.TwoHandedPolearm) || item.PrimaryWeaponClass(WeaponClass.OneHandedPolearm)) && item.IsSwingable() && !item.IsRanged() && item.IsTwoHanded()) || (item.PrimaryWeaponClass(WeaponClass.TwoHandedPolearm) && item.IsSwingable() && !item.IsRanged()),
                 EquipmentType.Bow => item.ItemType == ItemObject.ItemTypeEnum.Bow,
                 EquipmentType.Crossbow => item.ItemType == ItemObject.ItemTypeEnum.Crossbow,
                 EquipmentType.Sling => item.ItemType == ItemObject.ItemTypeEnum.Sling,
@@ -119,6 +119,24 @@ namespace BannerlordTwitch.Helpers
                 EquipmentType.Stone => item.HasWeaponClass(WeaponClass.Stone),
                 _ => throw new ArgumentOutOfRangeException(nameof(equipmentType), equipmentType, null)
             };
+        }
+
+        public static bool IsTwoHanded(this ItemObject item)
+        {
+            var primaryWeapon = item.PrimaryWeapon;
+            if (primaryWeapon == null) return false;
+            
+            // Check the WeaponFlags.NotUsableWithOneHand flag
+            if (primaryWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.NotUsableWithOneHand))
+            {
+                return true;
+            }
+            
+            // Also check weapon class as a fallback
+            return primaryWeapon.WeaponClass is WeaponClass.TwoHandedSword 
+                or WeaponClass.TwoHandedAxe 
+                or WeaponClass.TwoHandedMace 
+                or WeaponClass.TwoHandedPolearm;
         }
 
         public static EquipmentType GetEquipmentType(this ItemObject item)
