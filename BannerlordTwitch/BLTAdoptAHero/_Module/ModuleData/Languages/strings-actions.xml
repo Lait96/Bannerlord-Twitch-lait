@@ -1233,5 +1233,328 @@
 		<string id="lJXxLdFz" text="Please enter the name of the leader you wish to adopt"/>
 		<!-- Error could not find a clan with the name {clanName} -->
 		<string id="bzsT7oy0" text="Error could not find a clan with the name {clanName}"/>
+
+        <!-- Localization Cleanup: AuctionItem -->
+        <string id="AuctionItemArgs" text="(custom item index) (reserve price)"/>
+
+        <!-- Localization Cleanup: BattleInfo -->
+        <string id="BattleInfoCmd" text="BattleInfo"/>
+        <string id="BattleInfoDesc" text="Shows hero battle info"/>
+        <string id="BattleInfoDoc" text="&lt;strong&gt;Description:&lt;/strong&gt; Shows detailed information about your adopted hero's current battle status, including health, mount, weapons, kills, retinue, gold, XP, and active powers.\n"/>
+        <string id="BattleInfoNoMission" text="No mission!"/>
+        <string id="BattleInfoMissionBehaviorMissing" text="Mission behavior not found!"/>
+        <string id="BattleInfoFactionError" text="Error getting factions - "/>
+        <string id="BattleInfoHeroNotInBattleCooldown" text="Hero is not currently in battle! ({Cooldown}s)"/>
+        <string id="BattleInfoKilledBy" text=" | Killed by {KillerName} with {WeaponName}({Damage})"/>
+        <string id="BattleInfoDeathChance" text=" | Death chance: {DeathChance}%"/>
+        <string id="BattleInfoHeroNotInBattle" text="Hero is not currently in battle!"/>
+
+        <!-- Localization Cleanup: CampaignInfo -->
+        <string id="CampaignInfoAlliances" text="Alliances: {allies} | "/>
+        <string id="CampaignInfoTrades" text="Trades: {trade} | "/>
+        <string id="CampaignInfoNeedFiefName" text="Need fief name"/>
+        <string id="CampaignInfoFiefNotFound" text="Could not find a fief with the name {name}"/>
+        <string id="CampaignInfoSettlementName" text="{Name} "/>
+        <string id="CampaignInfoVillage" text="Village | "/>
+        <string id="CampaignInfoCulture" text="Culture: {culture} | "/>
+        <string id="CampaignInfoHearths" text="Hearths: {hearths}({change}) | "/>
+        <string id="CampaignInfoBoundTo" text="Bound to {parent}"/>
+        <string id="CampaignInfoTown" text="Town | "/>
+        <string id="CampaignInfoCastle" text="Castle | "/>
+        <string id="CampaignInfoOwner" text="Owner:{own} | "/>
+        <string id="CampaignInfoKingdom" text="Kingdom:{kingdom} | "/>
+        <string id="CampaignInfoGovernor" text="Governor:{gove} | "/>
+        <string id="CampaignInfoProsperity" text="Prosperity:{pros}({change}) | "/>
+        <string id="CampaignInfoLoyalty" text="Loyalty:{loy}({change}) | "/>
+        <string id="CampaignInfoSecurity" text="Security:{sec}({change}) | "/>
+        <string id="CampaignInfoFood" text="Food:{food}({change}) | "/>
+        <string id="CampaignInfoDailyIncome" text="💰Daily income:{profit} | "/>
+        <string id="CampaignInfoMilitia" text="Militia:{mil}({change}) | "/>
+        <string id="CampaignInfoGarrison" text="Garrison:{gar}/{garcap} | "/>
+        <string id="CampaignInfoKingdomNotFound" text="Could not find a kingdom with the name {name}"/>
+        <string id="CampaignInfoNeedClanName" text="Need a clan name"/>
+        <string id="CampaignInfoShips" text="Ships: {ships} |"/>
+        <string id="CampaignInfoClanNotFound" text="Could not find a clan with the name {name}"/>
+        <string id="CampaignInfoVassalUnavailable" text="Vassal system is not available"/>
+        <string id="CampaignInfoClanNoVassals" text="{clanName} has no vassals"/>
+        <string id="CampaignInfoNoFiefsParenthetical" text=" (No fiefs)"/>
+        <string id="CampaignInfoNoFiefs" text="No fiefs"/>
+
+        <!-- Localization Cleanup: CampaignLogs -->
+        <string id="CampaignLogsCmd" text="CampaignLogs"/>
+        <string id="CampaignLogsDesc" text="Logs with relevant info"/>
+        <string id="CampaignLogsHero" text="Hero"/>
+        <string id="C5T5nnix" text="General"/>
+        <string id="CampaignLogsHeroDesc" text="Maximum logs per hero"/>
+        <string id="CampaignLogsClan" text="Clan"/>
+        <string id="CampaignLogsClanDesc" text="Maximum logs per clan"/>
+        <string id="CampaignLogsKingdom" text="Kingdom"/>
+        <string id="CampaignLogsKingdomDesc" text="Maximum logs per kingdom"/>
+        <string id="CampaignLogsFief" text="Fief"/>
+        <string id="CampaignLogsFiefDesc" text="Maximum logs per fief"/>
+
+        <!-- Localization Cleanup: ClanManagement -->
+        <string id="ClanShipCommand" text="ship"/>
+        <string id="ClanHomeCommand" text="home"/>
+        <string id="ClanCreateInPlayerParty" text="You cannot create a clan while in the players party"/>
+        <string id="ClanShips" text="Ships: {ships} "/>
+        <string id="ClanStatsMessage" text="{stats}"/>
+        <string id="ClanFiefsMessage" text="{fiefs}"/>
+
+        <!-- Localization Cleanup: EquipCustomItem -->
+        <string id="EquipCustomDocEnabledYes" text="&lt;strong&gt;Enabled:&lt;/strong&gt; Yes"/>
+        <string id="EquipCustomDocGoldCost" text="&lt;strong&gt;Gold Cost:&lt;/strong&gt; {cost}{icon}"/>
+        <string id="EquipCustomDocUsage" text="&lt;strong&gt;Usage:&lt;/strong&gt; !equipcustom [item name or number]"/>
+        <string id="EquipCustomDocListHint" text="Use without arguments to list your custom items"/>
+        <string id="EquipCustomDocEnabledNo" text="&lt;strong&gt;Enabled:&lt;/strong&gt; No"/>
+        <string id="EquipCustomFailed" text="Failed to equip item: {Error}"/>
+
+        <!-- Localization Cleanup: FamilyManagement -->
+        <string id="FamilyBabyCommandLimit" text="Baby Command Limit"/>
+        <string id="FamilyBabyCommandLimitDesc" text="Maximum number of kids before the baby command is blocked."/>
+        <string id="GreatGrandchildCount" text="Great grandchildren: {count} | "/>
+        <string id="ParentCount" text="Parents: {count} | "/>
+        <string id="SiblingCount" text="Siblings: {count} | "/>
+        <string id="ExSpousesList" text="Ex-spouses: "/>
+
+        <!-- Localization Cleanup: FocusPoints -->
+        <string id="FocusPointsFocus1" text="Focus 1"/>
+        <string id="FocusPointsGoldCostDesc" text="Gold cost"/>
+        <string id="FocusPointsFocus2" text="Focus 2"/>
+        <string id="FocusPointsFocus3" text="Focus 3"/>
+        <string id="FocusPointsFocus4" text="Focus 4"/>
+        <string id="FocusPointsFocus5" text="Focus 5"/>
+        <string id="FocusPointsTierCosts" text="Tier costs"/>
+
+        <!-- Localization Cleanup: FormationCommand -->
+        <string id="FormationCommandCmd" text="FormationCommand"/>
+        <string id="FormationCommandDesc" text="Show and change hero formation"/>
+        <string id="FormationRespectClass" text="Respect class"/>
+        <string id="FormationRespectClassDesc" text="Turn off to allow any formation otherwise infantry can only change to other infantry formations"/>
+        <string id="FormationDetachments" text="Detachments"/>
+        <string id="FormationDetachmentsDesc" text="Detach commands"/>
+        <string id="FormationNoMission" text="No mission!"/>
+
+        <!-- Localization Cleanup: HeroFeatures -->
+        <string id="HeroFeaturesRaceEnabled" text="Enabled"/>
+        <string id="HeroFeaturesRaceCategory" text="Race"/>
+        <string id="HeroFeaturesRaceEnabledDesc" text="Enabled"/>
+        <string id="HeroFeaturesForbiddenRaces" text="Forbidden Races"/>
+        <string id="HeroFeaturesForbiddenRacesDesc" text="List of race IDs that are forbidden. Usage: 0,1,2"/>
+        <string id="HeroFeaturesCultureEnabled" text="Enabled"/>
+        <string id="HeroFeaturesCultureCategory" text="Culture"/>
+        <string id="HeroFeaturesCultureEnabledDesc" text="Enabled"/>
+        <string id="HeroFeaturesForbiddenCultures" text="Forbidden Cultures"/>
+        <string id="HeroFeaturesForbiddenCulturesDesc" text="List of cultures that are forbidden. Usage: Vlandia,Battania"/>
+        <string id="HeroFeaturesHeroPregnant" text="Your hero is pregnant!"/>
+        <string id="HeroFeaturesNotNoble" text="Not a noble"/>
+
+        <!-- Localization Cleanup: HeroInfoCommand -->
+        <string id="HeroInfoGender" text="{gender}"/>
+        <string id="HeroInfoCustomItemsTag" text="[CUSTOMS]"/>
+
+        <!-- Localization Cleanup: HeroToHeroGold -->
+        <string id="HeroToHeroGoldArgs" text="(username) (gold)"/>
+        <string id="HeroToHeroGoldTargetNotFound" text="Couldn't find a hero for that username"/>
+        <string id="HeroToHeroGoldSelf" text="You can't send gold to yourself"/>
+        <string id="HeroToHeroGoldNotEnough" text="You don't have that much gold to send"/>
+        <string id="HeroToHeroGoldSent" text="Sent {Amount} gold to {TargetHero}"/>
+        <string id="HeroToHeroGoldInvalidAmount" text="Invalid (amount)"/>
+
+        <!-- Localization Cleanup: ItemStats -->
+        <string id="ItemStatsStoreSpecifySlot" text="You must specify which equipment slot to store"/>
+        <string id="ItemStatsInvalidSlotIndex" text="Invalid slot index. Must be between 1 and {SlotCount}"/>
+        <string id="ItemStatsSlotEmpty" text="That slot is empty"/>
+
+        <!-- Localization Cleanup: KingdomManagement -->
+        <string id="KingdomPlayerMercenaryCost" text="Player Mercenary Cost"/>
+        <string id="KingdomPlayerMercenaryCostDesc" text="Player kingdom mercenary contract cost"/>
+        <string id="KingdomBLTRebel" text="BLT Rebel"/>
+        <string id="KingdomBLTRebelDesc" text="Enable viewer clan rebelling against BLT kingdoms"/>
+        <string id="KingdomBLTGoldCost" text="BLT Gold Cost"/>
+        <string id="KingdomBLTGoldCostDesc" text="Cost of rebelling against BLT kingdoms"/>
+        <string id="KingdomCreateCategory" text="Create"/>
+        <string id="KingdomCreateEnabledDesc" text="Enable viewer clan to create a kingdom"/>
+        <string id="KingdomCreateTierMinimumDesc" text="Minimum clan tier to create a kingdom"/>
+        <string id="KingdomCreateMinimumClanFiefs" text="Minimum Clan Fiefs"/>
+        <string id="KingdomCreateMinimumClanFiefsDesc" text="Minimum clan fiefs to create a kingdom"/>
+        <string id="KingdomCreateCostDesc" text="Cost of creating a kingdom"/>
+        <string id="KingdomPolicy" text="Policy"/>
+        <string id="KingdomPolicyCategory" text="Policy"/>
+        <string id="KingdomPolicyEnabledDesc" text="Enable viewing,adding and removing policies"/>
+        <string id="KingdomPolicyPrice" text="Price"/>
+        <string id="KingdomPolicyPriceDesc" text="Policy command price"/>
+        <string id="KingdomArmiesCategory" text="Armies"/>
+        <string id="KingdomAllowBLTArmiesDefault" text="Allow BLT Armies Default"/>
+        <string id="KingdomAllowBLTArmiesDefaultDesc" text="Default state when a BLT-led kingdom is created: allow BLT adopted heroes to create armies"/>
+        <string id="KingdomAllowAIArmiesDefault" text="Allow AI Armies Default"/>
+        <string id="KingdomAllowAIArmiesDefaultDesc" text="Default state when a BLT-led kingdom is created: allow AI heroes to create armies"/>
+        <string id="KingdomReleaseCategory" text="Release"/>
+        <string id="KingdomReleaseEnabledDesc" text="Enable king to release clans from kingdom (with their land)"/>
+        <string id="KingdomReleasePriceDesc" text="Cost for king to release a clan"/>
+        <string id="KingdomExpelCategory" text="Expel"/>
+        <string id="KingdomExpelEnabledDesc" text="Enable king to expel clans from kingdom (takes their land first)"/>
+        <string id="KingdomExpelPriceDesc" text="Cost for king to expel a clan"/>
+        <string id="KingdomTaxCategory" text="Tax"/>
+        <string id="KingdomTaxEnabledDesc" text="Enable kingdom taxation system"/>
+        <string id="KingdomMinimumTaxRate" text="Minimum Tax Rate %"/>
+        <string id="KingdomMinimumTaxRateDesc" text="Minimum tax rate kings can set (0-100)"/>
+        <string id="KingdomMaximumTaxRate" text="Maximum Tax Rate %"/>
+        <string id="KingdomMaximumTaxRateDesc" text="Maximum tax rate kings can set (0-100)"/>
+        <string id="KingdomSponsorCategory" text="Sponsor"/>
+        <string id="KingdomSponsorEnabledDesc" text="Enable the sponsor command (buy influence for gold)"/>
+        <string id="KingdomGoldPerInfluence" text="Gold Per Influence"/>
+        <string id="KingdomGoldPerInfluenceDesc" text="Gold cost per 1 influence point purchased"/>
+        <string id="KingdomSponsorKingCut" text="King Cut %"/>
+        <string id="KingdomSponsorKingCutDesc" text="Percentage of gold spent that is forwarded to the kingdom leader (0.0 - 1.0, 0.25 = 25%)"/>
+        <string id="KingdomAlliances" text="Alliances: {allies} | "/>
+        <string id="KingdomTrades" text="Trades: {trade} | "/>
+        <string id="KingdomNameExists" text="A kingdom with the name {name} already exists"/>
+        <string id="KingdomCreated" text="Created kingdom {name}"/>
+        <string id="KingdomFoundedNotification" text="{heroName} has founded kingdom {kingdom}!"/>
+        <string id="KingdomNotKing" text="Not a king."/>
+
+        <!-- Localization Cleanup: Leaderboard -->
+        <string id="LeaderboardCmd" text="Leaderboard"/>
+        <string id="LeaderboardDesc" text="Shows hero or clan leaderboards"/>
+
+        <!-- Localization Cleanup: NameItem -->
+        <string id="NameItemArgs" text="(custom item index) (new item name)"/>
+
+        <!-- Localization Cleanup: PartyManagement -->
+        <string id="PartyHeroTravelling" text="Your hero is travelling"/>
+        <string id="PartyHeroFugitive" text="Your hero is fugitive"/>
+
+        <!-- Localization Cleanup: Rejuvenate -->
+        <string id="RejuvenateSpouse" text="Spouse"/>
+        <string id="RejuvenateSpouseDesc" text="Should spouse de-age with the hero"/>
+
+        <!-- Localization Cleanup: SimpleDiplomacy -->
+        <string id="SimpleDiplomacyCmd" text="Simple Diplomacy"/>
+        <string id="SimpleDiplomacyDesc" text="Manage your kingdom diplomacy and other actions."/>
+        <string id="SimpleDiplomacyWar" text="War"/>
+        <string id="SimpleDiplomacyWarEnabledDesc" text="Enable declaring war command"/>
+        <string id="SimpleDiplomacyPrice" text="Price"/>
+        <string id="SimpleDiplomacyWarPriceDesc" text="War command price"/>
+        <string id="SimpleDiplomacyCooldown" text="Cooldown"/>
+        <string id="SimpleDiplomacyWarCooldownDesc" text="War cooldown"/>
+        <string id="SimpleDiplomacyPeace" text="Peace"/>
+        <string id="SimpleDiplomacyPeaceEnabledDesc" text="Enable peace command"/>
+        <string id="SimpleDiplomacyPeacePriceDesc" text="Peace command price"/>
+        <string id="SimpleDiplomacyAlly" text="Ally"/>
+        <string id="SimpleDiplomacyAlliance" text="Alliance"/>
+        <string id="SimpleDiplomacyAllianceEnabledDesc" text="Enable alliance command"/>
+        <string id="SimpleDiplomacyAllyPriceDesc" text="Ally command price"/>
+        <string id="SimpleDiplomacyTrade" text="Trade"/>
+        <string id="SimpleDiplomacyTradeEnabledDesc" text="Enable trade alliance command"/>
+        <string id="SimpleDiplomacyTradePriceDesc" text="Trade command price"/>
+        <string id="SimpleDiplomacyPolicy" text="Policy"/>
+        <string id="SimpleDiplomacyPolicyEnabledDesc" text="Enable viewing,adding and removing policies"/>
+        <string id="SimpleDiplomacyPolicyPriceDesc" text="Policy command price"/>
+        <string id="SimpleDiplomacyArgs" text="invalid mode (use war (kingdom), peace (kingdom), alliance (kingdom), trade (kingdom), army (defend/siege/patrol)"/>
+        <string id="SimpleDiplomacyMissionActive" text="Mission is active!"/>
+        <string id="SimpleDiplomacyMercenary" text="Mercenary"/>
+        <string id="SimpleDiplomacyWarCommand" text="war"/>
+        <string id="SimpleDiplomacyPeaceCommand" text="peace"/>
+        <string id="SimpleDiplomacyPolicyCommand" text="policy"/>
+        <string id="SimpleDiplomacyAllianceCommand" text="alliance"/>
+        <string id="SimpleDiplomacyTradeCommand" text="trade"/>
+        <string id="SimpleDiplomacyListCommand" text="list"/>
+        <string id="SimpleDiplomacyWarDisabled" text="War disabled"/>
+        <string id="SimpleDiplomacyNotKing" text="Not a king."/>
+        <string id="SimpleDiplomacyNotEnoughInfluence" text="Not enough influence:{influenceCost}"/>
+        <string id="SimpleDiplomacyAlreadyAtWar" text="Already at war with {kingdom}"/>
+        <string id="SimpleDiplomacyCantWarSelf" text="Cant declare war on yourself!"/>
+        <string id="SimpleDiplomacyWarCooldownRemaining" text="Cant war yet. {days} days remaining."/>
+        <string id="SimpleDiplomacyDeclaredWar" text="Declared war on {kingdom}"/>
+        <string id="SimpleDiplomacyPeaceDisabled" text="Peace disabled"/>
+        <string id="SimpleDiplomacyCantPeaceSelf" text="Cant peace yourself!"/>
+        <string id="SimpleDiplomacyAlreadyAtPeace" text="Already at peace with {kingdom}"/>
+        <string id="SimpleDiplomacyCannotPeaceRebellion" text="Cannot peace rebellion wars"/>
+        <string id="SimpleDiplomacyPeaceOfferSent" text="Peace offer sent to the player."/>
+        <string id="SimpleDiplomacyPolicyDisabled" text="Policy disabled"/>
+        <string id="SimpleDiplomacyPolicyRemoved" text="Removed {policy}"/>
+        <string id="SimpleDiplomacyPolicyAdded" text="Added {policy}"/>
+        <string id="SimpleDiplomacyInvalidAction" text="Invalid action"/>
+        <string id="SimpleDiplomacyAllianceDisabled" text="Alliance disabled"/>
+        <string id="SimpleDiplomacyAtWarWith" text="At war with {kingdom}"/>
+        <string id="SimpleDiplomacyAlreadyAllied" text="Already allied with {kingdom}"/>
+        <string id="SimpleDiplomacyCantAllySelf" text="Cant ally on yourself!"/>
+        <string id="SimpleDiplomacyAllianceOfferedToPlayerKingdom" text="Proposed alliance to player kingdom"/>
+        <string id="SimpleDiplomacyAllianceOfferedToPlayer" text="Proposed alliance to player"/>
+        <string id="SimpleDiplomacyAlliedWith" text="Allied with {kingdom}"/>
+        <string id="SimpleDiplomacyTradeDisabled" text="Trade alliances disabled"/>
+        <string id="SimpleDiplomacyAlreadyTrading" text="Already trading with {kingdom}"/>
+        <string id="SimpleDiplomacyCantTradeSelf" text="Cant trade with yourself!"/>
+        <string id="SimpleDiplomacyTradeOfferedToPlayerKingdom" text="Proposed trade agreement to player kingdom"/>
+        <string id="SimpleDiplomacyTradeAgreedWith" text="Allied with {kingdom}"/>
+        <string id="SimpleDiplomacyArgsShort" text="invalid mode (use war (kingdom), peace (kingdom), alliance (kingdom), trade (kingdom)"/>
+
+        <!-- Localization Cleanup: SmithItem -->
+        <string id="SmithItemCmd" text="Smith Item"/>
+        <string id="SmithItemDesc" text="Allows smithing of new weapons, armor, or horses"/>
+        <string id="SmithItemType" text="Item Type"/>
+        <string id="SmithItemTypeDesc" text="Smithed item type"/>
+        <string id="SmithItemPower" text="Item Power"/>
+        <string id="SmithItemPowerDesc" text="Smithed item power multiplier, applies on top of the global multiplier"/>
+        <string id="SmithItemName" text="Item Name"/>
+        <string id="SmithItemDefaultName" text="Smithed {ITEMNAME}"/>
+        <string id="SmithItemAllowCultureSelection" text="Allow Culture Selection"/>
+        <string id="SmithItemCultureCategory" text="Culture"/>
+        <string id="SmithItemAllowCultureSelectionDesc" text="Allow viewers to specify a culture when smithing (e.g., !smith vlandia)"/>
+        <string id="SmithItemCultureGoldCost" text="Culture Gold Cost"/>
+        <string id="SmithItemCultureGoldCostDesc" text="Additional gold cost when smithing culture-specific items (0 for no additional cost)"/>
+        <string id="SmithItemUseHeroCultureDefault" text="Use Hero Culture Default"/>
+        <string id="SmithItemUseHeroCultureDefaultDesc" text="When no culture is specified, use the hero's culture instead of random"/>
+        <string id="SmithItemNoCultureCommand" text="null"/>
+        <string id="SmithItemInvalidCulture" text="Invalid culture '{cultureName}'. Valid cultures: {validCultures}"/>
+        <string id="SmithItemCustomItemLimit" text="You have too many custom items (limit is {LIMIT}), get rid of some before smithing"/>
+        <string id="SmithItemHeroClassRequired" text="Hero class must be set to smith a weapon!"/>
+        <string id="SmithItemNoValidCultureItem" text="Could not find any valid {CultureName} item!"/>
+        <string id="SmithItemNoValidItem" text="Could not find any valid item!"/>
+
+        <!-- Localization Cleanup: VassalCommand -->
+        <string id="VassalManagementCmd" text="Vassal Management"/>
+        <string id="VassalManagementDesc" text="Allow viewer to manage their vassals"/>
+        <string id="VassalCategory" text="Vassal"/>
+        <string id="VassalEnabledDesc" text="Enable viewer create vassal"/>
+        <string id="VassalPriceDesc" text="Cost of creating a vassal clan"/>
+        <string id="VassalMercIncomeShare" text="Vassal Merc Income Share %"/>
+        <string id="VassalMercIncomeShareDesc" text="Percentage of vassal mercenary income shared with master (0.0 - 2.0, 0.25 = 25%)"/>
+        <string id="VassalFiefIncomeShare" text="Vassal Fief Income Share %"/>
+        <string id="VassalFiefIncomeShareDesc" text="Percentage of vassal fief income shared with master (0.0 - 2.0, 0.25 = 25%)"/>
+        <string id="KingVassalsOnly" text="King Vassals Only"/>
+        <string id="KingVassalsOnlyDesc" text="Prevents anyone except kings to create vassal clans"/>
+        <string id="KingdomVassals" text="Vassals tied to kingdom"/>
+        <string id="KingdomVassalsDesc" text="Should vassal be tied to kingdom(On kingdom leave/destruction, vassals get destroyed and members go back to main clan)"/>
+        <string id="VassalBehaviorNotInitialized" text="Vassal behavior not initialized"/>
+        <string id="VassalList" text="Vassals:{vassals}"/>
+        <string id="VassalCreateCommand" text="create"/>
+        <string id="VassalRenameCommand" text="rename"/>
+        <string id="VassalBannerCommand" text="banner"/>
+        <string id="VassalCreationDisabled" text="Vassal creation is disabled"/>
+        <string id="VassalClanNameExists" text="A clan with the name {name} already exists"/>
+        <string id="VassalMaxReached" text="Max vassals: {maxVassals}"/>
+        <string id="VassalHeroNotFound" text="No hero named {childName}"/>
+        <string id="VassalHeroTooYoung" text="{childName} is too young"/>
+        <string id="VassalCannotUseBltSpouse" text="Cannot vassal a blt spouse"/>
+        <string id="VassalCannotUseBltHero" text="Cannot vassal a blt"/>
+        <string id="VassalCannotUseHeir" text="Cannot vassal a heir"/>
+        <string id="VassalHeroPrisoner" text="{childName} is prisoner"/>
+        <string id="VassalHeroBusy" text="{childName} is busy"/>
+        <string id="VassalClanHasNoVassals" text="Your clan has no vassals"/>
+        <string id="VassalRenameUsage" text="Usage: rename (vassal number) (new name)"/>
+        <string id="VassalNotANumber" text="Not a number"/>
+        <string id="VassalInvalidNumber" text="Invalid number"/>
+        <string id="VassalRenamed" text="Renamed vassal {oldName} to {fullClanName}"/>
+        <string id="VassalBannerUsage" text="Usage: banner (vassal name) (bannerCode)"/>
+        <string id="VassalNotFound" text="No vassal named {name}"/>
+        <string id="VassalBannerStartCommand" text="start"/>
+        <string id="VassalBannerEndCommand" text="end"/>
+        <string id="VassalBannerAlreadyStarted" text="Banner input already started"/>
+        <string id="VassalBannerInputStarted" text="Banner input started. Send lines. Use 'end' to finish."/>
+        <string id="VassalBannerNotStarted" text="Banner input was not started"/>
+        <string id="VassalBannerLineAdded" text="Line added"/>
+        <string id="VassalBannerUpdateFailed" text="Failed to update banner: {Error}"/>
     </strings>
 </base>

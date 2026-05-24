@@ -46,14 +46,14 @@ namespace BLTAdoptAHero
             if (string.IsNullOrWhiteSpace(context.Args))
             {
                 ActionManager.SendReply(context,
-                    context.ArgsErrorMessage("{=}(custom item index) (reserve price)".Translate()));
+                    context.ArgsErrorMessage("{=AuctionItemArgs}(custom item index) (reserve price)".Translate()));
                 return;
             }
 
             var argParts = context.Args.Trim().Split(' ').ToList();
             if (argParts.Count != 2)
             {
-                ActionManager.SendReply(context, "{=}(custom item index) (reserve price)".Translate());
+                ActionManager.SendReply(context, "{=AuctionItemArgs}(custom item index) (reserve price)".Translate());
                 return;
             }
 

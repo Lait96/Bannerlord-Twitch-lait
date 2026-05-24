@@ -15,22 +15,22 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero.Actions
 {
-    [LocDisplayName("{=TESTING}FormationCommand"),
-     LocDescription("{=TESTING}Show and change hero formation"),
+    [LocDisplayName("{=FormationCommandCmd}FormationCommand"),
+     LocDescription("{=FormationCommandDesc}Show and change hero formation"),
      UsedImplicitly]
     public class FormationCommand : HeroCommandHandlerBase
     {
         public class Settings : IDocumentable
         {
-            [LocDisplayName("{=TESTING}Respect class"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Turn off to allow any formation otherwise infantry can only change to other infantry formations"),
+            [LocDisplayName("{=FormationRespectClass}Respect class"),
+             LocCategory("General", "{=C5T5nnix}General"),
+             LocDescription("{=FormationRespectClassDesc}Turn off to allow any formation otherwise infantry can only change to other infantry formations"),
              PropertyOrder(1), UsedImplicitly]
             public bool Filter { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}Detachments"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Detach commands"),
+            [LocDisplayName("{=FormationDetachments}Detachments"),
+             LocCategory("General", "{=C5T5nnix}General"),
+             LocDescription("{=FormationDetachmentsDesc}Detach commands"),
              PropertyOrder(2), UsedImplicitly]
             public bool Detach { get; set; } = true;
 
@@ -57,7 +57,7 @@ namespace BLTAdoptAHero.Actions
 
             if (Mission.Current == null)
             {
-                onFailure("{=TESTING}No mission!".Translate());
+                onFailure("{=FormationNoMission}No mission!".Translate());
                 return;
             }
             if (Mission.Current.IsNavalBattle)

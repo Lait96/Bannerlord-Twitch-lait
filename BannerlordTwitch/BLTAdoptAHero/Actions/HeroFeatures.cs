@@ -76,27 +76,27 @@ namespace BLTAdoptAHero.Actions
              PropertyOrder(8), UsedImplicitly]
             public bool ClanorName { get; set; } = false;
 
-            [LocDisplayName("{=Abc123}Enabled"),
-             LocCategory("Race", "{=RaceSettings}Race"),
-             LocDescription("{=Desc123}Enabled"),
+            [LocDisplayName("{=HeroFeaturesRaceEnabled}Enabled"),
+             LocCategory("Race", "{=HeroFeaturesRaceCategory}Race"),
+             LocDescription("{=HeroFeaturesRaceEnabledDesc}Enabled"),
              PropertyOrder(9)]
             public bool RaceEnabled { get; set; } = true;
 
-            [LocDisplayName("{=Abc123}Forbidden Races"),
-             LocCategory("Race", "{=RaceSettings}Race"),
-             LocDescription("{=Desc123}List of race IDs that are forbidden. Usage: 0,1,2"),
+            [LocDisplayName("{=HeroFeaturesForbiddenRaces}Forbidden Races"),
+             LocCategory("Race", "{=HeroFeaturesRaceCategory}Race"),
+             LocDescription("{=HeroFeaturesForbiddenRacesDesc}List of race IDs that are forbidden. Usage: 0,1,2"),
              PropertyOrder(10)]
             public string ForbiddenRaces { get; set; } = "";
 
-            [LocDisplayName("{=Abc123}Enabled"),
-             LocCategory("Culture", "{=RaceSettings}Culture"),
-             LocDescription("{=Desc123}Enabled"),
+            [LocDisplayName("{=HeroFeaturesCultureEnabled}Enabled"),
+             LocCategory("Culture", "{=HeroFeaturesCultureCategory}Culture"),
+             LocDescription("{=HeroFeaturesCultureEnabledDesc}Enabled"),
              PropertyOrder(11)]
             public bool CultureEnabled { get; set; } = true;
 
-            [LocDisplayName("{=Abc123}Forbidden Cultures"),
-             LocCategory("Culture", "{=RaceSettings}Culture"),
-             LocDescription("{=Desc123}List of cultures that are forbidden. Usage: Vlandia,Battania"),
+            [LocDisplayName("{=HeroFeaturesForbiddenCultures}Forbidden Cultures"),
+             LocCategory("Culture", "{=HeroFeaturesCultureCategory}Culture"),
+             LocDescription("{=HeroFeaturesForbiddenCulturesDesc}List of cultures that are forbidden. Usage: Vlandia,Battania"),
              PropertyOrder(12)]
             public string ForbiddenCultures { get; set; } = "";
 
@@ -207,7 +207,7 @@ namespace BLTAdoptAHero.Actions
                         }
                         if (adoptedHero.IsPregnant)
                         {
-                            onFailure("{=TESTING}Your hero is pregnant!");
+                            onFailure("{=HeroFeaturesHeroPregnant}Your hero is pregnant!".Translate());
                             return;
                         }
                         onSuccess("{=FlGjts5K}Your hero has changed their gender to male".Translate());
@@ -290,7 +290,7 @@ namespace BLTAdoptAHero.Actions
                         }
                         if (adoptedHero.Occupation != Occupation.Lord)
                         {
-                            onFailure("{=TESTING}Not a noble".Translate());
+                            onFailure("{=HeroFeaturesNotNoble}Not a noble".Translate());
                             return;
                         }
                         if (adoptedHero.Spouse != null)

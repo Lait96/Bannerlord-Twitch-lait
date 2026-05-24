@@ -374,9 +374,9 @@ namespace BLTAdoptAHero.Actions
             if (adoptedHero.HeroState == Hero.CharacterStates.Released)
                 sb.Append("{=r1nJTiSA}Your hero has just been released".Translate());
             else if (adoptedHero.HeroState == Hero.CharacterStates.Traveling)
-                sb.Append("{=TESTING}Your hero is travelling".Translate());
+                sb.Append("{=PartyHeroTravelling}Your hero is travelling".Translate());
             else if (adoptedHero.HeroState == Hero.CharacterStates.Fugitive)
-                sb.Append("{=TESTING}Your hero is fugitive".Translate());
+                sb.Append("{=PartyHeroFugitive}Your hero is fugitive".Translate());
             else if (adoptedHero.IsPrisoner && adoptedHero.PartyBelongedToAsPrisoner?.IsMobile == true)
             {
                 int days = (int)adoptedHero.CaptivityStartTime.ElapsedDaysUntilNow;

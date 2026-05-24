@@ -17,8 +17,8 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero.Actions
 {
-    [LocDisplayName("{=TESTING}CampaignLogs"),
-     LocDescription("{=TESTING}Logs with relevant info"),
+    [LocDisplayName("{=CampaignLogsCmd}CampaignLogs"),
+     LocDescription("{=CampaignLogsDesc}Logs with relevant info"),
      UsedImplicitly]
     public class CampaignLogs : HeroCommandHandlerBase
     {
@@ -27,27 +27,27 @@ namespace BLTAdoptAHero.Actions
         public class Settings : IDocumentable
         {
             // General
-            [LocDisplayName("{=TESTING}Hero"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Maximum logs per hero"),
+            [LocDisplayName("{=CampaignLogsHero}Hero"),
+             LocCategory("General", "{=C5T5nnix}General"),
+             LocDescription("{=CampaignLogsHeroDesc}Maximum logs per hero"),
              PropertyOrder(1), UsedImplicitly]
             public int hLogs { get; set; } = 10;
 
-            [LocDisplayName("{=TESTING}Clan"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Maximum logs per clan"),
+            [LocDisplayName("{=CampaignLogsClan}Clan"),
+             LocCategory("General", "{=C5T5nnix}General"),
+             LocDescription("{=CampaignLogsClanDesc}Maximum logs per clan"),
              PropertyOrder(2), UsedImplicitly]
             public int cLogs { get; set; } = 10;
 
-            [LocDisplayName("{=TESTING}Kingdom"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Maximum logs per kingdom"),
+            [LocDisplayName("{=CampaignLogsKingdom}Kingdom"),
+             LocCategory("General", "{=C5T5nnix}General"),
+             LocDescription("{=CampaignLogsKingdomDesc}Maximum logs per kingdom"),
              PropertyOrder(3), UsedImplicitly]
             public int kLogs { get; set; } = 10;
 
-            [LocDisplayName("{=TESTING}Fief"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Maximum logs per fief"),
+            [LocDisplayName("{=CampaignLogsFief}Fief"),
+             LocCategory("General", "{=C5T5nnix}General"),
+             LocDescription("{=CampaignLogsFiefDesc}Maximum logs per fief"),
              PropertyOrder(4), UsedImplicitly]
             public int fLogs { get; set; } = 10;
 

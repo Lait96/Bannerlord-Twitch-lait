@@ -57,7 +57,7 @@
 		<string id="ymJh4yMY" text="создать" original="create"/>
 		<string id="pumBg7sU" text="возглавить" original="lead"/>
 		<string id="ek75vkTT" text="переименовать" original="rename"/>
-		<string id="VB2W7FoL" text="стат" original="stats"/>		
+		<string id="VB2W7FoL" text="стат" original="stats"/>
         <!-- Subscriber Only -->
         <string id="O4DGlP9Z" text="Только подписчик" original="Subscriber Only"/>
         <!-- Only subscribers can adopt -->
@@ -807,5 +807,608 @@
 		<string id="lJXxLdFz" text="Пожалуйста, введите имя лидера, которого вы хотите усыновить." original="Please enter the name of the leader you wish to adopt"/>
 		<!-- Error could not find a clan with the name {clanName} -->
 		<string id="bzsT7oy0" text="Ошибка: не удалось найти клан с названием {clanName}." original="Error could not find a clan with the name {clanName}"/>
+        <!-- Localization Cleanup: AuctionItem -->
+        <!-- (custom item index) (reserve price) -->
+        <string id="AuctionItemArgs" text="(индекс предмета) (резервная цена)" original="(custom item index) (reserve price)"/>
+
+        <!-- Localization Cleanup: BattleInfo -->
+        <!-- battleinfo -->
+        <string id="BattleInfoCmd" text="инфобой" original="battleinfo"/>
+        <!-- Battle Info -->
+        <string id="BattleInfoDesc" text="Информация о битве" original="Battle Info"/>
+        <!-- &lt;strong&gt;Description:&lt;/strong&gt; Displays detailed information about the adopted hero's current battle, including health, mount, weapons, kills, retinue, gold, XP, and active forces.\n -->
+        <string id="BattleInfoDoc" text="&lt;strong&gt;Описание:&lt;/strong&gt; Показывает подробную информацию о текущем бою принятого героя: здоровье, коня, оружие, убийства, свиту, золото, опыт и активные силы.\n" original="&lt;strong&gt;Description:&lt;/strong&gt; Displays detailed information about the adopted hero's current battle, including health, mount, weapons, kills, retinue, gold, XP, and active forces.\n"/>
+        <!-- No mission active! -->
+        <string id="BattleInfoNoMission" text="Нет активной миссии!" original="No mission active!"/>
+        <!-- No mission behavior! -->
+        <string id="BattleInfoMissionBehaviorMissing" text="Поведение миссии не найдено!" original="No mission behavior!"/>
+        <!-- Error Getting Factions -  -->
+        <string id="BattleInfoFactionError" text="Не удалось получить фракции - " original="Error Getting Factions - "/>
+        <!-- Hero is not currently in battle! ({Cooldown}s) -->
+        <string id="BattleInfoHeroNotInBattleCooldown" text="Герой сейчас не в бою! ({Cooldown}с)" original="Hero is not currently in battle! ({Cooldown}s)"/>
+        <!--  | Killed by: {KillerName}, Weapon: {WeaponName}({Damage}) -->
+        <string id="BattleInfoKilledBy" text=" | Убит: {KillerName}, оружие: {WeaponName}({Damage})" original=" | Killed by: {KillerName}, Weapon: {WeaponName}({Damage})"/>
+        <!--  | Death Chance: {DeathChance}% -->
+        <string id="BattleInfoDeathChance" text=" | Шанс смерти: {DeathChance}%" original=" | Death Chance: {DeathChance}%"/>
+        <!-- Hero is not currently in battle! -->
+        <string id="BattleInfoHeroNotInBattle" text="Герой сейчас не в бою!" original="Hero is not currently in battle!"/>
+
+        <!-- Localization Cleanup: CampaignInfo -->
+        <!-- Alliances: {allies} |  -->
+        <string id="CampaignInfoAlliances" text="Союзы: {allies} | " original="Alliances: {allies} | "/>
+        <!-- Trades: {trade} |  -->
+        <string id="CampaignInfoTrades" text="Торговля: {trade} | " original="Trades: {trade} | "/>
+        <!-- Need to specify the name of the fief -->
+        <string id="CampaignInfoNeedFiefName" text="Укажите название владения" original="Need to specify the name of the fief"/>
+        <!-- Could not find a fief with the name {name} -->
+        <string id="CampaignInfoFiefNotFound" text="Не удалось найти владение с названием {name}" original="Could not find a fief with the name {name}"/>
+        <!-- {Name}  -->
+        <string id="CampaignInfoSettlementName" text="{Name} " original="{Name} "/>
+        <!-- Village |  -->
+        <string id="CampaignInfoVillage" text="Деревня | " original="Village | "/>
+        <!-- Culture: {culture} |  -->
+        <string id="CampaignInfoCulture" text="Культура: {culture} | " original="Culture: {culture} | "/>
+        <!-- Hearths: {hearths}({change}) |  -->
+        <string id="CampaignInfoHearths" text="Очаги: {hearths}({change}) | " original="Hearths: {hearths}({change}) | "/>
+        <!-- Bound to {parent} -->
+        <string id="CampaignInfoBoundTo" text="Приписано к {parent}" original="Bound to {parent}"/>
+        <!-- Town |  -->
+        <string id="CampaignInfoTown" text="Город | " original="Town | "/>
+        <!-- Castle |  -->
+        <string id="CampaignInfoCastle" text="Замок | " original="Castle | "/>
+        <!-- Owner:{own} |  -->
+        <string id="CampaignInfoOwner" text="Владелец:{own} | " original="Owner:{own} | "/>
+        <!-- Kingdom:{kingdom} |  -->
+        <string id="CampaignInfoKingdom" text="Королевство:{kingdom} | " original="Kingdom:{kingdom} | "/>
+        <!-- Governor:{gove} |  -->
+        <string id="CampaignInfoGovernor" text="Губернатор:{gove} | " original="Governor:{gove} | "/>
+        <!-- Prosperity:{pros}({change}) |  -->
+        <string id="CampaignInfoProsperity" text="Процветание:{pros}({change}) | " original="Prosperity:{pros}({change}) | "/>
+        <!-- Loyalty:{loy}({change}) |  -->
+        <string id="CampaignInfoLoyalty" text="Верность:{loy}({change}) | " original="Loyalty:{loy}({change}) | "/>
+        <!-- Security:{sec}({change}) |  -->
+        <string id="CampaignInfoSecurity" text="Безопасность:{sec}({change}) | " original="Security:{sec}({change}) | "/>
+        <!-- Food:{food}({change}) |  -->
+        <string id="CampaignInfoFood" text="Еда:{food}({change}) | " original="Food:{food}({change}) | "/>
+        <!-- Daily Income:{profit} |  -->
+        <string id="CampaignInfoDailyIncome" text="Дневной доход:{profit} | " original="Daily Income:{profit} | "/>
+        <!-- Militia:{mil}({change}) |  -->
+        <string id="CampaignInfoMilitia" text="Ополчение:{mil}({change}) | " original="Militia:{mil}({change}) | "/>
+        <!-- Garrison:{gar}/{garcap} |  -->
+        <string id="CampaignInfoGarrison" text="Гарнизон:{gar}/{garcap} | " original="Garrison:{gar}/{garcap} | "/>
+        <!-- Could not find a kingdom with the name {name} -->
+        <string id="CampaignInfoKingdomNotFound" text="Не удалось найти королевство с названием {name}" original="Could not find a kingdom with the name {name}"/>
+        <!-- Need to specify the name of the clan -->
+        <string id="CampaignInfoNeedClanName" text="Укажите название клана" original="Need to specify the name of the clan"/>
+        <!-- Ships: {ships} | -->
+        <string id="CampaignInfoShips" text="Корабли: {ships} |" original="Ships: {ships} |"/>
+        <!-- Could not find a clan with the name {name} -->
+        <string id="CampaignInfoClanNotFound" text="Не удалось найти клан с названием {name}" original="Could not find a clan with the name {name}"/>
+        <!-- Vassal behavior not available -->
+        <string id="CampaignInfoVassalUnavailable" text="Система вассалов недоступна" original="Vassal behavior not available"/>
+        <!-- {clanName} has no vassals -->
+        <string id="CampaignInfoClanNoVassals" text="У клана {clanName} нет вассалов" original="{clanName} has no vassals"/>
+        <!--  (No fiefs) -->
+        <string id="CampaignInfoNoFiefsParenthetical" text=" (нет владений)" original=" (No fiefs)"/>
+        <!-- No fiefs -->
+        <string id="CampaignInfoNoFiefs" text="Нет владений" original="No fiefs"/>
+
+        <!-- Localization Cleanup: CampaignLogs -->
+        <!-- log -->
+        <string id="CampaignLogsCmd" text="журнал" original="log"/>
+        <!-- Show Important Logs -->
+        <string id="CampaignLogsDesc" text="Показывает важные записи журнала" original="Show Important Logs"/>
+        <!-- Hero -->
+        <string id="CampaignLogsHero" text="Герой" original="Hero"/>
+        <!-- General -->
+        <string id="C5T5nnix" text="Общее" original="General"/>
+        <!-- Max Logs to show for hero logs -->
+        <string id="CampaignLogsHeroDesc" text="Сколько записей журнала героя показывать" original="Max Logs to show for hero logs"/>
+        <!-- Clan -->
+        <string id="CampaignLogsClan" text="Клан" original="Clan"/>
+        <!-- Max Logs to show for clan logs -->
+        <string id="CampaignLogsClanDesc" text="Сколько записей журнала клана показывать" original="Max Logs to show for clan logs"/>
+        <!-- Kingdom -->
+        <string id="CampaignLogsKingdom" text="Королевство" original="Kingdom"/>
+        <!-- Max Logs to show for kingdom logs -->
+        <string id="CampaignLogsKingdomDesc" text="Сколько записей журнала королевства показывать" original="Max Logs to show for kingdom logs"/>
+        <!-- Fief -->
+        <string id="CampaignLogsFief" text="Владение" original="Fief"/>
+        <!-- Max Logs to show for fief logs -->
+        <string id="CampaignLogsFiefDesc" text="Сколько записей журнала владений показывать" original="Max Logs to show for fief logs"/>
+
+        <!-- Localization Cleanup: ClanManagement -->
+        <!-- ship -->
+        <string id="ClanShipCommand" text="корабль" original="ship"/>
+        <!-- home -->
+        <string id="ClanHomeCommand" text="дом" original="home"/>
+        <!-- Create in Player Party -->
+        <string id="ClanCreateInPlayerParty" text="Создавать в отряде игрока" original="Create in Player Party"/>
+        <!-- Ships -->
+        <string id="ClanShips" text="Корабли" original="Ships"/>
+        <!-- Gold/Influence/Rank/Power status -->
+        <string id="ClanStatsMessage" text="{Gold}{GoldIcon} | {Influence}{InfluenceIcon} | {Rank} | {Power}" original="{Gold}{GoldIcon} | {Influence}{InfluenceIcon} | {Rank} | {Power}"/>
+        <!-- Fiefs: {Fiefs} -->
+        <string id="ClanFiefsMessage" text="Владения: {Fiefs}" original="Fiefs: {Fiefs}"/>
+
+        <!-- Localization Cleanup: EquipCustom -->
+        <!-- yes -->
+        <string id="EquipCustomDocEnabledYes" text="да" original="yes"/>
+        <!-- Gold Cost -->
+        <string id="EquipCustomDocGoldCost" text="Цена золотом" original="Gold Cost"/>
+        <!-- Usage: {Command} [index] -->
+        <string id="EquipCustomDocUsage" text="Использование: {Command} [индекс]" original="Usage: {Command} [index]"/>
+        <!-- Use {ListCommand} to see item indexes -->
+        <string id="EquipCustomDocListHint" text="Используйте {ListCommand}, чтобы увидеть индексы предметов" original="Use {ListCommand} to see item indexes"/>
+        <!-- no -->
+        <string id="EquipCustomDocEnabledNo" text="нет" original="no"/>
+        <!-- Failed to equip item. -->
+        <string id="EquipCustomFailed" text="Не удалось экипировать предмет." original="Failed to equip item."/>
+
+        <!-- Localization Cleanup: Family -->
+        <!-- limit -->
+        <string id="FamilyBabyCommandLimit" text="лимит" original="limit"/>
+        <!-- Show Family Limit -->
+        <string id="FamilyBabyCommandLimitDesc" text="Показать лимит семьи" original="Show Family Limit"/>
+        <!-- GreatGrandchildren -->
+        <string id="GreatGrandchildCount" text="Правнуки" original="GreatGrandchildren"/>
+        <!-- Parents -->
+        <string id="ParentCount" text="Родители" original="Parents"/>
+        <!-- Siblings -->
+        <string id="SiblingCount" text="Братья и сестры" original="Siblings"/>
+        <!-- ExSpouses -->
+        <string id="ExSpousesList" text="Бывшие супруги" original="ExSpouses"/>
+
+        <!-- Localization Cleanup: FocusPoints -->
+        <!-- Focus 1 -->
+        <string id="FocusPointsFocus1" text="Фокус 1" original="Focus 1"/>
+        <!-- Gold Cost -->
+        <string id="FocusPointsGoldCostDesc" text="Цена золотом" original="Gold Cost"/>
+        <!-- Focus 2 -->
+        <string id="FocusPointsFocus2" text="Фокус 2" original="Focus 2"/>
+        <!-- Focus 3 -->
+        <string id="FocusPointsFocus3" text="Фокус 3" original="Focus 3"/>
+        <!-- Focus 4 -->
+        <string id="FocusPointsFocus4" text="Фокус 4" original="Focus 4"/>
+        <!-- Focus 5 -->
+        <string id="FocusPointsFocus5" text="Фокус 5" original="Focus 5"/>
+        <!-- Gold Cost By Tier -->
+        <string id="FocusPointsTierCosts" text="Цена золотом по тиру" original="Gold Cost By Tier"/>
+
+        <!-- Localization Cleanup: FormationCommand -->
+        <!-- formation -->
+        <string id="FormationCommandCmd" text="строй" original="formation"/>
+        <!-- Select Preferred Formation for battle -->
+        <string id="FormationCommandDesc" text="Выбрать предпочитаемый строй для боя" original="Select Preferred Formation for battle"/>
+        <!-- Respect Class -->
+        <string id="FormationRespectClass" text="Учитывать класс" original="Respect Class"/>
+        <!-- If enabled, class formations will override the formation command. -->
+        <string id="FormationRespectClassDesc" text="Если включено, строй класса будет иметь приоритет над командой строя." original="If enabled, class formations will override the formation command."/>
+        <!-- Detachments -->
+        <string id="FormationDetachments" text="Отряды" original="Detachments"/>
+        <!-- If enabled, troops can be deployed to detachments -->
+        <string id="FormationDetachmentsDesc" text="Если включено, бойцов можно распределять по отрядам" original="If enabled, troops can be deployed to detachments"/>
+        <!-- There is no mission or mission behaviour! -->
+        <string id="FormationNoMission" text="Нет миссии или поведения миссии!" original="There is no mission or mission behaviour!"/>
+
+        <!-- Localization Cleanup: HeroFeatures -->
+        <!-- Race -->
+        <string id="HeroFeaturesRaceEnabled" text="Раса" original="Race"/>
+        <!-- Race -->
+        <string id="HeroFeaturesRaceCategory" text="Раса" original="Race"/>
+        <!-- Should adopted heroes start with a random race? -->
+        <string id="HeroFeaturesRaceEnabledDesc" text="Должны ли принятые герои получать случайную расу?" original="Should adopted heroes start with a random race?"/>
+        <!-- Forbidden Races -->
+        <string id="HeroFeaturesForbiddenRaces" text="Запрещённые расы" original="Forbidden Races"/>
+        <!-- List of races that should not be assigned to newly adopted heroes -->
+        <string id="HeroFeaturesForbiddenRacesDesc" text="Список рас, которые не должны назначаться новым принятым героям" original="List of races that should not be assigned to newly adopted heroes"/>
+        <!-- Culture -->
+        <string id="HeroFeaturesCultureEnabled" text="Культура" original="Culture"/>
+        <!-- Culture -->
+        <string id="HeroFeaturesCultureCategory" text="Культура" original="Culture"/>
+        <!-- Should adopted heroes start with a random culture? -->
+        <string id="HeroFeaturesCultureEnabledDesc" text="Должны ли принятые герои получать случайную культуру?" original="Should adopted heroes start with a random culture?"/>
+        <!-- Forbidden Cultures -->
+        <string id="HeroFeaturesForbiddenCultures" text="Запрещённые культуры" original="Forbidden Cultures"/>
+        <!-- List of cultures that should not be assigned to newly adopted heroes -->
+        <string id="HeroFeaturesForbiddenCulturesDesc" text="Список культур, которые не должны назначаться новым принятым героям" original="List of cultures that should not be assigned to newly adopted heroes"/>
+        <!-- Hero is currently pregnant! -->
+        <string id="HeroFeaturesHeroPregnant" text="Героиня сейчас беременна!" original="Hero is currently pregnant!"/>
+        <!-- Hero is not a noble! -->
+        <string id="HeroFeaturesNotNoble" text="Герой не является дворянином!" original="Hero is not a noble!"/>
+
+        <!-- Localization Cleanup: HeroInfo -->
+        <!-- Gender: {Gender} -->
+        <string id="HeroInfoGender" text="Пол: {Gender}" original="Gender: {Gender}"/>
+        <!-- CUSTOMITEMS -->
+        <string id="HeroInfoCustomItemsTag" text="ПОЛЬЗОВАТЕЛЬСКИЕ ПРЕДМЕТЫ" original="CUSTOMITEMS"/>
+
+        <!-- Localization Cleanup: HeroToHeroGold -->
+        <!-- (hero name) (amount) -->
+        <string id="HeroToHeroGoldArgs" text="(имя героя) (сумма)" original="(hero name) (amount)"/>
+        <!-- Could not find a hero with the name {TargetHeroName} -->
+        <string id="HeroToHeroGoldTargetNotFound" text="Не удалось найти героя с именем {TargetHeroName}" original="Could not find a hero with the name {TargetHeroName}"/>
+        <!-- You cannot send gold to yourself -->
+        <string id="HeroToHeroGoldSelf" text="Нельзя отправить золото самому себе" original="You cannot send gold to yourself"/>
+        <!-- You do not have enough gold to send {Amount}{GoldIcon} -->
+        <string id="HeroToHeroGoldNotEnough" text="У вас недостаточно золота, чтобы отправить {Amount}{GoldIcon}" original="You do not have enough gold to send {Amount}{GoldIcon}"/>
+        <!-- Sent {Amount}{GoldIcon} to {TargetHero} -->
+        <string id="HeroToHeroGoldSent" text="Отправлено {Amount}{GoldIcon} герою {TargetHero}" original="Sent {Amount}{GoldIcon} to {TargetHero}"/>
+        <!-- Invalid gold amount -->
+        <string id="HeroToHeroGoldInvalidAmount" text="Неверное количество золота" original="Invalid gold amount"/>
+
+        <!-- Localization Cleanup: ItemStats -->
+        <!-- Store can show a maximum of 25 items. Use {Command} &lt;slot&gt; where slot is 0-24. -->
+        <string id="ItemStatsStoreSpecifySlot" text="Магазин может показать не больше 25 предметов. Используйте {Command} &lt;слот&gt;, где слот — от 0 до 24." original="Store can show a maximum of 25 items. Use {Command} &lt;slot&gt; where slot is 0-24."/>
+        <!-- Invalid slot index. Use 0-24. -->
+        <string id="ItemStatsInvalidSlotIndex" text="Неверный индекс слота. Используйте 0-24." original="Invalid slot index. Use 0-24."/>
+        <!-- That store slot is empty. -->
+        <string id="ItemStatsSlotEmpty" text="Этот слот магазина пуст." original="That store slot is empty."/>
+
+        <!-- Localization Cleanup: Kingdom -->
+        <!-- Player Mercenary Cost -->
+        <string id="KingdomPlayerMercenaryCost" text="Цена наёмничества у игрока" original="Player Mercenary Cost"/>
+        <!-- Gold cost to become mercenary for the players kingdom -->
+        <string id="KingdomPlayerMercenaryCostDesc" text="Цена в золоте за вступление наёмником в королевство игрока" original="Gold cost to become mercenary for the players kingdom"/>
+        <!-- BLT Rebel -->
+        <string id="KingdomBLTRebel" text="BLT-мятежник" original="BLT Rebel"/>
+        <!-- BLT Rebel -->
+        <string id="KingdomBLTRebelDesc" text="BLT-мятежник" original="BLT Rebel"/>
+        <!-- Gold Cost -->
+        <string id="KingdomBLTGoldCost" text="Цена золотом" original="Gold Cost"/>
+        <!-- Gold Cost to rebel against current kingdom -->
+        <string id="KingdomBLTGoldCostDesc" text="Цена в золоте за мятеж против текущего королевства" original="Gold Cost to rebel against current kingdom"/>
+        <!-- Create Kingdom -->
+        <string id="KingdomCreateCategory" text="Создать королевство" original="Create Kingdom"/>
+        <!-- Create Kingdom - Enabled -->
+        <string id="KingdomCreateEnabledDesc" text="Создание королевства - включено" original="Create Kingdom - Enabled"/>
+        <!-- Clan Tier Minimum Required to create a kingdom -->
+        <string id="KingdomCreateTierMinimumDesc" text="Минимальный тир клана для создания королевства" original="Clan Tier Minimum Required to create a kingdom"/>
+        <!-- Minimum Clan Fiefs -->
+        <string id="KingdomCreateMinimumClanFiefs" text="Минимум владений клана" original="Minimum Clan Fiefs"/>
+        <!-- Minimum number of fiefs required to create a kingdom -->
+        <string id="KingdomCreateMinimumClanFiefsDesc" text="Минимальное количество владений для создания королевства" original="Minimum number of fiefs required to create a kingdom"/>
+        <!-- Gold Cost to create a kingdom -->
+        <string id="KingdomCreateCostDesc" text="Цена в золоте за создание королевства" original="Gold Cost to create a kingdom"/>
+        <!-- policy -->
+        <string id="KingdomPolicy" text="политика" original="policy"/>
+        <!-- Policy -->
+        <string id="KingdomPolicyCategory" text="Политика" original="Policy"/>
+        <!-- Policies - Enabled -->
+        <string id="KingdomPolicyEnabledDesc" text="Политики - включены" original="Policies - Enabled"/>
+        <!-- Price -->
+        <string id="KingdomPolicyPrice" text="Цена" original="Price"/>
+        <!-- Influence price to add/remove a policy -->
+        <string id="KingdomPolicyPriceDesc" text="Цена влияния за добавление или удаление политики" original="Influence price to add/remove a policy"/>
+        <!-- Armies -->
+        <string id="KingdomArmiesCategory" text="Армии" original="Armies"/>
+        <!-- Allow BLT Armies Default -->
+        <string id="KingdomAllowBLTArmiesDefault" text="По умолчанию разрешить армии BLT" original="Allow BLT Armies Default"/>
+        <!-- Allow BLT armies Default Setting -->
+        <string id="KingdomAllowBLTArmiesDefaultDesc" text="Настройка по умолчанию для разрешения армий BLT" original="Allow BLT armies Default Setting"/>
+        <!-- Allow AI Armies Default -->
+        <string id="KingdomAllowAIArmiesDefault" text="По умолчанию разрешить армии ИИ" original="Allow AI Armies Default"/>
+        <!-- Allow AI armies Default Setting -->
+        <string id="KingdomAllowAIArmiesDefaultDesc" text="Настройка по умолчанию для разрешения армий ИИ" original="Allow AI armies Default Setting"/>
+        <!-- Release Clan -->
+        <string id="KingdomReleaseCategory" text="Отпустить клан" original="Release Clan"/>
+        <!-- Release Clan - Enabled -->
+        <string id="KingdomReleaseEnabledDesc" text="Отпуск клана - включён" original="Release Clan - Enabled"/>
+        <!-- Influence Cost to release clan from contract -->
+        <string id="KingdomReleasePriceDesc" text="Цена влияния за освобождение клана от контракта" original="Influence Cost to release clan from contract"/>
+        <!-- Expel Clan -->
+        <string id="KingdomExpelCategory" text="Изгнать клан" original="Expel Clan"/>
+        <!-- Expel Clan - Enabled -->
+        <string id="KingdomExpelEnabledDesc" text="Изгнание клана - включено" original="Expel Clan - Enabled"/>
+        <!-- Influence Cost to expel a clan -->
+        <string id="KingdomExpelPriceDesc" text="Цена влияния за изгнание клана" original="Influence Cost to expel a clan"/>
+        <!-- Tax -->
+        <string id="KingdomTaxCategory" text="Налог" original="Tax"/>
+        <!-- Tax - Enabled -->
+        <string id="KingdomTaxEnabledDesc" text="Налог - включён" original="Tax - Enabled"/>
+        <!-- Min Tax Rate -->
+        <string id="KingdomMinimumTaxRate" text="Минимальная ставка налога" original="Min Tax Rate"/>
+        <!-- Minimum Tax Rate -->
+        <string id="KingdomMinimumTaxRateDesc" text="Минимальная ставка налога" original="Minimum Tax Rate"/>
+        <!-- Max Tax Rate -->
+        <string id="KingdomMaximumTaxRate" text="Максимальная ставка налога" original="Max Tax Rate"/>
+        <!-- Maximum Tax Rate -->
+        <string id="KingdomMaximumTaxRateDesc" text="Максимальная ставка налога" original="Maximum Tax Rate"/>
+        <!-- Sponsor -->
+        <string id="KingdomSponsorCategory" text="Спонсорство" original="Sponsor"/>
+        <!-- Sponsor Kingdom - Enabled -->
+        <string id="KingdomSponsorEnabledDesc" text="Спонсорство королевства - включено" original="Sponsor Kingdom - Enabled"/>
+        <!-- Gold Per Influence -->
+        <string id="KingdomGoldPerInfluence" text="Золото за влияние" original="Gold Per Influence"/>
+        <!-- Gold gained for each influence given -->
+        <string id="KingdomGoldPerInfluenceDesc" text="Золото, получаемое за каждую единицу влияния" original="Gold gained for each influence given"/>
+        <!-- Sponsor King Cut -->
+        <string id="KingdomSponsorKingCut" text="Доля короля от спонсорства" original="Sponsor King Cut"/>
+        <!-- Percentage of donated gold given to the king -->
+        <string id="KingdomSponsorKingCutDesc" text="Процент пожертвованного золота, который получает король" original="Percentage of donated gold given to the king"/>
+        <!-- Alliances -->
+        <string id="KingdomAlliances" text="Союзы" original="Alliances"/>
+        <!-- Trades -->
+        <string id="KingdomTrades" text="Торговля" original="Trades"/>
+        <!-- A kingdom with the name {KingdomName} already exists! -->
+        <string id="KingdomNameExists" text="Королевство с названием {KingdomName} уже существует!" original="A kingdom with the name {KingdomName} already exists!"/>
+        <!-- {KingdomName} has been created! -->
+        <string id="KingdomCreated" text="{KingdomName} создано!" original="{KingdomName} has been created!"/>
+        <!-- {FounderName} founded the {KingdomName} kingdom! -->
+        <string id="KingdomFoundedNotification" text="{FounderName} основал королевство {KingdomName}!" original="{FounderName} founded the {KingdomName} kingdom!"/>
+        <!-- You are not the king! -->
+        <string id="KingdomNotKing" text="Вы не король!" original="You are not the king!"/>
+
+        <!-- Localization Cleanup: Leaderboard -->
+        <!-- leaderboard -->
+        <string id="LeaderboardCmd" text="рейтинг" original="leaderboard"/>
+        <!-- Shows the current Leaderboard -->
+        <string id="LeaderboardDesc" text="Показывает текущий рейтинг" original="Shows the current Leaderboard"/>
+
+        <!-- Localization Cleanup: NameItem -->
+        <!-- (item name) -->
+        <string id="NameItemArgs" text="(название предмета)" original="(item name)"/>
+
+        <!-- Localization Cleanup: Party -->
+        <!-- Travelling -->
+        <string id="PartyHeroTravelling" text="В пути" original="Travelling"/>
+        <!-- Fugitive -->
+        <string id="PartyHeroFugitive" text="В бегах" original="Fugitive"/>
+
+        <!-- Localization Cleanup: Rejuvenate -->
+        <!-- Spouse -->
+        <string id="RejuvenateSpouse" text="Супруг" original="Spouse"/>
+        <!-- Enable rejuvenating the heroes spouse -->
+        <string id="RejuvenateSpouseDesc" text="Разрешить омоложение супруга героя" original="Enable rejuvenating the heroes spouse"/>
+
+        <!-- Localization Cleanup: SimpleDiplomacy -->
+        <!-- diplomacy -->
+        <string id="SimpleDiplomacyCmd" text="дипломатия" original="diplomacy"/>
+        <!-- Diplomacy -->
+        <string id="SimpleDiplomacyDesc" text="Дипломатия" original="Diplomacy"/>
+        <!-- War -->
+        <string id="SimpleDiplomacyWar" text="Война" original="War"/>
+        <!-- War - Enabled -->
+        <string id="SimpleDiplomacyWarEnabledDesc" text="Война - включена" original="War - Enabled"/>
+        <!-- Price -->
+        <string id="SimpleDiplomacyPrice" text="Цена" original="Price"/>
+        <!-- Influence Cost to Declare War -->
+        <string id="SimpleDiplomacyWarPriceDesc" text="Цена влияния за объявление войны" original="Influence Cost to Declare War"/>
+        <!-- Cooldown -->
+        <string id="SimpleDiplomacyCooldown" text="Перезарядка" original="Cooldown"/>
+        <!-- Days Cooldown between declaring wars -->
+        <string id="SimpleDiplomacyWarCooldownDesc" text="Перезарядка в днях между объявлениями войны" original="Days Cooldown between declaring wars"/>
+        <!-- Peace -->
+        <string id="SimpleDiplomacyPeace" text="Мир" original="Peace"/>
+        <!-- Peace - Enabled -->
+        <string id="SimpleDiplomacyPeaceEnabledDesc" text="Мир - включён" original="Peace - Enabled"/>
+        <!-- Influence Cost to offer peace -->
+        <string id="SimpleDiplomacyPeacePriceDesc" text="Цена влияния за предложение мира" original="Influence Cost to offer peace"/>
+        <!-- ally -->
+        <string id="SimpleDiplomacyAlly" text="союзник" original="ally"/>
+        <!-- Alliance -->
+        <string id="SimpleDiplomacyAlliance" text="Союз" original="Alliance"/>
+        <!-- Alliance - Enabled -->
+        <string id="SimpleDiplomacyAllianceEnabledDesc" text="Союз - включён" original="Alliance - Enabled"/>
+        <!-- Influence Cost to offer an alliance -->
+        <string id="SimpleDiplomacyAllyPriceDesc" text="Цена влияния за предложение союза" original="Influence Cost to offer an alliance"/>
+        <!-- Trade -->
+        <string id="SimpleDiplomacyTrade" text="Торговля" original="Trade"/>
+        <!-- Trade Agreement - Enabled -->
+        <string id="SimpleDiplomacyTradeEnabledDesc" text="Торговое соглашение - включено" original="Trade Agreement - Enabled"/>
+        <!-- Influence Cost to offer a trade agreement -->
+        <string id="SimpleDiplomacyTradePriceDesc" text="Цена влияния за торговое соглашение" original="Influence Cost to offer a trade agreement"/>
+        <!-- Policy -->
+        <string id="SimpleDiplomacyPolicy" text="Политика" original="Policy"/>
+        <!-- Policy Changes - Enabled -->
+        <string id="SimpleDiplomacyPolicyEnabledDesc" text="Изменения политик - включены" original="Policy Changes - Enabled"/>
+        <!-- Influence Cost to add/remove a policy -->
+        <string id="SimpleDiplomacyPolicyPriceDesc" text="Цена влияния за добавление или удаление политики" original="Influence Cost to add/remove a policy"/>
+        <!-- (war|peace|policy|alliance|trade) (kingdom_name|policy_name) -->
+        <string id="SimpleDiplomacyArgs" text="(война|мир|политика|союз|торговля) (название_королевства|название_политики)" original="(war|peace|policy|alliance|trade) (kingdom_name|policy_name)"/>
+        <!-- Cannot use diplomacy while in a mission! -->
+        <string id="SimpleDiplomacyMissionActive" text="Нельзя использовать дипломатию во время миссии!" original="Cannot use diplomacy while in a mission!"/>
+        <!-- Cannot use diplomacy while a Mercenary! -->
+        <string id="SimpleDiplomacyMercenary" text="Наёмник не может использовать дипломатию!" original="Cannot use diplomacy while a Mercenary!"/>
+        <!-- war -->
+        <string id="SimpleDiplomacyWarCommand" text="война" original="war"/>
+        <!-- peace -->
+        <string id="SimpleDiplomacyPeaceCommand" text="мир" original="peace"/>
+        <!-- policy -->
+        <string id="SimpleDiplomacyPolicyCommand" text="политика" original="policy"/>
+        <!-- alliance -->
+        <string id="SimpleDiplomacyAllianceCommand" text="союз" original="alliance"/>
+        <!-- trade -->
+        <string id="SimpleDiplomacyTradeCommand" text="торговля" original="trade"/>
+        <!-- list -->
+        <string id="SimpleDiplomacyListCommand" text="список" original="list"/>
+        <!-- Declaring War is disabled! -->
+        <string id="SimpleDiplomacyWarDisabled" text="Объявление войны отключено!" original="Declaring War is disabled!"/>
+        <!-- Must be kingdom ruler to declare war! -->
+        <string id="SimpleDiplomacyNotKing" text="Объявлять войну может только правитель королевства!" original="Must be kingdom ruler to declare war!"/>
+        <!-- Not enough influence! Need {RequiredInfluence}{InfluenceIcon} -->
+        <string id="SimpleDiplomacyNotEnoughInfluence" text="Недостаточно влияния! Нужно {RequiredInfluence}{InfluenceIcon}" original="Not enough influence! Need {RequiredInfluence}{InfluenceIcon}"/>
+        <!-- Already at war with {TargetKingdom} -->
+        <string id="SimpleDiplomacyAlreadyAtWar" text="Уже идёт война с {TargetKingdom}" original="Already at war with {TargetKingdom}"/>
+        <!-- Cannot declare war against your own kingdom! -->
+        <string id="SimpleDiplomacyCantWarSelf" text="Нельзя объявить войну собственному королевству!" original="Cannot declare war against your own kingdom!"/>
+        <!-- War declaration is on cooldown! {DaysLeft} day(s) remaining. -->
+        <string id="SimpleDiplomacyWarCooldownRemaining" text="Объявление войны на перезарядке! Осталось дней: {DaysLeft}." original="War declaration is on cooldown! {DaysLeft} day(s) remaining."/>
+        <!-- War has been declared against {TargetKingdom}! -->
+        <string id="SimpleDiplomacyDeclaredWar" text="Объявлена война против {TargetKingdom}!" original="War has been declared against {TargetKingdom}!"/>
+        <!-- Offering Peace is disabled! -->
+        <string id="SimpleDiplomacyPeaceDisabled" text="Предложение мира отключено!" original="Offering Peace is disabled!"/>
+        <!-- Cannot offer peace to your own kingdom! -->
+        <string id="SimpleDiplomacyCantPeaceSelf" text="Нельзя предложить мир собственному королевству!" original="Cannot offer peace to your own kingdom!"/>
+        <!-- Already at peace with {TargetKingdom} -->
+        <string id="SimpleDiplomacyAlreadyAtPeace" text="С {TargetKingdom} уже заключён мир" original="Already at peace with {TargetKingdom}"/>
+        <!-- Cannot negotiate peace with a rebellion -->
+        <string id="SimpleDiplomacyCannotPeaceRebellion" text="Нельзя заключить мир с мятежниками" original="Cannot negotiate peace with a rebellion"/>
+        <!-- Peace offer sent to {TargetKingdom} -->
+        <string id="SimpleDiplomacyPeaceOfferSent" text="Предложение мира отправлено в {TargetKingdom}" original="Peace offer sent to {TargetKingdom}"/>
+        <!-- Policy Changes are disabled! -->
+        <string id="SimpleDiplomacyPolicyDisabled" text="Изменения политик отключены!" original="Policy Changes are disabled!"/>
+        <!-- {PolicyName} has been removed from {KingdomName} -->
+        <string id="SimpleDiplomacyPolicyRemoved" text="{PolicyName} удалена из королевства {KingdomName}" original="{PolicyName} has been removed from {KingdomName}"/>
+        <!-- {PolicyName} has been added to {KingdomName} -->
+        <string id="SimpleDiplomacyPolicyAdded" text="{PolicyName} добавлена в королевство {KingdomName}" original="{PolicyName} has been added to {KingdomName}"/>
+        <!-- Invalid action. Use: war, peace, policy, alliance, trade or list -->
+        <string id="SimpleDiplomacyInvalidAction" text="Неверное действие. Используйте: война, мир, политика, союз, торговля или список" original="Invalid action. Use: war, peace, policy, alliance, trade or list"/>
+        <!-- Alliances are disabled! -->
+        <string id="SimpleDiplomacyAllianceDisabled" text="Союзы отключены!" original="Alliances are disabled!"/>
+        <!-- At war with {TargetKingdom} -->
+        <string id="SimpleDiplomacyAtWarWith" text="Идёт война с {TargetKingdom}" original="At war with {TargetKingdom}"/>
+        <!-- Already in alliance with {TargetKingdom} -->
+        <string id="SimpleDiplomacyAlreadyAllied" text="Уже заключён союз с {TargetKingdom}" original="Already in alliance with {TargetKingdom}"/>
+        <!-- Cannot ally with your own kingdom! -->
+        <string id="SimpleDiplomacyCantAllySelf" text="Нельзя заключить союз с собственным королевством!" original="Cannot ally with your own kingdom!"/>
+        <!-- Alliance offered to player kingdom from {KingdomName} -->
+        <string id="SimpleDiplomacyAllianceOfferedToPlayerKingdom" text="Королевство {KingdomName} предложило союз королевству игрока" original="Alliance offered to player kingdom from {KingdomName}"/>
+        <!-- Alliance offered to player from {KingdomName} -->
+        <string id="SimpleDiplomacyAllianceOfferedToPlayer" text="Королевство {KingdomName} предложило союз игроку" original="Alliance offered to player from {KingdomName}"/>
+        <!-- Allied with {TargetKingdom} -->
+        <string id="SimpleDiplomacyAlliedWith" text="Заключён союз с {TargetKingdom}" original="Allied with {TargetKingdom}"/>
+        <!-- Trade Agreements are disabled! -->
+        <string id="SimpleDiplomacyTradeDisabled" text="Торговые соглашения отключены!" original="Trade Agreements are disabled!"/>
+        <!-- Already in trade agreement with {TargetKingdom} -->
+        <string id="SimpleDiplomacyAlreadyTrading" text="Уже действует торговое соглашение с {TargetKingdom}" original="Already in trade agreement with {TargetKingdom}"/>
+        <!-- Cannot make trade agreement with your own kingdom! -->
+        <string id="SimpleDiplomacyCantTradeSelf" text="Нельзя заключить торговое соглашение с собственным королевством!" original="Cannot make trade agreement with your own kingdom!"/>
+        <!-- Trade Agreement offered to player kingdom from {KingdomName} -->
+        <string id="SimpleDiplomacyTradeOfferedToPlayerKingdom" text="Королевство {KingdomName} предложило торговое соглашение королевству игрока" original="Trade Agreement offered to player kingdom from {KingdomName}"/>
+        <!-- Trade Agreement agreed with {TargetKingdom} -->
+        <string id="SimpleDiplomacyTradeAgreedWith" text="Заключено торговое соглашение с {TargetKingdom}" original="Trade Agreement agreed with {TargetKingdom}"/>
+        <!-- (war|peace|alliance|trade|list) (kingdom_name) -->
+        <string id="SimpleDiplomacyArgsShort" text="(война|мир|союз|торговля|список) (название_королевства)" original="(war|peace|alliance|trade|list) (kingdom_name)"/>
+
+        <!-- Localization Cleanup: SmithItem -->
+        <!-- smithitem -->
+        <string id="SmithItemCmd" text="выковать" original="smithitem"/>
+        <!-- Smith item for hero -->
+        <string id="SmithItemDesc" text="Выковать предмет для героя" original="Smith item for hero"/>
+        <!-- Type -->
+        <string id="SmithItemType" text="Тип" original="Type"/>
+        <!-- Item type to smith -->
+        <string id="SmithItemTypeDesc" text="Тип предмета для ковки" original="Item type to smith"/>
+        <!-- Power -->
+        <string id="SmithItemPower" text="Сила" original="Power"/>
+        <!-- Order by power level -->
+        <string id="SmithItemPowerDesc" text="Сортировать по уровню силы" original="Order by power level"/>
+        <!-- Name -->
+        <string id="SmithItemName" text="Название" original="Name"/>
+        <!-- Default name for the crafted item -->
+        <string id="SmithItemDefaultName" text="Название по умолчанию для созданного предмета" original="Default name for the crafted item"/>
+        <!-- Allow Culture Selection -->
+        <string id="SmithItemAllowCultureSelection" text="Разрешить выбор культуры" original="Allow Culture Selection"/>
+        <!-- Culture Selection -->
+        <string id="SmithItemCultureCategory" text="Выбор культуры" original="Culture Selection"/>
+        <!-- Allows viewers to choose an item culture with an optional final command argument. -->
+        <string id="SmithItemAllowCultureSelectionDesc" text="Позволяет зрителям выбрать культуру предмета через необязательный последний аргумент команды." original="Allows viewers to choose an item culture with an optional final command argument."/>
+        <!-- Culture Gold Cost -->
+        <string id="SmithItemCultureGoldCost" text="Цена культуры золотом" original="Culture Gold Cost"/>
+        <!-- Extra gold cost charged when selecting a specific item culture. -->
+        <string id="SmithItemCultureGoldCostDesc" text="Дополнительная цена в золоте за выбор определённой культуры предмета." original="Extra gold cost charged when selecting a specific item culture."/>
+        <!-- Use Hero Culture By Default -->
+        <string id="SmithItemUseHeroCultureDefault" text="По умолчанию использовать культуру героя" original="Use Hero Culture By Default"/>
+        <!-- When no culture is provided, use the adopted hero's culture instead of a random culture. -->
+        <string id="SmithItemUseHeroCultureDefaultDesc" text="Если культура не указана, использовать культуру принятого героя вместо случайной." original="When no culture is provided, use the adopted hero's culture instead of a random culture."/>
+        <!-- null -->
+        <string id="SmithItemNoCultureCommand" text="нет" original="null"/>
+        <!-- Invalid culture '{culture}'. Use a culture name like empire, vlandia, battania, sturgia, aserai, khuzait, or {NoneCommand}. -->
+        <string id="SmithItemInvalidCulture" text="Неверная культура '{culture}'. Используйте название культуры, например empire, vlandia, battania, sturgia, aserai, khuzait, или {NoneCommand}." original="Invalid culture '{culture}'. Use a culture name like empire, vlandia, battania, sturgia, aserai, khuzait, or {NoneCommand}."/>
+        <!-- Custom item limit reached. -->
+        <string id="SmithItemCustomItemLimit" text="Достигнут лимит пользовательских предметов." original="Custom item limit reached."/>
+        <!-- Hero class required! -->
+        <string id="SmithItemHeroClassRequired" text="Требуется класс героя!" original="Hero class required!"/>
+        <!-- No valid {ItemType} found for culture {Culture}. -->
+        <string id="SmithItemNoValidCultureItem" text="Не найден подходящий предмет типа {ItemType} для культуры {Culture}." original="No valid {ItemType} found for culture {Culture}."/>
+        <!-- No valid {ItemType} found. -->
+        <string id="SmithItemNoValidItem" text="Не найден подходящий предмет типа {ItemType}." original="No valid {ItemType} found."/>
+
+        <!-- Localization Cleanup: VassalManagement -->
+        <!-- vassal -->
+        <string id="VassalManagementCmd" text="вассал" original="vassal"/>
+        <!-- Create and manage vassal clans -->
+        <string id="VassalManagementDesc" text="Создавать кланы вассалов и управлять ими" original="Create and manage vassal clans"/>
+        <!-- Vassals -->
+        <string id="VassalCategory" text="Вассалы" original="Vassals"/>
+        <!-- Allows viewers to create vassal clans from their family members -->
+        <string id="VassalEnabledDesc" text="Позволяет зрителям создавать кланы вассалов из членов своей семьи" original="Allows viewers to create vassal clans from their family members"/>
+        <!-- Gold cost to create a vassal clan -->
+        <string id="VassalPriceDesc" text="Цена в золоте за создание клана вассала" original="Gold cost to create a vassal clan"/>
+        <!-- Mercenary Income Share -->
+        <string id="VassalMercIncomeShare" text="Доля дохода наёмников" original="Mercenary Income Share"/>
+        <!-- Percentage of mercenary income sent to vassal clans -->
+        <string id="VassalMercIncomeShareDesc" text="Процент дохода наёмников, отправляемый кланам вассалов" original="Percentage of mercenary income sent to vassal clans"/>
+        <!-- Fief Income Share -->
+        <string id="VassalFiefIncomeShare" text="Доля дохода владений" original="Fief Income Share"/>
+        <!-- Percentage of fief income sent to vassal clans -->
+        <string id="VassalFiefIncomeShareDesc" text="Процент дохода владений, отправляемый кланам вассалов" original="Percentage of fief income sent to vassal clans"/>
+        <!-- King Vassals Only -->
+        <string id="KingVassalsOnly" text="Вассалы только у короля" original="King Vassals Only"/>
+        <!-- Vassal clans can only be created for the king clan -->
+        <string id="KingVassalsOnlyDesc" text="Кланы вассалов можно создавать только для королевского клана" original="Vassal clans can only be created for the king clan"/>
+        <!-- Kingdom Vassals -->
+        <string id="KingdomVassals" text="Вассалы королевства" original="Kingdom Vassals"/>
+        <!-- Allow any BLT clan in a kingdom to create vassal clans -->
+        <string id="KingdomVassalsDesc" text="Разрешить любому BLT-клану в королевстве создавать кланы вассалов" original="Allow any BLT clan in a kingdom to create vassal clans"/>
+        <!-- Vassal behavior not initialized. -->
+        <string id="VassalBehaviorNotInitialized" text="Система вассалов не инициализирована." original="Vassal behavior not initialized."/>
+        <!-- Vassals: {Vassals} -->
+        <string id="VassalList" text="Вассалы: {Vassals}" original="Vassals: {Vassals}"/>
+        <!-- create -->
+        <string id="VassalCreateCommand" text="создать" original="create"/>
+        <!-- rename -->
+        <string id="VassalRenameCommand" text="переименовать" original="rename"/>
+        <!-- banner -->
+        <string id="VassalBannerCommand" text="знамя" original="banner"/>
+        <!-- Vassal creation is disabled. -->
+        <string id="VassalCreationDisabled" text="Создание вассалов отключено." original="Vassal creation is disabled."/>
+        <!-- A clan named {ClanName} already exists. -->
+        <string id="VassalClanNameExists" text="Клан с названием {ClanName} уже существует." original="A clan named {ClanName} already exists."/>
+        <!-- Vassal clan limit reached. -->
+        <string id="VassalMaxReached" text="Достигнут лимит кланов вассалов." original="Vassal clan limit reached."/>
+        <!-- Could not find a hero named {HeroName}. -->
+        <string id="VassalHeroNotFound" text="Не удалось найти героя с именем {HeroName}." original="Could not find a hero named {HeroName}."/>
+        <!-- {HeroName} is too young to lead a vassal clan. -->
+        <string id="VassalHeroTooYoung" text="{HeroName} слишком молод, чтобы возглавить клан вассала." original="{HeroName} is too young to lead a vassal clan."/>
+        <!-- Cannot create a vassal from a BLT spouse. -->
+        <string id="VassalCannotUseBltSpouse" text="Нельзя создать вассала из BLT-супруга." original="Cannot create a vassal from a BLT spouse."/>
+        <!-- Cannot create a vassal from a BLT hero. -->
+        <string id="VassalCannotUseBltHero" text="Нельзя создать вассала из BLT-героя." original="Cannot create a vassal from a BLT hero."/>
+        <!-- Cannot create a vassal from the clan heir. -->
+        <string id="VassalCannotUseHeir" text="Нельзя создать вассала из наследника клана." original="Cannot create a vassal from the clan heir."/>
+        <!-- {HeroName} is a prisoner. -->
+        <string id="VassalHeroPrisoner" text="{HeroName} в плену." original="{HeroName} is a prisoner."/>
+        <!-- {HeroName} is busy. -->
+        <string id="VassalHeroBusy" text="{HeroName} занят." original="{HeroName} is busy."/>
+        <!-- Your clan has no vassals. -->
+        <string id="VassalClanHasNoVassals" text="У вашего клана нет вассалов." original="Your clan has no vassals."/>
+        <!-- Usage: {Command} rename (number from list) (new clan name) -->
+        <string id="VassalRenameUsage" text="Использование: {Command} переименовать (номер из списка) (новое название клана)" original="Usage: {Command} rename (number from list) (new clan name)"/>
+        <!-- Vassal number must be a number. -->
+        <string id="VassalNotANumber" text="Номер вассала должен быть числом." original="Vassal number must be a number."/>
+        <!-- Invalid vassal number. -->
+        <string id="VassalInvalidNumber" text="Неверный номер вассала." original="Invalid vassal number."/>
+        <!-- Renamed vassal clan to {ClanName}. -->
+        <string id="VassalRenamed" text="Клан вассала переименован в {ClanName}." original="Renamed vassal clan to {ClanName}."/>
+        <!-- Usage: {Command} banner (number from list) (start|end|banner line) -->
+        <string id="VassalBannerUsage" text="Использование: {Command} знамя (номер из списка) (начать|конец|строка знамени)" original="Usage: {Command} banner (number from list) (start|end|banner line)"/>
+        <!-- Vassal not found. -->
+        <string id="VassalNotFound" text="Вассал не найден." original="Vassal not found."/>
+        <!-- start -->
+        <string id="VassalBannerStartCommand" text="начать" original="start"/>
+        <!-- end -->
+        <string id="VassalBannerEndCommand" text="конец" original="end"/>
+        <!-- You already started banner input for {ClanName}. Send {Command} banner {Index} end when done. -->
+        <string id="VassalBannerAlreadyStarted" text="Вы уже начали ввод знамени для {ClanName}. Когда закончите, отправьте {Command} знамя {Index} конец." original="You already started banner input for {ClanName}. Send {Command} banner {Index} end when done."/>
+        <!-- Started banner input for {ClanName}. Send banner code lines with {Command} banner {Index} &lt;line&gt;, then {Command} banner {Index} end. -->
+        <string id="VassalBannerInputStarted" text="Начат ввод знамени для {ClanName}. Отправляйте строки кода знамени через {Command} знамя {Index} &lt;строка&gt;, затем {Command} знамя {Index} конец." original="Started banner input for {ClanName}. Send banner code lines with {Command} banner {Index} &lt;line&gt;, then {Command} banner {Index} end."/>
+        <!-- Banner input has not been started for {ClanName}. Use {Command} banner {Index} start first. -->
+        <string id="VassalBannerNotStarted" text="Ввод знамени для {ClanName} ещё не начат. Сначала используйте {Command} знамя {Index} начать." original="Banner input has not been started for {ClanName}. Use {Command} banner {Index} start first."/>
+        <!-- Added banner line for {ClanName}. -->
+        <string id="VassalBannerLineAdded" text="Строка знамени для {ClanName} добавлена." original="Added banner line for {ClanName}."/>
+        <!-- Failed to update banner for {ClanName}. -->
+        <string id="VassalBannerUpdateFailed" text="Не удалось обновить знамя для {ClanName}." original="Failed to update banner for {ClanName}."/>
     </strings>
 </base>

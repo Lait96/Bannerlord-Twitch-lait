@@ -21,36 +21,36 @@ namespace BLTAdoptAHero.Actions
             var splitArgs = context.Args.Split(' ');
             if (splitArgs.Count() != 2)
             {
-                onFailure("(username) (gold)");
+                onFailure("{=HeroToHeroGoldArgs}(username) (gold)".Translate());
                 return;
             }
             string targetHeroName = splitArgs[0].Replace("@", string.Empty);
             var targetHero = BLTAdoptAHeroCampaignBehavior.Current.GetAdoptedHero(targetHeroName);
             if (targetHero == null)
             {
-                onFailure("Couldn't find a hero for that username");
+                onFailure("{=HeroToHeroGoldTargetNotFound}Couldn't find a hero for that username".Translate());
                 return;
             }
             if (targetHero == adoptedHero)
             {
-                onFailure("You can't send gold to yourself");
+                onFailure("{=HeroToHeroGoldSelf}You can't send gold to yourself".Translate());
                 return;
             }
             if (int.TryParse(splitArgs[1], out int amount))
             {
                 if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < amount || amount <=0)
                 {
-                    onFailure("You don't have that much gold to send");
+                    onFailure("{=HeroToHeroGoldNotEnough}You don't have that much gold to send".Translate());
                     return;
                 }
                 BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -amount);
                 BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(targetHero, amount);
-                onSuccess($"Sent {amount} gold to {targetHero.Name}");
+                onSuccess("{=HeroToHeroGoldSent}Sent {Amount} gold to {TargetHero}".Translate(("Amount", amount), ("TargetHero", targetHero.Name)));
                 return;
             }
             else
             {
-                onFailure("Invalid (amount)");
+                onFailure("{=HeroToHeroGoldInvalidAmount}Invalid (amount)".Translate());
                 return;
             }
         }

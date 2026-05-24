@@ -14,31 +14,31 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=}Smith Item"),
-     LocDescription("{=}Allows smithing of new weapons, armor, or horses"),
+    [LocDisplayName("{=SmithItemCmd}Smith Item"),
+     LocDescription("{=SmithItemDesc}Allows smithing of new weapons, armor, or horses"),
      UsedImplicitly]
     public class SmithItem : HeroActionHandlerBase
     {
         private class Settings
         {
-            [LocDisplayName("{=}Item Type"),
+            [LocDisplayName("{=SmithItemType}Item Type"),
              LocCategory("General", "{=C5T5nnix}General"),
-             LocDescription("{=}Smithed item type"),
+             LocDescription("{=SmithItemTypeDesc}Smithed item type"),
              PropertyOrder(1), UsedImplicitly]
             public RewardHelpers.RewardType Type { get; set; } = RewardHelpers.RewardType.Weapon;
 
-            [LocDisplayName("{=}Item Power"),
+            [LocDisplayName("{=SmithItemPower}Item Power"),
              LocCategory("General", "{=C5T5nnix}General"),
-             LocDescription("{=}Smithed item power multiplier, applies on top of the global multiplier"),
+             LocDescription("{=SmithItemPowerDesc}Smithed item power multiplier, applies on top of the global multiplier"),
              Range(0, 5), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
              PropertyOrder(2), UsedImplicitly]
             public float ItemPower { get; set; } = 1f;
 
-            [LocDisplayName("{=}Item Name"),
+            [LocDisplayName("{=SmithItemName}Item Name"),
              LocCategory("General", "{=C5T5nnix}General"),
              LocDescription("{=vqNeCCNy}Name format for custom item, {ITEMNAME} is the placeholder for the base item name"),
              PropertyOrder(3), UsedImplicitly]
-            public string ItemName { get; set; } = "{=}Smithed {ITEMNAME}";
+            public string ItemName { get; set; } = "{=SmithItemDefaultName}Smithed {ITEMNAME}";
 
             [LocDisplayName("{=HOZnxjGb}Gold Cost"),
              LocCategory("General", "{=C5T5nnix}General"),
@@ -46,21 +46,21 @@ namespace BLTAdoptAHero
              PropertyOrder(4), UsedImplicitly]
             public int GoldCost { get; set; }
 
-            [LocDisplayName("{=}Allow Culture Selection"),
-             LocCategory("Culture", "{=}Culture"),
-             LocDescription("{=}Allow viewers to specify a culture when smithing (e.g., !smith vlandia)"),
+            [LocDisplayName("{=SmithItemAllowCultureSelection}Allow Culture Selection"),
+             LocCategory("Culture", "{=SmithItemCultureCategory}Culture"),
+             LocDescription("{=SmithItemAllowCultureSelectionDesc}Allow viewers to specify a culture when smithing (e.g., !smith vlandia)"),
              PropertyOrder(5), UsedImplicitly]
             public bool AllowCultureSelection { get; set; } = true;
 
-            [LocDisplayName("{=}Culture Gold Cost"),
-             LocCategory("Culture", "{=}Culture"),
-             LocDescription("{=}Additional gold cost when smithing culture-specific items (0 for no additional cost)"),
+            [LocDisplayName("{=SmithItemCultureGoldCost}Culture Gold Cost"),
+             LocCategory("Culture", "{=SmithItemCultureCategory}Culture"),
+             LocDescription("{=SmithItemCultureGoldCostDesc}Additional gold cost when smithing culture-specific items (0 for no additional cost)"),
              PropertyOrder(6), UsedImplicitly]
             public int CultureGoldCost { get; set; } = 0;
 
-            [LocDisplayName("{=}Use Hero Culture Default"),
-             LocCategory("Culture", "{=}Culture"),
-             LocDescription("{=}When no culture is specified, use the hero's culture instead of random"),
+            [LocDisplayName("{=SmithItemUseHeroCultureDefault}Use Hero Culture Default"),
+             LocCategory("Culture", "{=SmithItemCultureCategory}Culture"),
+             LocDescription("{=SmithItemUseHeroCultureDefaultDesc}When no culture is specified, use the hero's culture instead of random"),
              PropertyOrder(7), UsedImplicitly]
             public bool UseHeroCultureDefault { get; set; } = false;
         }
@@ -81,7 +81,8 @@ namespace BLTAdoptAHero
                 targetCulture = FindCultureByName(cultureName);
 
                 // Check if user explicitly specified "null" to filter for items without culture
-                if (cultureName.Equals("null", StringComparison.OrdinalIgnoreCase))
+                string noCultureCommand = "{=SmithItemNoCultureCommand}null".Translate();
+                if (cultureName.Equals(noCultureCommand, StringComparison.OrdinalIgnoreCase))
                 {
                     targetCulture = null;
                 }
@@ -92,7 +93,8 @@ namespace BLTAdoptAHero
                         .Distinct()
                         .OrderBy(n => n));
 
-                    onFailure($"{{=}}Invalid culture '{cultureName}'. Valid cultures: {validCultures}".Translate());
+                    onFailure("{=SmithItemInvalidCulture}Invalid culture '{cultureName}'. Valid cultures: {validCultures}"
+                        .Translate(("cultureName", cultureName), ("validCultures", validCultures)));
                     return;
                 }
 
@@ -113,13 +115,13 @@ namespace BLTAdoptAHero
             if (BLTAdoptAHeroCampaignBehavior.Current.GetCustomItems(adoptedHero).Count >=
                 BLTAdoptAHeroModule.CommonConfig.CustomItemLimit)
             {
-                onFailure("{=}You have too many custom items (limit is {LIMIT}), get rid of some before smithing".Translate(("LIMIT", BLTAdoptAHeroModule.CommonConfig.CustomItemLimit)));
+                onFailure("{=SmithItemCustomItemLimit}You have too many custom items (limit is {LIMIT}), get rid of some before smithing".Translate(("LIMIT", BLTAdoptAHeroModule.CommonConfig.CustomItemLimit)));
                 return;
             }
 
             if (settings.Type == RewardHelpers.RewardType.Weapon && adoptedHero.GetClass() == null)
             {
-                onFailure("{=}Hero class must be set to smith a weapon!".Translate());
+                onFailure("{=SmithItemHeroClassRequired}Hero class must be set to smith a weapon!".Translate());
                 return;
             }
 
@@ -137,8 +139,8 @@ namespace BLTAdoptAHero
             if (item == null)
             {
                 string failureMessage = targetCulture != null
-                    ? $"{{=}}Could not find any valid {targetCulture.Name} item!".Translate()
-                    : "{=}Could not find any valid item!".Translate();
+                    ? "{=SmithItemNoValidCultureItem}Could not find any valid {CultureName} item!".Translate(("CultureName", targetCulture.Name))
+                    : "{=SmithItemNoValidItem}Could not find any valid item!".Translate();
                 onFailure(failureMessage);
             }
             else

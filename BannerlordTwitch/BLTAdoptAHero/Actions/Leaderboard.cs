@@ -12,8 +12,8 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=TESTING}Leaderboard"),
-     LocDescription("{=TESTING}Shows hero or clan leaderboards"),
+    [LocDisplayName("{=LeaderboardCmd}Leaderboard"),
+     LocDescription("{=LeaderboardDesc}Shows hero or clan leaderboards"),
      UsedImplicitly]
     public class Leaderboard : HeroCommandHandlerBase
     {

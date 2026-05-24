@@ -298,7 +298,7 @@ namespace BLTAdoptAHero
                         // Require a slot index argument
                         if (argParts.Count < 2 || !int.TryParse(argParts[1], out int slotIndex))
                         {
-                            onFailure("You must specify which equipment slot to store");
+                            onFailure("{=ItemStatsStoreSpecifySlot}You must specify which equipment slot to store".Translate());
                             break;
                         }
                         slotIndex -= 1; // convert to zero-based index
@@ -306,7 +306,7 @@ namespace BLTAdoptAHero
                         var slots = adoptedHero.BattleEquipment.YieldFilledEquipmentSlots().ToList();
                         if (slotIndex < 0 || slotIndex >= slots.Count)
                         {
-                            onFailure($"Invalid slot index. Must be between 1 and {slots.Count}");
+                            onFailure("{=ItemStatsInvalidSlotIndex}Invalid slot index. Must be between 1 and {SlotCount}".Translate(("SlotCount", slots.Count)));
                             break;
                         }
 
@@ -314,7 +314,7 @@ namespace BLTAdoptAHero
                         var item = element.Item;
                         if (item == null)
                         {
-                            onFailure("That slot is empty");
+                            onFailure("{=ItemStatsSlotEmpty}That slot is empty".Translate());
                             break;
                         }
 

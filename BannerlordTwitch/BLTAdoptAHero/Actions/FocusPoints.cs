@@ -20,33 +20,33 @@ namespace BLTAdoptAHero
         [CategoryOrder("Costs", 0)]
         protected class FocusPointsSettings : IDocumentable
         {
-            [LocDisplayName("{=TESTING}Focus 1"),
+            [LocDisplayName("{=FocusPointsFocus1}Focus 1"),
              LocCategory("Costs", "{=r7sc3Tvg}Costs"),
-             LocDescription("{=TESTING}Gold cost"),
+             LocDescription("{=FocusPointsGoldCostDesc}Gold cost"),
              PropertyOrder(1), UsedImplicitly]
             public int Focus1 { get; set; } = 30000;
 
-            [LocDisplayName("{=TESTING}Focus 2"),
+            [LocDisplayName("{=FocusPointsFocus2}Focus 2"),
              LocCategory("Costs", "{=r7sc3Tvg}Costs"),
-             LocDescription("{=TESTING}Gold cost"),
+             LocDescription("{=FocusPointsGoldCostDesc}Gold cost"),
              PropertyOrder(2), UsedImplicitly]
             public int Focus2 { get; set; } = 40000;
 
-            [LocDisplayName("{=TESTING}Focus 3"),
+            [LocDisplayName("{=FocusPointsFocus3}Focus 3"),
              LocCategory("Costs", "{=r7sc3Tvg}Costs"),
-             LocDescription("{=TESTING}Gold cost"),
+             LocDescription("{=FocusPointsGoldCostDesc}Gold cost"),
              PropertyOrder(3), UsedImplicitly]
             public int Focus3 { get; set; } = 50000;
 
-            [LocDisplayName("{=TESTING}Focus 4"),
+            [LocDisplayName("{=FocusPointsFocus4}Focus 4"),
              LocCategory("Costs", "{=r7sc3Tvg}Costs"),
-             LocDescription("{=TESTING}Gold cost"),
+             LocDescription("{=FocusPointsGoldCostDesc}Gold cost"),
              PropertyOrder(4), UsedImplicitly]
             public int Focus4 { get; set; } = 60000;
 
-            [LocDisplayName("{=TESTING}Focus 5"),
+            [LocDisplayName("{=FocusPointsFocus5}Focus 5"),
              LocCategory("Costs", "{=r7sc3Tvg}Costs"),
-             LocDescription("{=TESTING}Gold cost"),
+             LocDescription("{=FocusPointsGoldCostDesc}Gold cost"),
              PropertyOrder(5), UsedImplicitly]
             public int Focus5 { get; set; } = 75000;
 
@@ -65,7 +65,7 @@ namespace BLTAdoptAHero
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.PropertyValuePair("{=TESTING}Tier costs".Translate(), $"1={Focus1}{Naming.Gold}, 2={Focus2}{Naming.Gold}, 3={Focus3}{Naming.Gold}, 4={Focus4}{Naming.Gold}, 5={Focus5}{Naming.Gold}");
+                generator.PropertyValuePair("{=FocusPointsTierCosts}Tier costs".Translate(), $"1={Focus1}{Naming.Gold}, 2={Focus2}{Naming.Gold}, 3={Focus3}{Naming.Gold}, 4={Focus4}{Naming.Gold}, 5={Focus5}{Naming.Gold}");
                 var skillList = string.Join(", ", Skills.All.Select(k => k.Name.ToString()));
                 generator.Value($"Skills:\n{skillList}");
             }

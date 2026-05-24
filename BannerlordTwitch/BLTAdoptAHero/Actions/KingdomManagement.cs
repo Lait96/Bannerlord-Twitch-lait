@@ -132,9 +132,9 @@ namespace BLTAdoptAHero.Actions
              PropertyOrder(5), UsedImplicitly]
             public int MercPrice { get; set; } = 50000;
 
-            [LocDisplayName("{=TESTING}Player Mercenary Cost"),
+            [LocDisplayName("{=KingdomPlayerMercenaryCost}Player Mercenary Cost"),
              LocCategory("Join", "{=q5JhpNMF}Join"),
-             LocDescription("{=TESTING}Player kingdom mercenary contract cost"),
+             LocDescription("{=KingdomPlayerMercenaryCostDesc}Player kingdom mercenary contract cost"),
              PropertyOrder(6), UsedImplicitly]
             public int PlayerMercPrice { get; set; } = 50000;
 
@@ -156,9 +156,9 @@ namespace BLTAdoptAHero.Actions
              PropertyOrder(1), UsedImplicitly]
             public bool RebelEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}BLT Rebel"),
+            [LocDisplayName("{=KingdomBLTRebel}BLT Rebel"),
              LocCategory("Rebel", "{=qgKGFYNu}Rebel"),
-             LocDescription("{=TESTING}Enable viewer clan rebelling against BLT kingdoms"),
+             LocDescription("{=KingdomBLTRebelDesc}Enable viewer clan rebelling against BLT kingdoms"),
              PropertyOrder(2), UsedImplicitly]
             public bool BLTRebelEnabled { get; set; } = true;
 
@@ -168,9 +168,9 @@ namespace BLTAdoptAHero.Actions
              PropertyOrder(3), UsedImplicitly]
             public int RebelPrice { get; set; } = 500000;
 
-            [LocDisplayName("{=TESTING}BLT Gold Cost"),
+            [LocDisplayName("{=KingdomBLTGoldCost}BLT Gold Cost"),
              LocCategory("Rebel", "{=qgKGFYNu}Rebel"),
-             LocDescription("{=TESTING}Cost of rebelling against BLT kingdoms"),
+             LocDescription("{=KingdomBLTGoldCostDesc}Cost of rebelling against BLT kingdoms"),
              PropertyOrder(4), UsedImplicitly]
             public int BLTRebelPrice { get; set; } = 1000000;
 
@@ -187,38 +187,38 @@ namespace BLTAdoptAHero.Actions
             public bool LeaveEnabled { get; set; } = true;
 
             [LocDisplayName("{=pYjIUlTE}Enabled"),
-             LocCategory("Create", "{=TESTING}Create"),
-             LocDescription("{=TESTING}Enable viewer clan to create a kingdom"),
+             LocCategory("Create", "{=KingdomCreateCategory}Create"),
+             LocDescription("{=KingdomCreateEnabledDesc}Enable viewer clan to create a kingdom"),
              PropertyOrder(1), UsedImplicitly]
             public bool CreateKEnabled { get; set; } = true;
 
             [LocDisplayName("{=9rmGjERc}Minimum Clan Tier"),
-             LocCategory("Create", "{=TESTING}Create"),
-             LocDescription("{=TESTING}Minimum clan tier to create a kingdom"),
+             LocCategory("Create", "{=KingdomCreateCategory}Create"),
+             LocDescription("{=KingdomCreateTierMinimumDesc}Minimum clan tier to create a kingdom"),
              PropertyOrder(2), UsedImplicitly]
             public int CreateKTierMinimum { get; set; } = 3;
 
-            [LocDisplayName("{=TESTING}Minimum Clan Fiefs"),
-             LocCategory("Create", "{=TESTING}Create"),
-             LocDescription("{=TESTING}Minimum clan fiefs to create a kingdom"),
+            [LocDisplayName("{=KingdomCreateMinimumClanFiefs}Minimum Clan Fiefs"),
+             LocCategory("Create", "{=KingdomCreateCategory}Create"),
+             LocDescription("{=KingdomCreateMinimumClanFiefsDesc}Minimum clan fiefs to create a kingdom"),
              PropertyOrder(3), UsedImplicitly]
             public int CreateKFiefMinimum { get; set; } = 2;
 
             [LocDisplayName("{=6PUxQuLg}Gold Cost"),
-             LocCategory("Create", "{=TESTING}Create"),
-             LocDescription("{=TESTING}Cost of creating a kingdom"),
+             LocCategory("Create", "{=KingdomCreateCategory}Create"),
+             LocDescription("{=KingdomCreateCostDesc}Cost of creating a kingdom"),
              PropertyOrder(4), UsedImplicitly]
             public int CreateKPrice { get; set; } = 20000000;
 
-            [LocDisplayName("{=TESTING}Policy"),
-             LocCategory("Policy", "{=TESTING}Policy"),
-             LocDescription("{=TESTING}Enable viewing,adding and removing policies"),
+            [LocDisplayName("{=KingdomPolicy}Policy"),
+             LocCategory("Policy", "{=KingdomPolicyCategory}Policy"),
+             LocDescription("{=KingdomPolicyEnabledDesc}Enable viewing,adding and removing policies"),
              PropertyOrder(1), UsedImplicitly]
             public bool PolicyEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}Price"),
-             LocCategory("Policy", "{=TESTING}Policy"),
-             LocDescription("{=TESTING}Policy command price"),
+            [LocDisplayName("{=KingdomPolicyPrice}Price"),
+             LocCategory("Policy", "{=KingdomPolicyCategory}Policy"),
+             LocDescription("{=KingdomPolicyPriceDesc}Policy command price"),
              PropertyOrder(2), UsedImplicitly]
             public int PolicyPrice { get; set; } = 50000;
 
@@ -267,82 +267,82 @@ namespace BLTAdoptAHero.Actions
             public bool StatsEnabled { get; set; } = true;
 
             [LocDisplayName("{=pYjIUlTE}Enabled"),
-             LocCategory("Armies", "{=}Armies"),
+             LocCategory("Armies", "{=KingdomArmiesCategory}Armies"),
              LocDescription("{=CFBJIpux}Enable Armies command"),
              PropertyOrder(1), UsedImplicitly]
             public bool ArmiesEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}Allow BLT Armies Default"),
-             LocCategory("Armies", "{=}Armies"),
-             LocDescription("{=TESTING}Default state when a BLT-led kingdom is created: allow BLT adopted heroes to create armies"),
+            [LocDisplayName("{=KingdomAllowBLTArmiesDefault}Allow BLT Armies Default"),
+             LocCategory("Armies", "{=KingdomArmiesCategory}Armies"),
+             LocDescription("{=KingdomAllowBLTArmiesDefaultDesc}Default state when a BLT-led kingdom is created: allow BLT adopted heroes to create armies"),
              PropertyOrder(2), UsedImplicitly]
             public bool ArmiesAllowBLTDefault { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}Allow AI Armies Default"),
-             LocCategory("Armies", "{=}Armies"),
-             LocDescription("{=TESTING}Default state when a BLT-led kingdom is created: allow AI heroes to create armies"),
+            [LocDisplayName("{=KingdomAllowAIArmiesDefault}Allow AI Armies Default"),
+             LocCategory("Armies", "{=KingdomArmiesCategory}Armies"),
+             LocDescription("{=KingdomAllowAIArmiesDefaultDesc}Default state when a BLT-led kingdom is created: allow AI heroes to create armies"),
              PropertyOrder(3), UsedImplicitly]
             public bool ArmiesAllowAIDefault { get; set; } = true;
 
             [LocDisplayName("{=pYjIUlTE}Enabled"),
-             LocCategory("Release", "{=TESTING}Release"),
-             LocDescription("{=TESTING}Enable king to release clans from kingdom (with their land)"),
+             LocCategory("Release", "{=KingdomReleaseCategory}Release"),
+             LocDescription("{=KingdomReleaseEnabledDesc}Enable king to release clans from kingdom (with their land)"),
              PropertyOrder(1), UsedImplicitly]
             public bool ReleaseEnabled { get; set; } = true;
 
             [LocDisplayName("{=6PUxQuLg}Gold Cost"),
-             LocCategory("Release", "{=TESTING}Release"),
-             LocDescription("{=TESTING}Cost for king to release a clan"),
+             LocCategory("Release", "{=KingdomReleaseCategory}Release"),
+             LocDescription("{=KingdomReleasePriceDesc}Cost for king to release a clan"),
              PropertyOrder(2), UsedImplicitly]
             public int ReleasePrice { get; set; } = 50000;
 
             [LocDisplayName("{=pYjIUlTE}Enabled"),
-             LocCategory("Expel", "{=TESTING}Expel"),
-             LocDescription("{=TESTING}Enable king to expel clans from kingdom (takes their land first)"),
+             LocCategory("Expel", "{=KingdomExpelCategory}Expel"),
+             LocDescription("{=KingdomExpelEnabledDesc}Enable king to expel clans from kingdom (takes their land first)"),
              PropertyOrder(1), UsedImplicitly]
             public bool ExpelEnabled { get; set; } = true;
 
             [LocDisplayName("{=6PUxQuLg}Gold Cost"),
-             LocCategory("Expel", "{=TESTING}Expel"),
-             LocDescription("{=TESTING}Cost for king to expel a clan"),
+             LocCategory("Expel", "{=KingdomExpelCategory}Expel"),
+             LocDescription("{=KingdomExpelPriceDesc}Cost for king to expel a clan"),
              PropertyOrder(2), UsedImplicitly]
             public int ExpelPrice { get; set; } = 100000;
 
             [LocDisplayName("{=pYjIUlTE}Enabled"),
-             LocCategory("Tax", "{=TESTING}Tax"),
-             LocDescription("{=TESTING}Enable kingdom taxation system"),
+             LocCategory("Tax", "{=KingdomTaxCategory}Tax"),
+             LocDescription("{=KingdomTaxEnabledDesc}Enable kingdom taxation system"),
              PropertyOrder(1), UsedImplicitly]
             public bool TaxEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}Minimum Tax Rate %"),
-             LocCategory("Tax", "{=TESTING}Tax"),
-             LocDescription("{=TESTING}Minimum tax rate kings can set (0-100)"),
+            [LocDisplayName("{=KingdomMinimumTaxRate}Minimum Tax Rate %"),
+             LocCategory("Tax", "{=KingdomTaxCategory}Tax"),
+             LocDescription("{=KingdomMinimumTaxRateDesc}Minimum tax rate kings can set (0-100)"),
              PropertyOrder(2), UsedImplicitly,
              Range(0f, 100f)]
             public float MinTaxRate { get; set; } = 0f;
 
-            [LocDisplayName("{=TESTING}Maximum Tax Rate %"),
-             LocCategory("Tax", "{=TESTING}Tax"),
-             LocDescription("{=TESTING}Maximum tax rate kings can set (0-100)"),
+            [LocDisplayName("{=KingdomMaximumTaxRate}Maximum Tax Rate %"),
+             LocCategory("Tax", "{=KingdomTaxCategory}Tax"),
+             LocDescription("{=KingdomMaximumTaxRateDesc}Maximum tax rate kings can set (0-100)"),
              PropertyOrder(3), UsedImplicitly,
              Range(0f, 100f)]
             public float MaxTaxRate { get; set; } = 50f;
 
             [LocDisplayName("{=pYjIUlTE}Enabled"),
-             LocCategory("Sponsor", "{=TESTING}Sponsor"),
-             LocDescription("{=TESTING}Enable the sponsor command (buy influence for gold)"),
+             LocCategory("Sponsor", "{=KingdomSponsorCategory}Sponsor"),
+             LocDescription("{=KingdomSponsorEnabledDesc}Enable the sponsor command (buy influence for gold)"),
              PropertyOrder(1), UsedImplicitly]
             public bool SponsorEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}Gold Per Influence"),
-             LocCategory("Sponsor", "{=TESTING}Sponsor"),
-             LocDescription("{=TESTING}Gold cost per 1 influence point purchased"),
+            [LocDisplayName("{=KingdomGoldPerInfluence}Gold Per Influence"),
+             LocCategory("Sponsor", "{=KingdomSponsorCategory}Sponsor"),
+             LocDescription("{=KingdomGoldPerInfluenceDesc}Gold cost per 1 influence point purchased"),
              PropertyOrder(2), UsedImplicitly]
             public int SponsorGoldPerInfluence { get; set; } = 1000;
 
-            [LocDisplayName("{=TESTING}King Cut %"),
-             LocCategory("Sponsor", "{=TESTING}Sponsor"),
-             LocDescription("{=TESTING}Percentage of gold spent that is forwarded to the kingdom leader (0.0 - 1.0, 0.25 = 25%)"),
+            [LocDisplayName("{=KingdomSponsorKingCut}King Cut %"),
+             LocCategory("Sponsor", "{=KingdomSponsorCategory}Sponsor"),
+             LocDescription("{=KingdomSponsorKingCutDesc}Percentage of gold spent that is forwarded to the kingdom leader (0.0 - 1.0, 0.25 = 25%)"),
              PropertyOrder(3), UsedImplicitly,
              Range(0f, 1f)]
             public float SponsorKingCutPercent { get; set; } = 0.25f;
@@ -788,9 +788,9 @@ namespace BLTAdoptAHero.Actions
             if (war)
                 clanStats.Append("{=QadZnUKh}Wars: {wars} | ".Translate(("wars", warList.ToString())));
             if (ally)
-                clanStats.Append("{=TESTING}Alliances: {allies} | ".Translate(("allies", allyList)));
+                clanStats.Append("{=KingdomAlliances}Alliances: {allies} | ".Translate(("allies", allyList)));
             if (trade)
-                clanStats.Append("{=TESTING}Trades: {trade} | ".Translate(("trade", tradeList.ToString())));
+                clanStats.Append("{=KingdomTrades}Trades: {trade} | ".Translate(("trade", tradeList.ToString())));
             if (tribute)
                 clanStats.Append("{=0GhTvF3K}Tribute: {tribute} | ".Translate(("tribute", tributeList.ToString())));
             if (adoptedHero.Clan.Kingdom.RulingClan.HomeSettlement.Name != null)
@@ -1080,7 +1080,7 @@ namespace BLTAdoptAHero.Actions
             var existingKingdom = CampaignHelpers.AllHeroes.Select(h => h?.Clan?.Kingdom).Distinct().FirstOrDefault(c => c?.Name.ToString().Equals(desiredName, StringComparison.OrdinalIgnoreCase) == true);
             if (existingKingdom != null)
             {
-                onFailure("{=TESTING}A kingdom with the name {name} already exists".Translate(("name", desiredName)));
+                onFailure("{=KingdomNameExists}A kingdom with the name {name} already exists".Translate(("name", desiredName)));
                 return;
             }
             if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.CreateKPrice)
@@ -1099,8 +1099,8 @@ namespace BLTAdoptAHero.Actions
             adoptedHero.Clan.Kingdom.Banner = adoptedHero.Clan.Banner;
             adoptedHero.Clan.Kingdom.Banner.ChangeBackgroundColor(adoptedHero.Clan.Banner.GetPrimaryColor(), adoptedHero.Clan.Banner.GetSecondaryColor());
 
-            onSuccess("{=TESTING}Created kingdom {name}".Translate(("name", desiredName)));
-            Log.ShowInformation("{=TESTING}{heroName} has founded kingdom {kingdom}!".Translate(("heroName", adoptedHero.Name.ToString()), ("kingdom", adoptedHero.Clan.Kingdom.Name.ToString())), adoptedHero.CharacterObject, Log.Sound.Horns2);
+            onSuccess("{=KingdomCreated}Created kingdom {name}".Translate(("name", desiredName)));
+            Log.ShowInformation("{=KingdomFoundedNotification}{heroName} has founded kingdom {kingdom}!".Translate(("heroName", adoptedHero.Name.ToString()), ("kingdom", adoptedHero.Clan.Kingdom.Name.ToString())), adoptedHero.CharacterObject, Log.Sound.Horns2);
         }
 
         //private void HandleVassalCommand(Settings settings, Hero adoptedHero, string args, Action<string> onSuccess, Action<string> onFailure)
@@ -1609,7 +1609,7 @@ namespace BLTAdoptAHero.Actions
             }
             if (!adoptedHero.IsKingdomLeader)
             {
-                onFailure("{=TESTING}Not a king.".Translate());
+                onFailure("{=KingdomNotKing}Not a king.".Translate());
                 return;
             }
 

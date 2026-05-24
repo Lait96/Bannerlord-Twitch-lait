@@ -40,18 +40,18 @@ namespace BLTAdoptAHero.Actions
             {
                 if (Enabled)
                 {
-                    generator.Value("<strong>Enabled:</strong> Yes");
+                    generator.Value("{=EquipCustomDocEnabledYes}<strong>Enabled:</strong> Yes".Translate());
                     if (GoldCost > 0)
                     {
-                        generator.Value("<strong>Gold Cost:</strong> {cost}{icon}"
+                        generator.Value("{=EquipCustomDocGoldCost}<strong>Gold Cost:</strong> {cost}{icon}"
                             .Translate(("cost", GoldCost.ToString()), ("icon", Naming.Gold)));
                     }
-                    generator.Value("<strong>Usage:</strong> !equipcustom [item name or number]");
-                    generator.Value("Use without arguments to list your custom items");
+                    generator.Value("{=EquipCustomDocUsage}<strong>Usage:</strong> !equipcustom [item name or number]".Translate());
+                    generator.Value("{=EquipCustomDocListHint}Use without arguments to list your custom items".Translate());
                 }
                 else
                 {
-                    generator.Value("<strong>Enabled:</strong> No");
+                    generator.Value("{=EquipCustomDocEnabledNo}<strong>Enabled:</strong> No".Translate());
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace BLTAdoptAHero.Actions
             }
             catch (Exception ex)
             {
-                onFailure($"Failed to equip item: {ex.Message}");
+                onFailure("{=EquipCustomFailed}Failed to equip item: {Error}".Translate(("Error", ex.Message)));
                 Log.Error($"EquipCustomItem error: {ex}");
             }
         }

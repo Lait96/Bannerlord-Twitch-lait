@@ -27,9 +27,9 @@ namespace BLTAdoptAHero.Actions
         private class Settings : IDocumentable
         {
             // General
-            [LocDisplayName("{=TESTING}Baby Command Limit"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Maximum number of kids before the baby command is blocked."),
+            [LocDisplayName("{=FamilyBabyCommandLimit}Baby Command Limit"),
+             LocCategory("General", "{=C5T5nnix}General"),
+             LocDescription("{=FamilyBabyCommandLimitDesc}Maximum number of kids before the baby command is blocked."),
              PropertyOrder(1), UsedImplicitly]
             public int MakeKidsLimit { get; set; } = 3;
 
@@ -120,11 +120,11 @@ namespace BLTAdoptAHero.Actions
             if (grandchildrenCount > 0)
                 sb.Append("{=GrandchildCount}Grandchildren: {count} | ".Translate(("count", grandchildrenCount)));
             if (greatCount > 0)
-                sb.Append("{=GrandchildCount}Great grandchildren: {count} | ".Translate(("count", greatCount)));
+                sb.Append("{=GreatGrandchildCount}Great grandchildren: {count} | ".Translate(("count", greatCount)));
             if (parentCount > 0)
-                sb.Append("{=GrandchildCount}Parents: {count} | ".Translate(("count", parentCount)));
+                sb.Append("{=ParentCount}Parents: {count} | ".Translate(("count", parentCount)));
             if (siblingCount > 0)
-                sb.Append("{=GrandchildCount}Siblings: {count} | ".Translate(("count", siblingCount)));
+                sb.Append("{=SiblingCount}Siblings: {count} | ".Translate(("count", siblingCount)));
             sb.Append("{=TotalFamily}Total Family: {count}".Translate(("count", totalFamily)));
 
             onSuccess(sb.ToString());
@@ -198,7 +198,7 @@ namespace BLTAdoptAHero.Actions
                 if (adoptedHero.ExSpouses.Count > 0)
                 {
                     var sB = new StringBuilder();
-                    sB.Append("{=ChildrenList}Ex-spouses: ".Translate());
+                    sB.Append("{=ExSpousesList}Ex-spouses: ".Translate());
 
                     var spouses = adoptedHero.ExSpouses.OrderByDescending(c => c.Age).ToList();
                     for (int i = 0; i < spouses.Count; i++)

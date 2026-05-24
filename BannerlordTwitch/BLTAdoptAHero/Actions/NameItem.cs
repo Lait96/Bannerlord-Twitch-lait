@@ -35,7 +35,7 @@ namespace BLTAdoptAHero
 
             if (string.IsNullOrWhiteSpace(context.Args))
             {
-                ActionManager.SendReply(context, context.ArgsErrorMessage("{=}(custom item index) (new item name)".Translate()));
+                ActionManager.SendReply(context, context.ArgsErrorMessage("{=NameItemArgs}(custom item index) (new item name)".Translate()));
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace BLTAdoptAHero
             if (argParts.Count < 2)
             {
                 ActionManager.SendReply(context,
-                    context.ArgsErrorMessage("{=}(custom item index) (new item name)".Translate()));
+                    context.ArgsErrorMessage("{=NameItemArgs}(custom item index) (new item name)".Translate()));
                 return;
             }
 

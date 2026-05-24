@@ -23,8 +23,8 @@ using BLTAdoptAHero.Actions;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=TESTING}Simple Diplomacy"),
-     LocDescription("{=TESTING}Manage your kingdom diplomacy and other actions."),
+    [LocDisplayName("{=SimpleDiplomacyCmd}Simple Diplomacy"),
+     LocDescription("{=SimpleDiplomacyDesc}Manage your kingdom diplomacy and other actions."),
      UsedImplicitly]
     class SimpleDiplomacy : HeroCommandHandlerBase
     {
@@ -35,80 +35,80 @@ namespace BLTAdoptAHero
          CategoryOrder("Policy", 4)]
         private class Settings : IDocumentable
         {
-            [LocDisplayName("{=TESTING}War"),
-             LocCategory("War", "{=TESTING}War"),
-             LocDescription("{=TESTING}Enable declaring war command"),
+            [LocDisplayName("{=SimpleDiplomacyWar}War"),
+             LocCategory("War", "{=SimpleDiplomacyWar}War"),
+             LocDescription("{=SimpleDiplomacyWarEnabledDesc}Enable declaring war command"),
              PropertyOrder(1), UsedImplicitly]
             public bool WarEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}Price"),
-             LocCategory("War", "{=TESTING}War"),
-             LocDescription("{=TESTING}War command price"),
+            [LocDisplayName("{=SimpleDiplomacyPrice}Price"),
+             LocCategory("War", "{=SimpleDiplomacyWar}War"),
+             LocDescription("{=SimpleDiplomacyWarPriceDesc}War command price"),
              PropertyOrder(2), UsedImplicitly]
             public int WarPrice { get; set; } = 250000;
 
-            [LocDisplayName("{=TESTING}Cooldown"),
-             LocCategory("War", "{=TESTING}War"),
-             LocDescription("{=TESTING}War cooldown"),
+            [LocDisplayName("{=SimpleDiplomacyCooldown}Cooldown"),
+             LocCategory("War", "{=SimpleDiplomacyWar}War"),
+             LocDescription("{=SimpleDiplomacyWarCooldownDesc}War cooldown"),
              PropertyOrder(3), UsedImplicitly]
             public int WarCooldown { get; set; } = 20;
 
-            [LocDisplayName("{=TESTING}Peace"),
-             LocCategory("Peace", "{=TESTING}Peace"),
-             LocDescription("{=TESTING}Enable declaring war command"),
+            [LocDisplayName("{=SimpleDiplomacyPeace}Peace"),
+             LocCategory("Peace", "{=SimpleDiplomacyPeace}Peace"),
+             LocDescription("{=SimpleDiplomacyPeaceEnabledDesc}Enable peace command"),
              PropertyOrder(1), UsedImplicitly]
             public bool PeaceEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}Price"),
-             LocCategory("Peace", "{=TESTING}Peace"),
-             LocDescription("{=TESTING}Peace command price"),
+            [LocDisplayName("{=SimpleDiplomacyPrice}Price"),
+             LocCategory("Peace", "{=SimpleDiplomacyPeace}Peace"),
+             LocDescription("{=SimpleDiplomacyPeacePriceDesc}Peace command price"),
              PropertyOrder(2), UsedImplicitly]
             public int PeacePrice { get; set; } = 100000;
 
-            [LocDisplayName("{=TESTING}Ally"),
-             LocCategory("Alliance", "{=TESTING}Alliance"),
-             LocDescription("{=TESTING}Enable alliance command"),
+            [LocDisplayName("{=SimpleDiplomacyAlly}Ally"),
+             LocCategory("Alliance", "{=SimpleDiplomacyAlliance}Alliance"),
+             LocDescription("{=SimpleDiplomacyAllianceEnabledDesc}Enable alliance command"),
              PropertyOrder(1), UsedImplicitly]
             public bool AllyEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}Price"),
-             LocCategory("Alliance", "{=TESTING}Alliance"),
-             LocDescription("{=TESTING}Ally command price"),
+            [LocDisplayName("{=SimpleDiplomacyPrice}Price"),
+             LocCategory("Alliance", "{=SimpleDiplomacyAlliance}Alliance"),
+             LocDescription("{=SimpleDiplomacyAllyPriceDesc}Ally command price"),
              PropertyOrder(2), UsedImplicitly]
             public int AllyPrice { get; set; } = 100000;
 
-            [LocDisplayName("{=TESTING}Trade"),
-             LocCategory("Trade", "{=TESTING}Trade"),
-             LocDescription("{=TESTING}Enable trade alliance command"),
+            [LocDisplayName("{=SimpleDiplomacyTrade}Trade"),
+             LocCategory("Trade", "{=SimpleDiplomacyTrade}Trade"),
+             LocDescription("{=SimpleDiplomacyTradeEnabledDesc}Enable trade alliance command"),
              PropertyOrder(1), UsedImplicitly]
             public bool TradeEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}Price"),
-             LocCategory("Trade", "{=TESTING}Trade"),
-             LocDescription("{=TESTING}Trade command price"),
+            [LocDisplayName("{=SimpleDiplomacyPrice}Price"),
+             LocCategory("Trade", "{=SimpleDiplomacyTrade}Trade"),
+             LocDescription("{=SimpleDiplomacyTradePriceDesc}Trade command price"),
              PropertyOrder(2), UsedImplicitly]
             public int TradePrice { get; set; } = 50000;
 
-            [LocDisplayName("{=TESTING}Policy"),
-             LocCategory("Policy", "{=TESTING}Policy"),
-             LocDescription("{=TESTING}Enable viewing,adding and removing policies"),
+            [LocDisplayName("{=SimpleDiplomacyPolicy}Policy"),
+             LocCategory("Policy", "{=SimpleDiplomacyPolicy}Policy"),
+             LocDescription("{=SimpleDiplomacyPolicyEnabledDesc}Enable viewing,adding and removing policies"),
              PropertyOrder(1), UsedImplicitly]
             public bool PolicyEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TESTING}Price"),
-             LocCategory("Policy", "{=TESTING}Policy"),
-             LocDescription("{=TESTING}Policy command price"),
+            [LocDisplayName("{=SimpleDiplomacyPrice}Price"),
+             LocCategory("Policy", "{=SimpleDiplomacyPolicy}Policy"),
+             LocDescription("{=SimpleDiplomacyPolicyPriceDesc}Policy command price"),
              PropertyOrder(2), UsedImplicitly]
             public int PolicyPrice { get; set; } = 50000;
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
                 var sb = new StringBuilder();
-                if (WarEnabled) sb.Append("{=TESTING}War, ".Translate());
-                if (PeaceEnabled) sb.Append("{=TESTING}Peace, ".Translate());
-                if (AllyEnabled) sb.Append("{=TESTING}Alliance, ".Translate());
-                if (TradeEnabled) sb.Append("{=TESTING}Trade, ".Translate());
-                if (PolicyEnabled) sb.Append("{=TESTING}Policy".Translate());
+                if (WarEnabled) sb.Append("{=SimpleDiplomacyWar}War, ".Translate());
+                if (PeaceEnabled) sb.Append("{=SimpleDiplomacyPeace}Peace, ".Translate());
+                if (AllyEnabled) sb.Append("{=SimpleDiplomacyAlliance}Alliance, ".Translate());
+                if (TradeEnabled) sb.Append("{=SimpleDiplomacyTrade}Trade, ".Translate());
+                if (PolicyEnabled) sb.Append("{=SimpleDiplomacyPolicy}Policy".Translate());
                 if (sb.Length > 0)
                     generator.Value("<strong>Enabled Commands:</strong> {commands}".Translate(
                         ("commands", sb.ToString(0, sb.Length - 2))));
@@ -141,12 +141,12 @@ namespace BLTAdoptAHero
             if (string.IsNullOrWhiteSpace(context.Args))
             {
                 ActionManager.SendReply(context,
-                    context.ArgsErrorMessage("{=TESTING}invalid mode (use war (kingdom), peace (kingdom), alliance (kingdom), trade (kingdom), army (defend/siege/patrol)".Translate()));
+                    context.ArgsErrorMessage("{=SimpleDiplomacyArgs}invalid mode (use war (kingdom), peace (kingdom), alliance (kingdom), trade (kingdom), army (defend/siege/patrol)".Translate()));
                 return;
             }
             if (Mission.Current != null)
             {
-                onFailure("Mission is active!");
+                onFailure("{=SimpleDiplomacyMissionActive}Mission is active!".Translate());
                 return;
             }
             if (adoptedHero.Clan == null)
@@ -166,7 +166,7 @@ namespace BLTAdoptAHero
             }
             if (adoptedHero.Clan.IsUnderMercenaryService)
             {
-                onFailure("Mercenary");
+                onFailure("{=SimpleDiplomacyMercenary}Mercenary".Translate());
                 return;
             }
             //if (adoptedHero.Clan == Clan.PlayerClan)
@@ -177,6 +177,12 @@ namespace BLTAdoptAHero
             var splitArgs = context.Args.Split(' ');
             var mode = splitArgs[0];
             var desiredName = string.Join(" ", splitArgs.Skip(1)).Trim();
+            string warCommand = "{=SimpleDiplomacyWarCommand}war".Translate();
+            string peaceCommand = "{=SimpleDiplomacyPeaceCommand}peace".Translate();
+            string policyCommand = "{=SimpleDiplomacyPolicyCommand}policy".Translate();
+            string allianceCommand = "{=SimpleDiplomacyAllianceCommand}alliance".Translate();
+            string tradeCommand = "{=SimpleDiplomacyTradeCommand}trade".Translate();
+            string listCommand = "{=SimpleDiplomacyListCommand}list".Translate();
             var kingdom = adoptedHero.Clan.Kingdom;
             bool atWar = Kingdom.All.Any(k => k.IsAtWarWith(kingdom));
             AllianceCampaignBehavior allianceBehavior = Campaign.Current.GetCampaignBehavior<AllianceCampaignBehavior>();
@@ -188,11 +194,11 @@ namespace BLTAdoptAHero
 
             switch (mode)
             {
-                case "war":
+                case var _ when mode == warCommand:
                     {
                         if (!settings.WarEnabled)
                         {
-                            onFailure("War disabled".Translate());
+                            onFailure("{=SimpleDiplomacyWarDisabled}War disabled".Translate());
                             return;
                         }
                         if (desiredKingdom == null)
@@ -202,29 +208,29 @@ namespace BLTAdoptAHero
                         }
                         if (!adoptedHero.IsKingdomLeader)
                         {
-                            onFailure("{=TESTING}Not a king.".Translate());
+                            onFailure("{=SimpleDiplomacyNotKing}Not a king.".Translate());
                             return;
                         }
                         int influenceCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingWar(adoptedHero.Clan);
                         if (adoptedHero.Clan.Influence < influenceCost)
                         {
-                            onFailure($"Not enough influence:{influenceCost}");
+                            onFailure("{=SimpleDiplomacyNotEnoughInfluence}Not enough influence:{influenceCost}".Translate(("influenceCost", influenceCost)));
                             return;
                         }
                         if (kingdom.IsAtWarWith(desiredKingdom))
                         {
-                            onFailure($"Already at war with {desiredKingdom}");
+                            onFailure("{=SimpleDiplomacyAlreadyAtWar}Already at war with {kingdom}".Translate(("kingdom", desiredKingdom)));
                             return;
                         }
                         if (kingdom == desiredKingdom)
                         {
-                            onFailure("Cant declare war on yourself!");
+                            onFailure("{=SimpleDiplomacyCantWarSelf}Cant declare war on yourself!".Translate());
                             return;
                         }
                         var stance = kingdom.GetStanceWith(desiredKingdom);
                         if (stance.PeaceDeclarationDate.ElapsedDaysUntilNow < settings.WarCooldown)
                         {
-                            onFailure($"Cant war yet. {(int)(settings.WarCooldown - stance.PeaceDeclarationDate.ElapsedDaysUntilNow)} days remaining.");
+                            onFailure("{=SimpleDiplomacyWarCooldownRemaining}Cant war yet. {days} days remaining.".Translate(("days", (int)(settings.WarCooldown - stance.PeaceDeclarationDate.ElapsedDaysUntilNow))));
                             return;
                         }
                         if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.WarPrice)
@@ -261,21 +267,21 @@ namespace BLTAdoptAHero
                             }
                             DeclareWarAction.ApplyByDefault(kingdom, desiredKingdom);
                             adoptedHero.Clan.Influence -= influenceCost;
-                            onSuccess($"Declared war on {desiredKingdom}");
+                            onSuccess("{=SimpleDiplomacyDeclaredWar}Declared war on {kingdom}".Translate(("kingdom", desiredKingdom)));
 
                         }
                         break;
                     }
-                case "peace":
+                case var _ when mode == peaceCommand:
                     {
                         if (!settings.PeaceEnabled)
                         {
-                            onFailure("Peace disabled".Translate());
+                            onFailure("{=SimpleDiplomacyPeaceDisabled}Peace disabled".Translate());
                             return;
                         }
                         if (!adoptedHero.IsKingdomLeader)
                         {
-                            onFailure("{=TESTING}Not a king.".Translate());
+                            onFailure("{=SimpleDiplomacyNotKing}Not a king.".Translate());
                             return;
                         }
                         if (desiredKingdom == null)
@@ -285,7 +291,7 @@ namespace BLTAdoptAHero
                         }
                         if (kingdom == desiredKingdom)
                         {
-                            onFailure("Cant peace yourself!");
+                            onFailure("{=SimpleDiplomacyCantPeaceSelf}Cant peace yourself!".Translate());
                             return;
                         }
                         int influenceCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingPeace(adoptedHero.Clan);
@@ -294,12 +300,12 @@ namespace BLTAdoptAHero
                         var stance = kingdom.GetStanceWith(desiredKingdom);
                         if (!kingdom.IsAtWarWith(desiredKingdom))
                         {
-                            onFailure($"Already at peace with {desiredKingdom}");
+                            onFailure("{=SimpleDiplomacyAlreadyAtPeace}Already at peace with {kingdom}".Translate(("kingdom", desiredKingdom)));
                             return;
                         }
                         if (diplomacyHelper.IsPeaceBlocked(kingdom, desiredKingdom))
                         {
-                            onFailure("Cannot peace rebellion wars");
+                            onFailure("{=SimpleDiplomacyCannotPeaceRebellion}Cannot peace rebellion wars".Translate());
                             return;
                         }
                         if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.PeacePrice)
@@ -309,7 +315,7 @@ namespace BLTAdoptAHero
                         }
                         if (adoptedHero.Clan.Influence < influenceCost)
                         {
-                            onFailure($"Not enough influence:{influenceCost}");
+                            onFailure("{=SimpleDiplomacyNotEnoughInfluence}Not enough influence:{influenceCost}".Translate(("influenceCost", influenceCost)));
                             return;
                         }
                         BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.PeacePrice, true);
@@ -324,7 +330,7 @@ namespace BLTAdoptAHero
                         {
                             CampaignEventDispatcher.Instance.OnPeaceOfferedToPlayer(kingdom, dailyTribute, tributeDurationInDays);
 
-                            onSuccess("Peace offer sent to the player.");
+                            onSuccess("{=SimpleDiplomacyPeaceOfferSent}Peace offer sent to the player.".Translate());
                         }
                         //else if (kingdom.Leader.IsAdopted())
                         //{
@@ -366,22 +372,22 @@ namespace BLTAdoptAHero
                         BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.PeacePrice, true);
                         break;
                     }
-                case "policy":
+                case var _ when mode == policyCommand:
                     {
                         var desiredPolicy = PolicyObject.All.FirstOrDefault(c => c.Name.ToString().IndexOf(desiredName, StringComparison.OrdinalIgnoreCase) >= 0);
                         int policyCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal(adoptedHero.Clan);
                         if (!settings.PolicyEnabled)
                         {
-                            onFailure("Policy disabled".Translate());
+                            onFailure("{=SimpleDiplomacyPolicyDisabled}Policy disabled".Translate());
                             return;
                         }
                         if (!adoptedHero.IsKingdomLeader)
                         {
-                            onFailure("{=TESTING}Not a king.".Translate());
+                            onFailure("{=SimpleDiplomacyNotKing}Not a king.".Translate());
                             return;
                         }
 
-                        if (desiredName == "list")
+                        if (desiredName == listCommand)
                         {
                             var listString = string.Join(", ", PolicyObject.All.Select(k => k.Name.ToString()));
                             onSuccess(listString);
@@ -402,31 +408,31 @@ namespace BLTAdoptAHero
                             }
                             if (adoptedHero.Clan.Influence < policyCost)
                             {
-                                onFailure($"Not enough influence:{policyCost}");
+                                onFailure("{=SimpleDiplomacyNotEnoughInfluence}Not enough influence:{influenceCost}".Translate(("influenceCost", policyCost)));
                                 return;
                             }
                             if (kingdom.ActivePolicies.Contains(desiredPolicy))
                             {
                                 kingdom.RemovePolicy(desiredPolicy);
-                                onSuccess($"Removed {desiredPolicy}");
+                                onSuccess("{=SimpleDiplomacyPolicyRemoved}Removed {policy}".Translate(("policy", desiredPolicy)));
                                 return;
                             }
                             else
                             {
                                 kingdom.AddPolicy(desiredPolicy);
-                                onSuccess($"Added {desiredPolicy}");
+                                onSuccess("{=SimpleDiplomacyPolicyAdded}Added {policy}".Translate(("policy", desiredPolicy)));
                                 return;
                             }
                         }
-                        else { onFailure("Invalid action"); }
+                        else { onFailure("{=SimpleDiplomacyInvalidAction}Invalid action".Translate()); }
                         break;
                     }
-                case "alliance":
+                case var _ when mode == allianceCommand:
                     {
 
                         if (!settings.AllyEnabled)
                         {
-                            onFailure("Alliance disabled".Translate());
+                            onFailure("{=SimpleDiplomacyAllianceDisabled}Alliance disabled".Translate());
                             return;
                         }
                         if (desiredKingdom == null)
@@ -436,29 +442,29 @@ namespace BLTAdoptAHero
                         }
                         if (!adoptedHero.IsKingdomLeader)
                         {
-                            onFailure("{=TESTING}Not a king.".Translate());
+                            onFailure("{=SimpleDiplomacyNotKing}Not a king.".Translate());
                             return;
                         }
 
                         if (kingdom.IsAtWarWith(desiredKingdom))
                         {
-                            onFailure($"At war with {desiredKingdom}");
+                            onFailure("{=SimpleDiplomacyAtWarWith}At war with {kingdom}".Translate(("kingdom", desiredKingdom)));
                             return;
                         }
                         if (allianceBehavior.IsAllyWithKingdom(kingdom, desiredKingdom))
                         {
-                            onFailure($"Already allied with {desiredKingdom}");
+                            onFailure("{=SimpleDiplomacyAlreadyAllied}Already allied with {kingdom}".Translate(("kingdom", desiredKingdom)));
                             return;
                         }
                         if (kingdom == desiredKingdom)
                         {
-                            onFailure("Cant ally on yourself!");
+                            onFailure("{=SimpleDiplomacyCantAllySelf}Cant ally on yourself!".Translate());
                             return;
                         }
                         int influenceCost = Campaign.Current.Models.AllianceModel.GetInfluenceCostOfProposingStartingAlliance(adoptedHero.Clan);
                         if (adoptedHero.Clan.Influence < influenceCost)
                         {
-                            onFailure($"Not enough influence:{influenceCost}");
+                            onFailure("{=SimpleDiplomacyNotEnoughInfluence}Not enough influence:{influenceCost}".Translate(("influenceCost", influenceCost)));
                             return;
                         }
                         if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.AllyPrice)
@@ -470,30 +476,30 @@ namespace BLTAdoptAHero
                         {
                             iallianceBehavior.OnAllianceOfferedToPlayerKingdom(kingdom);
                             adoptedHero.Clan.Influence -= influenceCost;
-                            onSuccess("Proposed alliance to player kingdom");
+                            onSuccess("{=SimpleDiplomacyAllianceOfferedToPlayerKingdom}Proposed alliance to player kingdom".Translate());
                         }
                         else if (desiredKingdom == Hero.MainHero.Clan.Kingdom && Hero.MainHero.IsKingdomLeader)
                         {
                             iallianceBehavior.OnAllianceOfferedToPlayer(kingdom);
                             adoptedHero.Clan.Influence -= influenceCost;
-                            onSuccess("Proposed alliance to player");
+                            onSuccess("{=SimpleDiplomacyAllianceOfferedToPlayer}Proposed alliance to player".Translate());
                         }
                         else
                         {
 
                             allianceBehavior.StartAlliance(kingdom, desiredKingdom);
                             adoptedHero.Clan.Influence -= influenceCost;
-                            onSuccess($"Allied with {desiredKingdom}");
+                            onSuccess("{=SimpleDiplomacyAlliedWith}Allied with {kingdom}".Translate(("kingdom", desiredKingdom)));
                         }
                         BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.AllyPrice, true);
                         break;
                     }
-                case "trade":
+                case var _ when mode == tradeCommand:
                     {
 
                         if (!settings.TradeEnabled)
                         {
-                            onFailure("Trade alliances disabled".Translate());
+                            onFailure("{=SimpleDiplomacyTradeDisabled}Trade alliances disabled".Translate());
                             return;
                         }
                         if (desiredKingdom == null)
@@ -503,29 +509,29 @@ namespace BLTAdoptAHero
                         }
                         if (!adoptedHero.IsKingdomLeader)
                         {
-                            onFailure("{=TESTING}Not a king.".Translate());
+                            onFailure("{=SimpleDiplomacyNotKing}Not a king.".Translate());
                             return;
                         }
 
                         if (kingdom.IsAtWarWith(desiredKingdom))
                         {
-                            onFailure($"At war with {desiredKingdom}");
+                            onFailure("{=SimpleDiplomacyAtWarWith}At war with {kingdom}".Translate(("kingdom", desiredKingdom)));
                             return;
                         }
                         if (tradeBehavior.HasTradeAgreement(kingdom, desiredKingdom, out _))
                         {
-                            onFailure($"Already trading with {desiredKingdom}");
+                            onFailure("{=SimpleDiplomacyAlreadyTrading}Already trading with {kingdom}".Translate(("kingdom", desiredKingdom)));
                             return;
                         }
                         if (kingdom == desiredKingdom)
                         {
-                            onFailure("Cant trade with yourself!");
+                            onFailure("{=SimpleDiplomacyCantTradeSelf}Cant trade with yourself!".Translate());
                             return;
                         }
                         int influenceCost = Campaign.Current.Models.TradeAgreementModel.GetInfluenceCostOfProposingTradeAgreement(adoptedHero.Clan);
                         if (adoptedHero.Clan.Influence < influenceCost)
                         {
-                            onFailure($"Not enough influence:{influenceCost}");
+                            onFailure("{=SimpleDiplomacyNotEnoughInfluence}Not enough influence:{influenceCost}".Translate(("influenceCost", influenceCost)));
                             return;
                         }
                         if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.TradePrice)
@@ -537,13 +543,13 @@ namespace BLTAdoptAHero
                         {
                             tradeBehavior.OnTradeAgreementOfferedToPlayer(kingdom);
                             adoptedHero.Clan.Influence -= influenceCost;
-                            onSuccess("Proposed trade agreement to player kingdom");
+                            onSuccess("{=SimpleDiplomacyTradeOfferedToPlayerKingdom}Proposed trade agreement to player kingdom".Translate());
                         }
                         else if (desiredKingdom == Hero.MainHero.Clan.Kingdom && Hero.MainHero.IsKingdomLeader)
                         {
                             tradeBehavior.OnTradeAgreementOfferedToPlayer(kingdom);
                             adoptedHero.Clan.Influence -= influenceCost;
-                            onSuccess("Proposed trade agreement to player kingdom");
+                            onSuccess("{=SimpleDiplomacyTradeOfferedToPlayerKingdom}Proposed trade agreement to player kingdom".Translate());
                         }
                         else
                         {
@@ -551,14 +557,14 @@ namespace BLTAdoptAHero
                             BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.TradePrice, true);
                             tradeBehavior.MakeTradeAgreement(kingdom, desiredKingdom, duration);
                             adoptedHero.Clan.Influence -= influenceCost;
-                            onSuccess($"Allied with {desiredKingdom}");
+                            onSuccess("{=SimpleDiplomacyTradeAgreedWith}Allied with {kingdom}".Translate(("kingdom", desiredKingdom)));
                         }
                         break;
                     }
                 default:
                     {
                         ActionManager.SendReply(context,
-                        context.ArgsErrorMessage("{=TESTING}invalid mode (use war (kingdom), peace (kingdom), alliance (kingdom), trade (kingdom)".Translate()));
+                        context.ArgsErrorMessage("{=SimpleDiplomacyArgsShort}invalid mode (use war (kingdom), peace (kingdom), alliance (kingdom), trade (kingdom)".Translate()));
                         break;
                     }
             }

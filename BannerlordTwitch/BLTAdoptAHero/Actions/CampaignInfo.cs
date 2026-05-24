@@ -208,9 +208,9 @@ namespace BLTAdoptAHero
             if (war)
                 sb.Append("{=QadZnUKh}Wars: {wars} | ".Translate(("wars", warList.ToString())));
             if (ally)
-                sb.Append("{=TESTING}Alliances: {allies} | ".Translate(("allies", allyList)));
+                sb.Append("{=CampaignInfoAlliances}Alliances: {allies} | ".Translate(("allies", allyList)));
             if (trade)
-                sb.Append("{=TESTING}Trades: {trade} | ".Translate(("trade", tradeList.ToString())));
+                sb.Append("{=CampaignInfoTrades}Trades: {trade} | ".Translate(("trade", tradeList.ToString())));
             if (tribute)
                 sb.Append("{=0GhTvF3K}Tribute: {tribute} | ".Translate(("tribute", tributeList.ToString())));
             if (desiredKingdom.RulingClan.HomeSettlement != null)
@@ -369,7 +369,7 @@ namespace BLTAdoptAHero
         {
             if (string.IsNullOrWhiteSpace(desiredName))
             {
-                ActionManager.SendReply(context, "{=TESTING}Need fief name".Translate());
+                ActionManager.SendReply(context, "{=CampaignInfoNeedFiefName}Need fief name".Translate());
                 return;
             }
 
@@ -383,14 +383,14 @@ namespace BLTAdoptAHero
             if (desiredFief == null)
             {
                 ActionManager.SendReply(context,
-                   "{=TESTING}Could not find a fief with the name {name}".Translate(("name", desiredName)));
+                   "{=CampaignInfoFiefNotFound}Could not find a fief with the name {name}".Translate(("name", desiredName)));
                 return;
             }
             var sb = new StringBuilder();
             if (desiredFief.IsVillage)
             {
                 Village vill = Village.All.FirstOrDefault(v => v.Name.ToString() == desiredFief.Name.ToString());
-                sb.Append("{=TESTING}{Name} ".Translate(("Name", vill.Name)));
+                sb.Append("{=CampaignInfoSettlementName}{Name} ".Translate(("Name", vill.Name)));
                 if (desiredFief.HasPort)
                     sb.Append("⚓");
                 if (desiredFief.IsUnderRaid)
@@ -398,11 +398,11 @@ namespace BLTAdoptAHero
                 if (desiredFief.IsRaided)
                     sb.Append("🔥");
                 sb.Append(" | ");
-                sb.Append("{=TESTING}Village | ".Translate());
-                sb.Append("{=TESTING}Culture: {culture} | ".Translate(("culture", desiredFief.Culture.ToString())));
-                sb.Append("{=TESTING}Hearths: {hearths}({change}) | ".Translate(("hearths", (int)vill.Hearth), ("change", (vill.HearthChange + UpgradeBehavior.Current.GetTotalHearthDaily(vill.Bound.Town.Settlement) >= 0 ? "+" : "") + Math.Round(vill.HearthChange + UpgradeBehavior.Current.GetTotalHearthDaily(vill.Bound.Town.Settlement), 2))));
+                sb.Append("{=CampaignInfoVillage}Village | ".Translate());
+                sb.Append("{=CampaignInfoCulture}Culture: {culture} | ".Translate(("culture", desiredFief.Culture.ToString())));
+                sb.Append("{=CampaignInfoHearths}Hearths: {hearths}({change}) | ".Translate(("hearths", (int)vill.Hearth), ("change", (vill.HearthChange + UpgradeBehavior.Current.GetTotalHearthDaily(vill.Bound.Town.Settlement) >= 0 ? "+" : "") + Math.Round(vill.HearthChange + UpgradeBehavior.Current.GetTotalHearthDaily(vill.Bound.Town.Settlement), 2))));
                 var parent = Settlement.All.FirstOrDefault(s => s.BoundVillages.Any(v => v.Name.ToString() == desiredFief.Name.ToString()));
-                sb.Append("{=TESTING}Bound to {parent}".Translate(("parent", parent.Name)));
+                sb.Append("{=CampaignInfoBoundTo}Bound to {parent}".Translate(("parent", parent.Name)));
                 ActionManager.SendReply(context, sb.ToString());
             }
             else if (desiredFief.IsTown || desiredFief.IsCastle)
@@ -418,31 +418,31 @@ namespace BLTAdoptAHero
                     town.Settlement.BoundVillages.Sum(v => Campaign.Current.Models.ClanFinanceModel.CalculateVillageIncome(town.OwnerClan, v, false)) -
                     (town.GarrisonParty?.TotalWage ?? 0)
                     );
-                sb.Append("{=TESTING}{Name} ".Translate(("Name", town.Name)));
+                sb.Append("{=CampaignInfoSettlementName}{Name} ".Translate(("Name", town.Name)));
                 if (desiredFief.HasPort)
                     sb.Append("⚓");
                 if (desiredFief.IsUnderSiege)
                     sb.Append("⚔️");
                 sb.Append(" | ");
                 if (!town.IsCastle)
-                    sb.Append("{=TESTING}Town | ".Translate());
+                    sb.Append("{=CampaignInfoTown}Town | ".Translate());
                 else
-                    sb.Append("{=TESTING}Castle | ".Translate());
-                sb.Append("{=TESTING}Culture: {culture} | ".Translate(("culture", desiredFief.Culture.ToString())));
+                    sb.Append("{=CampaignInfoCastle}Castle | ".Translate());
+                sb.Append("{=CampaignInfoCulture}Culture: {culture} | ".Translate(("culture", desiredFief.Culture.ToString())));
                 if (town.OwnerClan != null)
-                    sb.Append("{=TESTING}Owner:{own} | ".Translate(("own", town.OwnerClan.Name)));
+                    sb.Append("{=CampaignInfoOwner}Owner:{own} | ".Translate(("own", town.OwnerClan.Name)));
                 if (town.OwnerClan.Kingdom != null)
-                    sb.Append("{=TESTING}Kingdom:{kingdom} | ".Translate(("kingdom", town.OwnerClan.Kingdom.Name)));
+                    sb.Append("{=CampaignInfoKingdom}Kingdom:{kingdom} | ".Translate(("kingdom", town.OwnerClan.Kingdom.Name)));
                 if (town.Governor != null)
-                    sb.Append("{=TESTING}Governor:{gove} | ".Translate(("gove", town.Governor.Name)));
-                sb.Append("{=TESTING}Prosperity:{pros}({change}) | ".Translate(("pros", (int)town.Prosperity), ("change", (town.ProsperityChange + UpgradeBehavior.Current.GetProsperityFlat(town.Settlement) > 0 ? "+" : "") + Math.Round(town.ProsperityChange + UpgradeBehavior.Current.GetProsperityFlat(town.Settlement), 2))));
-                sb.Append("{=TESTING}Loyalty:{loy}({change}) | ".Translate(("loy", (int)town.Loyalty), ("change", (town.LoyaltyChange + UpgradeBehavior.Current.GetLoyaltyFlat(town.Settlement) > 0 ? "+" : "") + Math.Round(town.LoyaltyChange + UpgradeBehavior.Current.GetLoyaltyFlat(town.Settlement), 2))));
-                sb.Append("{=TESTING}Security:{sec}({change}) | ".Translate(("sec", (int)town.Security), ("change", (town.SecurityChange + UpgradeBehavior.Current.GetSecurityFlat(town.Settlement) > 0 ? "+" : "") + Math.Round(town.SecurityChange + UpgradeBehavior.Current.GetSecurityFlat(town.Settlement), 2))));
-                sb.Append("{=TESTING}Food:{food}({change}) | ".Translate(("food", (int)town.FoodStocks), ("change", (town.FoodChange + UpgradeBehavior.Current.GetFoodFlat(town.Settlement) > 0 ? "+" : "") + Math.Round(town.FoodChange + UpgradeBehavior.Current.GetFoodFlat(town.Settlement), 2))));
-                sb.Append("{=TESTING}💰Daily income:{profit} | ".Translate(("profit", profit)));
-                sb.Append("{=TESTING}Militia:{mil}({change}) | ".Translate(("mil", (int)town.Militia), ("change", (town.MilitiaChange + UpgradeBehavior.Current.GetMilitiaFlat(town.Settlement) > 0 ? "+" : "") + Math.Round(town.MilitiaChange + UpgradeBehavior.Current.GetMilitiaFlat(town.Settlement), 2))));
+                    sb.Append("{=CampaignInfoGovernor}Governor:{gove} | ".Translate(("gove", town.Governor.Name)));
+                sb.Append("{=CampaignInfoProsperity}Prosperity:{pros}({change}) | ".Translate(("pros", (int)town.Prosperity), ("change", (town.ProsperityChange + UpgradeBehavior.Current.GetProsperityFlat(town.Settlement) > 0 ? "+" : "") + Math.Round(town.ProsperityChange + UpgradeBehavior.Current.GetProsperityFlat(town.Settlement), 2))));
+                sb.Append("{=CampaignInfoLoyalty}Loyalty:{loy}({change}) | ".Translate(("loy", (int)town.Loyalty), ("change", (town.LoyaltyChange + UpgradeBehavior.Current.GetLoyaltyFlat(town.Settlement) > 0 ? "+" : "") + Math.Round(town.LoyaltyChange + UpgradeBehavior.Current.GetLoyaltyFlat(town.Settlement), 2))));
+                sb.Append("{=CampaignInfoSecurity}Security:{sec}({change}) | ".Translate(("sec", (int)town.Security), ("change", (town.SecurityChange + UpgradeBehavior.Current.GetSecurityFlat(town.Settlement) > 0 ? "+" : "") + Math.Round(town.SecurityChange + UpgradeBehavior.Current.GetSecurityFlat(town.Settlement), 2))));
+                sb.Append("{=CampaignInfoFood}Food:{food}({change}) | ".Translate(("food", (int)town.FoodStocks), ("change", (town.FoodChange + UpgradeBehavior.Current.GetFoodFlat(town.Settlement) > 0 ? "+" : "") + Math.Round(town.FoodChange + UpgradeBehavior.Current.GetFoodFlat(town.Settlement), 2))));
+                sb.Append("{=CampaignInfoDailyIncome}💰Daily income:{profit} | ".Translate(("profit", profit)));
+                sb.Append("{=CampaignInfoMilitia}Militia:{mil}({change}) | ".Translate(("mil", (int)town.Militia), ("change", (town.MilitiaChange + UpgradeBehavior.Current.GetMilitiaFlat(town.Settlement) > 0 ? "+" : "") + Math.Round(town.MilitiaChange + UpgradeBehavior.Current.GetMilitiaFlat(town.Settlement), 2))));
                 var garmodel = Campaign.Current.Models.PartySizeLimitModel;
-                sb.Append("{=TESTING}Garrison:{gar}/{garcap} | ".Translate(("gar", (int)town.GarrisonParty.MemberRoster.TotalHealthyCount), ("garcap", (int)garmodel.CalculateGarrisonPartySizeLimit(town.Settlement, false).ResultNumber + UpgradeBehavior.Current.GetTotalGarrisonCapacityBonus(town.Settlement))));
+                sb.Append("{=CampaignInfoGarrison}Garrison:{gar}/{garcap} | ".Translate(("gar", (int)town.GarrisonParty.MemberRoster.TotalHealthyCount), ("garcap", (int)garmodel.CalculateGarrisonPartySizeLimit(town.Settlement, false).ResultNumber + UpgradeBehavior.Current.GetTotalGarrisonCapacityBonus(town.Settlement))));
                 var villList = town.Settlement.BoundVillages.Select(v => v).ToList();
                 string villNames = "";
                 sb.Append($"Villages + Hearth: ");
@@ -509,7 +509,7 @@ namespace BLTAdoptAHero
             }
             else
             {
-                ActionManager.SendReply(context, $"Could not find a kingdom with the name {desiredName}");
+                ActionManager.SendReply(context, "{=CampaignInfoKingdomNotFound}Could not find a kingdom with the name {name}".Translate(("name", desiredName)));
             }
         }
 
@@ -517,7 +517,7 @@ namespace BLTAdoptAHero
         {
             if (string.IsNullOrWhiteSpace(desiredName))
             {
-                ActionManager.SendReply(context, "{=}Need a clan name".Translate());
+                ActionManager.SendReply(context, "{=CampaignInfoNeedClanName}Need a clan name".Translate());
                 return;
             }
 
@@ -573,7 +573,7 @@ namespace BLTAdoptAHero
                     ("cparties", parties),
                     ("mparties", partyLimit)
                 ));
-                clanSb.Append("{=TESTING}Ships: {ships} |".Translate(("ships", ships)));
+                clanSb.Append("{=CampaignInfoShips}Ships: {ships} |".Translate(("ships", ships)));
                 if (desiredClan.Fiefs.Count >= 1)
                 {
                     int townCount = 0;
@@ -597,7 +597,7 @@ namespace BLTAdoptAHero
             }
             else
             {
-                ActionManager.SendReply(context, $"Could not find a clan with the name {desiredName}");
+                ActionManager.SendReply(context, "{=CampaignInfoClanNotFound}Could not find a clan with the name {name}".Translate(("name", desiredName)));
             }
         }
 
@@ -663,7 +663,7 @@ namespace BLTAdoptAHero
             }
             else
             {
-                ActionManager.SendReply(context, $"Could not find a kingdom with the name {desiredName}");
+                ActionManager.SendReply(context, "{=CampaignInfoKingdomNotFound}Could not find a kingdom with the name {name}".Translate(("name", desiredName)));
             }
         }
 
@@ -671,7 +671,7 @@ namespace BLTAdoptAHero
         {
             if (string.IsNullOrWhiteSpace(desiredName))
             {
-                ActionManager.SendReply(context, "{=TESTING}Need a clan name".Translate());
+                ActionManager.SendReply(context, "{=CampaignInfoNeedClanName}Need a clan name".Translate());
                 return;
             }
 
@@ -680,14 +680,14 @@ namespace BLTAdoptAHero
 
             if (desiredClan == null)
             {
-                ActionManager.SendReply(context, $"Could not find a clan with the name {desiredName}");
+                ActionManager.SendReply(context, "{=CampaignInfoClanNotFound}Could not find a clan with the name {name}".Translate(("name", desiredName)));
                 return;
             }
 
             var vassalBehavior = VassalBehavior.Current;
             if (vassalBehavior == null)
             {
-                ActionManager.SendReply(context, "Vassal system is not available");
+                ActionManager.SendReply(context, "{=CampaignInfoVassalUnavailable}Vassal system is not available".Translate());
                 return;
             }
 
@@ -695,7 +695,7 @@ namespace BLTAdoptAHero
 
             if (vassals == null || vassals.Count == 0)
             {
-                ActionManager.SendReply(context, $"{desiredClan.Name} has no vassals");
+                ActionManager.SendReply(context, "{=CampaignInfoClanNoVassals}{clanName} has no vassals".Translate(("clanName", desiredClan.Name)));
                 return;
             }
 
@@ -713,7 +713,7 @@ namespace BLTAdoptAHero
                 }
                 else
                 {
-                    sb.Append(" (No fiefs)");
+                    sb.Append("{=CampaignInfoNoFiefsParenthetical} (No fiefs)".Translate());
                 }
 
                 sb.Append(" | ");
@@ -745,7 +745,7 @@ namespace BLTAdoptAHero
             {
                 if (desiredKingdom.Fiefs.Count == 0)
                 {
-                    ActionManager.SendReply(context, "No fiefs".Translate());
+                    ActionManager.SendReply(context, "{=CampaignInfoNoFiefs}No fiefs".Translate());
                     return;
                 }
 

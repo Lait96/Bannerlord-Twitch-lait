@@ -33,8 +33,8 @@ namespace BLTAdoptAHero
             [UsedImplicitly]
             public int Age { get; set; } = 1;
 
-            [LocDisplayName("{=TESTING}Spouse")]
-            [LocDescription("{=TESTING}Should spouse de-age with the hero")]
+            [LocDisplayName("{=RejuvenateSpouse}Spouse")]
+            [LocDescription("{=RejuvenateSpouseDesc}Should spouse de-age with the hero")]
             [PropertyOrder(3)]
             [UsedImplicitly]
             public bool Spouse { get; set; } = false;

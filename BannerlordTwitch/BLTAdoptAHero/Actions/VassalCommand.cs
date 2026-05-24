@@ -24,8 +24,8 @@ using System.ComponentModel.DataAnnotations;
 using BLTAdoptAHero.Behaviors;
 namespace BLTAdoptAHero.Actions
 {
-    [LocDisplayName("Vassal Management"),
-     LocDescription("Allow viewer to manage their vassals"),
+    [LocDisplayName("{=VassalManagementCmd}Vassal Management"),
+     LocDescription("{=VassalManagementDesc}Allow viewer to manage their vassals"),
      UsedImplicitly]
     public class VassalManagement : HeroCommandHandlerBase
     {
@@ -33,46 +33,46 @@ namespace BLTAdoptAHero.Actions
         private class Settings : IDocumentable
         {
             [LocDisplayName("{=pYjIUlTE}Enabled"),
-             LocCategory("Vassal", "{=TESTING}Vassal"),
-             LocDescription("{=TESTING}Enable viewer create vassal"),
+             LocCategory("Vassal", "{=VassalCategory}Vassal"),
+             LocDescription("{=VassalEnabledDesc}Enable viewer create vassal"),
              PropertyOrder(1), UsedImplicitly]
             public bool VassalEnabled { get; set; } = true;
 
             [LocDisplayName("{=BLT_MaxVassals}Max vassal"),
-             LocCategory("Vassal", "{=TESTING}Vassal"),
+             LocCategory("Vassal", "{=VassalCategory}Vassal"),
              LocDescription("{=BLT_MaxVassalsDesc}Max vassal clans"),
              PropertyOrder(2), UsedImplicitly]
             public int VassalAmount { get; set; } = 3;
 
             [LocDisplayName("{=6PUxQuLg}Gold Cost"),
-             LocCategory("Vassal", "{=TESTING}Vassal"),
-             LocDescription("{=TESTING}Cost of creating a vassal clan"),
+             LocCategory("Vassal", "{=VassalCategory}Vassal"),
+             LocDescription("{=VassalPriceDesc}Cost of creating a vassal clan"),
              PropertyOrder(3), UsedImplicitly]
             public int VassalPrice { get; set; } = 250000;
 
-            [LocDisplayName("{=TESTING}Vassal Merc Income Share %"),
-             LocCategory("Vassal", "{=TESTING}Vassal"),
-             LocDescription("{=TESTING}Percentage of vassal mercenary income shared with master (0.0 - 2.0, 0.25 = 25%)"),
+            [LocDisplayName("{=VassalMercIncomeShare}Vassal Merc Income Share %"),
+             LocCategory("Vassal", "{=VassalCategory}Vassal"),
+             LocDescription("{=VassalMercIncomeShareDesc}Percentage of vassal mercenary income shared with master (0.0 - 2.0, 0.25 = 25%)"),
              PropertyOrder(4), UsedImplicitly,
              Range(0f, 2f)]
             public float VassalMercIncomeShare { get; set; } = 0.25f; // 25% default
 
-            [LocDisplayName("{=TESTING}Vassal Fief Income Share %"),
-             LocCategory("Vassal", "{=TESTING}Vassal"),
-             LocDescription("{=TESTING}Percentage of vassal fief income shared with master (0.0 - 2.0, 0.25 = 25%)"),
+            [LocDisplayName("{=VassalFiefIncomeShare}Vassal Fief Income Share %"),
+             LocCategory("Vassal", "{=VassalCategory}Vassal"),
+             LocDescription("{=VassalFiefIncomeShareDesc}Percentage of vassal fief income shared with master (0.0 - 2.0, 0.25 = 25%)"),
              PropertyOrder(5), UsedImplicitly,
              Range(0f, 2f)]
             public float VassalFiefIncomeShare { get; set; } = 0.25f; // 25% default
 
-            [LocDisplayName("{=TESTING}King Vassals Only"),
-             LocCategory("Vassal", "{=TESTING}Vassal"),
-             LocDescription("{=TESTING}Prevents anyone except kings to create vassal clans"),
+            [LocDisplayName("{=KingVassalsOnly}King Vassals Only"),
+             LocCategory("Vassal", "{=VassalCategory}Vassal"),
+             LocDescription("{=KingVassalsOnlyDesc}Prevents anyone except kings to create vassal clans"),
              PropertyOrder(6), UsedImplicitly]
             public bool KingVassalsOnly { get; set; } = false;
 
-            [LocDisplayName("{=TESTING}Vassals tied to kingdom"),
-             LocCategory("Vassal", "{=TESTING}Vassal"),
-             LocDescription("{=TESTING}Should vassal be tied to kingdom(On kingdom leave/destruction, vassals get destroyed and members go back to main clan)"),
+            [LocDisplayName("{=KingdomVassals}Vassals tied to kingdom"),
+             LocCategory("Vassal", "{=VassalCategory}Vassal"),
+             LocDescription("{=KingdomVassalsDesc}Should vassal be tied to kingdom(On kingdom leave/destruction, vassals get destroyed and members go back to main clan)"),
              PropertyOrder(7), UsedImplicitly]
             public bool KingdomVassals { get; set; } = false;
 
@@ -88,7 +88,7 @@ namespace BLTAdoptAHero.Actions
 
             if (VassalBehavior.Current == null)
             {
-                onFailure("Vassal behavior not initialized");
+                onFailure("{=VassalBehaviorNotInitialized}Vassal behavior not initialized".Translate());
                 return;
             }
             
@@ -120,7 +120,7 @@ namespace BLTAdoptAHero.Actions
                     return;
                 }
                 string vassals = string.Join(",", behavior.GetVassalClans(adoptedHero.Clan).Select(c => c.Name));
-                onSuccess($"Vassals:{vassals}");
+                onSuccess("{=VassalList}Vassals:{vassals}".Translate(("vassals", vassals)));
                 return;
             }
 
@@ -134,16 +134,19 @@ namespace BLTAdoptAHero.Actions
             var splitArgs = context.Args.Split(' ');
             var command = splitArgs[0];       
             var desiredName = string.Join(" ", splitArgs.Skip(1)).Trim();
+            string createCommand = "{=VassalCreateCommand}create".Translate();
+            string renameCommand = "{=VassalRenameCommand}rename".Translate();
+            string bannerCommand = "{=VassalBannerCommand}banner".Translate();
 
             switch (command.ToLower())
             {
-                case "create":
+                case var _ when command.ToLower() == createCommand:
                     CreateVassalCommand(settings, adoptedHero, desiredName, onSuccess, onFailure);
                     break;
-                case "rename":
+                case var _ when command.ToLower() == renameCommand:
                     RenameVassalCommand(settings, adoptedHero, desiredName, onSuccess, onFailure);
                     break;
-                case "banner":
+                case var _ when command.ToLower() == bannerCommand:
                     HandleBannerCommand(settings, adoptedHero, desiredName, onSuccess, onFailure);
                     break;
                 default:
@@ -156,7 +159,7 @@ namespace BLTAdoptAHero.Actions
         {
             if (!settings.VassalEnabled)
             {
-                onFailure("Vassal creation is disabled");
+                onFailure("{=VassalCreationDisabled}Vassal creation is disabled".Translate());
                 return;
             }
 
@@ -187,12 +190,12 @@ namespace BLTAdoptAHero.Actions
             var existingClan = Clan.All.FirstOrDefault(c => c.Name.ToString().ToLower() == setname.ToLower() || c.Name.ToString().ToLower() == $"[vassal] {setname.ToLower()}" || c.Name.ToString().ToLower() == $"[blt clan] {setname.ToLower()}");
             if (existingClan != null)
             {
-                onFailure("{=TESTING}A clan with the name {name} already exists".Translate(("name", setname)));
+                onFailure("{=VassalClanNameExists}A clan with the name {name} already exists".Translate(("name", setname)));
                 return;
             }
             if (VassalBehavior.Current.GetVassalClans(adoptedHero.Clan).Count >= (settings.VassalAmount + UpgradeBehavior.Current.GetTotalMaxVassalsBonus(adoptedHero.Clan)))
             {
-                onFailure($"Max vassals: {settings.VassalAmount + UpgradeBehavior.Current.GetTotalMaxVassalsBonus(adoptedHero.Clan)}");
+                onFailure("{=VassalMaxReached}Max vassals: {maxVassals}".Translate(("maxVassals", settings.VassalAmount + UpgradeBehavior.Current.GetTotalMaxVassalsBonus(adoptedHero.Clan))));
                 return;
             }
             if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.VassalPrice)
@@ -206,38 +209,38 @@ namespace BLTAdoptAHero.Actions
 
             if (vassal == null)
             {
-                onFailure($"No hero named {childName}");
+                onFailure("{=VassalHeroNotFound}No hero named {childName}".Translate(("childName", childName)));
                 return;
             }
             if (vassal.Age < 18)
             {
-                onFailure($"{childName} is too young");
+                onFailure("{=VassalHeroTooYoung}{childName} is too young".Translate(("childName", childName)));
                 return;
             }
             if (vassal.Spouse != null && vassal.Spouse.IsAdopted())
             {
-                onFailure("Cannot vassal a blt spouse");
+                onFailure("{=VassalCannotUseBltSpouse}Cannot vassal a blt spouse".Translate());
                 return;
             }
             if (vassal.IsAdopted())
             {
-                onFailure("Cannot vassal a blt");
+                onFailure("{=VassalCannotUseBltHero}Cannot vassal a blt".Translate());
                 return;
             }
             var heir = Campaign.Current.GetCampaignBehavior<BLTHeirBehavior>();
             if (heir !=null && heir._heirs.Contains(vassal))
             {
-                onFailure("Cannot vassal a heir");
+                onFailure("{=VassalCannotUseHeir}Cannot vassal a heir".Translate());
                 return;
             }
             if (vassal.IsPrisoner)
             {
-                onFailure($"{childName} is prisoner");
+                onFailure("{=VassalHeroPrisoner}{childName} is prisoner".Translate(("childName", childName)));
                 return;
             }
             if (vassal.HeroState == Hero.CharacterStates.Fugitive || vassal.HeroState == Hero.CharacterStates.Released || vassal.HeroState == Hero.CharacterStates.Traveling)
             {
-                onFailure($"{childName} is busy");
+                onFailure("{=VassalHeroBusy}{childName} is busy".Translate(("childName", childName)));
                 return;
             }
             if (vassal.Spouse == null)
@@ -331,7 +334,7 @@ namespace BLTAdoptAHero.Actions
             var vassalList = VassalBehavior.Current.GetVassalClans(adoptedHero.Clan);
             if (vassalList == null || vassalList.Count == 0)
             {
-                onFailure("Your clan has no vassals");
+                onFailure("{=VassalClanHasNoVassals}Your clan has no vassals".Translate());
                 return;
             }
 
@@ -339,18 +342,18 @@ namespace BLTAdoptAHero.Actions
 
             if (splitArgs.Length < 2)
             {
-                onFailure("Usage: rename (vassal number) (new name)");
+                onFailure("{=VassalRenameUsage}Usage: rename (vassal number) (new name)".Translate());
                 return;
             }
 
             if (!int.TryParse(splitArgs[0], out int vas))
             {
-                onFailure("Not a number");
+                onFailure("{=VassalNotANumber}Not a number".Translate());
                 return;
             }
             if (vas <= 0 || vas > vassalList.Count)
             {
-                onFailure("Invalid number");
+                onFailure("{=VassalInvalidNumber}Invalid number".Translate());
                 return;
             }
             Clan vassal = vassalList[vas - 1];
@@ -360,7 +363,7 @@ namespace BLTAdoptAHero.Actions
             
             vassal.ChangeClanName(new TextObject(fullClanName), new TextObject(fullClanName));
 
-            onSuccess($"Renamed vassal {oldName} to {fullClanName}");
+            onSuccess("{=VassalRenamed}Renamed vassal {oldName} to {fullClanName}".Translate(("oldName", oldName), ("fullClanName", fullClanName)));
         }
 
         private Dictionary<Clan, string> _bannerBuffer = new();
@@ -369,7 +372,7 @@ namespace BLTAdoptAHero.Actions
             var vassalList = VassalBehavior.Current.GetVassalClans(adoptedHero.Clan);
             if (vassalList == null || vassalList.Count == 0)
             {
-                onFailure("Your clan has no vassals");
+                onFailure("{=VassalClanHasNoVassals}Your clan has no vassals".Translate());
                 return;
             }
 
@@ -377,7 +380,7 @@ namespace BLTAdoptAHero.Actions
 
             if (splitArgs.Length < 2)
             {
-                onFailure("Usage: banner (vassal name) (bannerCode)");
+                onFailure("{=VassalBannerUsage}Usage: banner (vassal name) (bannerCode)".Translate());
                 return;
             }
 
@@ -389,7 +392,7 @@ namespace BLTAdoptAHero.Actions
             Clan vassal = vassalList.FirstOrDefault(v => v.Name.ToString().IndexOf(name, StringComparison.InvariantCultureIgnoreCase) >= 0);
             if (vassal == null)
             {
-                onFailure($"No vassal named {name}");
+                onFailure("{=VassalNotFound}No vassal named {name}".Translate(("name", name)));
                 return;
             }
 
@@ -398,23 +401,25 @@ namespace BLTAdoptAHero.Actions
                 onFailure("{=PSDbhv3a}Make your banner at https://bannerlord.party/banner and paste it directly".Translate());
                 return;
             }
-            if (bannerCode == "start")
+            string startCommand = "{=VassalBannerStartCommand}start".Translate();
+            string endCommand = "{=VassalBannerEndCommand}end".Translate();
+            if (bannerCode == startCommand)
             {
                 if (_bannerBuffer.ContainsKey(vassal))
                 {
-                    onFailure("Banner input already started");
+                    onFailure("{=VassalBannerAlreadyStarted}Banner input already started".Translate());
                     return;
                 }
 
                 _bannerBuffer[vassal] = "";
-                onSuccess("Banner input started. Send lines. Use 'end' to finish.");
+                onSuccess("{=VassalBannerInputStarted}Banner input started. Send lines. Use 'end' to finish.".Translate());
                 return;
             }
-            if (bannerCode == "end")
+            if (bannerCode == endCommand)
             {
                 if (!_bannerBuffer.TryGetValue(vassal, out string stored))
                 {
-                    onFailure("Banner input was not started");
+                    onFailure("{=VassalBannerNotStarted}Banner input was not started".Translate());
                     return;
                 }
 
@@ -424,7 +429,7 @@ namespace BLTAdoptAHero.Actions
             else if (_bannerBuffer.TryGetValue(vassal, out string current))
             {
                 _bannerBuffer[vassal] = current + bannerCode;
-                onSuccess("Line added");
+                onSuccess("{=VassalBannerLineAdded}Line added".Translate());
                 return;
             }
             try
@@ -446,7 +451,7 @@ namespace BLTAdoptAHero.Actions
             }
             catch (Exception ex)
             {
-                onFailure($"Failed to update banner: {ex.Message}");
+                onFailure("{=VassalBannerUpdateFailed}Failed to update banner: {Error}".Translate(("Error", ex.Message)));
             }
         }
     }

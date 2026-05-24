@@ -186,7 +186,7 @@ namespace BLTAdoptAHero
                     infoStrings.Add($"{adoptedHero.Culture.Name}");
                     infoStrings.Add("{=4TVRrlOw}{Age} yrs".Translate(("Age", (int)Math.Truncate((double)adoptedHero.Age))));
                     var gender = adoptedHero.IsFemale ? "Female" : "Male";
-                    infoStrings.Add("{=TESTING}{gender}".Translate(("gender", gender)));
+                    infoStrings.Add("{=HeroInfoGender}{gender}".Translate(("gender", gender)));
                     infoStrings.Add($"{adoptedHero.Occupation}");
                     infoStrings.Add("{=jY2QJdA3}{HP} / {MaxHP} HP".Translate(
                         ("HP", adoptedHero.HitPoints), ("MaxHP", adoptedHero.MaxHitPoints)));
@@ -256,7 +256,7 @@ namespace BLTAdoptAHero
                 {
                     var customItems = BLTAdoptAHeroCampaignBehavior.Current.GetCustomItems(adoptedHero);
 
-                    infoStrings.Add("{=}[CUSTOMS]".Translate() + " " +
+                    infoStrings.Add("{=HeroInfoCustomItemsTag}[CUSTOMS]".Translate() + " " +
                         (customItems.Any()
                             ? string.Join(Naming.Sep, customItems
                                 .Select((e, idx) =>

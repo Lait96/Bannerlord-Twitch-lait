@@ -337,8 +337,8 @@ namespace BLTAdoptAHero.Actions
             //string disbandCommand = "{=TESTING}disband".Translate();
             string buytitleCommand = "{=jk3WfmjK}buy title".Translate();
             string bannerCommand = "{=15vWZKaM}banner".Translate();
-            string shipCommand = "ship";
-            string homeCommand = "home";
+            string shipCommand = "{=ClanShipCommand}ship".Translate();
+            string homeCommand = "{=ClanHomeCommand}home".Translate();
 
             switch (command.ToLower())
             {
@@ -476,7 +476,7 @@ namespace BLTAdoptAHero.Actions
             }
             if (adoptedHero.PartyBelongedTo == Hero.MainHero.PartyBelongedTo || (adoptedHero.PartyBelongedTo != null && Clan.PlayerClan.WarPartyComponents.Select(w => w.MobileParty).Contains(adoptedHero.PartyBelongedTo)))
             {
-                onFailure("{=TESTING}You cannot create a clan while in the players party".Translate());
+                onFailure("{=ClanCreateInPlayerParty}You cannot create a clan while in the players party".Translate());
                 return;
             }
             
@@ -728,7 +728,7 @@ namespace BLTAdoptAHero.Actions
                 ("cparties", parties),
                 ("mparties", partyLimit)
             ));
-            clanStats.Append("{=TESTING}Ships: {ships} ".Translate(("ships", ships)));
+            clanStats.Append("{=ClanShips}Ships: {ships} ".Translate(("ships", ships)));
             if (adoptedHero.Clan.Fiefs.Count >= 1)
             {
                 int townCount = 0;
@@ -747,7 +747,7 @@ namespace BLTAdoptAHero.Actions
                 clanStats.Append("{=BwuFSJU1}| Towns: {towns} | ".Translate(("towns", (object)townCount)));
                 clanStats.Append("{=0rMNNQ7R}Castles: {castles}".Translate(("castles", (object)castleCount)));
             }
-            onSuccess("{=TESTING}{stats}".Translate(("stats", clanStats.ToString())));
+            onSuccess("{=ClanStatsMessage}{stats}".Translate(("stats", clanStats.ToString())));
         }
 
         private void HandlePartyCommand(Settings settings, Hero adoptedHero, Action<string> onSuccess, Action<string> onFailure)
@@ -864,7 +864,7 @@ namespace BLTAdoptAHero.Actions
             }
             fiefList.Append("{=BwuFSJU1}Towns: {towns} | ".Translate(("towns", (object)townInfo)));
             fiefList.Append("{=0rMNNQ7R}Castles: {castles}".Translate(("castles", (object)castleInfo)));
-            onSuccess("{=TESTING}{fiefs}".Translate(("fiefs", fiefList.ToString())));
+            onSuccess("{=ClanFiefsMessage}{fiefs}".Translate(("fiefs", fiefList.ToString())));
         }
 
         private void HandleLeaveCommand(Settings settings, Hero adoptedHero, Action<string> onSuccess, Action<string> onFailure)

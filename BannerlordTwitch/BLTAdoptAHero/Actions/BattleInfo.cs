@@ -14,8 +14,8 @@ using BLTAdoptAHero;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=TESTING}BattleInfo"),
-     LocDescription("{=TESTING}Shows hero battle info"),
+    [LocDisplayName("{=BattleInfoCmd}BattleInfo"),
+     LocDescription("{=BattleInfoDesc}Shows hero battle info"),
      UsedImplicitly]
     public class BattleInfo : HeroCommandHandlerBase
     {
@@ -23,7 +23,7 @@ namespace BLTAdoptAHero
         {
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.Value("<strong>Description:</strong> Shows detailed information about your adopted hero's current battle status, including health, mount, weapons, kills, retinue, gold, XP, and active powers.\n");
+                generator.Value("{=BattleInfoDoc}<strong>Description:</strong> Shows detailed information about your adopted hero's current battle status, including health, mount, weapons, kills, retinue, gold, XP, and active powers.\n".Translate());
             }
         }
 
@@ -41,7 +41,7 @@ namespace BLTAdoptAHero
 
             if (Mission.Current == null)
             {
-                onFailure("{=TESTING}No mission!".Translate());
+                onFailure("{=BattleInfoNoMission}No mission!".Translate());
                 return;
             }
 
@@ -77,7 +77,7 @@ namespace BLTAdoptAHero
             var missionBehavior = BLTAdoptAHeroCommonMissionBehavior.Current;
             if (missionBehavior == null)
             {
-                onFailure("Mission behavior not found!");
+                onFailure("{=BattleInfoMissionBehaviorMissing}Mission behavior not found!".Translate());
                 return;
             }
 
@@ -103,10 +103,10 @@ namespace BLTAdoptAHero
                     string playerFaction = (isDefend ? mapEvent.DefenderSide.MapFaction.Name.ToString() : mapEvent.AttackerSide.MapFaction.Name.ToString()); string enemyFaction = (isDefend ? mapEvent.AttackerSide.MapFaction.Name.ToString() : mapEvent.DefenderSide.MapFaction.Name.ToString());
                     battlestring += $"{playerFaction} vs {enemyFaction}(P/E):" + (isDefend ? $"{allyTotal}({defendCount})/{enemyTotal}({attackCount}) - " : $"{allyTotal}({attackCount})/{enemyTotal}({defendCount}) - ");
                 }
-                catch (Exception e) { battlestring += "Error getting factions - "; Log.Trace(e.StackTrace); }
+                catch (Exception e) { battlestring += "{=BattleInfoFactionError}Error getting factions - ".Translate(); Log.Trace(e.StackTrace); }
 
 
-                battlestring += $"Hero is not currently in battle! ({cd}s)";
+                battlestring += "{=BattleInfoHeroNotInBattleCooldown}Hero is not currently in battle! ({Cooldown}s)".Translate(("Cooldown", cd));
 
                 if (diedInfo.killer != null)
                 {                   
@@ -114,14 +114,15 @@ namespace BLTAdoptAHero
                     string weaponName = weaponClass.ToString();
 
                     battlestring +=
-                        $" | Killed by {diedInfo.killer.Name} with {weaponName}({diedInfo.blow.InflictedDamage})";
+                        "{=BattleInfoKilledBy} | Killed by {KillerName} with {WeaponName}({Damage})"
+                            .Translate(("KillerName", diedInfo.killer.Name), ("WeaponName", weaponName), ("Damage", diedInfo.blow.InflictedDamage));
 
                     if (canDie)
                     {
                         float deathMod = GlobalCommonConfig.Get().DeathChance;
                         var deathChance = Campaign.Current.Models.PartyHealingModel.GetSurvivalChance(adoptedHero.PartyBelongedTo.Party, adoptedHero.CharacterObject, diedInfo.blow.DamageType, true);
                         battlestring +=
-                            $" | Death chance: {(deathChance * deathMod * 100)}%";
+                            "{=BattleInfoDeathChance} | Death chance: {DeathChance}%".Translate(("DeathChance", deathChance * deathMod * 100));
                     }
                         
 
@@ -132,7 +133,7 @@ namespace BLTAdoptAHero
             }
             else if (agent == null && MissionHelpers.InTournament())
             {
-                onFailure($"Hero is not currently in battle!");
+                onFailure("{=BattleInfoHeroNotInBattle}Hero is not currently in battle!".Translate());
                 return;
             }
 
