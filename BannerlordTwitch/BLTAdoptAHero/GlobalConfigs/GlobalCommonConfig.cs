@@ -76,9 +76,21 @@ namespace BLTAdoptAHero
          PropertyOrder(4), UsedImplicitly]
         public string RestrictedItems { get; set; } = "";
 
-        [LocDisplayName("{=GlobalCommonConfig_Category_General_CustomCompanionLimit_Name}Custom Companion Limit"),
-         LocCategory("General", "{=GlobalCommonConfig_Category_General}General"),
-         LocDescription("{=GlobalCommonConfig_Category_General_CustomCompanionLimit_Desc}Flat number increase to companion limit"),
+        [LocDisplayName("{=Abc123}Forbidden Races"),
+         LocCategory("General", "{=C5T5nnix}General"),
+         LocDescription("{=Desc123}List of race IDs that are forbidden. Usage: 0,1,2"),
+         PropertyOrder(4)]
+        public string ForbiddenRaces { get; set; } = "";
+
+        [LocDisplayName("{=Abc123}Forbidden Cultures"),
+         LocCategory("General", "{=C5T5nnix}General"),
+         LocDescription("{=Desc123}List of cultures that are forbidden. Usage: Vlandia,Battania"),
+         PropertyOrder(4)]
+        public string ForbiddenCultures { get; set; } = "";
+
+        [LocDisplayName("{=}Custom Companion Limit"),
+         LocCategory("General", "{=C5T6nnix}General"),
+         LocDescription("{=}Flat number increase to companion limit"),
          PropertyOrder(5), UsedImplicitly]
         public int CustomCompanionLimit { get; set; } = 7;
 
@@ -155,6 +167,34 @@ namespace BLTAdoptAHero
                     StringComparer.OrdinalIgnoreCase
                 );
             }
+        }
+
+        [YamlIgnore, Browsable(false)]
+        public HashSet<int> RestrictedRacesIds 
+        {
+            get
+            {
+                return new HashSet<int>(
+                    ForbiddenRaces
+                            .Split(',')
+                            .Select(s => s.Trim())
+                            .Where(s => int.TryParse(s, out _))
+                            .Select(int.Parse)                            
+                );
+            }
+        }
+        [YamlIgnore, Browsable(false)]
+        public HashSet<string> RestrictedCulturesStrings
+        {
+            get
+            {
+                return new HashSet<string>(
+                    ForbiddenCultures
+                            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                            .Select(s => s.Trim())
+                            .ToHashSet(StringComparer.OrdinalIgnoreCase)
+                );
+            }        
         }
 
         #endregion
@@ -874,7 +914,22 @@ namespace BLTAdoptAHero
                 }
             });
             new UpgradeSystemDocumentation().GenerateDocumentation(generator);
-            if (ShowCampaignMapOverlay)
+
+            
+            var kingdoms = MapHub.CurrentMapData?.Kingdoms;
+            if (kingdoms == null || kingdoms.Count == 0)
+            {
+                MapHub.UpdateMapData(true);
+                kingdoms = MapHub.CurrentMapData?.Kingdoms;
+            }
+
+            if (kingdoms == null || kingdoms.Count == 0)
+                return;
+
+            generator.H1("Campaign Map");
+            generator.H2("Legend".Translate());
+
+            generator.Table("legend", () =>
             {
                 var kingdoms = MapHub.CurrentMapData?.Kingdoms;
                 if (kingdoms == null || kingdoms.Count == 0)
@@ -891,28 +946,21 @@ namespace BLTAdoptAHero
                         generator.TH("{=GlobalCommonConfig_Doc_Name}Name".Translate());
                     });
 
-                    foreach (var kingdom in kingdoms)
-                    {
-                        string hex1 = kingdom.Color1.StartsWith("#")
-                            ? kingdom.Color1
-                            : "#" + kingdom.Color1;
-                        string hex2 = kingdom.Color2.StartsWith("#")
-                            ? kingdom.Color2
-                            : "#" + kingdom.Color2;
+            // Map
+            var settlements = MapHub.CurrentMapData?.Settlements;
+            if (settlements == null || settlements.Count == 0)
+            {
+                MapHub.UpdateMapData(true);
+                settlements = MapHub.CurrentMapData?.Settlements;
+            }
 
-                        generator.TR(() =>
-                        {
-                            generator.TD(
-                                "",
-                                $"<div style=\"background-color:{hex1}; width:20px; height:20px; border:1px solid {hex2}; border-radius:3px;\"></div>"
-                            );
+            if (settlements == null || settlements.Count == 0)
+                return;
 
-                            var rkingdom = Kingdom.All.FirstOrDefault(f => f.StringId == kingdom.Id);
-                            string names = $"{kingdom.Name} - Leader: {rkingdom?.Leader?.Name}";
-                            generator.TD(names);
-                        });
-                    }
-                });
+            var segments = MapHub.CurrentMapData.Coastline;
+
+
+            generator.H2("Map");
 
                 // Map
                 var settlements = MapHub.CurrentMapData?.Settlements;

@@ -88,7 +88,7 @@ namespace BLTAdoptAHero.Actions
                 onFailure("{=BLTFormationNoFormation}No formation".Translate());
                 return;
             }
-           
+
             var behavior = BLTHeroDetachmentBehavior.Current;
             string command = GetFormationCommand(num);
             var keywords = new[] { "detach", "attach", "charge", "hold", "follow", "gate", "walls" };
@@ -365,43 +365,39 @@ namespace BLTAdoptAHero.Actions
             var unit = heroAgent as IFormationUnit;
             if (unit == null) { onFailure("{=BLTFormationNotUnit}Not a formation unit".Translate()); return; }
 
-            var arrangement = formation.Arrangement;
+            var unit = (IFormationUnit)heroAgent;
+            int fileWidth = Math.Max(1, arrangement.UnitCount / Math.Max(1, arrangement.RankCount));
 
             try
             {
-                switch (position.ToLowerInvariant())
+                Agent candidate;
+                if (position == "front")
                 {
-                    case "front":
-                        {
-                            var candidate = arrangement.GetAllUnits()
-                                .Select(u => u as Agent)
-                                .Where(a => a != null && a != heroAgent && a.GetHero() == null)
-                                .OrderBy(a => ((IFormationUnit)a).FormationRankIndex)
-                                .ThenBy(a => ((IFormationUnit)a).FormationFileIndex)
-                                .Take((int)arrangement.Width).SelectRandom();
+                    candidate = arrangement.GetAllUnits()
+                        .Select(u => u as Agent)
+                        .Where(a => a != null && a != heroAgent && a.GetHero() == null)
+                        .OrderBy(a => ((IFormationUnit)a).FormationRankIndex)
+                        .ThenBy(a => ((IFormationUnit)a).FormationFileIndex)
+                        .Take(fileWidth)
+                        .SelectRandom();
 
-                            if (candidate == null) { onFailure("{=BLTFormationNoTroop}No troop found".Translate()); break; }
+                    if (candidate == null) { onFailure("No eligible troop in the front rank"); return; }
+                    arrangement.SwitchUnitLocations(candidate, unit);
+                    onSuccess("Moved to front rank");
+                }
+                else
+                {
+                    candidate = arrangement.GetAllUnits()
+                        .Select(u => u as Agent)
+                        .Where(a => a != null && a != heroAgent && a.GetHero() == null)
+                        .OrderByDescending(a => ((IFormationUnit)a).FormationRankIndex)
+                        .ThenBy(a => ((IFormationUnit)a).FormationFileIndex)
+                        .Take(Math.Max(1, fileWidth / 2))
+                        .SelectRandom();
 
-                            arrangement.SwitchUnitLocations(candidate, unit);
-                            onSuccess("{=BLTFormationMovedFront}Moved to front".Translate());
-                            break;
-                        }
-
-                    case "back":
-                        {
-                            var candidate = arrangement.GetAllUnits()
-                                .Select(u => u as Agent)
-                                .Where(a => a != null && a != heroAgent && a.GetHero() == null)
-                                .OrderByDescending(a => ((IFormationUnit)a).FormationRankIndex)
-                                .ThenBy(a => ((IFormationUnit)a).FormationFileIndex)
-                                .Take((int)arrangement.Width).SelectRandom();
-
-                            if (candidate == null) { onFailure("{=BLTFormationNoTroop}No troop found".Translate()); break; }
-
-                            arrangement.SwitchUnitLocations(candidate, unit);
-                            onSuccess("{=BLTFormationMovedBack}Moved to back".Translate());
-                            break;
-                        }
+                    if (candidate == null) { onFailure("No eligible troop in the back rank"); return; }
+                    arrangement.SwitchUnitLocations(candidate, unit);
+                    onSuccess("Moved to back rank");
                 }
             }
             catch (Exception e)
