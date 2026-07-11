@@ -202,7 +202,7 @@
 		<string id="oxNqBy4k" text="You cannot manage your clan, as you are a prisoner!"/>
 		<string id="B86KnTcu" text="You are not in a clan"/>
 		<string id="xMSAI7HK" text="Your clan is {clanName}"/>
-		<string id="pkzDqw18" text="Invalid or empty clan action, try (join/create/lead/rename/stats/party/fiefs/leave/buy title/banner)"/>
+		<string id="pkzDqw18" text="Invalid or empty clan action, try (join/create/lead/rename/stats/party/fiefs/leave/buy title/banner/ship/home)"/>
 		<string id="VupTnRNX" text="Joining clans is disabled"/>
 		<string id="OrBEbanC" text="You cannot join another clan as you are the leader of your clan"/>
 		<string id="3ktTpCyC" text="(join) (clan name)"/>
@@ -1233,6 +1233,87 @@
 		<string id="lJXxLdFz" text="Please enter the name of the leader you wish to adopt"/>
 		<!-- Error could not find a clan with the name {clanName} -->
 		<string id="bzsT7oy0" text="Error could not find a clan with the name {clanName}"/>
+
+		<!-- ClanManagement command keywords -->
+		<string id="BLTClanSubJoin" text="join"/>
+		<string id="BLTClanSubCreate" text="create"/>
+		<string id="BLTClanSubLead" text="lead"/>
+		<string id="BLTClanSubRename" text="rename"/>
+		<string id="BLTClanSubStats" text="stats"/>
+		<string id="BLTClanSubParty" text="party"/>
+		<string id="BLTClanSubFiefs" text="fiefs"/>
+		<string id="BLTClanSubLeave" text="leave"/>
+		<string id="BLTClanSubBuyTitle" text="buy title"/>
+		<string id="BLTClanSubBanner" text="banner"/>
+		<string id="BLTClanSubShip" text="ship"/>
+		<string id="BLTClanSubHome" text="home"/>
+		<string id="BLTClanBannerStart" text="start"/>
+		<string id="BLTClanBannerEnd" text="end"/>
+		<string id="BLTClanShipLight" text="light"/>
+		<string id="BLTClanShipMedium" text="medium"/>
+		<string id="BLTClanShipHeavy" text="heavy"/>
+		<string id="BLTClanLeaveDescription" text="Allow BLTs to leave their clan. WARNING: Leaving will turn their character into a wanderer, and they may have to buy their Nobility back!"/>
+		<string id="BLTClanBuyTitleDescription" text="Allow non-noble BLTs to buy their way into being a Lord, allowing their Hero's AI many more clan and kingdom actions. NOTE: Buying a title is required when joining; if disabled, BLTs become Lords automatically when joining a clan."/>
+		<string id="BLTClanTitlePriceDescription" text="Cost of becoming a noble"/>
+		<string id="BLTClanBannerDescription" text="Edit your banner with a code. Make your banner at https://bannerlord.party/banner"/>
+		<string id="BLTClanShipDescription" text="Buy ships"/>
+		<string id="BLTClanShipPriceDescription" text="Cost of buying a light ship. Medium is 2x, Heavy is 3x."/>
+		<string id="BLTClanSelectHome" text="Select home"/>
+		<string id="BLTClanHomeDescription" text="Select the clan home"/>
+		<string id="BLTClanDocsEnabledCommands" text="&lt;strong&gt;Enabled Commands:&lt;/strong&gt; {commands}"/>
+		<string id="BLTClanDocsJoin" text="&lt;strong&gt;Join Config:&lt;/strong&gt; Max Heroes={maxHeroes}, Price={price}{icon}, Allow Join Players Clan?={allowPlayer}"/>
+		<string id="BLTClanDocsCreate" text="&lt;strong&gt;Create Config:&lt;/strong&gt; Price={price}{icon}, Renown={renown}"/>
+		<string id="BLTClanDocsLead" text="&lt;strong&gt;Lead Config:&lt;/strong&gt; Price={price}{icon}, Challenge Heroes?={challengeHeroes}"/>
+		<string id="BLTClanDocsRename" text="&lt;strong&gt;Rename Config:&lt;/strong&gt; Price={price}{icon}"/>
+		<string id="BLTClanDocsBuyTitle" text="&lt;strong&gt;Buy Noble Title Config:&lt;/strong&gt; Price={price}{icon}"/>
+		<string id="BLTClanDocsBanner" text="&lt;strong&gt;Create a banner:&lt;/strong&gt; (bannerlord.party/banner/)&#10;For long banners: !clan banner start -&gt; !clan banner {code} (repeat) -&gt; !clan banner end"/>
+		<string id="BLTClanDocsShip" text="&lt;strong&gt;Ship:&lt;/strong&gt; Light/Medium/Heavy, Price={price}{icon}"/>
+		<string id="BLTClanCreateInPlayerParty" text="You cannot create a clan while in the player's party"/>
+		<string id="BLTClanStatsShips" text="Ships: {ships} "/>
+		<string id="BLTClanPartyClanHeader" text="{clan}:"/>
+		<string id="BLTClanPartyEntry" text="Party({number})[Leader: {leader} - Troops: {troops}] | "/>
+		<string id="BLTClanNoParties" text="No parties | "/>
+		<string id="BLTClanFiefGovernor" text="Governor: {governor}"/>
+		<string id="BLTClanFiefIncome" text=", Income💰: {income}"/>
+		<string id="BLTClanFiefForces" text=", M/G⚔: {militia}/{garrison}"/>
+		<string id="BLTClanFiefUnderSiege" text=", Under siege] "/>
+		<string id="BLTClanNone" text="None"/>
+		<string id="BLTClanHeroInBattle" text="Your hero is in battle! Try again later"/>
+		<string id="BLTClanLeft" text="Your hero has left {clan}"/>
+		<string id="BLTClanShipDisabled" text="Ship buying is disabled"/>
+		<string id="BLTClanMaxShips" text="Maximum ships reached ({limit})"/>
+		<string id="BLTClanNoValidParties" text="Your clan has no valid parties"/>
+		<string id="BLTClanInvalidShipType" text="Invalid ship type. Use light/medium/heavy"/>
+		<string id="BLTClanNoHulls" text="No ship hulls are available"/>
+		<string id="BLTClanShipBought" text="Bought {type} ship: {ship}"/>
+		<string id="BLTClanBannerAlreadyStarted" text="Banner input has already started"/>
+		<string id="BLTClanBannerStarted" text="Banner input started. Send lines. Use 'end' to finish."/>
+		<string id="BLTClanBannerNotStarted" text="Banner input was not started"/>
+		<string id="BLTClanBannerLineAdded" text="Line added"/>
+		<string id="BLTClanBannerUpdateFailed" text="Failed to update banner: {error}"/>
+		<string id="BLTClanHomeDisabled" text="Setting clan home is disabled"/>
+		<string id="BLTClanCurrentHome" text="Clan home is {settlement}"/>
+		<string id="BLTClanHomeNotFoundInFiefs" text="No settlement named {name}. Choose from your clan fiefs"/>
+		<string id="BLTClanHomeNotFoundInKingdom" text="No settlement named {name}. Choose from your kingdom's fiefs"/>
+		<string id="BLTClanHomeNotFound" text="No settlement named {name}"/>
+		<string id="BLTClanHomeUpdated" text="Clan home updated to {settlement}"/>
+		<string id="BLTClanManagementName" text="Clan Management"/>
+		<string id="BLTClanManagementDescription" text="Allow viewers to change their clan or make leader decisions"/>
+		<string id="BLTClanJoinEnabledDescription" text="Enable the command for joining clans"/>
+		<string id="BLTClanCategoryLeave" text="Leave"/>
+		<string id="BLTClanCategoryBuyTitle" text="Buy Noble Title"/>
+		<string id="BLTClanCategoryEditBanner" text="Edit Banner"/>
+		<string id="BLTClanCategoryShip" text="Ship"/>
+		<string id="BLTClanCategoryHome" text="Home"/>
+		<string id="BLTClanHeroBecameNoble" text="{heroName} has become a noble!"/>
+		<string id="BLTClanNotInClan" text="You are not in a clan"/>
+		<string id="BLTClanStatsLeader" text="Leader: {leader} | "/>
+		<string id="BLTClanStatsKingdom" text="Kingdom: {kingdom} | "/>
+		<string id="BLTClanStatsPrisoner" text="Prisoner: {prisoner} | "/>
+		<string id="BLTClanLeaveDisabled" text="Leaving clans is disabled"/>
+		<string id="BLTClanBuyTitleDisabledAlreadyNoble" text="Buying noble titles is disabled, and you are already a noble!"/>
+		<string id="BLTClanBuyTitleDisabled" text="Buying noble titles is disabled"/>
+		<string id="BLTClanAlreadyNoble" text="You are already a noble!"/>
 
 		<!-- FormationCommand -->
 		<string id="BLTFormationCommandName" text="Formation Command"/>

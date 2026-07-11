@@ -46,7 +46,7 @@
         <!-- How many custom items can be inherited -->
         <string id="tFolfAOn" text="Сколько настраиваемых предметов можно унаследовать" original="How many custom items can be inherited"/>
 		<!-- ClanManagement -->
-		<string id="pkzDqw18" text="Недопустимое или пустое действие клана, попробуйте (вступить/создать/возглавить/переименовать/стат)" original="Invalid or empty clan action, try (join/create/lead/rename/stats)"/>
+		<string id="pkzDqw18" text="Недопустимое или пустое действие клана, попробуйте (вступить/создать/возглавить/переименовать/стат/отряды/владения/выйти/купить титул/баннер/корабль/дом)" original="Invalid or empty clan action, try (join/create/lead/rename/stats/party/fiefs/leave/buy title/banner/ship/home)"/>
 		<!-- Translation of clan management chat commands -->
 		<string id="q5JhpNMF" text="Вступить" original="Join"/>
 		<string id="9lAIycwE" text="Создать" original="Create"/>
@@ -1148,6 +1148,88 @@
 		<string id="9ZgQKk2L" text="Произошла ошибка" original="An error occurred"/>
 		<string id="Gf2Lk9aP" text="Недостаточно прав" original="Insufficient permissions"/>
 		<string id="Yt7mPp4E" text="Команда отключена" original="Command is disabled"/>
+
+		<!-- ClanManagement command keywords -->
+		<string id="BLTClanSubJoin" text="вступить" original="join"/>
+		<string id="BLTClanSubCreate" text="создать" original="create"/>
+		<string id="BLTClanSubLead" text="возглавить" original="lead"/>
+		<string id="BLTClanSubRename" text="переименовать" original="rename"/>
+		<string id="BLTClanSubStats" text="стат" original="stats"/>
+		<string id="BLTClanSubParty" text="отряды" original="party"/>
+		<string id="BLTClanSubFiefs" text="владения" original="fiefs"/>
+		<string id="BLTClanSubLeave" text="выйти" original="leave"/>
+		<string id="BLTClanSubBuyTitle" text="купить титул" original="buy title"/>
+		<string id="BLTClanSubBanner" text="баннер" original="banner"/>
+		<string id="BLTClanSubShip" text="корабль" original="ship"/>
+		<string id="BLTClanSubHome" text="дом" original="home"/>
+		<string id="BLTClanBannerStart" text="начать" original="start"/>
+		<string id="BLTClanBannerEnd" text="закончить" original="end"/>
+		<string id="BLTClanShipLight" text="лёгкий" original="light"/>
+		<string id="BLTClanShipMedium" text="средний" original="medium"/>
+		<string id="BLTClanShipHeavy" text="тяжёлый" original="heavy"/>
+		<string id="BLTClanLeaveDescription" text="Разрешить героям BLT покидать свой клан. ВНИМАНИЕ: герой станет странником, и ему, возможно, придётся снова покупать дворянский титул!" original="Allow BLTs to leave their clan. WARNING: Leaving will turn their character into a wanderer, and they may have to buy their Nobility back!"/>
+		<string id="BLTClanBuyTitleDescription" text="Разрешить героям BLT без дворянского статуса покупать титул лорда, открывающий дополнительные действия ИИ клана и королевства. Титул требуется для вступления; если настройка отключена, герой автоматически станет лордом при вступлении в клан." original="Allow non-noble BLTs to buy their way into being a Lord, allowing their Hero's AI many more clan and kingdom actions. NOTE: Buying a title is required when joining; if disabled, BLTs become Lords automatically when joining a clan."/>
+		<string id="BLTClanTitlePriceDescription" text="Стоимость получения дворянского титула" original="Cost of becoming a noble"/>
+		<string id="BLTClanBannerDescription" text="Изменить знамя с помощью кода. Создать знамя можно на https://bannerlord.party/banner" original="Edit your banner with a code. Make your banner at https://bannerlord.party/banner"/>
+		<string id="BLTClanShipDescription" text="Покупать корабли" original="Buy ships"/>
+		<string id="BLTClanShipPriceDescription" text="Стоимость лёгкого корабля. Средний стоит в 2 раза дороже, тяжёлый — в 3 раза." original="Cost of buying a light ship. Medium is 2x, Heavy is 3x."/>
+		<string id="BLTClanSelectHome" text="Выбор дома" original="Select home"/>
+		<string id="BLTClanHomeDescription" text="Выбрать родовое владение клана" original="Select the clan home"/>
+		<string id="BLTClanDocsEnabledCommands" text="&lt;strong&gt;Доступные команды:&lt;/strong&gt; {commands}" original="&lt;strong&gt;Enabled Commands:&lt;/strong&gt; {commands}"/>
+		<string id="BLTClanDocsJoin" text="&lt;strong&gt;Настройки вступления:&lt;/strong&gt; максимум героев={maxHeroes}, цена={price}{icon}, разрешить вступление в клан игрока?={allowPlayer}" original="&lt;strong&gt;Join Config:&lt;/strong&gt; Max Heroes={maxHeroes}, Price={price}{icon}, Allow Join Players Clan?={allowPlayer}"/>
+		<string id="BLTClanDocsCreate" text="&lt;strong&gt;Настройки создания:&lt;/strong&gt; цена={price}{icon}, известность={renown}" original="&lt;strong&gt;Create Config:&lt;/strong&gt; Price={price}{icon}, Renown={renown}"/>
+		<string id="BLTClanDocsLead" text="&lt;strong&gt;Настройки лидерства:&lt;/strong&gt; цена={price}{icon}, испытание героев?={challengeHeroes}" original="&lt;strong&gt;Lead Config:&lt;/strong&gt; Price={price}{icon}, Challenge Heroes?={challengeHeroes}"/>
+		<string id="BLTClanDocsRename" text="&lt;strong&gt;Настройки переименования:&lt;/strong&gt; цена={price}{icon}" original="&lt;strong&gt;Rename Config:&lt;/strong&gt; Price={price}{icon}"/>
+		<string id="BLTClanDocsBuyTitle" text="&lt;strong&gt;Настройки покупки титула:&lt;/strong&gt; цена={price}{icon}" original="&lt;strong&gt;Buy Noble Title Config:&lt;/strong&gt; Price={price}{icon}"/>
+		<string id="BLTClanDocsBanner" text="&lt;strong&gt;Создание знамени:&lt;/strong&gt; (bannerlord.party/banner/)&#10;Для длинного кода: !clan баннер начать -&gt; !clan баннер {code} (повторять) -&gt; !clan баннер закончить" original="&lt;strong&gt;Create a banner:&lt;/strong&gt; (bannerlord.party/banner/)&#10;For long banners: !clan banner start -&gt; !clan banner {code} (repeat) -&gt; !clan banner end"/>
+		<string id="BLTClanDocsShip" text="&lt;strong&gt;Корабль:&lt;/strong&gt; лёгкий/средний/тяжёлый, цена={price}{icon}" original="&lt;strong&gt;Ship:&lt;/strong&gt; Light/Medium/Heavy, Price={price}{icon}"/>
+		<string id="BLTClanCreateInPlayerParty" text="Нельзя создать клан, находясь в отряде игрока" original="You cannot create a clan while in the player's party"/>
+		<string id="BLTClanStatsShips" text="Корабли: {ships} " original="Ships: {ships} "/>
+		<string id="BLTClanPartyClanHeader" text="{clan}:" original="{clan}:"/>
+		<string id="BLTClanPartyEntry" text="Отряд({number})[Лидер: {leader} — Войска: {troops}] | " original="Party({number})[Leader: {leader} - Troops: {troops}] | "/>
+		<string id="BLTClanNoParties" text="Нет отрядов | " original="No parties | "/>
+		<string id="BLTClanFiefGovernor" text="Губернатор: {governor}" original="Governor: {governor}"/>
+		<string id="BLTClanFiefIncome" text=", Доход💰: {income}" original=", Income💰: {income}"/>
+		<string id="BLTClanFiefForces" text=", О/Г⚔: {militia}/{garrison}" original=", M/G⚔: {militia}/{garrison}"/>
+		<string id="BLTClanFiefUnderSiege" text=", В осаде] " original=", Under siege] "/>
+		<string id="BLTClanNone" text="Нет" original="None"/>
+		<string id="BLTClanHeroInBattle" text="Ваш герой участвует в бою! Попробуйте позже" original="Your hero is in battle! Try again later"/>
+		<string id="BLTClanLeft" text="Ваш герой покинул клан {clan}" original="Your hero has left {clan}"/>
+		<string id="BLTClanShipDisabled" text="Покупка кораблей отключена" original="Ship buying is disabled"/>
+		<string id="BLTClanMaxShips" text="Достигнут предел кораблей ({limit})" original="Maximum ships reached ({limit})"/>
+		<string id="BLTClanNoValidParties" text="У вашего клана нет подходящих отрядов" original="Your clan has no valid parties"/>
+		<string id="BLTClanInvalidShipType" text="Недопустимый тип корабля. Используйте лёгкий/средний/тяжёлый" original="Invalid ship type. Use light/medium/heavy"/>
+		<string id="BLTClanNoHulls" text="Нет доступных корпусов кораблей" original="No ship hulls are available"/>
+		<string id="BLTClanShipBought" text="Куплен {type} корабль: {ship}" original="Bought {type} ship: {ship}"/>
+		<string id="BLTClanBannerAlreadyStarted" text="Ввод кода знамени уже начат" original="Banner input has already started"/>
+		<string id="BLTClanBannerStarted" text="Ввод кода знамени начат. Отправляйте строки. Для завершения используйте «закончить»." original="Banner input started. Send lines. Use 'end' to finish."/>
+		<string id="BLTClanBannerNotStarted" text="Ввод кода знамени не был начат" original="Banner input was not started"/>
+		<string id="BLTClanBannerLineAdded" text="Строка добавлена" original="Line added"/>
+		<string id="BLTClanBannerUpdateFailed" text="Не удалось обновить знамя: {error}" original="Failed to update banner: {error}"/>
+		<string id="BLTClanHomeDisabled" text="Выбор родового владения клана отключён" original="Setting clan home is disabled"/>
+		<string id="BLTClanCurrentHome" text="Родовое владение клана: {settlement}" original="Clan home is {settlement}"/>
+		<string id="BLTClanHomeNotFoundInFiefs" text="Поселение «{name}» не найдено. Выберите одно из владений своего клана" original="No settlement named {name}. Choose from your clan fiefs"/>
+		<string id="BLTClanHomeNotFoundInKingdom" text="Поселение «{name}» не найдено. Выберите одно из владений своего королевства" original="No settlement named {name}. Choose from your kingdom's fiefs"/>
+		<string id="BLTClanHomeNotFound" text="Поселение «{name}» не найдено" original="No settlement named {name}"/>
+		<string id="BLTClanHomeUpdated" text="Родовое владение клана изменено на {settlement}" original="Clan home updated to {settlement}"/>
+		<string id="BLTClanManagementName" text="Управление кланом" original="Clan Management"/>
+		<string id="BLTClanManagementDescription" text="Позволяет зрителям менять свой клан и принимать решения лидера" original="Allow viewers to change their clan or make leader decisions"/>
+		<string id="BLTClanJoinEnabledDescription" text="Включить команду вступления в кланы" original="Enable the command for joining clans"/>
+		<string id="BLTClanCategoryLeave" text="Выход" original="Leave"/>
+		<string id="BLTClanCategoryBuyTitle" text="Покупка дворянского титула" original="Buy Noble Title"/>
+		<string id="BLTClanCategoryEditBanner" text="Изменение знамени" original="Edit Banner"/>
+		<string id="BLTClanCategoryShip" text="Корабль" original="Ship"/>
+		<string id="BLTClanCategoryHome" text="Родовое владение" original="Home"/>
+		<string id="BLTClanHeroBecameNoble" text="{heroName} получил дворянский титул!" original="{heroName} has become a noble!"/>
+		<string id="BLTClanNotInClan" text="Вы не состоите в клане" original="You are not in a clan"/>
+		<string id="BLTClanStatsLeader" text="Лидер: {leader} | " original="Leader: {leader} | "/>
+		<string id="BLTClanStatsKingdom" text="Королевство: {kingdom} | " original="Kingdom: {kingdom} | "/>
+		<string id="BLTClanStatsPrisoner" text="В плену у: {prisoner} | " original="Prisoner: {prisoner} | "/>
+		<string id="BLTClanLeaveDisabled" text="Выход из клана отключён" original="Leaving clans is disabled"/>
+		<string id="BLTClanBuyTitleDisabledAlreadyNoble" text="Покупка дворянских титулов отключена, а у вас уже есть титул!" original="Buying noble titles is disabled, and you are already a noble!"/>
+		<string id="BLTClanBuyTitleDisabled" text="Покупка дворянских титулов отключена" original="Buying noble titles is disabled"/>
+		<string id="BLTClanAlreadyNoble" text="У вас уже есть дворянский титул!" original="You are already a noble!"/>
+		<string id="yPeUCq8t" text="Вы не состоите в клане" original="You are not in a clan"/>
 
 		<!-- FormationCommand -->
 		<string id="BLTFormationCommandName" text="Команда формации" original="Formation Command"/>
