@@ -30,7 +30,7 @@ namespace BLTAdoptAHero.Actions
 
             [LocDisplayName("{=BLTFormationDetachmentsName}Detachments"),
              LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=BLTFormationDetachmentsDesc}Allow detached hero commands"),
+             LocDescription("{=BLTFormationDetachmentsDesc}Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls and focus) and control their retinue. When disabled, these commands are unavailable; formation selection, front/back positioning, weapon and mount commands still work."),
              PropertyOrder(2), UsedImplicitly]
             public bool Detach { get; set; } = true;
 
@@ -38,8 +38,9 @@ namespace BLTAdoptAHero.Actions
             {
                 generator.Value("{=BLTFormationUsageNumber}<strong>Usage:</strong> number".Translate());
                 generator.Value("{=BLTFormationUsageFrontBack}- front/back".Translate());
-                generator.Value("{=BLTFormationUsageDetachAttach}- detach/attach".Translate());
-                generator.Value("{=BLTFormationUsageDetached}- (while detached): charge/hold/follow/gate/walls".Translate());
+                generator.Value("{=BLTFormationUsageHeroCommands}- charge/hold/follow/gate/walls".Translate());
+                generator.Value("{=BLTFormationUsageRetinue}- retinue follow/attack/return".Translate());
+                generator.Value("{=BLTFormationUsageAdvanced}- weapon melee/ranged, mount on/off, focus infantry/ranged/cavalry/horsearcher".Translate());
             }
         }
 
@@ -91,20 +92,32 @@ namespace BLTAdoptAHero.Actions
            
             var behavior = BLTHeroDetachmentBehavior.Current;
             string command = GetFormationCommand(num);
-            var keywords = new[] { "detach", "attach", "charge", "hold", "follow", "gate", "walls" };
+            if (command == "retinue")
+            {
+                ExecuteRetinueCommand(adoptedHero, agent, splitArgs, settings, behavior, onSuccess, onFailure);
+                return;
+            }
+
+            if (command is "weapon" or "mount" or "focus")
+            {
+                ExecuteAdvancedCommand(agent, command, splitArgs, settings, behavior, onSuccess, onFailure);
+                return;
+            }
+
+            var keywords = new[] { "charge", "hold", "follow", "gate", "walls" };
             if (keywords.Contains(command))
             {      
                 if (!settings.Detach) { onFailure("{=BLTFormationDetachOff}Detach commands are off".Translate()); return; }
                 if (behavior == null) { onFailure("{=BLTFormationDetachInactive}Detachment system not active".Translate()); return; }
                 if (!Mission.Current.IsDeploymentFinished) { onFailure("{=BLTFormationNoDetachDeploying}Cannot detach while deploying".Translate()); return; }
 
-                string error = command switch
+                var error = EnsureDetached(behavior, agent);
+                if (error == null)
+                    error = command switch
                 {
-                    "detach" => behavior.Detach(agent),
-                    "attach" => behavior.Attach(agent),
                     "charge" => behavior.Charge(agent),
                     "hold" => behavior.Hold(agent),
-                    "follow" => behavior.Follow(agent),
+                    "follow" => behavior.FollowMainAgent(agent),
                     "gate" => behavior.TargetDoor(agent),
                     "walls" => behavior.Walls(agent),
                     _ => "Unknown command"
@@ -122,11 +135,8 @@ namespace BLTAdoptAHero.Actions
                     onFailure("{=BLTFormationNoFrontBackSiege}Front/back movement is disabled in sieges".Translate());
                     return;
                 }
-                if (agent.IsDetachedFromFormation)
-                {
-                    onFailure("{=BLTFormationAttachBeforeMoving}Reattach before moving".Translate());
-                    return;
-                }
+                var attachError = EnsureAttached(behavior, agent);
+                if (attachError != null) { onFailure(attachError); return; }
                 BLTSummonBehavior.MarkManualFormationOverride(agent);
                 SetHeroFormationPosition(agent, command, onSuccess, onFailure);
                 return;
@@ -169,11 +179,8 @@ namespace BLTAdoptAHero.Actions
                     onSuccess($"{GetFormationClassDisplayName(formType)} {position}/{count} {currentFormation.CountOfUnits} | {sb}");
                     return;
                 }
-                if (agent.IsDetachedFromFormation)
-                {
-                    onFailure("{=BLTFormationAttachBeforeChanging}Reattach before changing formations".Translate());
-                    return;
-                }
+                var attachError = EnsureAttached(behavior, agent);
+                if (attachError != null) { onFailure(attachError); return; }
                 if (numb > count || numb <= 0)
                 {
                     onFailure("{=BLTFormationInvalidNumber}Invalid number".Translate());
@@ -223,11 +230,8 @@ namespace BLTAdoptAHero.Actions
                     onSuccess($"{GetFormationClassDisplayName(formType)} {position}/{count} {currentFormation.CountOfUnits} | {sb}");
                     return;
                 }
-                if (agent.IsDetachedFromFormation)
-                {
-                    onFailure("{=BLTFormationAttachBeforeChanging}Reattach before changing formations".Translate());
-                    return;
-                }
+                var attachError = EnsureAttached(behavior, agent);
+                if (attachError != null) { onFailure(attachError); return; }
                 if (numb > count || numb <= 0)
                 {
                     onFailure("{=BLTFormationInvalidNumber}Invalid number".Translate());
@@ -253,6 +257,160 @@ namespace BLTAdoptAHero.Actions
             target.Team.TriggerOnFormationsChanged(target);
 
             Log.Trace($"{heroAgent.Name} transferred to {target.FormationIndex.GetName()}");
+        }
+
+        private static string EnsureDetached(BLTHeroDetachmentBehavior behavior, Agent agent)
+            => behavior.IsDetached(agent) ? null : behavior.Detach(agent);
+
+        private static string EnsureAttached(BLTHeroDetachmentBehavior behavior, Agent agent)
+        {
+            if (behavior == null || !behavior.IsDetached(agent)) return null;
+            return behavior.Attach(agent);
+        }
+
+        private void ExecuteRetinueCommand(Hero hero, Agent heroAgent, string[] args, Settings settings,
+            BLTHeroDetachmentBehavior behavior, Action<string> onSuccess, Action<string> onFailure)
+        {
+            if (!settings.Detach) { onFailure("{=BLTFormationDetachOff}Detach commands are off".Translate()); return; }
+            if (behavior == null) { onFailure("{=BLTFormationDetachInactive}Detachment system not active".Translate()); return; }
+            if (!Mission.Current.IsDeploymentFinished) { onFailure("{=BLTFormationNoDetachDeploying}Cannot detach while deploying".Translate()); return; }
+
+            string action = args.Length > 1 ? GetRetinueCommand(args[1]) : "";
+            if (string.IsNullOrEmpty(action))
+            {
+                onFailure("{=BLTFormationRetinueUsage}Usage: retinue follow/attack/return".Translate());
+                return;
+            }
+
+            var state = BLTSummonBehavior.Current?.GetHeroSummonState(hero);
+            var agents = state?.Retinue.Concat(state.Retinue2)
+                .Where(r => r.Agent != null && r.Agent.IsActive())
+                .Select(r => r.Agent)
+                .Distinct()
+                .ToList();
+
+            if (agents == null || agents.Count == 0)
+            {
+                onFailure("{=BLTFormationNoActiveRetinue}No active retinue".Translate());
+                return;
+            }
+
+            foreach (var retinueAgent in agents)
+            {
+                string error;
+                if (action == "return")
+                    error = EnsureAttached(behavior, retinueAgent);
+                else
+                {
+                    error = EnsureDetached(behavior, retinueAgent);
+                    if (error == null)
+                        error = action == "follow"
+                            ? behavior.FollowAgent(retinueAgent, heroAgent)
+                            : behavior.Charge(retinueAgent);
+                }
+
+                if (error != null)
+                {
+                    onFailure(error);
+                    return;
+                }
+            }
+
+            onSuccess("{=BLTFormationRetinueCommandOk}Retinue: {command} ok ({count})"
+                .Translate(("command", GetRetinueCommandDisplayName(action)), ("count", agents.Count)));
+        }
+
+        private void ExecuteAdvancedCommand(Agent agent, string command, string[] args, Settings settings,
+            BLTHeroDetachmentBehavior behavior, Action<string> onSuccess, Action<string> onFailure)
+        {
+            string argument = args.Length > 1 ? args[1].ToLowerInvariant() : "";
+            string error = null;
+
+            if (command == "focus")
+            {
+                if (!settings.Detach) { onFailure("{=BLTFormationDetachOff}Detach commands are off".Translate()); return; }
+                if (behavior == null) { onFailure("{=BLTFormationDetachInactive}Detachment system not active".Translate()); return; }
+                if (!Mission.Current.IsDeploymentFinished) { onFailure("{=BLTFormationNoDetachDeploying}Cannot detach while deploying".Translate()); return; }
+                error = EnsureDetached(behavior, agent);
+            }
+
+            if (error == null)
+            {
+                switch (command)
+                {
+                    case "weapon":
+                        bool ranged = MatchesCommand(argument, "{=BLTFormationWeaponRanged}ranged".Translate(), "ranged");
+                        bool melee = MatchesCommand(argument, "{=BLTFormationWeaponMelee}melee".Translate(), "melee");
+                        if (!ranged && !melee) error = "{=BLTFormationWeaponUsage}Usage: weapon melee/ranged".Translate();
+                        else error = WieldWeapon(agent, ranged);
+                        break;
+                    case "mount":
+                        if (MatchesCommand(argument, "{=BLTFormationMountOff}off".Translate(), "off")) error = Dismount(agent);
+                        else if (MatchesCommand(argument, "{=BLTFormationMountOn}on".Translate(), "on")) error = MountNearest(agent);
+                        else error = "{=BLTFormationMountUsage}Usage: mount on/off".Translate();
+                        break;
+                    case "focus":
+                        if (!TryGetFocusClass(argument, out var formationClass)) error = "{=BLTFormationFocusUsage}Usage: focus infantry/ranged/cavalry/horsearcher".Translate();
+                        else error = behavior.Focus(agent, formationClass);
+                        break;
+                }
+            }
+
+            if (error != null) onFailure(error);
+            else onSuccess("{=BLTFormationCommandOk}{command} ok".Translate(("command", command)));
+        }
+
+        private static string WieldWeapon(Agent agent, bool ranged)
+        {
+            for (int i = (int)EquipmentIndex.Weapon0; i <= (int)EquipmentIndex.Weapon3; i++)
+            {
+                var slot = (EquipmentIndex)i;
+                var weapon = agent.Equipment[slot];
+                if (weapon.IsEmpty || weapon.CurrentUsageItem == null) continue;
+                if (ranged != weapon.CurrentUsageItem.IsRangedWeapon) continue;
+                if (!ranged && !weapon.CurrentUsageItem.IsMeleeWeapon) continue;
+
+                agent.TryToWieldWeaponInSlot(slot, Agent.WeaponWieldActionType.WithAnimation, false);
+                return null;
+            }
+            return ranged ? "No ranged weapon" : "No melee weapon";
+        }
+
+        private static string Dismount(Agent agent)
+        {
+            if (agent.MountAgent == null) return "Hero is not mounted";
+            agent.Mount(null);
+            return null;
+        }
+
+        private static string MountNearest(Agent agent)
+        {
+            if (agent.MountAgent != null) return "Hero is already mounted";
+            var mount = Mission.Current.Agents
+                .Where(a => a != null && a.IsActive() && a.IsMount && a.RiderAgent == null)
+                .OrderBy(a => a.Position.DistanceSquared(agent.Position))
+                .FirstOrDefault();
+            if (mount == null || mount.Position.DistanceSquared(agent.Position) > 25f) return "No free mount nearby";
+            agent.Mount(mount);
+            return null;
+        }
+
+        private bool TryGetFocusClass(string value, out FormationClass formationClass)
+        {
+            if (MatchesCommand(value, "{=BLTFormationFocusInfantry}infantry".Translate(), "infantry"))
+                formationClass = FormationClass.Infantry;
+            else if (MatchesCommand(value, "{=BLTFormationFocusRanged}ranged".Translate(), "ranged"))
+                formationClass = FormationClass.Ranged;
+            else if (MatchesCommand(value, "{=BLTFormationFocusCavalry}cavalry".Translate(), "cavalry"))
+                formationClass = FormationClass.Cavalry;
+            else if (MatchesCommand(value, "{=BLTFormationFocusHorseArcher}horsearcher".Translate(), "horsearcher"))
+                formationClass = FormationClass.HorseArcher;
+            else
+            {
+                formationClass = FormationClass.NumberOfRegularFormations;
+                return false;
+            }
+            return true;
         }
 
 
@@ -328,13 +486,15 @@ namespace BLTAdoptAHero.Actions
 
             if (MatchesCommand(command, "{=BLTFormationSubFront}front".Translate(), "front")) return "front";
             if (MatchesCommand(command, "{=BLTFormationSubBack}back".Translate(), "back")) return "back";
-            if (MatchesCommand(command, "{=BLTFormationSubDetach}detach".Translate(), "detach")) return "detach";
-            if (MatchesCommand(command, "{=BLTFormationSubAttach}attach".Translate(), "attach")) return "attach";
             if (MatchesCommand(command, "{=BLTFormationSubCharge}charge".Translate(), "charge")) return "charge";
             if (MatchesCommand(command, "{=BLTFormationSubHold}hold".Translate(), "hold")) return "hold";
             if (MatchesCommand(command, "{=BLTFormationSubFollow}follow".Translate(), "follow")) return "follow";
             if (MatchesCommand(command, "{=BLTFormationSubGate}gate".Translate(), "gate")) return "gate";
             if (MatchesCommand(command, "{=BLTFormationSubWalls}walls".Translate(), "walls")) return "walls";
+            if (MatchesCommand(command, "{=BLTFormationSubRetinue}retinue".Translate(), "retinue")) return "retinue";
+            if (MatchesCommand(command, "{=BLTFormationSubWeapon}weapon".Translate(), "weapon")) return "weapon";
+            if (MatchesCommand(command, "{=BLTFormationSubMount}mount".Translate(), "mount")) return "mount";
+            if (MatchesCommand(command, "{=BLTFormationSubFocus}focus".Translate(), "focus")) return "focus";
 
             return command.ToLowerInvariant();
         }
@@ -347,13 +507,27 @@ namespace BLTAdoptAHero.Actions
         {
             "front" => "{=BLTFormationSubFront}front".Translate(),
             "back" => "{=BLTFormationSubBack}back".Translate(),
-            "detach" => "{=BLTFormationSubDetach}detach".Translate(),
-            "attach" => "{=BLTFormationSubAttach}attach".Translate(),
             "charge" => "{=BLTFormationSubCharge}charge".Translate(),
             "hold" => "{=BLTFormationSubHold}hold".Translate(),
             "follow" => "{=BLTFormationSubFollow}follow".Translate(),
             "gate" => "{=BLTFormationSubGate}gate".Translate(),
             "walls" => "{=BLTFormationSubWalls}walls".Translate(),
+            _ => command
+        };
+
+        private string GetRetinueCommand(string command)
+        {
+            if (MatchesCommand(command, "{=BLTFormationRetinueFollow}follow".Translate(), "follow")) return "follow";
+            if (MatchesCommand(command, "{=BLTFormationRetinueAttack}attack".Translate(), "attack")) return "attack";
+            if (MatchesCommand(command, "{=BLTFormationRetinueReturn}return".Translate(), "return")) return "return";
+            return "";
+        }
+
+        private string GetRetinueCommandDisplayName(string command) => command switch
+        {
+            "follow" => "{=BLTFormationRetinueFollow}follow".Translate(),
+            "attack" => "{=BLTFormationRetinueAttack}attack".Translate(),
+            "return" => "{=BLTFormationRetinueReturn}return".Translate(),
             _ => command
         };
 

@@ -1240,11 +1240,12 @@
 		<string id="BLTFormationRespectClassName" text="Respect class"/>
 		<string id="BLTFormationRespectClassDesc" text="Turn off to allow any formation; otherwise infantry can only change to other infantry formations"/>
 		<string id="BLTFormationDetachmentsName" text="Detachments"/>
-		<string id="BLTFormationDetachmentsDesc" text="Allow detached hero commands"/>
+		<string id="BLTFormationDetachmentsDesc" text="Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls and focus) and control their retinue. When disabled, these commands are unavailable; formation selection, front/back positioning, weapon and mount commands still work."/>
 		<string id="BLTFormationUsageNumber" text="&lt;strong&gt;Usage:&lt;/strong&gt; number"/>
 		<string id="BLTFormationUsageFrontBack" text="- front/back"/>
-		<string id="BLTFormationUsageDetachAttach" text="- detach/attach"/>
-		<string id="BLTFormationUsageDetached" text="- (while detached): charge/hold/follow/gate/walls"/>
+		<string id="BLTFormationUsageHeroCommands" text="- charge/hold/follow/gate/walls"/>
+		<string id="BLTFormationUsageRetinue" text="- retinue follow/attack/return"/>
+		<string id="BLTFormationUsageAdvanced" text="- weapon melee/ranged, mount on/off, focus infantry/ranged/cavalry/horsearcher"/>
 		<string id="BLTFormationSubFront" text="front"/>
 		<string id="BLTFormationSubBack" text="back"/>
 		<string id="BLTFormationSubDetach" text="detach"/>
@@ -1254,6 +1255,27 @@
 		<string id="BLTFormationSubFollow" text="follow"/>
 		<string id="BLTFormationSubGate" text="gate"/>
 		<string id="BLTFormationSubWalls" text="walls"/>
+		<string id="BLTFormationSubRetinue" text="retinue"/>
+		<string id="BLTFormationSubWeapon" text="weapon"/>
+		<string id="BLTFormationSubMount" text="mount"/>
+		<string id="BLTFormationSubFocus" text="focus"/>
+		<string id="BLTFormationWeaponMelee" text="melee"/>
+		<string id="BLTFormationWeaponRanged" text="ranged"/>
+		<string id="BLTFormationMountOn" text="on"/>
+		<string id="BLTFormationMountOff" text="off"/>
+		<string id="BLTFormationFocusInfantry" text="infantry"/>
+		<string id="BLTFormationFocusRanged" text="ranged"/>
+		<string id="BLTFormationFocusCavalry" text="cavalry"/>
+		<string id="BLTFormationFocusHorseArcher" text="horsearcher"/>
+		<string id="BLTFormationWeaponUsage" text="Usage: weapon melee/ranged"/>
+		<string id="BLTFormationMountUsage" text="Usage: mount on/off"/>
+		<string id="BLTFormationFocusUsage" text="Usage: focus infantry/ranged/cavalry/horsearcher"/>
+		<string id="BLTFormationRetinueFollow" text="follow"/>
+		<string id="BLTFormationRetinueAttack" text="attack"/>
+		<string id="BLTFormationRetinueReturn" text="return"/>
+		<string id="BLTFormationRetinueUsage" text="Usage: retinue follow/attack/return"/>
+		<string id="BLTFormationNoActiveRetinue" text="No active retinue"/>
+		<string id="BLTFormationRetinueCommandOk" text="Retinue: {command} ok ({count})"/>
 		<string id="BLTFormationNoNaval" text="Cannot change formation in naval battle"/>
 		<string id="BLTFormationNoTournament" text="Cannot change formation in tournament"/>
 		<string id="BLTFormationNoFrontBackSiege" text="Front/back movement is disabled in sieges"/>

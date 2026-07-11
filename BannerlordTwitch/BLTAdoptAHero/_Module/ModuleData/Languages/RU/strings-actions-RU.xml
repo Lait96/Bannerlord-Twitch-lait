@@ -1155,7 +1155,7 @@
 		<string id="BLTFormationRespectClassName" text="Учитывать класс" original="Respect class"/>
 		<string id="BLTFormationRespectClassDesc" text="Выключите, чтобы разрешить любые формации; иначе пехота сможет переходить только в пехотные формации" original="Turn off to allow any formation; otherwise infantry can only change to other infantry formations"/>
 		<string id="BLTFormationDetachmentsName" text="Отделение героя" original="Detachments"/>
-		<string id="BLTFormationDetachmentsDesc" text="Разрешить команды для отделенного героя" original="Allow detached hero commands"/>
+		<string id="BLTFormationDetachmentsDesc" text="Управляет автоматическим отделением БЛТ-персонажей от формаций. Когда настройка включена, зрители могут использовать индивидуальные боевые приказы (атака, стоять, следовать, ворота, стены и фокус) и управлять своей свитой. Когда настройка выключена, эти команды недоступны; выбор формации, позиции впереди/сзади, оружия и коня продолжает работать." original="Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls and focus) and control their retinue. When disabled, these commands are unavailable; formation selection, front/back positioning, weapon and mount commands still work."/>
 		<string id="BLTFormationUsageNumber" text="&lt;strong&gt;Использование:&lt;/strong&gt; номер" original="&lt;strong&gt;Usage:&lt;/strong&gt; number"/>
 		<string id="BLTFormationUsageFrontBack" text="- вперед/назад" original="- front/back"/>
 		<string id="BLTFormationUsageDetachAttach" text="- отделиться/вернуться" original="- detach/attach"/>
@@ -1207,5 +1207,29 @@
 		<string id="BLTFormationArrangementColumn" text="Колонна" original="Column"/>
 		<string id="BLTFormationArrangementScatter" text="Врассыпную" original="Scatter"/>
         <string id="Yp3nKs8W" text="Команда смены формации отключена, пока включено автоматическое распределение BLT героев по формациям." />
+		<string id="BLTFormationUsageHeroCommands" text="- атака/стоять/следовать/ворота/стены" original="- charge/hold/follow/gate/walls"/>
+		<string id="BLTFormationUsageRetinue" text="- свита следовать/атака/вернуться" original="- retinue follow/attack/return"/>
+		<string id="BLTFormationUsageAdvanced" text="- оружие ближнее/дальнее, конь сесть/спешиться, фокус пехота/лучники/кавалерия/конные" original="- weapon melee/ranged, mount on/off, focus infantry/ranged/cavalry/horsearcher"/>
+		<string id="BLTFormationSubRetinue" text="свита" original="retinue"/>
+		<string id="BLTFormationSubWeapon" text="оружие" original="weapon"/>
+		<string id="BLTFormationSubMount" text="конь" original="mount"/>
+		<string id="BLTFormationSubFocus" text="фокус" original="focus"/>
+		<string id="BLTFormationWeaponMelee" text="ближнее" original="melee"/>
+		<string id="BLTFormationWeaponRanged" text="дальнее" original="ranged"/>
+		<string id="BLTFormationMountOn" text="сесть" original="on"/>
+		<string id="BLTFormationMountOff" text="спешиться" original="off"/>
+		<string id="BLTFormationFocusInfantry" text="пехота" original="infantry"/>
+		<string id="BLTFormationFocusRanged" text="лучники" original="ranged"/>
+		<string id="BLTFormationFocusCavalry" text="кавалерия" original="cavalry"/>
+		<string id="BLTFormationFocusHorseArcher" text="конные" original="horsearcher"/>
+		<string id="BLTFormationWeaponUsage" text="Использование: оружие ближнее/дальнее" original="Usage: weapon melee/ranged"/>
+		<string id="BLTFormationMountUsage" text="Использование: конь сесть/спешиться" original="Usage: mount on/off"/>
+		<string id="BLTFormationFocusUsage" text="Использование: фокус пехота/лучники/кавалерия/конные" original="Usage: focus infantry/ranged/cavalry/horsearcher"/>
+		<string id="BLTFormationRetinueFollow" text="следовать" original="follow"/>
+		<string id="BLTFormationRetinueAttack" text="атака" original="attack"/>
+		<string id="BLTFormationRetinueReturn" text="вернуться" original="return"/>
+		<string id="BLTFormationRetinueUsage" text="Использование: свита следовать/атака/вернуться" original="Usage: retinue follow/attack/return"/>
+		<string id="BLTFormationNoActiveRetinue" text="Нет активной свиты" original="No active retinue"/>
+		<string id="BLTFormationRetinueCommandOk" text="Свита: команда {command} выполнена ({count})" original="Retinue: {command} ok ({count})"/>
     </strings>
 </base>
