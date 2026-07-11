@@ -1719,6 +1719,7 @@ namespace BLTAdoptAHero.Actions
                     .Where(p => p != null && p != armyLdrParty && p.Army == null && p.AttachedTo == null
                         && p.MapEvent == null && !p.IsDisbanding && p.IsLordParty
                         && p.LeaderHero != null && !p.LeaderHero.IsPrisoner
+                        && !p.IsMainParty && p.LeaderHero != Hero.MainHero
                         && p.MemberRoster.TotalHealthyCount > 0)
                     .ToList();
 
@@ -1731,7 +1732,9 @@ namespace BLTAdoptAHero.Actions
                             .Where(p => p != null && p != armyLdrParty && p.Army == null
                                 && p.AttachedTo == null && p.MapEvent == null && !p.IsDisbanding
                                 && p.IsLordParty && p.LeaderHero != null
-                                && !p.LeaderHero.IsPrisoner && p.MemberRoster.TotalHealthyCount > 0));
+                                && !p.LeaderHero.IsPrisoner
+                                && !p.IsMainParty && p.LeaderHero != Hero.MainHero
+                                && p.MemberRoster.TotalHealthyCount > 0));
                     }
                 }
             }
@@ -2134,7 +2137,9 @@ namespace BLTAdoptAHero.Actions
                     var kingdomParties = h.Clan.Kingdom.AllParties
                         .Where(p => p.ActualClan?.Kingdom == h.Clan.Kingdom
                             && p != party && p.Army == null && p.AttachedTo == null
-                            && p.LeaderHero != null && p.MapEvent == null && !p.IsDisbanding
+                            && p.LeaderHero != null
+                            && !p.IsMainParty && p.LeaderHero != Hero.MainHero
+                            && p.MapEvent == null && !p.IsDisbanding
                             && p.IsLordParty && p.MemberRoster.TotalHealthyCount > 0)
                         .ToList();
                     var ldrPos = party.GetPosition2D;
@@ -2190,7 +2195,9 @@ namespace BLTAdoptAHero.Actions
                     var ownCandidates = h.Clan.WarPartyComponents
                         .Select(wpc => wpc?.MobileParty)
                         .Where(mp => mp != null && mp != party && mp.Army == null && mp.AttachedTo == null
-                            && mp.LeaderHero != null && mp.MapEvent == null && !mp.IsDisbanding
+                            && mp.LeaderHero != null
+                            && !mp.IsMainParty && mp.LeaderHero != Hero.MainHero
+                            && mp.MapEvent == null && !mp.IsDisbanding
                             && mp.IsLordParty && mp.MemberRoster.TotalHealthyCount > 0)
                         .ToList<MobileParty>();
                     var allyCandidates = new List<MobileParty>();
@@ -2199,7 +2206,9 @@ namespace BLTAdoptAHero.Actions
                             allyCandidates.AddRange(allied.WarPartyComponents
                                 .Select(wpc => wpc?.MobileParty)
                                 .Where(mp => mp != null && mp.Army == null && mp.AttachedTo == null
-                                    && mp.LeaderHero != null && mp.MapEvent == null && !mp.IsDisbanding
+                                    && mp.LeaderHero != null
+                                    && !mp.IsMainParty && mp.LeaderHero != Hero.MainHero
+                                    && mp.MapEvent == null && !mp.IsDisbanding
                                     && mp.IsLordParty && mp.MemberRoster.TotalHealthyCount > 0));
                     var ldrPos = party.GetPosition2D;
                     var sorted = ownCandidates.Concat(allyCandidates).Distinct()
