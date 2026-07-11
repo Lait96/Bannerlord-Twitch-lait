@@ -23,17 +23,23 @@ namespace BLTAdoptAHero
                 return;
             }
 
+            if (heroClass.ActivePower.IsActive(adoptedHero))
+            {
+                (float duration, float remaining) = heroClass.ActivePower.DurationRemaining(adoptedHero);
+                if (duration <= 0 || remaining >= duration * 0.1f)
+                {
+                    onFailure("{=o23xAj6M}Your powers are already active!".Translate());
+                    return;
+                }
+
+                heroClass.ActivePower.Deactivate(adoptedHero);
+            }
+
             (bool canActivate, string failReason) = heroClass.ActivePower.CanActivate(adoptedHero);
             if (!canActivate)
             {
                 onFailure("{=nXSUvuyD}You cannot activate your powers now: {FailReason}!"
                     .Translate(("FailReason", failReason)));
-                return;
-            }
-
-            if (heroClass.ActivePower.IsActive(adoptedHero))
-            {
-                onFailure("{=o23xAj6M}Your powers are already active!".Translate());
                 return;
             }
 

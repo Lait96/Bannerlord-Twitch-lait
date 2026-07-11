@@ -142,6 +142,24 @@ namespace BLTBuffet
                        && effects.Any(e => e.config.Name == config.Name);
             }
 
+            internal bool RestartIfNearlyExpired(Agent agent, Config config)
+            {
+                if (!agentEffectsActive.TryGetValue(agent, out var effects))
+                    return false;
+
+                var effect = effects.FirstOrDefault(e => e.config.Name == config.Name);
+                if (effect?.config.Duration is not float duration || duration <= 0)
+                    return false;
+
+                float remaining = duration + effect.started - CampaignHelpers.GetTotalMissionTime();
+                if (remaining >= duration * 0.1f)
+                    return false;
+
+                effect.Stop();
+                effects.Remove(effect);
+                return true;
+            }
+
             internal CharacterEffectState Add(Agent agent, Config config)
             {
                 if (!agentEffectsActive.TryGetValue(agent, out var effects))

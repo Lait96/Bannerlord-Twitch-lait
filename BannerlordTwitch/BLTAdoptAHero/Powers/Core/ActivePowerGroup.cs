@@ -69,6 +69,12 @@ namespace BLTAdoptAHero.Powers
 
         public bool IsActive(Hero hero) => Powers.Any(power => power.Power.IsActive(hero));
 
+        public void Deactivate(Hero hero)
+        {
+            foreach (var power in GetUnlockedPowers(hero).Where(power => power.IsActive(hero)))
+                power.Deactivate(hero);
+        }
+
         public ActivePowerGroup()
         {
             // For when these are created via the configure tool
@@ -123,15 +129,14 @@ namespace BLTAdoptAHero.Powers
 
         public (float duration, float remaining) DurationRemaining(Hero hero)
         {
-            if (!ValidPowers.Any())
+            var activePowers = GetUnlockedPowers(hero).Where(power => power.IsActive(hero)).ToList();
+            if (!activePowers.Any())
                 return (1, 0);
-            var remaining = ValidPowers
-                .Select(active => active.Power.DurationRemaining(hero))
-                .ToList();
-            return (
-                duration: remaining.Max(r => r.duration),
-                remaining: remaining.Max(r => r.remaining)
-            );
+
+            return activePowers
+                .Select(power => power.DurationRemaining(hero))
+                .OrderByDescending(value => value.duration > 0 ? value.remaining / value.duration : 1)
+                .First();
         }
 
         public override string ToString() => $"{Name} {string.Join(" ", Powers.Select(p => p.ToString()))}";

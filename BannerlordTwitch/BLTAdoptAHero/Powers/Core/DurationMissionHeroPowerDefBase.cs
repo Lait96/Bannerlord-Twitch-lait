@@ -80,32 +80,47 @@ namespace BLTAdoptAHero.Powers
             BLTHeroPowersMissionBehavior.PowerHandler.ConfigureHandlers(hero, this, handlers =>
             {
                 var deactivationHandler = new DeactivationHandler();
-                handlers.OnSlowTick += _ =>
+                var active = true;
+                void Deactivate()
                 {
-                    if (CampaignHelpers.GetTotalMissionTime() > expiry[hero])
-                    {
-                        BLTHeroPowersMissionBehavior.PowerHandler.ClearHandlers(hero, this);
-                        pfx?.Stop();
-                        expiryCallback();
-                        deactivationHandler.Deactivate(hero);
-                    }
-                };
-                handlers.OnGotKilled += (_, _, _, _) =>
-                {
-                    // Expire immediately
+                    if (!active)
+                        return;
+
+                    active = false;
                     BLTHeroPowersMissionBehavior.PowerHandler.ClearHandlers(hero, this);
                     expiry[hero] = 0;
                     pfx?.Stop();
                     expiryCallback();
                     deactivationHandler.Deactivate(hero);
+                    deactivators.Remove(hero);
+                }
+
+                deactivators[hero] = Deactivate;
+                handlers.OnSlowTick += _ =>
+                {
+                    if (CampaignHelpers.GetTotalMissionTime() > expiry[hero])
+                    {
+                        Deactivate();
+                    }
+                };
+                handlers.OnGotKilled += (_, _, _, _) =>
+                {
+                    Deactivate();
                 };
                 handlers.OnMissionOver += () =>
                 {
                     // It will be called multiple times, but its not costly
                     expiry.Clear();
+                    deactivators.Clear();
                 };
                 OnActivation(hero, handlers, agent, deactivationHandler);
             });
+        }
+
+        void IHeroPowerActive.Deactivate(Hero hero)
+        {
+            if (deactivators.TryGetValue(hero, out var deactivate))
+                deactivate();
         }
 
         (float duration, float remaining) IHeroPowerActive.DurationRemaining(Hero hero)
@@ -123,6 +138,7 @@ namespace BLTAdoptAHero.Powers
 
         #region Implementation Details
         private Dictionary<Hero, float> expiry = new();
+        private Dictionary<Hero, Action> deactivators = new();
 
         protected class DeactivationHandler
         {
@@ -146,6 +162,7 @@ namespace BLTAdoptAHero.Powers
             var newObj = (DurationMissionHeroPowerDefBase)base.Clone();
             newObj.Pfx = new(Pfx.Select(pfx => (ParticleEffectDef)pfx.Clone()));
             newObj.expiry = new();
+            newObj.deactivators = new();
             return newObj;
         }
         #endregion

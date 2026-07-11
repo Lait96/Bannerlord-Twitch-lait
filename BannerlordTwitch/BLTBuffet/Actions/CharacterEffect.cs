@@ -104,9 +104,12 @@ namespace BLTBuffet
 
             if (effectsBehaviour.Contains(target, config))
             {
-                onFailure("{=yZuAmGOU}{Target} already affected by {Config}!"
-                    .Translate(("Target", target.Name), ("Config", config.Name)));
-                return;
+                if (!effectsBehaviour.RestartIfNearlyExpired(target, config))
+                {
+                    onFailure("{=yZuAmGOU}{Target} already affected by {Config}!"
+                        .Translate(("Target", target.Name), ("Config", config.Name)));
+                    return;
+                }
             }
 
             if (config.TargetOnFootOnly && target.HasMount)

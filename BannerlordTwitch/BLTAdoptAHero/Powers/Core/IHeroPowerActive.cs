@@ -32,6 +32,11 @@ namespace BLTAdoptAHero.Powers
         void Activate(Hero hero, Action expiryCallback);
 
         /// <summary>
+        /// Stops the power immediately, applying the same cleanup as normal expiry.
+        /// </summary>
+        void Deactivate(Hero hero);
+
+        /// <summary>
         /// Should return the total duration and remaining duration of the power, for <paramref name="hero"/>
         /// </summary>
         /// <param name="hero"></param>
