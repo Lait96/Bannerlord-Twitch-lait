@@ -61,6 +61,11 @@ namespace BLTAdoptAHero
             // Listen for clan destroyed (cleanup)
             CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(
                 this, OnClanDestroyed);
+
+            // Repair vassal clans created by older versions before any kingdom
+            // election tries to use their cached faction midpoint.
+            CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(
+                this, OnSessionLaunched);
         }
 
         public override void SyncData(IDataStore dataStore)
@@ -84,6 +89,44 @@ namespace BLTAdoptAHero
             string masterKey = masterClan.StringId;
 
             _vassalToMaster[vassalKey] = masterKey;
+            EnsureSettlementState(vassalClan, masterClan);
+        }
+
+        private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
+        {
+            foreach (var vassalKey in _vassalToMaster.Keys.ToList())
+            {
+                var vassalClan = Clan.All.FirstOrDefault(c => c.StringId == vassalKey);
+                if (vassalClan != null)
+                {
+                    EnsureSettlementState(vassalClan, GetMasterClan(vassalClan));
+                }
+            }
+        }
+
+        private static void EnsureSettlementState(Clan vassalClan, Clan masterClan)
+        {
+            if (vassalClan == null) return;
+
+            if (vassalClan.HomeSettlement == null)
+            {
+                Settlement homeSettlement = vassalClan.Fiefs.FirstOrDefault()?.Settlement
+                    ?? masterClan?.HomeSettlement
+                    ?? masterClan?.Kingdom?.FactionMidSettlement
+                    ?? masterClan?.Kingdom?.RulingClan?.HomeSettlement
+                    ?? Town.AllTowns.FirstOrDefault()?.Settlement;
+
+                if (homeSettlement != null)
+                {
+                    vassalClan.SetInitialHomeSettlement(homeSettlement);
+                    foreach (var hero in vassalClan.Heroes)
+                    {
+                        hero.UpdateHomeSettlement();
+                    }
+                }
+            }
+
+            vassalClan.CalculateMidSettlement();
         }
 
         /// <summary>
