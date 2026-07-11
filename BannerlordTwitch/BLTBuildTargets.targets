@@ -102,7 +102,11 @@
     
     <Target Name="Package" DependsOnTargets="SetModuleVersion">
         <Message Importance="High" Text="[BLT PACKAGE] Creating deployment package $(PackageFullPath)..." />
+        <MakeDir Directories="$(OutputPackageRoot)" />
         <Delete Files="$(PackageFullPath)" ContinueOnError="true"/>
-        <Exec Command="C:\bin\7zr.exe a &quot;$(PackageFullPath)&quot; BannerlordTwitch BLTAdoptAHero BLTBuffet BLTConfigure" WorkingDirectory="$(OutputConfigRoot)"/>
+        <Exec Command="C:\bin\7zr.exe a &quot;$(PackageFullPath)&quot; BannerlordTwitch BLTAdoptAHero BLTBuffet BLTConfigure" WorkingDirectory="$(OutputConfigRoot)" IgnoreExitCode="true">
+            <Output TaskParameter="ExitCode" PropertyName="PackageExitCode" />
+        </Exec>
+        <Error Condition="'$(PackageExitCode)' != '0' and '$(PackageExitCode)' != '3'" Text="7-Zip failed with exit code $(PackageExitCode)." />
     </Target>
 </Project>
