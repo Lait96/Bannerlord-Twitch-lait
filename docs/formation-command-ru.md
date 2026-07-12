@@ -3,9 +3,10 @@ layout: default
 title: Управление формациями
 description: Инструкция по команде Формация
 permalink: /formation-command/
+next_url: /clan-command/
 ---
 
-[Главная]({{ '/' | relative_url }}) | [Управление кланом]({{ '/clan-command/' | relative_url }})
+<a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>
 
 # Управление формациями
 
@@ -357,3 +358,5 @@ permalink: /formation-command/
 | Выбрать кавалерию | `!Формация фокус кавалерия` |
 | Выбрать конных лучников | `!Формация фокус конные` |
 | Сбросить приоритет | `!Формация фокус все` |
+
+{% include doc-navigation.html %}

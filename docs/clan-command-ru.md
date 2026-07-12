@@ -3,9 +3,10 @@ layout: default
 title: Управление кланом
 description: Инструкция по команде Клан
 permalink: /clan-command/
+previous_url: /formation-command/
 ---
 
-[Главная]({{ '/' | relative_url }}) | [Управление формациями]({{ '/formation-command/' | relative_url }})
+<a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>
 
 # Управление кланом
 
@@ -368,3 +369,5 @@ permalink: /clan-command/
 | Добавить тяжёлый корабль | `!Клан корабль тяжёлый` |
 | Показать родовое владение | `!Клан дом` |
 | Выбрать родовое владение | `!Клан дом Название` |
+
+{% include doc-navigation.html %}

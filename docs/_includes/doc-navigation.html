@@ -1,0 +1,27 @@
+<nav class="doc-pagination" aria-label="Навигация между инструкциями">
+  {% if page.previous_url %}
+    <a class="doc-pagination__button" href="{{ page.previous_url | relative_url }}" rel="prev">
+      <span class="doc-pagination__direction">Назад</span>
+      <span aria-hidden="true">←</span>
+    </a>
+  {% else %}
+    <span class="doc-pagination__button doc-pagination__button--disabled" aria-disabled="true">
+      <span class="doc-pagination__direction">Назад</span>
+      <span aria-hidden="true">←</span>
+    </span>
+  {% endif %}
+
+  <a class="doc-pagination__home" href="{{ '/' | relative_url }}">Все инструкции</a>
+
+  {% if page.next_url %}
+    <a class="doc-pagination__button doc-pagination__button--next" href="{{ page.next_url | relative_url }}" rel="next">
+      <span class="doc-pagination__direction">Вперёд</span>
+      <span aria-hidden="true">→</span>
+    </a>
+  {% else %}
+    <span class="doc-pagination__button doc-pagination__button--next doc-pagination__button--disabled" aria-disabled="true">
+      <span class="doc-pagination__direction">Вперёд</span>
+      <span aria-hidden="true">→</span>
+    </span>
+  {% endif %}
+</nav>
