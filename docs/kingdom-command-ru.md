@@ -3,7 +3,7 @@ layout: default
 title: Управление королевством
 description: Инструкция по команде Королевство
 permalink: /kingdom-command/
-previous_url: /clan-command/
+previous_url: /family-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

@@ -27,34 +27,19 @@ namespace BLTAdoptAHero.Actions
         private class Settings : IDocumentable
         {
             // General
-            [LocDisplayName("{=TESTING}Baby Command Limit"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Maximum number of kids before the baby command is blocked."),
+            [LocDisplayName("{=BLTFamilyBabyLimit}Baby Command Limit"),
+             LocCategory("General", "{=BLTFamilyCategoryGeneral}General"),
+             LocDescription("{=BLTFamilyBabyLimitDescription}Maximum number of kids before the baby command is blocked."),
              PropertyOrder(1), UsedImplicitly]
             public int MakeKidsLimit { get; set; } = 3;
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
 
-                generator.Value("<strong>Family Management:</strong> Manage and view your hero's family members, including spouse, children, and parents.");
-                generator.Value($"<strong>Max Kids From Baby Command:</strong> {MakeKidsLimit}");
-
-                generator.Value("<strong>Usage:</strong>");
-                generator.Value(@" - spouse");
-                generator.Value(@" - spouse rename [name]");
-                generator.Value(@" - spouse looks [body]");
-                generator.Value(" - spouse baby");
-                generator.Value(" - spouse skills");
-                generator.Value(" - children: List all children.");
-                generator.Value(@" - [childName>]*");
-                generator.Value(@" - [childName]* rename [name]");
-                generator.Value(@" - [childName]* looks [body]");
-                generator.Value(@" - [childName]* marry [viewer]* [viewer_child]*");
-                generator.Value(@" - [childName]* [grandchildName]*");
-
-                generator.Value("<strong>Notes:</strong>");
-                generator.Value("* means command expects 1 word in that field");
-                generator.Value("If 2 children are named same add a number at the end, eg Caladog1, Caladog2");
+                generator.Value("{=BLTFamilyDocsOverview}<strong>Family Management:</strong> Manage and view your hero's family members, including spouse, children, and parents.".Translate());
+                generator.Value("{=BLTFamilyDocsLimit}<strong>Max Kids From Baby Command:</strong> {limit}".Translate(("limit", MakeKidsLimit)));
+                generator.Value("{=BLTFamilyDocsUsage}<strong>Usage:</strong> spouse; spouse rename [name]; spouse looks [body]; spouse baby; spouse skills; children; [childName]; [childName] rename [name]; [childName] looks [body]; [childName] marry [viewer] [viewer_child]; [childName] [grandchildName]".Translate());
+                generator.Value("{=BLTFamilyDocsNotes}<strong>Notes:</strong> Names in square brackets are arguments. If children have the same name, add their list number, for example Caladog1 or Caladog2.".Translate());
 
             }
 
@@ -85,7 +70,7 @@ namespace BLTAdoptAHero.Actions
             }
 
             var splitArgs = context.Args.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var command = splitArgs[0].ToLower();
+            var command = GetFamilyCommand(splitArgs[0]);
 
             switch (command)
             {
@@ -96,12 +81,35 @@ namespace BLTAdoptAHero.Actions
                     HandleChildListCommand(adoptedHero, onSuccess, onFailure);
                     break;
                 case "parents":
+                    HandleParentsCommand(adoptedHero, onSuccess, onFailure);
                     break;
                 default:
                     HandleNamedMemberCommand(adoptedHero, splitArgs, onSuccess, onFailure);
                     break;
             }
         }
+
+        private static string GetFamilyCommand(string command)
+        {
+            if (MatchesCommand(command, "{=BLTFamilySubSpouse}spouse".Translate(), "spouse")) return "spouse";
+            if (MatchesCommand(command, "{=BLTFamilySubChildren}children".Translate(), "children")) return "children";
+            if (MatchesCommand(command, "{=BLTFamilySubParents}parents".Translate(), "parents")) return "parents";
+            return command;
+        }
+
+        private static string GetMemberCommand(string command)
+        {
+            if (MatchesCommand(command, "{=BLTFamilySubLooks}looks".Translate(), "looks")) return "looks";
+            if (MatchesCommand(command, "{=BLTFamilySubRename}rename".Translate(), "rename")) return "rename";
+            if (MatchesCommand(command, "{=BLTFamilySubBaby}baby".Translate(), "baby")) return "baby";
+            if (MatchesCommand(command, "{=BLTFamilySubSkills}skills".Translate(), "skills")) return "skills";
+            if (MatchesCommand(command, "{=BLTFamilySubMarry}marry".Translate(), "marry")) return "marry";
+            return command;
+        }
+
+        private static bool MatchesCommand(string value, string localized, string english) =>
+            value.Equals(localized, StringComparison.OrdinalIgnoreCase) ||
+            value.Equals(english, StringComparison.OrdinalIgnoreCase);
 
         private void ShowFamilyOverview(Hero adoptedHero, Action<string> onSuccess)
         {
@@ -120,11 +128,11 @@ namespace BLTAdoptAHero.Actions
             if (grandchildrenCount > 0)
                 sb.Append("{=GrandchildCount}Grandchildren: {count} | ".Translate(("count", grandchildrenCount)));
             if (greatCount > 0)
-                sb.Append("{=GrandchildCount}Great grandchildren: {count} | ".Translate(("count", greatCount)));
+                sb.Append("{=BLTFamilyGreatGrandchildCount}Great grandchildren: {count} | ".Translate(("count", greatCount)));
             if (parentCount > 0)
-                sb.Append("{=GrandchildCount}Parents: {count} | ".Translate(("count", parentCount)));
+                sb.Append("{=BLTFamilyParentCount}Parents: {count} | ".Translate(("count", parentCount)));
             if (siblingCount > 0)
-                sb.Append("{=GrandchildCount}Siblings: {count} | ".Translate(("count", siblingCount)));
+                sb.Append("{=BLTFamilySiblingCount}Siblings: {count} | ".Translate(("count", siblingCount)));
             sb.Append("{=TotalFamily}Total Family: {count}".Translate(("count", totalFamily)));
 
             onSuccess(sb.ToString());
@@ -132,7 +140,7 @@ namespace BLTAdoptAHero.Actions
 
         private void HandleSpouseCommand(Hero adoptedHero, string[] args, Action<string> onSuccess, Action<string> onFailure, Settings settings)
         {
-            if (args.Length > 1 && args[1].ToLower() == "looks")
+            if (args.Length > 1 && GetMemberCommand(args[1]) == "looks")
             {
                 if (adoptedHero.Spouse == null)
                 {
@@ -151,7 +159,7 @@ namespace BLTAdoptAHero.Actions
                 return;
             }
 
-            if (args.Length > 1 && args[1].ToLower() == "rename")
+            if (args.Length > 1 && GetMemberCommand(args[1]) == "rename")
             {
                 if (adoptedHero.Spouse == null)
                 {
@@ -169,7 +177,7 @@ namespace BLTAdoptAHero.Actions
                 return;
             }
 
-            if (args.Length > 1 && args[1].ToLower() == "baby")
+            if (args.Length > 1 && GetMemberCommand(args[1]) == "baby")
             {
                 if (adoptedHero.Spouse == null)
                 {
@@ -181,7 +189,7 @@ namespace BLTAdoptAHero.Actions
                 return;
             }
 
-            if (args.Length > 1 && args[1].ToLower() == "skills")
+            if (args.Length > 1 && GetMemberCommand(args[1]) == "skills")
             {
                 if (adoptedHero.Spouse == null)
                 {
@@ -198,7 +206,7 @@ namespace BLTAdoptAHero.Actions
                 if (adoptedHero.ExSpouses.Count > 0)
                 {
                     var sB = new StringBuilder();
-                    sB.Append("{=ChildrenList}Ex-spouses: ".Translate());
+                    sB.Append("{=BLTFamilyExSpouses}Ex-spouses: ".Translate());
 
                     var spouses = adoptedHero.ExSpouses.OrderByDescending(c => c.Age).ToList();
                     for (int i = 0; i < spouses.Count; i++)
@@ -220,6 +228,7 @@ namespace BLTAdoptAHero.Actions
                             sB.Append(", ");
                         }
                     }
+                    onSuccess(sB.ToString());
                 }
                 else
                 {
@@ -249,7 +258,7 @@ namespace BLTAdoptAHero.Actions
             var highestSkill = CampaignHelpers.AllSkillObjects
                 .OrderByDescending(s => spouse.GetSkillValue(s))
                 .FirstOrDefault();
-            sb.Append($" | TopSkill:{SkillXP.GetShortSkillName(highestSkill)} {spouse.GetSkillValue(highestSkill)}");
+            sb.Append("{=BLTFamilyTopSkill} | Top skill: {skill} {value}".Translate(("skill", SkillXP.GetShortSkillName(highestSkill)), ("value", spouse.GetSkillValue(highestSkill))));
 
             onSuccess(sb.ToString());
         }
@@ -287,6 +296,35 @@ namespace BLTAdoptAHero.Actions
             }
 
             onSuccess(sb.ToString());
+        }
+
+        private void HandleParentsCommand(Hero adoptedHero, Action<string> onSuccess, Action<string> onFailure)
+        {
+            if (adoptedHero.Father == null && adoptedHero.Mother == null)
+            {
+                onFailure("{=BLTFamilyNoParents}No parents found".Translate());
+                return;
+            }
+
+            var parents = new StringBuilder("{=BLTFamilyParents}Parents: ".Translate());
+            if (adoptedHero.Father != null)
+            {
+                parents.Append("{=BLTFamilyFather}Father: {name}".Translate(("name", CleanName(adoptedHero.Father.Name.ToString()))));
+                if (adoptedHero.Father.IsDead)
+                    parents.Append(" 💀");
+            }
+
+            if (adoptedHero.Father != null && adoptedHero.Mother != null)
+                parents.Append(" | ");
+
+            if (adoptedHero.Mother != null)
+            {
+                parents.Append("{=BLTFamilyMother}Mother: {name}".Translate(("name", CleanName(adoptedHero.Mother.Name.ToString()))));
+                if (adoptedHero.Mother.IsDead)
+                    parents.Append(" 💀");
+            }
+
+            onSuccess(parents.ToString());
         }
 
         private void HandleNamedMemberCommand(Hero adoptedHero, string[] args, Action<string> onSuccess, Action<string> onFailure)
@@ -342,7 +380,7 @@ namespace BLTAdoptAHero.Actions
             // Check for subcommands
             if (args.Length > 1)
             {
-                var subCommand = args[1].ToLower();
+                var subCommand = GetMemberCommand(args[1]);
 
                 switch (subCommand)
                 {
@@ -470,7 +508,7 @@ namespace BLTAdoptAHero.Actions
                 .OrderByDescending(s => child.GetSkillValue(s))
                 .FirstOrDefault();
 
-            sb.Append($" | TopSkill:{SkillXP.GetShortSkillName(highestSkill)} {child.GetSkillValue(highestSkill)}");
+            sb.Append("{=BLTFamilyTopSkill} | Top skill: {skill} {value}".Translate(("skill", SkillXP.GetShortSkillName(highestSkill)), ("value", child.GetSkillValue(highestSkill))));
 
             if (child.Children.Count > 0)
             {
@@ -594,7 +632,7 @@ namespace BLTAdoptAHero.Actions
         {
             if (targets.Length < 2)
             {
-                onFailure("marry (username) (kid first name) | Whoever makes proposal marries off");
+                onFailure("{=BLTFamilyMarryUsage}Usage: marry (viewer) (child first name). The viewer who sends the proposal gives their child in marriage.".Translate());
                 return;
             }
 
@@ -602,16 +640,16 @@ namespace BLTAdoptAHero.Actions
 
             if (adoptedHero1 == null)
             {
-                onFailure($"Couldnt find hero named {targets[0]}");
+                onFailure("{=BLTFamilyHeroNotFound}Could not find a hero named {name}".Translate(("name", targets[0])));
                 return;
             }
 
-            if (targets[1].Equals("reject", StringComparison.OrdinalIgnoreCase))
+            if (MatchesCommand(targets[1], "{=BLTFamilySubReject}reject".Translate(), "reject"))
             {
                 if (_marriageProposals.Remove((adoptedHero1, adoptedHero)))
-                    onSuccess($"Rejected {adoptedHero1.Name}'s proposal");
+                    onSuccess("{=BLTFamilyProposalRejected}Rejected {hero}'s proposal".Translate(("hero", adoptedHero1.Name)));
                 else
-                    onFailure("No proposal to reject");
+                    onFailure("{=BLTFamilyNoProposal}There is no proposal to reject".Translate());
                 return;
             }
 
@@ -619,22 +657,22 @@ namespace BLTAdoptAHero.Actions
             
             if (target == null)
             {
-                onFailure($"Couldnt find hero named {targets[1]}");
+                onFailure("{=BLTFamilyHeroNotFound}Could not find a hero named {name}".Translate(("name", targets[1])));
                 return;
             }
             if (hero.Age < 18 || target.Age < 18)
             {
-                onFailure("Too young");
+                onFailure("{=BLTFamilyTooYoung}One of the heroes is too young to marry".Translate());
                 return;
             }
             if (hero.IsAdopted()|| target.IsAdopted())
             {
-                onFailure("Cannot marry blts");
+                onFailure("{=BLTFamilyCannotMarryBLT}Adopted heroes cannot be married by this command".Translate());
                 return;
             }
             if (hero.IsClanLeader || target.IsClanLeader)
             {
-                onFailure("Cannot  marry clan leaders");
+                onFailure("{=BLTFamilyCannotMarryLeader}Clan leaders cannot be married by this command".Translate());
                 return;
             }
 
@@ -645,7 +683,7 @@ namespace BLTAdoptAHero.Actions
 
                 if (h1.Spouse != null || h2.Spouse != null)
                 {
-                    onFailure("One hero is already married");
+                    onFailure("{=BLTFamilyAlreadyMarried}One of the heroes is already married".Translate());
                     _marriageProposals.Remove((adoptedHero1, adoptedHero));
                     return;
                 }
@@ -674,18 +712,19 @@ namespace BLTAdoptAHero.Actions
                 h2.UpdateHomeSettlement();
                 ChangeRelationAction.ApplyRelationChangeBetweenHeroes(h1, h2, Campaign.Current.Models.MarriageModel.GetEffectiveRelationIncrease(h1, h2), false);
 
-                onSuccess($"{h1.Name} of {oldClan.Name} married {h2.Name} of {h2.Clan.Name}");
+                onSuccess("{=BLTFamilyMarried}{hero1} of {clan1} married {hero2} of {clan2}".Translate(
+                    ("hero1", h1.Name), ("clan1", oldClan.Name), ("hero2", h2.Name), ("clan2", h2.Clan.Name)));
                 return;
             }
             if (hero.Spouse != null || target.Spouse != null)
             {
-                onFailure($"invalid hero");
+                onFailure("{=BLTFamilyInvalidMarriage}The selected marriage is invalid".Translate());
                 return;
             }
             else
             {
                 _marriageProposals[(adoptedHero, adoptedHero1)] = (hero, target);
-                onSuccess($"Sent proposal to {adoptedHero1.Name}");
+                onSuccess("{=BLTFamilyProposalSent}Sent a marriage proposal to {hero}".Translate(("hero", adoptedHero1.Name)));
                 return;
             }
         }
@@ -695,7 +734,8 @@ namespace BLTAdoptAHero.Actions
             int childCount = hero.Children.Where(c => !c.IsDead && c.Clan == hero.Clan).Count();
             if (childCount >= settings.MakeKidsLimit)
             {
-                onFailure($"You already have {childCount} alive children in your clan, baby command limit is {settings.MakeKidsLimit}");
+                onFailure("{=BLTFamilyBabyLimitReached}You already have {count} living children in your clan; the baby command limit is {limit}".Translate(
+                    ("count", childCount), ("limit", settings.MakeKidsLimit)));
                 return;
             }
             bool isTarget = hero.IsFemale;
@@ -703,26 +743,26 @@ namespace BLTAdoptAHero.Actions
             {
                 if (hero.IsPregnant)
                 {
-                    onFailure($"{hero.Name} is already pregnant.");
+                    onFailure("{=BLTFamilyAlreadyPregnant}{hero} is already pregnant.".Translate(("hero", hero.Name)));
                     return;
                 }
                 else
                 {
                     MakePregnantAction.Apply(hero);
-                    onSuccess($"{hero.Name} is now pregnant.");
+                    onSuccess("{=BLTFamilyNowPregnant}{hero} is now pregnant.".Translate(("hero", hero.Name)));
                 }
             }
             else
             {
                 if (hero.Spouse.IsPregnant)
                 {
-                    onFailure($"{hero.Spouse.Name} is already pregnant.");
+                    onFailure("{=BLTFamilyAlreadyPregnant}{hero} is already pregnant.".Translate(("hero", hero.Spouse.Name)));
                     return;
                 }
                 else
                 {
                     MakePregnantAction.Apply(hero.Spouse);
-                    onSuccess($"{hero.Spouse.Name} is now pregnant.");
+                    onSuccess("{=BLTFamilyNowPregnant}{hero} is now pregnant.".Translate(("hero", hero.Spouse.Name)));
                 }
             }
         }

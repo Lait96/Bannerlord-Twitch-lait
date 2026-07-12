@@ -1145,7 +1145,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: ''
+- Aliases: семья
+  Documentation: ''
   Enabled: true
   Handler: FamilyManagement
   HandlerConfig:
