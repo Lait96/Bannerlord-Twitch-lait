@@ -533,7 +533,7 @@ namespace BLTAdoptAHero
                 // Remove still living retinue troops from their parties
                 foreach (var h in heroSummonStates)
                 {
-                    foreach (var r in h.Retinue.Where(r => r.State != AgentState.Killed))
+                    foreach (var r in h.Retinue.Concat(h.Retinue2).Where(r => r.State != AgentState.Killed))
                     {
                         h.Party?.MemberRoster?.AddToCounts(r.Troop, -1);
                     }
@@ -623,7 +623,7 @@ namespace BLTAdoptAHero
                 var retinue2Agent = SpawnAgent(onPlayerSide, retinue2Troop, existingHero.Party,
                     retinue2Troop.IsMounted && retinueMounted, false, !DeploymentFlag);
 
-                existingHero.Retinue.Add(new()
+                existingHero.Retinue2.Add(new()
                 {
                     Troop = retinue2Troop,
                     Agent = retinue2Agent,

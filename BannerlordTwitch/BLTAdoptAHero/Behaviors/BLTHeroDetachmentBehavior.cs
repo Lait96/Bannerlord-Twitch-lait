@@ -12,7 +12,7 @@ namespace BLTAdoptAHero
 {
     internal class BLTHeroDetachmentBehavior : AutoMissionBehavior<BLTHeroDetachmentBehavior>
     {
-        private enum DetachmentOrder { None, Hold, Follow, Navigate }
+        private enum DetachmentOrder { None, Charge, Hold, Follow, Navigate }
 
         private class DetachmentState
         {
@@ -21,6 +21,11 @@ namespace BLTAdoptAHero
             public WorldPosition HoldPosition;
             public WorldPosition NavigationTarget;
             public float LastNavigationReissueTime;
+            public MovementOrder.MovementOrderEnum MovementBehaviorOrder;
+            public FormationClass? FocusClass;
+            public FiringOrder.RangedWeaponUsageOrderEnum? FiringOverride;
+            public RidingOrder.RidingOrderEnum? RidingOverride;
+            public int SelectedMountIndex = -1;
         }
 
         private readonly Dictionary<Agent, DetachmentState> _detachments = new();
@@ -66,7 +71,11 @@ namespace BLTAdoptAHero
                 agent.Formation?.DetachUnit(agent, false);
                 detachment.AddAgentAtSlotIndex(agent, 0);
         
-                _detachments[agent] = new DetachmentState { Detachment = detachment };
+                _detachments[agent] = new DetachmentState
+                {
+                    Detachment = detachment,
+                    MovementBehaviorOrder = formation.GetReadonlyMovementOrderReference().OrderEnum
+                };
             }
             catch (Exception e)
             {
@@ -101,40 +110,9 @@ namespace BLTAdoptAHero
                 agent.SetAutomaticTargetSelection(true);
                 agent.HumanAIComponent?.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.Default);
                 state.Detachment.ClearFollowTarget();
-
-                Agent closestEnemy = null;
-                float closestDist = float.MaxValue;
-
-                //foreach (var team in Mission.Current.Teams)
-                //{
-                //    if (team == null || !team.IsEnemyOf(agent.Team)) continue;
-                //    foreach (var enemy in team.ActiveAgents)
-                //    {
-                //        if (enemy == null || !enemy.IsActive() || enemy.IsMount) continue;
-                //        float dist = enemy.Position.DistanceSquared(agent.Position);
-                //        if (dist < closestDist)
-                //        {
-                //            closestDist = dist;
-                //            closestEnemy = enemy;
-                //        }
-                //    }
-                //}
-
-                if (closestEnemy != null)
-                {
-                    var targetPos = closestEnemy.GetWorldPosition();
-                    agent.SetScriptedPosition(ref targetPos, false, Agent.AIScriptedFrameFlags.NeverSlowDown);
-                    state.NavigationTarget = targetPos;
-                    state.LastNavigationReissueTime = Mission.Current.CurrentTime;
-                    state.Order = DetachmentOrder.Navigate;
-                }
-                else
-                {
-                    var closestFormation = state.Detachment.ParentFormation?.CachedClosestEnemyFormation;
-                    if (closestFormation != null)
-                        agent.SetTargetFormationIndex(closestFormation.Formation.Index);
-                    state.Order = DetachmentOrder.None;
-                }
+                state.MovementBehaviorOrder = MovementOrder.MovementOrderEnum.Charge;
+                state.Order = DetachmentOrder.Charge;
+                ApplyCharge(agent, state);
             }
             catch { }
 
@@ -148,6 +126,7 @@ namespace BLTAdoptAHero
 
             state.HoldPosition = agent.GetWorldPosition();
             state.Detachment.ClearFollowTarget();
+            state.MovementBehaviorOrder = MovementOrder.MovementOrderEnum.Stop;
             state.Order = DetachmentOrder.Hold;
             ApplyHold(agent, state);
             return null;
@@ -162,6 +141,7 @@ namespace BLTAdoptAHero
             agent.DisableScriptedMovement();
             agent.DisableScriptedCombatMovement();
             state.Detachment.FollowMainAgent();
+            state.MovementBehaviorOrder = MovementOrder.MovementOrderEnum.Follow;
             state.Order = DetachmentOrder.Follow;
             agent.ForceAiBehaviorSelection();
             return null;
@@ -176,6 +156,7 @@ namespace BLTAdoptAHero
             agent.DisableScriptedMovement();
             agent.DisableScriptedCombatMovement();
             state.Detachment.FollowAgent(target);
+            state.MovementBehaviorOrder = MovementOrder.MovementOrderEnum.Follow;
             state.Order = DetachmentOrder.Follow;
             agent.ForceAiBehaviorSelection();
             return null;
@@ -185,8 +166,6 @@ namespace BLTAdoptAHero
         {
             if (agent == null || !agent.IsActive()) return "Invalid agent";
             if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
-            state.Detachment.ClearFollowTarget();
-
             var target = Mission.Current.Teams
                 .Where(team => team != null && team.IsEnemyOf(agent.Team))
                 .SelectMany(team => team.FormationsIncludingSpecialAndEmpty)
@@ -197,11 +176,39 @@ namespace BLTAdoptAHero
 
             if (target == null) return "No target formation";
 
-            agent.DisableScriptedMovement();
-            agent.DisableScriptedCombatMovement();
+            state.FocusClass = targetClass;
+            ApplyFocus(agent, state);
+            return null;
+        }
+
+        public string ClearFocus(Agent agent)
+        {
+            if (agent == null || !agent.IsActive()) return "Invalid agent";
+            if (_detachments.TryGetValue(agent, out var state))
+                state.FocusClass = null;
+            agent.SetTargetFormationIndex(-1);
             agent.SetAutomaticTargetSelection(true);
-            agent.SetTargetFormationIndex(target.Index);
-            state.Order = DetachmentOrder.None;
+            agent.ForceAiBehaviorSelection();
+            return null;
+        }
+
+        public string SetFiringOrder(Agent agent, FiringOrder.RangedWeaponUsageOrderEnum order)
+        {
+            if (agent == null || !agent.IsActive()) return "Invalid agent";
+            if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
+            state.FiringOverride = order;
+            agent.SetFiringOrder(order);
+            return null;
+        }
+
+        public string SetRidingOrder(Agent agent, RidingOrder.RidingOrderEnum order, int selectedMountIndex = -1)
+        {
+            if (agent == null || !agent.IsActive()) return "Invalid agent";
+            if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
+            state.RidingOverride = order;
+            state.SelectedMountIndex = selectedMountIndex;
+            state.Detachment.SuppressMovement(order == RidingOrder.RidingOrderEnum.Mount && agent.MountAgent == null);
+            ApplyRidingOrder(agent, state);
             return null;
         }
 
@@ -251,6 +258,7 @@ namespace BLTAdoptAHero
                     if (!pos.IsValid) return "Gate has no valid position";
 
                     state.NavigationTarget = pos;
+                    state.MovementBehaviorOrder = MovementOrder.MovementOrderEnum.Move;
                     state.Order = DetachmentOrder.Navigate;
                     state.LastNavigationReissueTime = Mission.Current.CurrentTime;
                     SetAgentNavigatingAggressively(agent);
@@ -403,6 +411,7 @@ namespace BLTAdoptAHero
                 if (!found) return "No valid target (wall/tower/ladder)";
 
                 state.NavigationTarget = targetPos;
+                state.MovementBehaviorOrder = MovementOrder.MovementOrderEnum.Move;
                 state.Order = DetachmentOrder.Navigate;
                 state.LastNavigationReissueTime = Mission.Current.CurrentTime;
                 SetAgentNavigatingAggressively(agent);
@@ -430,15 +439,25 @@ namespace BLTAdoptAHero
                 if (!_detachments.ContainsKey(agent)) continue;
                 if (!agent.IsActive()) continue;
 
-                switch (state.Order)
+                bool mounting = state.RidingOverride == RidingOrder.RidingOrderEnum.Mount
+                                && agent.MountAgent == null;
+                if (!mounting)
                 {
-                    case DetachmentOrder.Hold:
-                        ApplyHold(agent, state);
-                        break;
-                    case DetachmentOrder.Navigate:
-                        ApplyNavigate(agent, state);
-                        break;
+                    switch (state.Order)
+                    {
+                        case DetachmentOrder.Hold:
+                            ApplyHold(agent, state);
+                            break;
+                        case DetachmentOrder.Charge:
+                            ApplyCharge(agent, state);
+                            break;
+                        case DetachmentOrder.Navigate:
+                            ApplyNavigate(agent, state);
+                            break;
+                    }
                 }
+
+                ApplyOverrides(agent, state);
             }
         }
 
@@ -484,6 +503,7 @@ namespace BLTAdoptAHero
             if (distSq < ArrivedDistanceSq)
             {
                 state.HoldPosition = agent.GetWorldPosition();
+                state.MovementBehaviorOrder = MovementOrder.MovementOrderEnum.Stop;
                 state.Order = DetachmentOrder.Hold;
                 ClearAgentNavigatingAggressively(agent);
                 ApplyHold(agent, state);
@@ -510,6 +530,59 @@ namespace BLTAdoptAHero
             agent.SetAutomaticTargetSelection(true);
             agent.HumanAIComponent?.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.Default);
             agent.SetScriptedFlags(agent.GetScriptedFlags() & ~Agent.AIScriptedFrameFlags.NeverSlowDown);
+        }
+
+        private static void ApplyCharge(Agent agent, DetachmentState state)
+        {
+            agent.DisableScriptedMovement();
+            agent.DisableScriptedCombatMovement();
+            agent.SetScriptedCombatFlags(Agent.AISpecialCombatModeFlags.None);
+            agent.SetScriptedFlags(Agent.AIScriptedFrameFlags.None);
+            agent.SetAutomaticTargetSelection(true);
+            agent.HumanAIComponent?.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.Default);
+        }
+
+        private static void ApplyOverrides(Agent agent, DetachmentState state)
+        {
+            agent.HumanAIComponent?.RefreshBehaviorValues(
+                state.MovementBehaviorOrder,
+                agent.Formation?.ArrangementOrder.OrderEnum ?? ArrangementOrder.ArrangementOrderEnum.Line);
+
+            ApplyFocus(agent, state);
+
+            if (state.FiringOverride.HasValue)
+                agent.SetFiringOrder(state.FiringOverride.Value);
+
+            if (state.RidingOverride.HasValue)
+                ApplyRidingOrder(agent, state);
+        }
+
+        private static void ApplyFocus(Agent agent, DetachmentState state)
+        {
+            if (!state.FocusClass.HasValue) return;
+
+            var target = Mission.Current.Teams
+                .Where(team => team != null && team.IsEnemyOf(agent.Team))
+                .SelectMany(team => team.FormationsIncludingSpecialAndEmpty)
+                .Where(formation => formation != null && formation.CountOfUnits > 0)
+                .Where(formation => formation.PhysicalClass == state.FocusClass.Value)
+                .OrderBy(formation => formation.CachedAveragePosition.DistanceSquared(agent.Position.AsVec2))
+                .FirstOrDefault();
+
+            if (target == null) return;
+            agent.SetAutomaticTargetSelection(true);
+            agent.SetTargetFormationIndex(target.Index);
+        }
+
+        private static void ApplyRidingOrder(Agent agent, DetachmentState state)
+        {
+            if (!state.RidingOverride.HasValue) return;
+            bool mounting = state.RidingOverride == RidingOrder.RidingOrderEnum.Mount
+                            && agent.MountAgent == null;
+            state.Detachment.SuppressMovement(mounting);
+            if (state.SelectedMountIndex >= 0)
+                agent.SetSelectedMountIndex(state.SelectedMountIndex);
+            agent.SetRidingOrder(state.RidingOverride.Value);
         }
 
         private void CleanupDetachmentOnDeath(Agent agent, DetachmentState state)
@@ -565,6 +638,8 @@ namespace BLTAdoptAHero
         private readonly List<Agent> _agents = new();
         private Agent _followTarget;
         private bool _followMainAgent;
+        private MovementOrder? _movementOrder;
+        private bool _suppressMovement;
 
         public MBReadOnlyList<Formation> UserFormations => _userFormations;
         public bool IsLoose => true;
@@ -572,24 +647,34 @@ namespace BLTAdoptAHero
         public HeroDetachment(Formation parent)
         {
             ParentFormation = parent;
+            if (parent != null)
+                _movementOrder = parent.GetReadonlyMovementOrderReference();
         }
 
         public void FollowMainAgent()
         {
             _followTarget = null;
             _followMainAgent = true;
+            _movementOrder = null;
         }
 
         public void FollowAgent(Agent target)
         {
             _followTarget = target;
             _followMainAgent = false;
+            _movementOrder = MovementOrder.MovementOrderFollow(target);
         }
 
         public void ClearFollowTarget()
         {
             _followTarget = null;
             _followMainAgent = false;
+            _movementOrder = null;
+        }
+
+        public void SuppressMovement(bool suppress)
+        {
+            _suppressMovement = suppress;
         }
 
         public void AddAgent(Agent agent, int slotIndex = -1,
@@ -678,18 +763,28 @@ namespace BLTAdoptAHero
 
         public WorldFrame? GetAgentFrame(Agent agent)
         {
-            var target = _followMainAgent ? Mission.Current?.MainAgent : _followTarget;
-            if (target == null || !target.IsActive() || ParentFormation == null)
+            if (_suppressMovement || ParentFormation == null)
                 return null;
 
-            var followOrder = MovementOrder.MovementOrderFollow(target);
-            var position = followOrder.CreateNewOrderWorldPositionMT(
+            var target = _followMainAgent ? Mission.Current?.MainAgent : _followTarget;
+            if ((_followMainAgent || _followTarget != null) && (target == null || !target.IsActive()))
+                return null;
+
+            var movementOrder = target != null
+                ? MovementOrder.MovementOrderFollow(target)
+                : _movementOrder;
+            if (!movementOrder.HasValue)
+                return null;
+
+            var order = movementOrder.Value;
+            var position = order.CreateNewOrderWorldPositionMT(
                 ParentFormation,
                 WorldPosition.WorldPositionEnforcedCache.NavMeshVec3);
             if (!position.IsValid)
                 return null;
 
-            var direction = target.LookDirection;
+            var direction = target?.LookDirection
+                            ?? new Vec3(ParentFormation.Direction.x, ParentFormation.Direction.y, 0f);
             var rotation = Mat3.CreateMat3WithForward(in direction);
             return new WorldFrame(rotation, position);
         }

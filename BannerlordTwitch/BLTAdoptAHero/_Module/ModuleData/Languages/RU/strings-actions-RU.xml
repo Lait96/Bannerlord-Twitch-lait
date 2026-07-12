@@ -1237,17 +1237,13 @@
 		<string id="BLTFormationRespectClassName" text="Учитывать класс" original="Respect class"/>
 		<string id="BLTFormationRespectClassDesc" text="Выключите, чтобы разрешить любые формации; иначе пехота сможет переходить только в пехотные формации" original="Turn off to allow any formation; otherwise infantry can only change to other infantry formations"/>
 		<string id="BLTFormationDetachmentsName" text="Отделение героя" original="Detachments"/>
-		<string id="BLTFormationDetachmentsDesc" text="Управляет автоматическим отделением БЛТ-персонажей от формаций. Когда настройка включена, зрители могут использовать индивидуальные боевые приказы (атака, стоять, следовать, ворота, стены, фокус и стрельба) и управлять своей свитой. Когда настройка выключена, эти команды недоступны; выбор формации, позиции впереди/сзади и управление конём продолжает работать." original="Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls, focus and fire) and control their retinue. When disabled, these commands are unavailable; formation selection, front/back positioning and mount commands still work."/>
+		<string id="BLTFormationDetachmentsDesc" text="Управляет автоматическим отделением БЛТ-персонажей от формаций. Когда настройка включена, зрители могут использовать индивидуальные боевые приказы (атака, стоять, следовать, ворота, стены, фокус, стрельба и конь) и управлять своей свитой. Когда настройка выключена, эти команды недоступны; выбор формации и позиции впереди/сзади продолжает работать." original="Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls, focus, fire and mount) and control their retinue. When disabled, these commands are unavailable; formation selection and front/back positioning still work."/>
 		<string id="BLTFormationEnemyFollowName" text="Следование противников" original="Enemy follow"/>
 		<string id="BLTFormationEnemyFollowDesc" text="Разрешить вражеским БЛТ-персонажам использовать следование за стримером. Фактически стример становится для них приоритетной целью." original="Allow enemy BLT characters to use follow against the streamer. This effectively makes the streamer their priority target."/>
 		<string id="BLTFormationUsageNumber" text="&lt;strong&gt;Использование:&lt;/strong&gt; номер" original="&lt;strong&gt;Usage:&lt;/strong&gt; number"/>
 		<string id="BLTFormationUsageFrontBack" text="- вперед/назад" original="- front/back"/>
-		<string id="BLTFormationUsageDetachAttach" text="- отделиться/вернуться" original="- detach/attach"/>
-		<string id="BLTFormationUsageDetached" text="- пока герой отделен: атака/стоять/следовать/ворота/стены" original="- (while detached): charge/hold/follow/gate/walls"/>
 		<string id="BLTFormationSubFront" text="вперед" original="front"/>
 		<string id="BLTFormationSubBack" text="назад" original="back"/>
-		<string id="BLTFormationSubDetach" text="отделиться" original="detach"/>
-		<string id="BLTFormationSubAttach" text="вернуться" original="attach"/>
 		<string id="BLTFormationSubCharge" text="атака" original="charge"/>
 		<string id="BLTFormationSubHold" text="стоять" original="hold"/>
 		<string id="BLTFormationSubFollow" text="следовать" original="follow"/>
@@ -1294,6 +1290,9 @@
 		<string id="BLTFormationUsageHeroCommands" text="- атака/стоять/следовать/вернуться/ворота/стены" original="- charge/hold/follow/return/gate/walls"/>
 		<string id="BLTFormationUsageRetinue" text="- свита следовать/атака/вернуться" original="- retinue follow/attack/return"/>
 		<string id="BLTFormationUsageAdvanced" text="- стрельба «не стрелять»/«по умолчанию», конь сесть/спешиться, фокус все/пехота/лучники/кавалерия/конные" original="- fire hold/default, mount on/off, focus all/infantry/ranged/cavalry/horsearcher"/>
+		<string id="BLTFormationUsageAutoDetach" text="- Индивидуальные приказы автоматически отделяют героя; вернуться восстанавливает обычное управление формацией" original="- Individual orders detach the hero automatically; return restores normal formation control"/>
+		<string id="BLTFormationUsagePersistent" text="- Индивидуальные приказы действуют до замены или сброса командой вернуться" original="- Individual orders remain active until replaced or reset with return"/>
+		<string id="BLTFormationUsageRetinueScope" text="- Команды свиты действуют на обе свиты; свита вернуться сбрасывает только управление свитой" original="- Retinue commands affect both retinues; retinue return resets only retinue control"/>
 		<string id="BLTFormationSubRetinue" text="свита" original="retinue"/>
 		<string id="BLTFormationSubReturn" text="вернуться" original="return"/>
 		<string id="BLTFormationSubFire" text="стрельба" original="fire"/>

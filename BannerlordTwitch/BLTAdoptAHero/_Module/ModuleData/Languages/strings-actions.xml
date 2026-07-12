@@ -1321,7 +1321,7 @@
 		<string id="BLTFormationRespectClassName" text="Respect class"/>
 		<string id="BLTFormationRespectClassDesc" text="Turn off to allow any formation; otherwise infantry can only change to other infantry formations"/>
 		<string id="BLTFormationDetachmentsName" text="Detachments"/>
-		<string id="BLTFormationDetachmentsDesc" text="Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls, focus and fire) and control their retinue. When disabled, these commands are unavailable; formation selection, front/back positioning and mount commands still work."/>
+		<string id="BLTFormationDetachmentsDesc" text="Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls, focus, fire and mount) and control their retinue. When disabled, these commands are unavailable; formation selection and front/back positioning still work."/>
 		<string id="BLTFormationEnemyFollowName" text="Enemy follow"/>
 		<string id="BLTFormationEnemyFollowDesc" text="Allow enemy BLT characters to use follow against the streamer. This effectively makes the streamer their priority target."/>
 		<string id="BLTFormationUsageNumber" text="&lt;strong&gt;Usage:&lt;/strong&gt; number"/>
@@ -1329,10 +1329,11 @@
 		<string id="BLTFormationUsageHeroCommands" text="- charge/hold/follow/return/gate/walls"/>
 		<string id="BLTFormationUsageRetinue" text="- retinue follow/attack/return"/>
 		<string id="BLTFormationUsageAdvanced" text="- fire hold/default, mount on/off, focus all/infantry/ranged/cavalry/horsearcher"/>
+		<string id="BLTFormationUsageAutoDetach" text="- Individual orders detach the hero automatically; return restores normal formation control"/>
+		<string id="BLTFormationUsagePersistent" text="- Individual orders remain active until replaced or reset with return"/>
+		<string id="BLTFormationUsageRetinueScope" text="- Retinue commands affect both retinues; retinue return resets only retinue control"/>
 		<string id="BLTFormationSubFront" text="front"/>
 		<string id="BLTFormationSubBack" text="back"/>
-		<string id="BLTFormationSubDetach" text="detach"/>
-		<string id="BLTFormationSubAttach" text="attach"/>
 		<string id="BLTFormationSubCharge" text="charge"/>
 		<string id="BLTFormationSubHold" text="hold"/>
 		<string id="BLTFormationSubFollow" text="follow"/>

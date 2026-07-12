@@ -30,7 +30,7 @@ namespace BLTAdoptAHero.Actions
 
             [LocDisplayName("{=BLTFormationDetachmentsName}Detachments"),
              LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=BLTFormationDetachmentsDesc}Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls, focus and fire) and control their retinue. When disabled, these commands are unavailable; formation selection, front/back positioning and mount commands still work."),
+             LocDescription("{=BLTFormationDetachmentsDesc}Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls, focus, fire and mount) and control their retinue. When disabled, these commands are unavailable; formation selection and front/back positioning still work."),
              PropertyOrder(2), UsedImplicitly]
             public bool Detach { get; set; } = true;
 
@@ -47,6 +47,9 @@ namespace BLTAdoptAHero.Actions
                 generator.Value("{=BLTFormationUsageHeroCommands}- charge/hold/follow/return/gate/walls".Translate());
                 generator.Value("{=BLTFormationUsageRetinue}- retinue follow/attack/return".Translate());
                 generator.Value("{=BLTFormationUsageAdvanced}- fire hold/default, mount on/off, focus all/infantry/ranged/cavalry/horsearcher".Translate());
+                generator.Value("{=BLTFormationUsageAutoDetach}- Individual orders detach the hero automatically; return restores normal formation control".Translate());
+                generator.Value("{=BLTFormationUsagePersistent}- Individual orders remain active until replaced or reset with return".Translate());
+                generator.Value("{=BLTFormationUsageRetinueScope}- Retinue commands affect both retinues; retinue return resets only retinue control".Translate());
             }
         }
 
@@ -370,6 +373,10 @@ namespace BLTAdoptAHero.Actions
                             && MatchesCommand(argument, "{=BLTFormationFireHold}hold".Translate(), "hold");
             bool defaultFire = command == "fire"
                                && MatchesCommand(argument, "{=BLTFormationFireDefault}default".Translate(), "default");
+            bool mountOn = command == "mount"
+                           && MatchesCommand(argument, "{=BLTFormationMountOn}on".Translate(), "on");
+            bool mountOff = command == "mount"
+                            && MatchesCommand(argument, "{=BLTFormationMountOff}off".Translate(), "off");
             var focusClass = FormationClass.NumberOfRegularFormations;
             bool hasFocusClass = command == "focus" && !clearFocus
                                  && TryGetFocusClass(argument, out focusClass);
@@ -384,8 +391,13 @@ namespace BLTAdoptAHero.Actions
                 onFailure("{=BLTFormationFocusUsage}Usage: focus all/infantry/ranged/cavalry/horsearcher".Translate());
                 return;
             }
+            if (command == "mount" && !mountOn && !mountOff)
+            {
+                onFailure("{=BLTFormationMountUsage}Usage: mount on/off".Translate());
+                return;
+            }
 
-            if (command == "fire" || (command == "focus" && !clearFocus))
+            if ((command is "fire" or "mount") || (command == "focus" && !clearFocus))
             {
                 if (!settings.Detach) { onFailure("{=BLTFormationDetachOff}Detach commands are off".Translate()); return; }
                 if (behavior == null) { onFailure("{=BLTFormationDetachInactive}Detachment system not active".Translate()); return; }
@@ -398,17 +410,18 @@ namespace BLTAdoptAHero.Actions
                 switch (command)
                 {
                     case "fire":
-                        agent.SetFiringOrder(holdFire
+                        error = behavior.SetFiringOrder(agent, holdFire
                             ? FiringOrder.RangedWeaponUsageOrderEnum.HoldYourFire
                             : FiringOrder.RangedWeaponUsageOrderEnum.FireAtWill);
                         break;
                     case "mount":
-                        if (MatchesCommand(argument, "{=BLTFormationMountOff}off".Translate(), "off")) error = Dismount(agent);
-                        else if (MatchesCommand(argument, "{=BLTFormationMountOn}on".Translate(), "on")) error = MountNearest(agent);
-                        else error = "{=BLTFormationMountUsage}Usage: mount on/off".Translate();
+                        if (mountOff)
+                            error = behavior.SetRidingOrder(agent, RidingOrder.RidingOrderEnum.Dismount);
+                        else if (mountOn)
+                            error = MountNearest(behavior, agent);
                         break;
                     case "focus":
-                        if (clearFocus) ClearFocus(agent);
+                        if (clearFocus) error = behavior?.ClearFocus(agent) ?? ClearFocus(agent);
                         else error = behavior.Focus(agent, focusClass);
                         break;
                 }
@@ -418,30 +431,23 @@ namespace BLTAdoptAHero.Actions
             else onSuccess("{=BLTFormationCommandOk}{command} ok".Translate(("command", command)));
         }
 
-        private static string Dismount(Agent agent)
-        {
-            if (agent.MountAgent == null) return "Hero is not mounted";
-            agent.Mount(null);
-            return null;
-        }
-
-        private static void ClearFocus(Agent agent)
+        private static string ClearFocus(Agent agent)
         {
             agent.SetTargetFormationIndex(-1);
             agent.SetAutomaticTargetSelection(true);
             agent.ForceAiBehaviorSelection();
+            return null;
         }
 
-        private static string MountNearest(Agent agent)
+        private static string MountNearest(BLTHeroDetachmentBehavior behavior, Agent agent)
         {
             if (agent.MountAgent != null) return "Hero is already mounted";
             var mount = Mission.Current.Agents
                 .Where(a => a != null && a.IsActive() && a.IsMount && a.RiderAgent == null)
                 .OrderBy(a => a.Position.DistanceSquared(agent.Position))
                 .FirstOrDefault();
-            if (mount == null || mount.Position.DistanceSquared(agent.Position) > 25f) return "No free mount nearby";
-            agent.Mount(mount);
-            return null;
+            if (mount == null || mount.Position.DistanceSquared(agent.Position) > 900f) return "No free mount nearby";
+            return behavior.SetRidingOrder(agent, RidingOrder.RidingOrderEnum.Mount, mount.Index);
         }
 
         private bool TryGetFocusClass(string value, out FormationClass formationClass)
