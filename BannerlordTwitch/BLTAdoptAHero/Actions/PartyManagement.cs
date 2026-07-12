@@ -329,6 +329,13 @@ namespace BLTAdoptAHero.Actions
             }
             Army army = party?.Army;
 
+            if (MutatesPartyState(mode, desiredName) &&
+                adoptedHero.Clan.WarPartyComponents.Any(component => component?.MobileParty?.MapEvent != null))
+            {
+                onFailure("A clan party is still resolving a battle. Try again after the battle has fully ended.");
+                return;
+            }
+
             string behaviorText = party?.GetBehaviorText()?.ToString() ?? "";
             string armyBehavior = army?.LeaderParty?.GetBehaviorText()?.ToString() ?? "";
 
@@ -384,6 +391,24 @@ namespace BLTAdoptAHero.Actions
 
         private static bool IsAllCommand(string value) =>
             MatchesCommand(value?.Trim() ?? "", "{=BLTPartyArgAll}all".Translate(), "all");
+
+        /// <summary>
+        /// Returns whether a command can change party, army, roster, or hero placement state.
+        /// Read-only commands remain available while Bannerlord is finalizing a MapEvent.
+        /// </summary>
+        private static bool MutatesPartyState(string mode, string desiredName)
+        {
+            if (string.IsNullOrEmpty(mode) || mode == "stats")
+                return false;
+
+            if (mode != "army")
+                return true;
+
+            var parts = desiredName.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
+            var sub = GetArmyCommand(parts.Length > 0 ? parts[0] : "");
+            return sub != "status" && sub != "view" && sub != "threat" &&
+                   sub != "allowai" && sub != "allowblt";
+        }
 
         // ─────────────────────────────────────────────────────────────────────
         //  STATUS STRING  (unchanged)
