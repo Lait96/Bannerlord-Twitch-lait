@@ -329,7 +329,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: true
   RespondInTwitch: true
-- Documentation: 'Use to manage clan actions <br> Usage is <code>!clan (join/create/lead/rename/stats/leave/buy title/banner) name </code> <br> Example: !clan join Banu Tammar or !clan stats'
+- Aliases: Клан
+  Documentation: 'Use to manage clan actions <br> Usage is <code>!clan (join/create/lead/rename/stats/leave/buy title/banner) name </code> <br> Example: !clan join Banu Tammar or !clan stats'
   Enabled: true
   Handler: ClanManagement
   HandlerConfig:
