@@ -1318,5 +1318,78 @@
 		<string id="BLTFormationRetinueCommandOk" text="Свита: команда {command} выполнена ({count})" original="Retinue: {command} ok ({count})"/>
 		<string id="BLTFormationReturned" text="Персонаж возвращён под управление формации" original="Returned to formation control"/>
 		<string id="BLTFormationEnemyFollowOff" text="Следование за стримером для противников отключено" original="Enemy follow is disabled"/>
+        <string id="BLTPartyManagementName" text="Управление отрядом" original="Party Management"/>
+        <string id="BLTPartyManagementDescription" text="Позволяет зрителям управлять своими отрядами и армиями" original="Allow viewers to manage their parties and armies"/>
+        <string id="BLTPartyOrderExpiry" text="Срок приказа отряду (дни)" original="Party Order Expiry (Days)"/>
+        <string id="BLTPartyOrderExpiryDesc" text="Число игровых дней до автоматической отмены приказа отряду клана. Поддерживаются дробные значения (например, 0.5 = 12 часов). 0 = без ограничения." original="In-game days before a clan party order auto-expires. Fractional values are supported (e.g. 0.5 = 12 hours). 0 = no expiry."/>
+        <string id="BLTArmyOrderExpiry" text="Срок приказа армии (дни)" original="Army Order Expiry (Days)"/>
+        <string id="BLTArmyOrderExpiryDesc" text="Число игровых дней до автоматической отмены приказа армии (осада/оборона/патруль/гарнизон). Поддерживаются дробные значения (например, 0.5 = 12 часов). 0 = без ограничения." original="In-game days before an army order (siege/defend/patrol/garrison) auto-expires. Fractional values are supported (e.g. 0.5 = 12 hours). 0 = no expiry."/>
+        <string id="BLTPartySubGovern" text="управлять" original="govern"/>
+        <string id="BLTPartySubCreate" text="создать" original="create"/>
+        <string id="BLTPartySubStats" text="стат" original="stats"/>
+        <string id="BLTPartySubDisband" text="распустить" original="disband"/>
+        <string id="BLTPartySubTrain" text="тренировать" original="train"/>
+        <string id="BLTPartyTrainStatus" text="статус" original="status"/>
+        <string id="BLTPartyTrainCancel" text="отменить" original="cancel"/>
+        <string id="BLTPartyArgAll" text="все" original="all"/>
+        <string id="BLTPartyArgNearby" text="рядом" original="nearby"/>
+        <string id="BLTPartyArgOn" text="вкл" original="on"/>
+        <string id="BLTPartyArgOff" text="выкл" original="off"/>
+        <string id="BLTPartyTrainingDisabled" text="Тренировка войск отключена" original="Training is disabled"/>
+        <string id="BLTPartyTrainingMustLead" text="Чтобы вкладывать золото в тренировку войск, вы должны возглавлять отряд" original="You must be leading a party to invest in training"/>
+        <string id="BLTPartyTrainingNotInitialized" text="Система тренировки войск не инициализирована" original="Training system not initialized"/>
+        <string id="BLTPartyNoTrainingFund" text="Фонд тренировки не создан" original="No training fund active"/>
+        <string id="BLTPartyTrainingTierCap" text=" | Максимальный уровень: {TIER}" original=" | Tier cap: {TIER}"/>
+        <string id="BLTPartyTrainingStatus" text="Фонд тренировки: {FUND}{GOLD_ICON} | {DAILY}{GOLD_ICON}/день | осталось примерно {DAYS} дн.{TIER_CAP}" original="Training fund: {FUND}{GOLD_ICON} | {DAILY}{GOLD_ICON}/day | ~{DAYS} days remaining{TIER_CAP}"/>
+        <string id="BLTPartyNoTrainingFundToCancel" text="Нет действующего фонда тренировки для отмены" original="No training fund to cancel"/>
+        <string id="BLTPartyTrainingCancelled" text="Тренировка отменена — возвращено {REFUND}{GOLD_ICON}" original="Training cancelled - refunded {REFUND}{GOLD_ICON}"/>
+        <string id="BLTPartyTrainingUsage" text="Использование: !отряд тренировать &lt;золото&gt; | !отряд тренировать статус | !отряд тренировать отменить" original="Usage: !party train &lt;gold&gt; | !party train status | !party train cancel"/>
+        <string id="BLTPartyTrainingInvested" text="В тренировку вложено {AMOUNT}{GOLD_ICON} | Общий фонд: {FUND}{GOLD_ICON} | {DAILY}{GOLD_ICON}/день{TIER_CAP}" original="Invested {AMOUNT}{GOLD_ICON} in training | Total fund: {FUND}{GOLD_ICON} | {DAILY}{GOLD_ICON}/day{TIER_CAP}"/>
+        <string id="BLTPartySubArmy" text="армия" original="army"/>
+        <string id="BLTPartySubRelease" text="освободить" original="release"/>
+        <string id="BLTPartySubSiege" text="осада" original="siege"/>
+        <string id="BLTPartySubDefend" text="защищать" original="defend"/>
+        <string id="BLTPartySubPatrol" text="патруль" original="patrol"/>
+        <string id="BLTPartySubRaid" text="набег" original="raid"/>
+        <string id="BLTPartySubGarrison" text="гарнизон" original="garrison"/>
+        <string id="BLTPartyArmyStatus" text="статус" original="status"/>
+        <string id="BLTPartyArmyLeave" text="покинуть" original="leave"/>
+        <string id="BLTPartyArmyReassign" text="передать" original="reassign"/>
+        <string id="BLTPartyArmyView" text="список" original="view"/>
+        <string id="BLTPartyArmyTakeover" text="перехватить" original="takeover"/>
+        <string id="BLTPartyArmyCall" text="созвать" original="call"/>
+        <string id="BLTPartyArmyJoin" text="присоединиться" original="join"/>
+        <string id="BLTPartyArmyKick" text="исключить" original="kick"/>
+        <string id="BLTPartyArmyAllowAI" text="ии" original="allowai"/>
+        <string id="BLTPartyArmyAllowBLT" text="блт" original="allowblt"/>
+        <string id="BLTPartyArmyThreat" text="угрозы" original="threat"/>
+        <string id="ArmyCat" text="Армия" original="Army"/>
+        <string id="ArmyEnabled" text="Армия" original="Army"/>
+        <string id="ArmyEnabledDesc" text="Включить команду !party army" original="Enable the !party army command"/>
+        <string id="ArmyPrice" text="Цена" original="Price"/>
+        <string id="ArmyPriceDesc" text="Стоимость создания армии в золоте" original="Gold cost to create an army"/>
+        <string id="ArmyMaxReissue" text="Максимум повторов приказа" original="Max Re-issue Attempts"/>
+        <string id="ArmyMaxReissueDesc" text="Сколько раз система незаметно повторяет сбившийся приказ перед его отменой. 0 = не повторять." original="How many times the system silently re-issues a drifted order before releasing it. 0 = never re-issue."/>
+        <string id="ThreatCat" text="Угрозы" original="Threat"/>
+        <string id="ThreatEnabled" text="Поиск угроз" original="Threat Scan"/>
+        <string id="ThreatEnabledDesc" text="Включить подкоманду !party army threat" original="Enable !party army threat scan subcommand"/>
+        <string id="ThreatMaxResults" text="Максимум угроз" original="Threat Max Results"/>
+        <string id="ThreatMaxResultsDesc" text="Максимальное число угроз в списке, отсортированном по опасности" original="Maximum number of threats listed, sorted by danger"/>
+        <string id="ThreatRadius" text="Радиус поиска угроз" original="Threat Scan Radius"/>
+        <string id="ThreatRadiusDesc" text="Радиус на карте для поиска ближайших враждебных отрядов." original="Map-unit radius to scan for nearby hostile parties."/>
+        <string id="r1nJTiSA" text="Ваш герой только что был освобождён" original="Your hero has just been released"/>
+        <string id="TESTING" text="Ваш герой путешествует" original="Your hero is travelling"/>
+        <string id="zVDODxiN" text="Пленник ({dur}): {prisoner}" original="Prisoner({dur}): {prisoner}"/>
+        <string id="c3CZCj6p" text="(защита)" original="(Defending)"/>
+        <string id="BLTPartyNotLeadingClanArmy" text="Вы не возглавляете армию клана" original="You are not leading a clan army"/>
+        <string id="BLTPartyArmyInCombat" text="Ваша армия участвует в сражении" original="Your army is in combat"/>
+        <string id="BLTPartyClanArmyDisbanded" text="Армия клана {ARMY_NAME} распущена" original="Clan army {ARMY_NAME} disbanded"/>
+        <string id="BLTPartyNoArmiesToDisband" text="Нет действующих армий, которые можно распустить" original="No active armies to disband"/>
+        <string id="BLTPartySpecifyArmyIndex" text="Укажите номер армии (1–{COUNT}). Используйте «армия список»." original="Specify army index (1-{COUNT}). Use 'army view'."/>
+        <string id="BLTPartyInvalidArmyIndex" text="Недопустимый номер «{INDEX}». В королевстве армий: {COUNT}." original="Invalid index '{INDEX}'. Kingdom has {COUNT} armies."/>
+        <string id="BLTPartyNamedArmyInCombat" text="Армия {ARMY_NAME} участвует в сражении" original="{ARMY_NAME} is in combat"/>
+        <string id="BLTPartyDisbandedNamedArmy" text="Армия {ARMY_NAME} распущена" original="Disbanded {ARMY_NAME}"/>
+        <string id="BLTPartyNotLeadingArmy" text="Вы не возглавляете армию" original="You are not leading an army"/>
+        <string id="BLTPartyArmyDisbanded" text="Армия распущена" original="Army disbanded"/>
     </strings>
 </base>

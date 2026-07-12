@@ -1073,7 +1073,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: ''
+- Aliases: отряд
+  Documentation: ''
   Enabled: true
   Handler: PartyManagement
   HandlerConfig:

@@ -3,7 +3,7 @@ layout: default
 title: Управление формациями
 description: Инструкция по команде Формация
 permalink: /formation-command/
-next_url: /clan-command/
+next_url: /party-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

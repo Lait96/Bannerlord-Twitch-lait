@@ -32,8 +32,8 @@ using BannerlordTwitch.UI;
 
 namespace BLTAdoptAHero.Actions
 {
-    [LocDisplayName("Party Management"),
-     LocDescription("Allow viewer to manage their party"),
+    [LocDisplayName("{=BLTPartyManagementName}Party Management"),
+     LocDescription("{=BLTPartyManagementDescription}Allow viewers to manage their parties and armies"),
      UsedImplicitly]
     public class PartyManagement : HeroCommandHandlerBase
     {
@@ -62,20 +62,17 @@ namespace BLTAdoptAHero.Actions
              PropertyOrder(3), UsedImplicitly]
             public int ArmyMaxReissueAttempts { get; set; } = 5;
 
-            [LocDisplayName("Party Order Expiry (Days)"),
+            [LocDisplayName("{=BLTPartyOrderExpiry}Party Order Expiry (Days)"),
              LocCategory("Army", "{=ArmyCat}Army"),
              LocDescription(
-                 "In-game days before a clan party order auto-expires. Fractional values are supported (e.g. 0.5 = 12 hours). " +
-                 "0 = no expiry."),
+                 "{=BLTPartyOrderExpiryDesc}In-game days before a clan party order auto-expires. Fractional values are supported (e.g. 0.5 = 12 hours). 0 = no expiry."),
              PropertyOrder(4), UsedImplicitly]
             public float PartyOrderExpiryDays { get; set; } = 0f;
 
-            [LocDisplayName("Army Order Expiry (Days)"),
+            [LocDisplayName("{=BLTArmyOrderExpiry}Army Order Expiry (Days)"),
              LocCategory("Army", "{=ArmyCat}Army"),
              LocDescription(
-                 "In-game days before an army order (siege/defend/patrol/garrison) " +
-                 "auto-expires. Fractional values are supported (e.g. 0.5 = 12 hours). " +
-                 "0 = no expiry."),
+                 "{=BLTArmyOrderExpiryDesc}In-game days before an army order (siege/defend/patrol/garrison) auto-expires. Fractional values are supported (e.g. 0.5 = 12 hours). 0 = no expiry."),
              PropertyOrder(5), UsedImplicitly]
             public float ArmyOrderExpiryDays { get; set; } = 0f;
 
@@ -320,8 +317,8 @@ namespace BLTAdoptAHero.Actions
             if (Mission.Current != null) { onFailure("{=MPTOZqMS}You cannot manage your party, as a mission is active!".Translate()); return; }
             if (adoptedHero.Clan == null) { onFailure("{=B86KnTcu}You are not in a clan".Translate()); return; }
 
-            var splitArgs = context.Args.Split(' ');
-            var mode = splitArgs[0];
+            var splitArgs = context.Args.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var mode = GetPartyCommand(splitArgs.Length > 0 ? splitArgs[0] : "");
             var desiredName = string.Join(" ", splitArgs.Skip(1)).Trim();
 
             MobileParty party = adoptedHero.PartyBelongedTo;
@@ -363,6 +360,30 @@ namespace BLTAdoptAHero.Actions
                     break;
             }
         }
+
+        private static string GetPartyCommand(string value)
+        {
+            if (MatchesCommand(value, "{=BLTPartySubGovern}govern".Translate(), "govern")) return "govern";
+            if (MatchesCommand(value, "{=BLTPartySubCreate}create".Translate(), "create")) return "create";
+            if (MatchesCommand(value, "{=BLTPartySubStats}stats".Translate(), "stats")) return "stats";
+            if (MatchesCommand(value, "{=BLTPartySubDisband}disband".Translate(), "disband")) return "disband";
+            if (MatchesCommand(value, "{=BLTPartySubTrain}train".Translate(), "train")) return "train";
+            if (MatchesCommand(value, "{=BLTPartySubArmy}army".Translate(), "army")) return "army";
+            if (MatchesCommand(value, "{=BLTPartySubRelease}release".Translate(), "release")) return "release";
+            if (MatchesCommand(value, "{=BLTPartySubSiege}siege".Translate(), "siege")) return "siege";
+            if (MatchesCommand(value, "{=BLTPartySubDefend}defend".Translate(), "defend")) return "defend";
+            if (MatchesCommand(value, "{=BLTPartySubPatrol}patrol".Translate(), "patrol")) return "patrol";
+            if (MatchesCommand(value, "{=BLTPartySubRaid}raid".Translate(), "raid")) return "raid";
+            if (MatchesCommand(value, "{=BLTPartySubGarrison}garrison".Translate(), "garrison")) return "garrison";
+            return value.ToLowerInvariant();
+        }
+
+        private static bool MatchesCommand(string value, string translated, string english) =>
+            value.Equals(translated, StringComparison.OrdinalIgnoreCase) ||
+            value.Equals(english, StringComparison.OrdinalIgnoreCase);
+
+        private static bool IsAllCommand(string value) =>
+            MatchesCommand(value?.Trim() ?? "", "{=BLTPartyArgAll}all".Translate(), "all");
 
         // ─────────────────────────────────────────────────────────────────────
         //  STATUS STRING  (unchanged)
@@ -571,7 +592,7 @@ namespace BLTAdoptAHero.Actions
             if (h.Clan == null) { onFailure("You are not in a clan"); return; }
             if (h.Clan.Leader.IsHumanPlayerCharacter) { onFailure("Cannot disband parties in the player clan"); return; }
 
-            if (arg.Equals("all", StringComparison.OrdinalIgnoreCase))
+            if (IsAllCommand(arg))
             {
                 var toDisband = h.Clan.WarPartyComponents
                     .Select(wpc => wpc?.MobileParty)
@@ -635,32 +656,37 @@ namespace BLTAdoptAHero.Actions
         private static void HandleTrain(Settings settings, Hero h, MobileParty party, string arg,
     Action<string> onSuccess, Action<string> onFailure)
         {
-            if (!settings.TrainEnabled) { onFailure("Training is disabled"); return; }
-            if (party == null || party.LeaderHero != h) { onFailure("You must be leading a party to invest in training"); return; }
-            if (TrainingBehavior.Current == null) { onFailure("Training system not initialized"); return; }
+            if (!settings.TrainEnabled) { onFailure("{=BLTPartyTrainingDisabled}Training is disabled".Translate()); return; }
+            if (party == null || party.LeaderHero != h) { onFailure("{=BLTPartyTrainingMustLead}You must be leading a party to invest in training".Translate()); return; }
+            if (TrainingBehavior.Current == null) { onFailure("{=BLTPartyTrainingNotInitialized}Training system not initialized".Translate()); return; }
 
-            if (arg.Equals("status", StringComparison.OrdinalIgnoreCase))
+            if (MatchesCommand(arg, "{=BLTPartyTrainStatus}status".Translate(), "status"))
             {
                 var entry = TrainingBehavior.Current.GetEntry(h);
-                if (entry == null || entry.Fund <= 0) { onSuccess("No training fund active"); return; }
+                if (entry == null || entry.Fund <= 0) { onSuccess("{=BLTPartyNoTrainingFund}No training fund active".Translate()); return; }
                 int daily = TrainingBehavior.ComputeDailyBudget(entry);
                 int daysEst = daily > 0 ? (int)Math.Ceiling(entry.Fund / (double)daily) : 0;
-                string tierStr = entry.MaxTier > 0 ? $" | Tier cap: {entry.MaxTier}" : "";
-                onSuccess($"Training fund: {entry.Fund}{Naming.Gold} | {daily}{Naming.Gold}/day | ~{daysEst} days remaining{tierStr}");
+                string tierStr = entry.MaxTier > 0
+                    ? "{=BLTPartyTrainingTierCap} | Tier cap: {TIER}".Translate(("TIER", entry.MaxTier))
+                    : "";
+                onSuccess("{=BLTPartyTrainingStatus}Training fund: {FUND}{GOLD_ICON} | {DAILY}{GOLD_ICON}/day | ~{DAYS} days remaining{TIER_CAP}"
+                    .Translate(("FUND", entry.Fund), ("GOLD_ICON", Naming.Gold), ("DAILY", daily),
+                        ("DAYS", daysEst), ("TIER_CAP", tierStr)));
                 return;
             }
 
-            if (arg.Equals("cancel", StringComparison.OrdinalIgnoreCase))
+            if (MatchesCommand(arg, "{=BLTPartyTrainCancel}cancel".Translate(), "cancel"))
             {
                 int refund = TrainingBehavior.Current.CancelFund(h);
-                if (refund <= 0) { onFailure("No training fund to cancel"); return; }
+                if (refund <= 0) { onFailure("{=BLTPartyNoTrainingFundToCancel}No training fund to cancel".Translate()); return; }
                 BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(h, refund, false);
-                onSuccess($"Training cancelled - refunded {refund}{Naming.Gold}");
+                onSuccess("{=BLTPartyTrainingCancelled}Training cancelled - refunded {REFUND}{GOLD_ICON}"
+                    .Translate(("REFUND", refund), ("GOLD_ICON", Naming.Gold)));
                 return;
             }
 
             if (!int.TryParse(arg, out int gold) || gold <= 0)
-            { onFailure("Usage: !party train <gold> | !party train status | !party train cancel"); return; }
+            { onFailure("{=BLTPartyTrainingUsage}Usage: !party train <gold> | !party train status | !party train cancel".Translate()); return; }
 
             int have = BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(h);
             if (have < gold) { onFailure(Naming.NotEnoughGold(gold, have)); return; }
@@ -671,8 +697,12 @@ namespace BLTAdoptAHero.Actions
 
             var entry2 = TrainingBehavior.Current.GetEntry(h);
             int daily2 = TrainingBehavior.ComputeDailyBudget(entry2);
-            string tierStr2 = settings.TrainMaxTier > 0 ? $" | Tier cap: {settings.TrainMaxTier}" : "";
-            onSuccess($"Invested {gold}{Naming.Gold} in training | Total fund: {entry2.Fund}{Naming.Gold} | {daily2}{Naming.Gold}/day{tierStr2}");
+            string tierStr2 = settings.TrainMaxTier > 0
+                ? "{=BLTPartyTrainingTierCap} | Tier cap: {TIER}".Translate(("TIER", settings.TrainMaxTier))
+                : "";
+            onSuccess("{=BLTPartyTrainingInvested}Invested {AMOUNT}{GOLD_ICON} in training | Total fund: {FUND}{GOLD_ICON} | {DAILY}{GOLD_ICON}/day{TIER_CAP}"
+                .Translate(("AMOUNT", gold), ("GOLD_ICON", Naming.Gold), ("FUND", entry2.Fund),
+                    ("DAILY", daily2), ("TIER_CAP", tierStr2)));
         }
 
         // ─────────────────────────────────────────────────────────────────────
@@ -690,7 +720,7 @@ namespace BLTAdoptAHero.Actions
             if (h.Clan.Leader.IsHumanPlayerCharacter) { onFailure("Cannot manage orders in player clan"); return; }
             if (PartyOrderBehavior.Current == null) { onFailure("Order system not initialized"); return; }
 
-            bool allParties = arg.Equals("all", StringComparison.OrdinalIgnoreCase);
+            bool allParties = IsAllCommand(arg);
 
             if (allParties)
             {
@@ -746,17 +776,12 @@ namespace BLTAdoptAHero.Actions
             bool allParties = false;
             string settlementArg = args?.Trim() ?? "";
 
-            if (settlementArg.EndsWith(" all", StringComparison.OrdinalIgnoreCase))
+            var argumentParts = settlementArg.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (argumentParts.Length > 0 && IsAllCommand(argumentParts[argumentParts.Length - 1]))
             {
                 allParties = true;
-                settlementArg = settlementArg.Substring(0, settlementArg.Length - 4).Trim();
+                settlementArg = string.Join(" ", argumentParts.Take(argumentParts.Length - 1));
             }
-            else if (settlementArg.Equals("all", StringComparison.OrdinalIgnoreCase))
-            {
-                allParties = true;
-                settlementArg = "";
-            }
-
             // ── Determine order type ─────────────────────────────────────────
             var orderType = subCmd switch
             {
@@ -1029,7 +1054,7 @@ namespace BLTAdoptAHero.Actions
             if (h.IsPrisoner) { onFailure("You are a prisoner!"); return; }
 
             var parts = desiredName.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
-            var sub = parts.Length > 0 ? parts[0].ToLower() : "";
+            var sub = GetArmyCommand(parts.Length > 0 ? parts[0] : "");
             var tgtArg = parts.Length > 1 ? parts[1].Trim() : "";
 
             if (string.IsNullOrEmpty(sub))
@@ -1064,6 +1089,29 @@ namespace BLTAdoptAHero.Actions
             }
         }
 
+        private static string GetArmyCommand(string value)
+        {
+            if (MatchesCommand(value, "{=BLTPartyArmyStatus}status".Translate(), "status")) return "status";
+            if (MatchesCommand(value, "{=BLTPartySubDisband}disband".Translate(), "disband")) return "disband";
+            if (MatchesCommand(value, "{=BLTPartyArmyLeave}leave".Translate(), "leave")) return "leave";
+            if (MatchesCommand(value, "{=BLTPartyArmyReassign}reassign".Translate(), "reassign")) return "reassign";
+            if (MatchesCommand(value, "{=BLTPartyArmyView}view".Translate(), "view")) return "view";
+            if (MatchesCommand(value, "{=BLTPartySubCreate}create".Translate(), "create")) return "create";
+            if (MatchesCommand(value, "{=BLTPartyArmyTakeover}takeover".Translate(), "takeover")) return "takeover";
+            if (MatchesCommand(value, "{=BLTPartyArmyCall}call".Translate(), "call")) return "call";
+            if (MatchesCommand(value, "{=BLTPartyArmyJoin}join".Translate(), "join")) return "join";
+            if (MatchesCommand(value, "{=BLTPartyArmyKick}kick".Translate(), "kick")) return "kick";
+            if (MatchesCommand(value, "{=BLTPartySubGarrison}garrison".Translate(), "garrison")) return "garrison";
+            if (MatchesCommand(value, "{=BLTPartySubRelease}release".Translate(), "release")) return "release";
+            if (MatchesCommand(value, "{=BLTPartyArmyAllowAI}allowai".Translate(), "allowai")) return "allowai";
+            if (MatchesCommand(value, "{=BLTPartyArmyAllowBLT}allowblt".Translate(), "allowblt")) return "allowblt";
+            if (MatchesCommand(value, "{=BLTPartyArmyThreat}threat".Translate(), "threat")) return "threat";
+            if (MatchesCommand(value, "{=BLTPartySubSiege}siege".Translate(), "siege")) return "siege";
+            if (MatchesCommand(value, "{=BLTPartySubDefend}defend".Translate(), "defend")) return "defend";
+            if (MatchesCommand(value, "{=BLTPartySubPatrol}patrol".Translate(), "patrol")) return "patrol";
+            return value.ToLowerInvariant();
+        }
+
         // ── STATUS ────────────────────────────────────────────────────────────
 
         private static void ArmyStatus(Hero h, MobileParty party, Army army,
@@ -1094,13 +1142,14 @@ namespace BLTAdoptAHero.Actions
             if (h.Clan.Kingdom == null)
             {
                 if (army == null || army.LeaderParty != party)
-                { onFailure("You are not leading a clan army"); return; }
-                if (party.MapEvent != null) { onFailure("Your army is in combat"); return; }
+                { onFailure("{=BLTPartyNotLeadingClanArmy}You are not leading a clan army".Translate()); return; }
+                if (party.MapEvent != null) { onFailure("{=BLTPartyArmyInCombat}Your army is in combat".Translate()); return; }
 
                 string aName = army.Name.ToString();
                 PartyOrderBehavior.Current?.CancelOrdersForParty(party.StringId, null, false);
                 DisbandArmyAction.ApplyByUnknownReason(army);
-                onSuccess($"Clan army {aName} disbanded");
+                onSuccess("{=BLTPartyClanArmyDisbanded}Clan army {ARMY_NAME} disbanded"
+                    .Translate(("ARMY_NAME", aName)));
                 return;
             }
 
@@ -1115,28 +1164,32 @@ namespace BLTAdoptAHero.Actions
                 {
                     if (army != null && army.LeaderParty == party) targetArmy = army;
                     else if (kArmies.Count == 1) targetArmy = kArmies[0];
-                    else if (kArmies.Count == 0) { onFailure("No active armies to disband"); return; }
-                    else { onFailure($"Specify army index (1-{kArmies.Count}). Use 'army view'."); return; }
+                    else if (kArmies.Count == 0) { onFailure("{=BLTPartyNoArmiesToDisband}No active armies to disband".Translate()); return; }
+                    else { onFailure("{=BLTPartySpecifyArmyIndex}Specify army index (1-{COUNT}). Use 'army view'."
+                        .Translate(("COUNT", kArmies.Count))); return; }
                 }
                 else if (int.TryParse(tgtArg, out int idx) && idx >= 1 && idx <= kArmies.Count)
                     targetArmy = kArmies[idx - 1];
-                else { onFailure($"Invalid index '{tgtArg}'. Kingdom has {kArmies.Count} armies."); return; }
+                else { onFailure("{=BLTPartyInvalidArmyIndex}Invalid index '{INDEX}'. Kingdom has {COUNT} armies."
+                    .Translate(("INDEX", tgtArg), ("COUNT", kArmies.Count))); return; }
 
-                if (targetArmy.LeaderParty?.MapEvent != null) { onFailure($"{targetArmy.Name} is in combat"); return; }
+                if (targetArmy.LeaderParty?.MapEvent != null) { onFailure("{=BLTPartyNamedArmyInCombat}{ARMY_NAME} is in combat"
+                    .Translate(("ARMY_NAME", targetArmy.Name))); return; }
 
                 string aName = targetArmy.Name.ToString();
                 PartyOrderBehavior.Current?.CancelOrdersForParty(targetArmy.LeaderParty?.StringId, null, false);
                 DisbandArmyAction.ApplyByUnknownReason(targetArmy);
-                onSuccess($"Disbanded {aName}");
+                onSuccess("{=BLTPartyDisbandedNamedArmy}Disbanded {ARMY_NAME}"
+                    .Translate(("ARMY_NAME", aName)));
                 return;
             }
 
-            if (army == null || army.LeaderParty != party) { onFailure("You are not leading an army"); return; }
-            if (party.MapEvent != null) { onFailure("Your army is in combat"); return; }
+            if (army == null || army.LeaderParty != party) { onFailure("{=BLTPartyNotLeadingArmy}You are not leading an army".Translate()); return; }
+            if (party.MapEvent != null) { onFailure("{=BLTPartyArmyInCombat}Your army is in combat".Translate()); return; }
 
             PartyOrderBehavior.Current?.CancelOrdersForParty(party.StringId, null, false);
             DisbandArmyAction.ApplyByUnknownReason(army);
-            onSuccess("Army disbanded");
+            onSuccess("{=BLTPartyArmyDisbanded}Army disbanded".Translate());
         }
 
         // ── LEAVE ─────────────────────────────────────────────────────────────
@@ -1648,7 +1701,9 @@ namespace BLTAdoptAHero.Actions
             if (allCallTokens.Length == 0)
             { onFailure("Specify: army call nearby [n] | army call all [n]"); return; }
 
-            var callType = allCallTokens[0].ToLower();
+            var callType = MatchesCommand(allCallTokens[0], "{=BLTPartyArgNearby}nearby".Translate(), "nearby")
+                ? "nearby"
+                : IsAllCommand(allCallTokens[0]) ? "all" : "";
             if (callType != "nearby" && callType != "all")
             { onFailure("Specify: army call nearby [n] | army call all [n]"); return; }
 
@@ -1954,9 +2009,9 @@ namespace BLTAdoptAHero.Actions
                 onSuccess($"{h.Clan.Kingdom.Name} AI armies: {(allowed ? "allowed" : "blocked")} — use 'army allowai on/off' to change");
                 return;
             }
-            if (arg.Equals("on", StringComparison.OrdinalIgnoreCase))
+            if (MatchesCommand(arg, "{=BLTPartyArgOn}on".Translate(), "on"))
             { PartyOrderBehavior.Current.SetAIArmiesBlocked(h.Clan.Kingdom, false); onSuccess($"AI army creation in {h.Clan.Kingdom.Name}: allowed"); }
-            else if (arg.Equals("off", StringComparison.OrdinalIgnoreCase))
+            else if (MatchesCommand(arg, "{=BLTPartyArgOff}off".Translate(), "off"))
             { PartyOrderBehavior.Current.SetAIArmiesBlocked(h.Clan.Kingdom, true); onSuccess($"AI army creation in {h.Clan.Kingdom.Name}: blocked"); }
             else onFailure("Usage: army allowai [on|off]");
         }
@@ -1976,9 +2031,9 @@ namespace BLTAdoptAHero.Actions
                 onSuccess($"{h.Clan.Kingdom.Name} BLT armies: {(allowed ? "allowed" : "blocked")} — use 'army allowblt on/off' to change");
                 return;
             }
-            if (arg.Equals("on", StringComparison.OrdinalIgnoreCase))
+            if (MatchesCommand(arg, "{=BLTPartyArgOn}on".Translate(), "on"))
             { PartyOrderBehavior.Current.SetBLTArmiesBlocked(h.Clan.Kingdom, false); onSuccess($"BLT army creation in {h.Clan.Kingdom.Name}: allowed"); }
-            else if (arg.Equals("off", StringComparison.OrdinalIgnoreCase))
+            else if (MatchesCommand(arg, "{=BLTPartyArgOff}off".Translate(), "off"))
             { PartyOrderBehavior.Current.SetBLTArmiesBlocked(h.Clan.Kingdom, true); onSuccess($"BLT army creation in {h.Clan.Kingdom.Name}: blocked"); }
             else onFailure("Usage: army allowblt [on|off]");
         }

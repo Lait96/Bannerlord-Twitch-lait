@@ -1402,5 +1402,60 @@
 		<string id="BLTFormationArrangementColumn" text="Column"/>
 		<string id="BLTFormationArrangementScatter" text="Scatter"/>
 		<string id="Yp3nKs8W" text="Formation command is disabled while automatic BLT hero formation is enabled." />
+        <string id="BLTPartyManagementName" text="Party Management"/>
+        <string id="BLTPartyManagementDescription" text="Allow viewers to manage their parties and armies"/>
+        <string id="BLTPartyOrderExpiry" text="Party Order Expiry (Days)"/>
+        <string id="BLTPartyOrderExpiryDesc" text="In-game days before a clan party order auto-expires. Fractional values are supported (e.g. 0.5 = 12 hours). 0 = no expiry."/>
+        <string id="BLTArmyOrderExpiry" text="Army Order Expiry (Days)"/>
+        <string id="BLTArmyOrderExpiryDesc" text="In-game days before an army order (siege/defend/patrol/garrison) auto-expires. Fractional values are supported (e.g. 0.5 = 12 hours). 0 = no expiry."/>
+        <string id="BLTPartySubGovern" text="govern"/>
+        <string id="BLTPartySubCreate" text="create"/>
+        <string id="BLTPartySubStats" text="stats"/>
+        <string id="BLTPartySubDisband" text="disband"/>
+        <string id="BLTPartySubTrain" text="train"/>
+        <string id="BLTPartyTrainStatus" text="status"/>
+        <string id="BLTPartyTrainCancel" text="cancel"/>
+        <string id="BLTPartyArgAll" text="all"/>
+        <string id="BLTPartyArgNearby" text="nearby"/>
+        <string id="BLTPartyArgOn" text="on"/>
+        <string id="BLTPartyArgOff" text="off"/>
+        <string id="BLTPartyTrainingDisabled" text="Training is disabled"/>
+        <string id="BLTPartyTrainingMustLead" text="You must be leading a party to invest in training"/>
+        <string id="BLTPartyTrainingNotInitialized" text="Training system not initialized"/>
+        <string id="BLTPartyNoTrainingFund" text="No training fund active"/>
+        <string id="BLTPartyTrainingTierCap" text=" | Tier cap: {TIER}"/>
+        <string id="BLTPartyTrainingStatus" text="Training fund: {FUND}{GOLD_ICON} | {DAILY}{GOLD_ICON}/day | ~{DAYS} days remaining{TIER_CAP}"/>
+        <string id="BLTPartyNoTrainingFundToCancel" text="No training fund to cancel"/>
+        <string id="BLTPartyTrainingCancelled" text="Training cancelled - refunded {REFUND}{GOLD_ICON}"/>
+        <string id="BLTPartyTrainingUsage" text="Usage: !party train &lt;gold&gt; | !party train status | !party train cancel"/>
+        <string id="BLTPartyTrainingInvested" text="Invested {AMOUNT}{GOLD_ICON} in training | Total fund: {FUND}{GOLD_ICON} | {DAILY}{GOLD_ICON}/day{TIER_CAP}"/>
+        <string id="BLTPartySubArmy" text="army"/>
+        <string id="BLTPartySubRelease" text="release"/>
+        <string id="BLTPartySubSiege" text="siege"/>
+        <string id="BLTPartySubDefend" text="defend"/>
+        <string id="BLTPartySubPatrol" text="patrol"/>
+        <string id="BLTPartySubRaid" text="raid"/>
+        <string id="BLTPartySubGarrison" text="garrison"/>
+        <string id="BLTPartyArmyStatus" text="status"/>
+        <string id="BLTPartyArmyLeave" text="leave"/>
+        <string id="BLTPartyArmyReassign" text="reassign"/>
+        <string id="BLTPartyArmyView" text="view"/>
+        <string id="BLTPartyArmyTakeover" text="takeover"/>
+        <string id="BLTPartyArmyCall" text="call"/>
+        <string id="BLTPartyArmyJoin" text="join"/>
+        <string id="BLTPartyArmyKick" text="kick"/>
+        <string id="BLTPartyArmyAllowAI" text="allowai"/>
+        <string id="BLTPartyArmyAllowBLT" text="allowblt"/>
+        <string id="BLTPartyArmyThreat" text="threat"/>
+        <string id="BLTPartyNotLeadingClanArmy" text="You are not leading a clan army"/>
+        <string id="BLTPartyArmyInCombat" text="Your army is in combat"/>
+        <string id="BLTPartyClanArmyDisbanded" text="Clan army {ARMY_NAME} disbanded"/>
+        <string id="BLTPartyNoArmiesToDisband" text="No active armies to disband"/>
+        <string id="BLTPartySpecifyArmyIndex" text="Specify army index (1-{COUNT}). Use 'army view'."/>
+        <string id="BLTPartyInvalidArmyIndex" text="Invalid index '{INDEX}'. Kingdom has {COUNT} armies."/>
+        <string id="BLTPartyNamedArmyInCombat" text="{ARMY_NAME} is in combat"/>
+        <string id="BLTPartyDisbandedNamedArmy" text="Disbanded {ARMY_NAME}"/>
+        <string id="BLTPartyNotLeadingArmy" text="You are not leading an army"/>
+        <string id="BLTPartyArmyDisbanded" text="Army disbanded"/>
     </strings>
 </base>
