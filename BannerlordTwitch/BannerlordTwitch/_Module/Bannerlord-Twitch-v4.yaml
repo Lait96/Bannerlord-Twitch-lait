@@ -567,7 +567,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: 'Use to manage clan actions <br> Usage is <code>!kingdom (join/rebel/leave/stats) name </code> <br> Example: !kingdom join Aserai or !clan stats'
+- Aliases: Королевство
+  Documentation: 'Use to manage kingdom actions <br> Usage is <code>!kingdom (join/merc/rebel/leave/create/release/expel/stats/armies/tax/sponsor/policy) name </code> <br> Example: !kingdom join Aserai or !kingdom stats'
   Enabled: true
   Handler: KingdomManagement
   HandlerConfig:

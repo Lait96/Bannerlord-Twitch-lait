@@ -287,7 +287,6 @@
 			
 
 		<!-- Translation of clan management chat commands -->
-		<string id="q5JhpNMF" text="Join"/>
 		<string id="9lAIycwE" text="Create"/>
 		<string id="TrSSHcbH" text="Lead"/>
 		<string id="ugFdRADy" text="Rename"/>
@@ -318,7 +317,7 @@
 		<string id="6PUxQuLg" text="Gold Cost"/>
 		<string id="6fkIuAEC" text="Cost of joining a kingdom"/>
 		<string id="vKsTAxDD" text="Mercenary"/>
-		<string id="pEMiWgjg" text="}!kingdom merc to enter mercenary contract"/>
+		<string id="pEMiWgjg" text="!kingdom merc to enter mercenary contract"/>
 		<string id="VTZ0Wc7R" text="Mercenary Cost"/>
 		<string id="DUgSwHnD" text="Mercenary contract cost"/>
 		<string id="7KEOBexC" text="Players Kingdom?"/>
@@ -335,8 +334,8 @@
 		<string id="Cjm2sCjR" text="You cannot manage your kingdom, as you are a prisoner!"/>
 		<string id="DYgac2Ut" text="You cannot manage your kingdom, as you are not in a clan"/>
 		<string id="EJ4Pd2Lg" text="Your clan is not in a Kingdom"/>
-		<string id="EkmpJvML" text="Your clan {clanName} is a member of the kingom {kingdomName}"/>
-		<string id="FFxXuX5i" text="Invalid or empty kingdom action, try (join/rebel/stats)"/>
+		<string id="EkmpJvML" text="Your clan {clanName} is a member of the kingdom {kingdomName}"/>
+		<string id="FFxXuX5i" text="Invalid or empty kingdom action, try (join/merc/rebel/leave/create/release/expel/stats/armies/tax/sponsor/policy)"/>
 		<string id="FHPbdYpk" text="Joining kingdoms is disabled"/>
 		<string id="GEGrsLPm" text="Your clan is already in a kingdom, in order to leave you must rebel against them"/>
 		<string id="HS14GdUa" text="You cannot manage your kingdom, as you are not your clans leader!"/>
@@ -345,7 +344,7 @@
 		<string id="KFzBPUry" text="The kingdom {name} is full"/>
 		<string id="L4dccNIC" text="Joining the players kingdom is disabled"/>
 		<string id="LMAOSWIl" text="You do not have enough gold ({price}) to join a kingdom"/>
-		<string id="LSea9bms" text="Your clan {clanName} has joined the kingom {kingdomName}"/>
+		<string id="LSea9bms" text="Your clan {clanName} has joined the kingdom {kingdomName}"/>
 		<string id="Lid1aV3k" text="{clanName} has joined kingdom {kingdomName}!"/>
 		<string id="MRstTtQa" text="Clan rebellion is disabled"/>
 		<string id="NbvwN9z3" text="Your clan is not in a kingdom"/>
@@ -368,7 +367,6 @@
 		<string id="EXKsUpaU" text="Capital: {capital} | "/>
 		<string id="ozTfk7uB" text="Kingdom leaving is disabled"/>
 		<string id="XWE579kx" text="You cannot leave your kingdom, as you are not your clans leader!"/>
-		<string id="qgKGFYNu" text="Your clan has ended their mercenary contract"/>
 		<string id="sc77IxCW" text="Your clan has left {oldBoss}"/>
 		<string id="aSIP2AKk" text="Mercenary is disabled"/>
 		<string id="7nEJJGzL" text="Already a mercenary!"/>
@@ -1457,5 +1455,38 @@
         <string id="BLTPartyDisbandedNamedArmy" text="Disbanded {ARMY_NAME}"/>
         <string id="BLTPartyNotLeadingArmy" text="You are not leading an army"/>
         <string id="BLTPartyArmyDisbanded" text="Army disbanded"/>
-    </strings>
+		<!-- KingdomManagement localization refactoring -->
+		<string id="AI_MaxClans" text="Max Clans (AI Kingdoms)"/><string id="AI_MaxClans_Desc" text="Maximum clans for AI-led kingdoms before join is disallowed"/><string id="Player_MaxClans" text="Max Clans (Player Kingdom)"/><string id="Player_MaxClans_Desc" text="Maximum clans for player-led kingdom before join is disallowed"/><string id="BLT_MaxClans" text="Max Clans (BLT Kingdoms)"/><string id="BLT_MaxClans_Desc" text="Maximum clans for BLT/Viewer-led kingdoms before join is disallowed"/>
+		<string id="AI_MaxMercClans" text="Max Mercenary Clans (AI Kingdoms)"/><string id="AI_MaxMercClans_Desc" text="Maximum mercenary clans for AI-led kingdoms before join is disallowed"/><string id="Player_MaxMercClans" text="Max Mercenary Clans (Player Kingdom)"/><string id="Player_MaxMercClans_Desc" text="Maximum mercenary clans for player-led kingdom before join is disallowed"/><string id="BLT_MaxMercClans" text="Max Mercenary Clans (BLT Kingdoms)"/><string id="BLT_MaxMercClans_Desc" text="Maximum mercenary clans for BLT/Viewer-led kingdoms before join is disallowed"/>
+		<string id="PSmxb52U" text="You cannot leave your kingdom, as you are not your clan's leader!"/><string id="rTee27gM" text="Stats"/>
+		<string id="BLTKingdomSubJoin" text="join"/><string id="BLTKingdomSubMerc" text="merc"/><string id="BLTKingdomSubRebel" text="rebel"/><string id="BLTKingdomSubLeave" text="leave"/>
+		<string id="BLTKingdomDocsEnabled" text="&lt;strong&gt;Enabled Commands:&lt;/strong&gt; {commands}"/><string id="BLTKingdomDocsJoinHeading" text="&lt;strong&gt;Join Config: &lt;/strong&gt;"/><string id="BLTKingdomDocsMercHeading" text="&lt;strong&gt;Mercenary: &lt;/strong&gt;"/><string id="BLTKingdomDocsRebelHeading" text="&lt;strong&gt;Rebel Config: &lt;/strong&gt;"/><string id="BLTKingdomDocsCreateHeading" text="&lt;strong&gt;Create Config: &lt;/strong&gt;"/>
+		<string id="BLTKingdomDocsJoin" text="Max AI Kingdom Clans={maxClans}, Max Player Kingdom Clans={maxPlayerClans}, Max BLT Kingdom Clans={maxBLTClans}, Max AI Kingdom Mercenary Clans={maxMercClans}, Max Player Kingdom Mercenary Clans={maxPlayerMercClans}, Max BLT Kingdom Mercenary Clans={maxBLTMercClans}, Price={price}{icon}, Allow Join Players Kingdom?={allowPlayer}, Player Kingdom Price={playerPrice}{icon}"/><string id="BLTKingdomDocsMerc" text="Price={price}{icon}, Player Kingdom Price={playerPrice}{icon}"/><string id="BLTKingdomDocsRebel" text="Price={price}{icon}, Allow Rebelling from BLT Kingdom?={allowBLT}, From BLT Kingdom Price={bltPrice}{icon}, Minimum Clan Tier={tier}"/><string id="BLTKingdomDocsCreate" text="Price={price}{icon}, Minimum Clan Tier={tier}, Minimum Fiefs Amount={count}"/>
+		<string id="BLTKingdomSubCreate" text="create"/><string id="BLTKingdomSubRelease" text="release"/><string id="BLTKingdomSubExpel" text="expel"/><string id="BLTKingdomSubStats" text="stats"/>
+		<string id="BLTKingdomSubArmies" text="armies"/><string id="BLTKingdomSubTax" text="tax"/><string id="BLTKingdomSubSponsor" text="sponsor"/><string id="BLTKingdomSubPolicy" text="policy"/>
+		<string id="BLTKingdomPlayerMercCost" text="Player Mercenary Cost"/><string id="BLTKingdomPlayerMercCostDescription" text="Player kingdom mercenary contract cost"/>
+		<string id="BLTKingdomBLTRebel" text="BLT Rebel"/><string id="BLTKingdomBLTRebelDescription" text="Enable viewer clan rebelling against BLT kingdoms"/><string id="BLTKingdomBLTGoldCost" text="BLT Gold Cost"/><string id="BLTKingdomBLTRebelCostDescription" text="Cost of rebelling against BLT kingdoms"/>
+		<string id="BLTKingdomCategoryCreate" text="Create"/><string id="BLTKingdomCreateDescription" text="Enable viewer clan to create a kingdom"/><string id="BLTKingdomCreateTierDescription" text="Minimum clan tier to create a kingdom"/><string id="BLTKingdomMinimumFiefs" text="Minimum Clan Fiefs"/><string id="BLTKingdomMinimumFiefsDescription" text="Minimum clan fiefs to create a kingdom"/><string id="BLTKingdomCreateCostDescription" text="Cost of creating a kingdom"/>
+		<string id="BLTKingdomCategoryPolicy" text="Policy"/><string id="BLTKingdomPolicyDescription" text="Enable viewing, adding and removing policies"/><string id="BLTKingdomPrice" text="Price"/><string id="BLTKingdomPolicyPriceDescription" text="Policy command price"/>
+		<string id="BLTKingdomCategoryArmies" text="Armies"/><string id="BLTKingdomArmiesDescription" text="Enable armies command"/><string id="BLTKingdomAllowBLTArmies" text="Allow BLT Armies Default"/><string id="BLTKingdomAllowBLTArmiesDescription" text="Default state when a BLT-led kingdom is created: allow BLT adopted heroes to create armies"/><string id="BLTKingdomAllowAIArmies" text="Allow AI Armies Default"/><string id="BLTKingdomAllowAIArmiesDescription" text="Default state when a BLT-led kingdom is created: allow AI heroes to create armies"/>
+		<string id="BLTKingdomCategoryRelease" text="Release"/><string id="BLTKingdomReleaseDescription" text="Enable king to release clans from kingdom (with their land)"/><string id="BLTKingdomReleaseCostDescription" text="Cost for king to release a clan"/><string id="BLTKingdomCategoryExpel" text="Expel"/><string id="BLTKingdomExpelDescription" text="Enable king to expel clans from kingdom (takes their land first)"/><string id="BLTKingdomExpelCostDescription" text="Cost for king to expel a clan"/>
+		<string id="BLTKingdomCategoryTax" text="Tax"/><string id="BLTKingdomTaxDescription" text="Enable kingdom taxation system"/><string id="BLTKingdomMinimumTaxRate" text="Minimum Tax Rate %"/><string id="BLTKingdomMinimumTaxRateDescription" text="Minimum tax rate kings can set (0-100)"/><string id="BLTKingdomMaximumTaxRate" text="Maximum Tax Rate %"/><string id="BLTKingdomMaximumTaxRateDescription" text="Maximum tax rate kings can set (0-100)"/>
+		<string id="BLTKingdomCategorySponsor" text="Sponsor"/><string id="BLTKingdomSponsorDescription" text="Enable the sponsor command (buy influence for gold)"/><string id="BLTKingdomGoldPerInfluence" text="Gold Per Influence"/><string id="BLTKingdomGoldPerInfluenceDescription" text="Gold cost per 1 influence point purchased"/><string id="BLTKingdomKingCut" text="King Cut %"/><string id="BLTKingdomKingCutDescription" text="Percentage of gold spent that is forwarded to the kingdom leader (0.0 - 1.0, 0.25 = 25%)"/>
+		<string id="BLTKingdomRebellionBlocked" text="Rebellion is blocked"/><string id="BLTKingdomArmyLeaderRequired" text="You must be the kingdom leader to change army permissions"/><string id="BLTKingdomArmyUsage" text="Usage: !kingdom armies (allowblt/allowai) (on/off)"/><string id="BLTKingdomPartyOrdersUnavailable" text="Party order system is not initialized"/><string id="BLTKingdomBLTArmyPermission" text="{kingdom}: BLT army creation is now {state}"/><string id="BLTKingdomAIArmyPermission" text="{kingdom}: AI army creation is now {state}"/><string id="BLTKingdomAllowed" text="ALLOWED"/><string id="BLTKingdomBlocked" text="BLOCKED"/>
+		<string id="BLTKingdomCreationDisabled" text="Kingdom creation is disabled"/><string id="BLTKingdomNotEnoughFiefs" text="Not enough fiefs ({current}/{required})"/><string id="BLTKingdomTierTooLow" text="Your clan is not high enough tier to create a kingdom"/><string id="BLTKingdomNameExists" text="A kingdom with the name {name} already exists"/><string id="BLTKingdomCreated" text="Created kingdom {name}"/><string id="BLTKingdomFounded" text="{heroName} has founded kingdom {kingdom}!"/>
+		<string id="BLTKingdomReleaseDisabled" text="Release is disabled"/><string id="BLTKingdomReleaseLeaderRequired" text="You must be the kingdom leader to release clans"/><string id="BLTKingdomReleaseUsage" text="Usage: (release) (hero name or clan name)"/><string id="BLTKingdomTargetNotFound" text="Could not find clan or hero named {name} in your kingdom"/><string id="BLTKingdomReleaseOwnClan" text="You cannot release your own clan"/><string id="BLTKingdomClanNotMember" text="{clan} is not in your kingdom"/><string id="BLTKingdomReleased" text="Released {clan} from {kingdom} with all their lands"/><string id="BLTKingdomReleasedLog" text="{hero} has released {clan} from {kingdom}!"/>
+		<string id="BLTKingdomExpelDisabled" text="Expel is disabled"/><string id="BLTKingdomExpelLeaderRequired" text="You must be the kingdom leader to expel clans"/><string id="BLTKingdomExpelUsage" text="Usage: (expel) (hero name or clan name)"/><string id="BLTKingdomExpelOwnClan" text="You cannot expel your own clan"/><string id="BLTKingdomExpelled" text="Expelled {clan} from {kingdom} and seized all their lands"/><string id="BLTKingdomExpelledLog" text="{hero} has expelled {clan} from {kingdom}!"/>
+		<string id="BLTKingdomTaxDisabled" text="Kingdom taxation is disabled"/><string id="BLTKingdomTaxMembershipRequired" text="You need to be in a kingdom to view tax rates"/><string id="BLTKingdomTaxUnavailable" text="Tax system is not initialized"/><string id="BLTKingdomTaxRate" text="{kingdom} has a tax rate of {rate}%"/><string id="BLTKingdomTaxInfo" text="Current tax rate: {rate}% | Range: {min}%-{max}% | Usage: !kingdom tax &lt;rate&gt;"/><string id="BLTKingdomTaxUsage" text="Invalid tax rate. Usage: !kingdom tax &lt;rate&gt; (e.g., !kingdom tax 15 for 15%)"/><string id="BLTKingdomTaxRange" text="Tax rate must be between {min}% and {max}%"/><string id="BLTKingdomTaxSet" text="Set {kingdom} tax rate to {rate}%"/><string id="BLTKingdomTaxSetLog" text="{hero} has set {kingdom} tax rate to {rate}%!"/>
+		<string id="BLTKingdomSponsorDisabled" text="Sponsor command is disabled"/><string id="BLTKingdomSponsorMembershipRequired" text="You must be in a kingdom to sponsor"/><string id="BLTKingdomSponsorMercenaryDenied" text="Mercenary clans cannot use the sponsor command"/><string id="BLTKingdomSponsorKingDenied" text="Kings cannot sponsor their own kingdom — use the tax system instead"/><string id="BLTKingdomSponsorUsage" text="Usage: !kingdom sponsor &lt;amount&gt; — costs {cost}{icon} per influence"/><string id="BLTKingdomSponsorSuccess" text="Bought {influence} influence for {cost}{icon} — King {king} received {cut}{icon}"/>
+		<string id="BLTKingdomPolicyDisabled" text="Policy command is disabled"/><string id="BLTKingdomPolicyKingRequired" text="You must be the kingdom leader to manage policies"/><string id="BLTKingdomNotEnoughInfluence" text="Not enough influence: {cost}"/><string id="BLTKingdomPolicyRemoved" text="Removed policy {policy}"/><string id="BLTKingdomPolicyAdded" text="Added policy {policy}"/><string id="BLTKingdomPolicyInvalid" text="Invalid policy action"/><string id="BLTKingdomStatsAlliances" text="Alliances: {allies} | "/><string id="BLTKingdomStatsTrades" text="Trades: {trade} | "/>
+		<string id="BLTKingdomBLTRebellionDisabled" text="Rebelling from BLT-owned kingdoms is disabled!"/>
+		<string id="BLTKingdomArmiesDisabled" text="Kingdom armies are disabled"/><string id="BLTKingdomStatsArmies" text="Armies: {count} | "/>
+		<string id="BLTKingdomArmyAllowBLT" text="allowblt"/><string id="BLTKingdomArmyAllowAI" text="allowai"/><string id="BLTKingdomToggleOn" text="on"/><string id="BLTKingdomToggleOff" text="off"/><string id="BLTKingdomPolicyList" text="list"/>
+		<string id="BLTKingdomArmyCount" text="{count} Armies | "/><string id="BLTKingdomBLTArmiesState" text="BLT armies: {state} | "/><string id="BLTKingdomAIArmiesState" text="AI armies: {state} | "/>
+		<string id="BLTKingdomArmyName" text="&#10;Army: {name} | "/><string id="BLTKingdomArmyStrength" text="{strength} Strength | "/><string id="BLTKingdomArmyTroops" text="{troops} Troops | "/><string id="BLTKingdomArmyParties" text="{parties} Parties | "/><string id="BLTKingdomArmyBehaviour" text="Behaviour: {behaviour} | "/><string id="BLTKingdomArmyTarget" text="Target: {target} | "/>
+		<string id="BLTKingdomMercenaryContractEnded" text="Your clan has ended its mercenary contract"/><string id="BLTKingdomMercenaryAlreadyInKingdom" text="Your clan is already in a kingdom, leave first"/><string id="BLTKingdomCreateUsage" text="(create) (kingdom name)"/>
+		<string id="BLTKingdomPlayerJoinCostDescription" text="Cost of joining the player's kingdom"/>
+		<string id="BLTKingdomDocsRelease" text="&lt;strong&gt;Release:&lt;/strong&gt; Price={price}{icon}"/><string id="BLTKingdomDocsExpel" text="&lt;strong&gt;Expel:&lt;/strong&gt; Price={price}{icon}"/><string id="BLTKingdomDocsTax" text="&lt;strong&gt;Tax:&lt;/strong&gt; Min Rate={min}%, Max Rate={max}%"/><string id="BLTKingdomDocsSponsor" text="&lt;strong&gt;Sponsor:&lt;/strong&gt; Gold Per Influence={price}{icon}, King Cut={cut}%"/>
+		<string id="BLTKingdomFull" text="The kingdom {name} is full ({current}/{max} clans)"/><string id="BLTKingdomMercenaryFull" text="The kingdom {name} is full ({current}/{max} mercenary clans)"/><string id="BLTKingdomRulerCannotLeave" text="You are the ruling clan; transfer all kingdom fiefs to another clan before disbanding your kingdom"/>
+</strings>
 </base>

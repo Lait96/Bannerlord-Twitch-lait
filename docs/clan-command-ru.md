@@ -4,6 +4,7 @@ title: Управление кланом
 description: Инструкция по команде Клан
 permalink: /clan-command/
 previous_url: /party-command/
+next_url: /kingdom-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>
