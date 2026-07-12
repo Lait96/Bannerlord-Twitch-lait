@@ -1,0 +1,9 @@
+title: Bannerlord Twitch
+description: Русская документация по командам мода
+lang: ru-RU
+theme: jekyll-theme-cayman
+markdown: kramdown
+show_downloads: false
+
+github:
+  is_project_page: false
