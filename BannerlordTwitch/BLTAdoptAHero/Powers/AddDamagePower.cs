@@ -277,14 +277,19 @@ namespace BLTAdoptAHero.Powers
 
         private bool IgnoreDamageType(Agent attackerAgent, Agent victimAgent, AttackCollisionData attackCollisionData)
         {
+            var wieldedItemIndex = attackerAgent?.GetPrimaryWieldedItemIndex() ?? EquipmentIndex.None;
+            var isRangedDamage = attackCollisionData.IsMissile
+                                 || wieldedItemIndex != EquipmentIndex.None
+                                 && attackerAgent.Equipment[wieldedItemIndex].IsAnyConsumable();
+
             return victimAgent == null
                    || attackCollisionData.IsFallDamage
                    || !ApplyAgainstAdoptedHeroes && victimAgent.IsAdopted()
                    || !ApplyAgainstHeroes && victimAgent.IsHero
                    || !ApplyAgainstNonHeroes && !victimAgent.IsHero
                    || !ApplyAgainstPlayer && victimAgent == Agent.Main
-                   || !Melee && !((attackCollisionData.IsMissile || attackerAgent.WieldedWeapon.IsAnyConsumable()) || attackCollisionData.IsHorseCharge)
-                   || !Ranged && (attackCollisionData.IsMissile || attackerAgent.WieldedWeapon.IsAnyConsumable())
+                   || !Melee && !(isRangedDamage || attackCollisionData.IsHorseCharge)
+                   || !Ranged && isRangedDamage
                    || !Charge && attackCollisionData.IsHorseCharge;
         }
 
