@@ -373,8 +373,9 @@ body {
   flex-direction: column;
   gap: 0.15rem;
   max-height: min(58vh, 34rem);
-  padding: 0.25rem 0.55rem 0.75rem;
+  padding: 0.25rem 0.7rem 0.75rem 0.55rem;
   overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior: contain;
   scrollbar-color: var(--border-bright) transparent;
   scrollbar-width: thin;
@@ -382,15 +383,17 @@ body {
 
 .doc-toc__link {
   display: block;
+  flex: 0 0 auto;
+  min-width: 0;
   padding: 0.42rem 0.55rem;
-  overflow: hidden;
   color: var(--text-muted) !important;
   border-left: 2px solid transparent;
   border-radius: 0 7px 7px 0;
   font-size: 0.84rem;
   line-height: 1.35;
   text-decoration: none !important;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .doc-toc__link--h3 {
@@ -409,13 +412,13 @@ body {
   border-left-color: var(--accent);
 }
 
-@media (min-width: 1500px) {
+@media (min-width: 1680px) {
   .doc-toc {
     position: fixed;
     top: 1.5rem;
-    left: max(1rem, calc((100vw - 68rem) / 2 - 17rem));
+    left: max(1rem, calc((100vw - 68rem) / 2 - 18rem));
     z-index: 20;
-    width: 15.5rem;
+    width: 17rem;
     margin: 0;
     backdrop-filter: blur(18px);
   }

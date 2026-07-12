@@ -6,6 +6,10 @@
 
     if (!content || !toc || !details) return;
 
+    if (window.matchMedia("(max-width: 720px)").matches) {
+      details.open = false;
+    }
+
     const headings = Array.from(content.querySelectorAll("h2, h3"));
     if (!headings.length) {
       details.closest(".doc-toc")?.remove();
@@ -40,7 +44,7 @@
       toc.appendChild(link);
 
       link.addEventListener("click", () => {
-        if (window.matchMedia("(max-width: 1499px)").matches) {
+        if (window.matchMedia("(max-width: 1679px)").matches) {
           details.open = false;
         }
       });
