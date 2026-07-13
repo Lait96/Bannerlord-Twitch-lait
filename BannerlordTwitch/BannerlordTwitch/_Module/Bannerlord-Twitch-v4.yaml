@@ -28,7 +28,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: false
   RespondInTwitch: true
-- Documentation: Adopt a newly created Hero. Almost all other actions require an adopted hero.
+- Aliases: Усыновить
+  Documentation: Adopt a newly created Hero. Almost all other actions require an adopted hero.
   Enabled: true
   Handler: AdoptAHero
   HandlerConfig:

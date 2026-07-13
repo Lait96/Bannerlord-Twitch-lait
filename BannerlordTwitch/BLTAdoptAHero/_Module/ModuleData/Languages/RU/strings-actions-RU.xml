@@ -16,23 +16,23 @@
         <!-- Adopt A Hero -->
         <string id="NkZXnSQI" text="Усыновить героя" original="Adopt A Hero"/>
         <!-- Allows viewer to 'adopt' a hero in game - the hero name will change to the viewers name, and they can control it with further commands -->
-        <string id="fd7G5N0Q" text="Позволяет зрителю «усыновить» героя в игре - имя героя изменится на имя зрителя, и они смогут управлять им с помощью дополнительных команд." original="Allows viewer to 'adopt' a hero in game - the hero name will change to the viewers name, and they can control it with further commands"/>
+        <string id="fd7G5N0Q" text="Позволяет зрителю «усыновить» или создать героя в игре. Герой получит имя зрителя, который сможет управлять им с помощью последующих команд" original="Allows a viewer to 'adopt' or create a hero in game. The hero's name will change to the viewer's name, and they can control the hero with further commands"/>
         <!-- Create New -->
         <string id="TLrDxhlh" text="Создайте новый" original="Create New"/>
         <!-- Create a new hero instead of adopting an existing one (they will be a wanderer at a random tavern) -->
-        <string id="F1KDzuZZ" text="Создайте нового героя вместо того, чтобы усыновлять существующего (он будет странником в случайной таверне)" original="Create a new hero instead of adopting an existing one (they will be a wanderer at a random tavern)"/>
+        <string id="F1KDzuZZ" text="Создать нового героя вместо усыновления существующего (новый герой станет странником в случайной таверне)" original="Create a new hero instead of adopting an existing one (they will be a wanderer at a random tavern)"/>
         <!-- Allow Noble -->
-        <string id="nPIcT2s7" text="Разрешить благородный" original="Allow Noble"/>
+        <string id="nPIcT2s7" text="Разрешить знать" original="Allow Noble"/>
         <!-- Allow noble heroes (if CreateNew is false) -->
-        <string id="XvZN7OOY" text="Разрешить благородных героев (если CreateNew - false)" original="Allow noble heroes (if CreateNew is false)"/>
+        <string id="XvZN7OOY" text="Разрешить знатных героев" original="Allow noble heroes"/>
         <!-- Allow Wanderer -->
-        <string id="VVFsa8LQ" text="Разрешить Страннику" original="Allow Wanderer"/>
+        <string id="VVFsa8LQ" text="Разрешить странников" original="Allow Wanderer"/>
         <!-- Allow wanderer heroes (if CreateNew is false) -->
-        <string id="9lE2KSvC" text="Разрешить героев-странников (если CreateNew имеет значение false)" original="Allow wanderer heroes (if CreateNew is false)"/>
+        <string id="9lE2KSvC" text="Разрешить героев-странников" original="Allow wanderer heroes"/>
         <!-- Allow Player Companion -->
-        <string id="A8G9ctbn" text="Разрешить спутнику игрока" original="Allow Player Companion"/>
+        <string id="A8G9ctbn" text="Разрешить компаньона игрока" original="Allow Player Companion"/>
         <!-- Allow companions (not tested, if CreateNew is false) -->
-        <string id="6EjGRMkt" text="Разрешить компаньонов (не проверено, если CreateNew - false)" original="Allow companions (not tested, if CreateNew is false)"/>
+        <string id="6EjGRMkt" text="Разрешить компаньонов" original="Allow companions"/>
         <!-- Only Same Faction -->
         <string id="B2z7T1xQ" text="Только та же фракция" original="Only Same Faction"/>
         <!-- Only allow heroes from same faction as player -->
@@ -40,7 +40,7 @@
         <!-- Inheritance -->
         <string id="dvbkxJQz" text="Наследование" original="Inheritance"/>
         <!-- What fraction of assets will be inherited when a new character is adopted after an old one died (0 to 1) -->
-        <string id="KLJtpEjg" text="Какая доля активов будет унаследована, когда новый персонаж будет принят после смерти старого (от 0 до 1)" original="What fraction of assets will be inherited when a new character is adopted after an old one died (0 to 1)"/>
+        <string id="KLJtpEjg" text="Доля имущества, наследуемая новым героем после смерти предыдущего (от 0 до 1)" original="What fraction of assets will be inherited when a new character is adopted after an old one died (0 to 1)"/>
         <!-- Maximum Inherited Custom Items -->
         <string id="Bi19tTPj" text="Максимальное количество унаследованных настраиваемых предметов" original="Maximum Inherited Custom Items"/>
         <!-- How many custom items can be inherited -->
@@ -59,49 +59,49 @@
 		<string id="ek75vkTT" text="переименовать" original="rename"/>
 		<string id="VB2W7FoL" text="стат" original="stats"/>		
         <!-- Subscriber Only -->
-        <string id="O4DGlP9Z" text="Только подписчик" original="Subscriber Only"/>
+        <string id="O4DGlP9Z" text="Только для подписчиков" original="Subscriber Only"/>
         <!-- Only subscribers can adopt -->
-        <string id="TBNkHsLC" text="Только подписчики могут принять" original="Only subscribers can adopt"/>
+        <string id="TBNkHsLC" text="Только подписчики могут усыновлять героев" original="Only subscribers can adopt"/>
         <!-- Minimum Subscribed Months -->
         <string id="dO41CKIU" text="Минимальное количество месяцев подписки" original="Minimum Subscribed Months"/>
         <!-- Only viewers who have been subscribers for at least this many months can adopt, ignored if not specified -->
-        <string id="BVZwDqR0" text="Только зрители, которые были подписчиками хотя бы столько месяцев, могут принять, игнорируя, если не указано иное" original="Only viewers who have been subscribers for at least this many months can adopt, ignored if not specified"/>
+        <string id="BVZwDqR0" text="Усыновлять героя могут только зрители, подписанные не менее указанного количества месяцев; если значение не задано, ограничение не применяется" original="Only viewers who have been subscribers for at least this many months can adopt, ignored if not specified"/>
         <!-- Starting Gold -->
         <string id="iOmYBC7I" text="Стартовое золото" original="Starting Gold"/>
         <!-- Gold the adopted hero will start with -->
-        <string id="pZMkJLix" text="Золото, с которым будет начинать приемный герой" original="Gold the adopted hero will start with"/>
+        <string id="pZMkJLix" text="Начальное золото усыновлённого героя" original="Gold the adopted hero will start with"/>
         <!-- Override Age -->
-        <string id="ZXwbvbbq" text="Возраст отмены" original="Override Age"/>
+        <string id="ZXwbvbbq" text="Изменить возраст" original="Override Age"/>
         <!-- Override the heroes age -->
-        <string id="gxQgrAey" text="Отменить возраст героев" original="Override the heroes age"/>
+        <string id="gxQgrAey" text="Изменить возраст героя" original="Override the heroes age"/>
         <!-- Starting Age Range -->
         <string id="NEBQgHiX" text="Начальный возрастной диапазон" original="Starting Age Range"/>
         <!-- Random range of age when overriding it -->
-        <string id="TYqEBuLW" text="Случайный диапазон возраста при его отмене" original="Random range of age when overriding it"/>
+        <string id="TYqEBuLW" text="Диапазон случайного возраста при его изменении" original="Random range of age when overriding it"/>
         <!-- Starting Skills -->
         <string id="9IOFHQjS" text="Стартовые навыки" original="Starting Skills"/>
         <!-- Starting skills, if empty then default skills of the adopted hero will be left in tact -->
-        <string id="C4rV4f2F" text="Стартовые навыки, если они пусты, стандартные навыки принятого героя останутся в силе." original="Starting skills, if empty then default skills of the adopted hero will be left in tact"/>
+        <string id="C4rV4f2F" text="Начальные навыки; если список пуст, сохраняются исходные навыки усыновлённого героя" original="Starting skills, if empty then default skills of the adopted hero will be left in tact"/>
         <!-- Starting Equipment Tier -->
         <string id="IAKQCRa1" text="Уровень стартового снаряжения" original="Starting Equipment Tier"/>
         <!-- Equipment tier the adopted hero will start with, if you don't specify then they get the heroes existing equipment -->
-        <string id="mQwjHXfC" text="Уровень снаряжения, с которого будет принят принятый герой, если вы не укажете, он получит существующее снаряжение героя." original="Equipment tier the adopted hero will start with, if you don't specify then they get the heroes existing equipment"/>
+        <string id="mQwjHXfC" text="Начальный уровень снаряжения усыновлённого героя; если не указан, сохраняется существующее снаряжение героя" original="Equipment tier the adopted hero will start with, if you don't specify then they get the heroes existing equipment"/>
         <!-- Starting Class -->
         <string id="0vGFJdO1" text="Стартовый класс" original="Starting Class"/>
         <!-- Starting class of the hero -->
         <string id="zgjyFL6i" text="Стартовый класс героя" original="Starting class of the hero"/>
         <!-- Subscriber Only -->
-        <string id="4zAUTiSP" text="Только подписчик" original="Subscriber Only"/>
+        <string id="4zAUTiSP" text="Только для подписчиков" original="Subscriber Only"/>
         <!-- Newly created wanderer -->
-        <string id="cJQCU33B" text="Недавно созданный странник" original="Newly created wanderer"/>
+        <string id="cJQCU33B" text="Новый странник" original="Newly created wanderer"/>
         <!-- Noble -->
-        <string id="fP84ES0X" text="благородный" original="Noble"/>
+        <string id="fP84ES0X" text="Знать" original="Noble"/>
         <!-- Wanderer -->
         <string id="ozRaAx6L" text="Странник" original="Wanderer"/>
         <!-- Companions -->
-        <string id="YucejFfO" text="Товарищи" original="Companions"/>
+        <string id="YucejFfO" text="Компаньоны" original="Companions"/>
         <!-- Allowed -->
-        <string id="UNtHwNhx" text="Разрешается" original="Allowed"/>
+        <string id="UNtHwNhx" text="Разрешено" original="Allowed"/>
         <!-- Same faction only -->
         <string id="6W0OJKkA" text="Только та же фракция" original="Same faction only"/>
         <!-- Starting Age Range -->
@@ -111,27 +111,27 @@
         <!-- Inheritance -->
         <string id="wP0lfTf3" text="Наследование" original="Inheritance"/>
         <!-- {Inheritance}% of gold spent on equipment and retinue -->
-        <string id="mDK67efh" text="{Inheritance}% золота потрачено на снаряжение и свиту" original="{Inheritance}% of gold spent on equipment and retinue"/>
+        <string id="mDK67efh" text="{Inheritance}% золота, потраченного на снаряжение и свиту" original="{Inheritance}% of gold spent on equipment and retinue"/>
         <!-- no custom items -->
         <string id="76NtQIGB" text="нет настраиваемых предметов" original="no custom items"/>
         <!-- up to {MaxInheritedCustomItems} custom items -->
         <string id="sEDQrZCp" text="до {MaxInheritedCustomItems} пользовательских предметов" original="up to {MaxInheritedCustomItems} custom items"/>
         <!-- You have already adopted a hero! -->
-        <string id="mJfD7e2g" text="Вы уже удочерили героя!" original="You have already adopted a hero!"/>
+        <string id="mJfD7e2g" text="Вы уже усыновили героя!" original="You have already adopted a hero!"/>
         <!-- You must be subscribed for at least {MinSubscribedMonths} months to adopt a hero with this command! -->
         <string id="4K7Q7gR0" text="Чтобы принять героя с помощью этой команды, необходимо оформить подписку не менее {MinSubscribedMonths} месяцев!" original="You must be subscribed for at least {MinSubscribedMonths} months to adopt a hero with this command!"/>
         <!-- You must be subscribed to adopt a hero with this command! -->
-        <string id="0QeQPxYi" text="Вы должны быть подписаны, чтобы усыновить героя с помощью этой команды!" original="You must be subscribed to adopt a hero with this command!"/>
+        <string id="0QeQPxYi" text="Чтобы усыновить героя этой командой, необходимо быть подписчиком!" original="You must be subscribed to adopt a hero with this command!"/>
         <!-- No hero is available: player is not in a faction (disable Player Faction Only, or join a faction)! -->
         <string id="XlQUIIsg" text="Герой недоступен: игрок не состоит во фракции (отключите режим «Только фракция игрока» или присоединитесь к фракции)!" original="No hero is available: player is not in a faction (disable Player Faction Only, or join a faction)!"/>
         <!-- You can't adopt a hero: no available hero matching the requirements was found! -->
-        <string id="E7wqQ2kg" text="Невозможно усыновить героя: подходящего героя не найдено!" original="You can't adopt a hero: no available hero matching the requirements was found!"/>
+        <string id="E7wqQ2kg" text="Невозможно усыновить героя: подходящий доступный герой не найден!" original="You can't adopt a hero: no available hero matching the requirements was found!"/>
         <!-- {OldName} is now known as {NewName}! -->
-        <string id="K7nuJVCN" text="{OldName} теперь известно как {NewName}!" original="{OldName} is now known as {NewName}!"/>
+        <string id="K7nuJVCN" text="Теперь {OldName} носит имя {NewName}!" original="{OldName} is now known as {NewName}!"/>
         <!-- {OldName} is now known as {NewName}, they have {NewGold} (inheriting {Inherited})! -->
-        <string id="PAc5S0GY" text="{OldName} теперь известен как {NewName}, у вас {NewGold} (наследует {Inherited})!" original="{OldName} is now known as {NewName}, they have {NewGold} (inheriting {Inherited})!"/>
+        <string id="PAc5S0GY" text="Теперь {OldName} носит имя {NewName}; золото: {NewGold} (унаследовано: {Inherited})!" original="{OldName} is now known as {NewName}, they have {NewGold} (inheriting {Inherited})!"/>
         <!-- {OldName} is now known as {NewName}, they have {NewGold}! -->
-        <string id="lANBKEFN" text="{OldName} теперь известен как {NewName}, у вас {NewGold}!" original="{OldName} is now known as {NewName}, they have {NewGold}!"/>
+        <string id="lANBKEFN" text="Теперь {OldName} носит имя {NewName}; золото: {NewGold}!" original="{OldName} is now known as {NewName}, they have {NewGold}!"/>
         <!-- AttributePoints -->
         <!-- Add Attribute Points -->
         <string id="TmUJ8VU7" text="Добавить очки атрибутов" original="Add Attribute Points"/>
@@ -810,9 +810,9 @@
 		<!-- Config Error: Can't create new hero and have random selection filters -->
 		<string id="98Hl4Gnd" text="Ошибка конфигурации: невозможно создать нового героя и использовать фильтры случайного выбора." original="Config Error: Can't create new hero and have random selection filters"/>
 		<!-- list -->
-		<string id="fQKXPB5C" text="лист" original="list"/>
+		<string id="fQKXPB5C" text="список" original="list"/>
 		<!-- a (list) -->
-		<string id="z9cGIl8j" text="список" original="a"/>
+		<string id="z9cGIl8j" text="а" original="a"/>
 		<!-- Faction list: {Factions} -->
 		<string id="7DN9p01E" text="Список фракций: {Factions}" original="Faction list: {Factions}"/>
 		<!-- Please enter the name of the faction you wish to adopt a hero from -->
@@ -824,7 +824,7 @@
 
 		<!-- Missing in RU: AdoptAHero / Rebel / JoinKingdom / HeroFeatures (part 1) -->
 
-		<string id="r8nXZgcY" text="Не удалось найти вашего героя. Вы уже усыновили героя?" original="Couldn't find your hero, did you adopt one yet?"/>
+		<string id="r8nXZgcY" text="Не удалось найти вашего героя. Вы уже усыновили его?" original="Couldn't find your hero, did you adopt one yet?"/>
 		<string id="CVcUtTWc" text="Не удалось найти клан с именем {name}" original="Could not find the clan with the name {name}"/>
 		<string id="NoKO59t1" text="Зритель выбирает фракцию" original="Viewer Selects Faction"/>
 		<string id="VZ91tlYL" text="Создать клан" original="Create clan"/>
@@ -1634,5 +1634,40 @@
         <string id="BLT_UpgradeLogRemovedFrom" text="{Hero} удалил улучшение {Upgrade} у {Name}" original="{Hero} removed {Upgrade} from {Name}"/>
         <string id="BLT_UpgradeRemoveClanLeaderOnly" text="Только лидер клана может удалять улучшения клана" original="Only clan leaders can remove clan upgrades"/>
         <string id="BLT_UpgradeRemoveKingdomRulerOnly" text="Только правитель королевства может удалять улучшения королевства" original="Only the kingdom ruler can remove kingdom upgrades"/>
+        <!-- AdoptAHero localization refactor -->
+        <string id="BLTAdoptCreateNewHero" text="Создать нового героя?" original="Create New Hero?"/>
+        <string id="BLTAdoptCategoryGeneral" text="Общие" original="General"/>
+        <string id="BLTAdoptNotificationsDescription" text="Включить или отключить внутриигровое уведомление об усыновлении героя" original="Enable or disable the in-game adoption notification"/>
+        <string id="BLTAdoptViewerSelects" text="Выбор зрителя" original="Viewer Selects"/>
+        <string id="BLTAdoptViewerSelectNothing" text="Ничего" original="Nothing"/>
+        <string id="BLTAdoptViewerSelectName" text="Имя" original="Name"/>
+        <string id="BLTAdoptViewerSelectClan" text="Клан" original="Clan"/>
+        <string id="BLTAdoptViewerSelectCulture" text="Культура" original="Culture"/>
+        <string id="BLTAdoptViewerSelectFaction" text="Фракция" original="Faction"/>
+        <string id="BLTAdoptCategoryRandomSelection" text="Случайный выбор (если CreateNew отключён)" original="Random Selection (if CreateNew is false)"/>
+        <string id="BLTAdoptAllowPartyLeader" text="Разрешить лидера отряда" original="Allow Party Leader"/>
+        <string id="BLTAdoptAllowPartyLeaderDescription" text="Разрешить героев, возглавляющих отряды" original="Allow heroes that lead parties"/>
+        <string id="BLTAdoptAllowMinorFactionHero" text="Разрешить героя малой фракции" original="Allow Minor Faction Hero"/>
+        <string id="BLTAdoptAllowMinorFactionHeroDescription" text="Разрешить героев, возглавляющих малые фракции" original="Allow heroes that lead minor factions"/>
+        <string id="BLTAdoptCategoryInitialization" text="Начальные параметры" original="Initialization"/>
+        <string id="BLTAdoptInheritancePercentage" text="Доля наследства" original="Inheritance Percentage"/>
+        <string id="BLTAdoptViewerSelectsCulture" text="Зритель выбирает героя по культуре" original="Viewer selects hero by culture"/>
+        <string id="BLTAdoptViewerSelectsFaction" text="Зритель выбирает героя по фракции" original="Viewer selects hero by faction"/>
+        <string id="BLTAdoptViewerSelectsName" text="Зритель выбирает героя по имени" original="Viewer selects hero by name"/>
+        <string id="BLTAdoptViewerSelectsClan" text="Зритель выбирает героя по клану" original="Viewer selects hero by clan"/>
+        <string id="BLTAdoptRangeFromTo" text="от {From} до {To}" original="{From} to {To}"/>
+        <string id="BLTAdoptSkill" text="Навык" original="Skill"/>
+        <string id="BLTAdoptLevel" text="Уровень" original="Level"/>
+        <string id="BLTAdoptCultureList" text="Список культур: {Cultures}" original="Culture list: {Cultures}"/>
+        <string id="BLTAdoptCultureNotFound" text="Культура, название которой начинается с '{Text}', не найдена" original="No culture starting with '{Text}' found"/>
+        <string id="BLTAdoptCultureNameRequired" text="Введите название культуры, из которой хотите усыновить героя. Для просмотра доступных культур используйте 'list' или 'список', а также 'a' или 'а'" original="Please enter the name of the culture you wish to adopt a hero from. Use 'list' or 'a' to show available cultures"/>
+        <string id="BLTAdoptFactionNameRequired" text="Введите название фракции, из которой хотите усыновить героя. Для просмотра доступных фракций используйте 'list' или 'список', а также 'a' или 'а'" original="Please enter the name of the faction you wish to adopt a hero from. Use 'list' or 'a' to show available factions"/>
+        <string id="BLTAdoptFactionNotFound" text="Фракция, название которой начинается с '{Text}', не найдена" original="No faction starting with '{Text}' found"/>
+        <string id="BLTAdoptHeroNameNotFound" text="Герой с именем {HeroName} не найден" original="Could not find a hero with the name {HeroName}"/>
+        <string id="BLTAdoptHeroNameRequired" text="Введите имя героя, которого хотите усыновить" original="Please enter the name of the hero you wish to adopt"/>
+        <string id="BLTAdoptViewerSelectsDescription" text="Критерий, который зритель выбирает с помощью текстового ввода. Если выбрано любое значение, кроме «Ничего», включите «Is User Input Required» в разделе Reward Specification &gt; Misc. При выборе по фракции не нанятые странники исключаются, поскольку они не состоят во фракции" original="The criterion the viewer selects through text input. Enable 'Is User Input Required' in Reward Specification &gt; Misc when this is set to anything other than Nothing. Faction selection excludes unrecruited wanderers because they do not belong to a faction"/>
+        <string id="BLTAdoptClanNameRequired" text="Введите название клана, из которого хотите усыновить героя" original="Please enter the name of the clan you wish to adopt a hero from"/>
+        <string id="BLTAdoptArgList" text="список" original="list"/>
+        <string id="BLTAdoptArgListShort" text="а" original="a"/>
 </strings>
 </base>

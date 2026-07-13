@@ -3,6 +3,7 @@ layout: default
 title: Управление формациями
 description: Инструкция по команде Формация
 permalink: /formation-command/
+previous_url: /adopt-command/
 next_url: /party-command/
 ---
 

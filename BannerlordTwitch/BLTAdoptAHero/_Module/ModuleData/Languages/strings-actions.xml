@@ -19,7 +19,7 @@
         <!-- Adopt A Hero -->
         <string id="NkZXnSQI" text="Adopt A Hero"/>
         <!-- Allows viewer to 'adopt' a hero in game - the hero name will change to the viewers name, and they can control it with further commands -->
-        <string id="fd7G5N0Q" text="Allows viewer to 'adopt' a hero in game - the hero name will change to the viewers name, and they can control it with further commands"/>
+        <string id="fd7G5N0Q" text="Allows a viewer to 'adopt' or create a hero in game. The hero's name will change to the viewer's name, and they can control the hero with further commands"/>
 
         <string id="r8nXZgcY" text="Couldn't find your hero, did you adopt one yet?"/>
         
@@ -31,15 +31,15 @@
         <!-- Allow Noble -->
         <string id="nPIcT2s7" text="Allow Noble"/>
         <!-- Allow noble heroes (if CreateNew is false) -->
-        <string id="XvZN7OOY" text="Allow noble heroes (if CreateNew is false)"/>
+        <string id="XvZN7OOY" text="Allow noble heroes"/>
         <!-- Allow Wanderer -->
         <string id="VVFsa8LQ" text="Allow Wanderer"/>
         <!-- Allow wanderer heroes (if CreateNew is false) -->
-        <string id="9lE2KSvC" text="Allow wanderer heroes (if CreateNew is false)"/>
+        <string id="9lE2KSvC" text="Allow wanderer heroes"/>
         <!-- Allow Player Companion -->
         <string id="A8G9ctbn" text="Allow Player Companion"/>
         <!-- Allow companions (not tested, if CreateNew is false) -->
-        <string id="6EjGRMkt" text="Allow companions (not tested, if CreateNew is false)"/>
+        <string id="6EjGRMkt" text="Allow companions"/>
         <!-- Only Same Faction -->
         <string id="B2z7T1xQ" text="Only Same Faction"/>
         <!-- Only allow heroes from same faction as player -->
@@ -1698,5 +1698,40 @@
         <string id="BLT_UpgradeLogRemovedFrom" text="{Hero} removed {Upgrade} from {Name}"/>
         <string id="BLT_UpgradeRemoveClanLeaderOnly" text="Only clan leaders can remove clan upgrades"/>
         <string id="BLT_UpgradeRemoveKingdomRulerOnly" text="Only the kingdom ruler can remove kingdom upgrades"/>
+        <!-- AdoptAHero localization refactor -->
+        <string id="BLTAdoptCreateNewHero" text="Create New Hero?"/>
+        <string id="BLTAdoptCategoryGeneral" text="General"/>
+        <string id="BLTAdoptNotificationsDescription" text="Enable or disable the in-game adoption notification"/>
+        <string id="BLTAdoptViewerSelects" text="Viewer Selects"/>
+        <string id="BLTAdoptViewerSelectNothing" text="Nothing"/>
+        <string id="BLTAdoptViewerSelectName" text="Name"/>
+        <string id="BLTAdoptViewerSelectClan" text="Clan"/>
+        <string id="BLTAdoptViewerSelectCulture" text="Culture"/>
+        <string id="BLTAdoptViewerSelectFaction" text="Faction"/>
+        <string id="BLTAdoptCategoryRandomSelection" text="Random Selection (if CreateNew is false)"/>
+        <string id="BLTAdoptAllowPartyLeader" text="Allow Party Leader"/>
+        <string id="BLTAdoptAllowPartyLeaderDescription" text="Allow heroes that lead parties"/>
+        <string id="BLTAdoptAllowMinorFactionHero" text="Allow Minor Faction Hero"/>
+        <string id="BLTAdoptAllowMinorFactionHeroDescription" text="Allow heroes that lead minor factions"/>
+        <string id="BLTAdoptCategoryInitialization" text="Initialization"/>
+        <string id="BLTAdoptInheritancePercentage" text="Inheritance Percentage"/>
+        <string id="BLTAdoptViewerSelectsCulture" text="Viewer selects hero by culture"/>
+        <string id="BLTAdoptViewerSelectsFaction" text="Viewer selects hero by faction"/>
+        <string id="BLTAdoptViewerSelectsName" text="Viewer selects hero by name"/>
+        <string id="BLTAdoptViewerSelectsClan" text="Viewer selects hero by clan"/>
+        <string id="BLTAdoptRangeFromTo" text="{From} to {To}"/>
+        <string id="BLTAdoptSkill" text="Skill"/>
+        <string id="BLTAdoptLevel" text="Level"/>
+        <string id="BLTAdoptCultureList" text="Culture list: {Cultures}"/>
+        <string id="BLTAdoptCultureNotFound" text="No culture starting with '{Text}' found"/>
+        <string id="BLTAdoptCultureNameRequired" text="Please enter the name of the culture you wish to adopt a hero from. Use 'list' or 'a' to show available cultures"/>
+        <string id="BLTAdoptFactionNameRequired" text="Please enter the name of the faction you wish to adopt a hero from. Use 'list' or 'a' to show available factions"/>
+        <string id="BLTAdoptFactionNotFound" text="No faction starting with '{Text}' found"/>
+        <string id="BLTAdoptHeroNameNotFound" text="Could not find a hero with the name {HeroName}"/>
+        <string id="BLTAdoptHeroNameRequired" text="Please enter the name of the hero you wish to adopt"/>
+        <string id="BLTAdoptViewerSelectsDescription" text="The criterion the viewer selects through text input. Enable 'Is User Input Required' in Reward Specification &gt; Misc when this is set to anything other than Nothing. Faction selection excludes unrecruited wanderers because they do not belong to a faction"/>
+        <string id="BLTAdoptClanNameRequired" text="Please enter the name of the clan you wish to adopt a hero from"/>
+        <string id="BLTAdoptArgList" text="list"/>
+        <string id="BLTAdoptArgListShort" text="a"/>
 </strings>
 </base>
