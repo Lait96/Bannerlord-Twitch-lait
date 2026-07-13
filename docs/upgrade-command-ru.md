@@ -4,6 +4,7 @@ title: Управление улучшениями
 description: Инструкция по команде Апгрейд
 permalink: /upgrade-command/
 previous_url: /kingdom-command/
+next_url: /attribute-points-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

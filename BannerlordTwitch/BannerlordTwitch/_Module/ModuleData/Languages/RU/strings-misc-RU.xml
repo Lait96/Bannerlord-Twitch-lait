@@ -44,7 +44,7 @@
         <!-- Name -->
         <string id="uUzmy7Lh" text="Имя" original="Name"/>
         <!-- {From} to {To} -->
-        <string id="yVydxRHh" text="{From} к {To}" original="{From} to {To}"/>
+        <string id="yVydxRHh" text="от {From} до {To}" original="{From} to {To}"/>
         <!-- Skill -->
         <string id="OEMBeawy" text="Навык" original="Skill"/>
         <!-- Level -->
@@ -52,7 +52,7 @@
         <!-- Amount -->
         <string id="DKfKt4qP" text="Количество" original="Amount"/>
         <!-- Costs {GoldCost} -->
-        <string id="Diwd7dBo" text="Расходы {GoldCost}" original="Costs {GoldCost}"/>
+        <string id="Diwd7dBo" text="Стоимость: {GoldCost}" original="Costs {GoldCost}"/>
         <!-- Costs -->
         <string id="r7sc3Tvg" text="Расходы" original="Costs"/>
         <!-- None -->

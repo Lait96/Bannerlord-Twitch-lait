@@ -879,7 +879,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: ''
+- Aliases: атрибут
+  Documentation: ''
   Enabled: true
   Handler: AttributePoints
   HandlerConfig:

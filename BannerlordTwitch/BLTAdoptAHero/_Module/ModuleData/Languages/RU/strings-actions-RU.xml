@@ -136,29 +136,29 @@
         <!-- Add Attribute Points -->
         <string id="TmUJ8VU7" text="Добавить очки атрибутов" original="Add Attribute Points"/>
         <!-- Improve adopted heroes attribute points -->
-        <string id="YrYFBWaw" text="Улучшить очки атрибутов принятых героев" original="Improve adopted heroes attribute points"/>
+        <string id="YrYFBWaw" text="Улучшить атрибуты принятых героев" original="Improve adopted heroes attribute points"/>
         <!-- Random -->
-        <string id="ibuIZ39r" text="Случайный" original="Random"/>
+        <string id="ibuIZ39r" text="Случайный выбор" original="Random"/>
         <!-- If set a random attribute is improved, otherwise the viewer should provide part of the name of the attribute to improve (this works best as a chat command) -->
-        <string id="2F4MZn5h" text="Если установлен случайный атрибут, улучшается, в противном случае зритель должен предоставить часть имени атрибута для улучшения (это лучше всего работает как команда чата)" original="If set a random attribute is improved, otherwise the viewer should provide part of the name of the attribute to improve (this works best as a chat command)"/>
+        <string id="2F4MZn5h" text="Если включено, улучшается случайный атрибут. В противном случае зритель должен указать название атрибута или его часть (лучше всего работает в команде чата)" original="If set a random attribute is improved, otherwise the viewer should provide part of the name of the attribute to improve (this works best as a chat command)"/>
         <!-- Random attribute -->
         <string id="JQdCfO2H" text="Случайный атрибут" original="Random attribute"/>
         <!-- Provide the attribute name (or part of it) when calling this -->
-        <string id="hSPAbHWb" text="Укажите имя атрибута (или его часть) при вызове этого" original="Provide the attribute name (or part of it) when calling this"/>
+        <string id="hSPAbHWb" text="При вызове укажите название атрибута или его часть" original="Provide the attribute name (or part of it) when calling this"/>
         <!-- Couldn't improve any attributes, they are all at max level! -->
-        <string id="VxproTE2" text="Не удалось улучшить какие-либо атрибуты, все они на максимальном уровне!" original="Couldn't improve any attributes, they are all at max level!"/>
+        <string id="VxproTE2" text="Невозможно улучшить атрибуты: все они уже достигли максимального уровня!" original="Couldn't improve any attributes, they are all at max level!"/>
         <!-- Provide the attribute name to improve (or part of it) -->
-        <string id="i9ziqTXG" text="Укажите имя атрибута для улучшения (или его часть)" original="Provide the attribute name to improve (or part of it)"/>
+        <string id="i9ziqTXG" text="Укажите название улучшаемого атрибута или его часть" original="Provide the attribute name to improve (or part of it)"/>
         <!-- You have gained {Amount} points in {Attribute}, you now have {NewAmount}! -->
-        <string id="Sl1bdnfy" text="Вы получили {Amount} points in {Attribute}, you now have {NewAmount}!" original="You have gained {Amount} points in {Attribute}, you now have {NewAmount}!"/>
+        <string id="Sl1bdnfy" text="Вы получили {Amount} очк. атрибута «{Attribute}». Теперь у вас {NewAmount}!" original="You have gained {Amount} points in {Attribute}, you now have {NewAmount}!"/>
         <!-- You have gained a point in {Attribute}, you now have {NewAmount}! -->
-        <string id="2vli3BCR" text="Вы набрали очко в {Attribute}, теперь у вас есть {NewAmount}!" original="You have gained a point in {Attribute}, you now have {NewAmount}!"/>
+        <string id="2vli3BCR" text="Вы получили одно очко атрибута «{Attribute}». Теперь у вас {NewAmount}!" original="You have gained a point in {Attribute}, you now have {NewAmount}!"/>
         <!--  -->
         <string id="YawQBjBG" text=""/>
         <!-- Couldn't find attribute matching '{Args}'! -->
-        <string id="LE3POzUs" text="Не удалось найти соответствующий атрибут '{Args}'!" original="Couldn't find attribute matching '{Args}'!"/>
+        <string id="LE3POzUs" text="Не удалось найти атрибут по запросу «{Args}»!" original="Couldn't find attribute matching '{Args}'!"/>
         <!-- Couldn't improve {Attribute} attribute, it is already at max level! -->
-        <string id="R7X1dTqL" text="Не удалось улучшить атрибут {Attribute}, он уже на максимальном уровне!" original="Couldn't improve {Attribute} attribute, it is already at max level!"/>
+        <string id="R7X1dTqL" text="Невозможно улучшить атрибут «{Attribute}»: он уже достиг максимального уровня!" original="Couldn't improve {Attribute} attribute, it is already at max level!"/>
         <!-- AuctionItem -->
         <!-- Auction Item -->
         <string id="Q1QZbwR3" text="Предмет аукциона" original="Auction Item"/>
