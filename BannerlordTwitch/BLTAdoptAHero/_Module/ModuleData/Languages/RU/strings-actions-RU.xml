@@ -286,19 +286,21 @@
         <string id="HLFMWOJA" text="Вы получили очки внимания в {Skill}, теперь у вас есть {NewAmount}!" original="You have gained a focus point in {Skill}, you now have {NewAmount}!"/>
         <!-- DiscardItem -->
         <!-- Discard Item -->
-        <string id="fmftNyHh" text="Отменить предмет" original="Discard Item"/>
+        <string id="fmftNyHh" text="Выбросить предмет" original="Discard Item"/>
         <!-- Allows viewers to discard one of their own custom items -->
-        <string id="f3LrrLHP" text="Позволяет зрителям отказаться от одного из своих собственных предметов." original="Allows viewers to discard one of their own custom items"/>
+        <string id="f3LrrLHP" text="Позволяет зрителю выбросить один из своих особых предметов" original="Allows viewers to discard one of their own custom items"/>
         <!-- You have no items to discard -->
-        <string id="oXQ4En4P" text="У вас нет предметов для сброса" original="You have no items to discard"/>
-        <!-- (partial item name) -->
-        <string id="by80aboy" text="(частичное название предмета)" original="(partial item name)"/>
+        <string id="oXQ4En4P" text="У вас нет предметов, которые можно выбросить" original="You have no items to discard"/>
+        <!-- (custom item index) -->
+        <string id="by80aboy" text="(индекс особого предмета)" original="(custom item index)"/>
         <!-- No items found matching '{Args}' -->
         <string id="p0urrIvR" text="Ничего не найдено по запросу '{Args}'" original="No items found matching '{Args}'"/>
         <!-- {Count} items found matching '{Args}', be more specific -->
         <string id="Pzo2UJrl" text="Найдено {Count} элементов, соответствующих '{Args}', будьте более конкретными" original="{Count} items found matching '{Args}', be more specific"/>
         <!-- '{ItemName}' was discarded -->
-        <string id="bNqd3AzN" text="'{ItemName}' был отброшен" original="'{ItemName}' was discarded"/>
+        <string id="bNqd3AzN" text="Предмет «{ItemName}» выброшен" original="'{ItemName}' was discarded"/>
+        <!-- (unknown error) -->
+        <string id="DiscardItem_UnknownError" text="(неизвестная ошибка)" original="(unknown error)"/>
         <!-- GiveItem -->
         <!-- Give Item -->
         <string id="nAPjfF4C" text="Дать предмет" original="Give Item"/>
@@ -1038,9 +1040,39 @@
 		<string id="ETfJQatX" text="(наёмник) (название королевства)" original="(merc) (kingdom name)"/>
 		<string id="tpwW6Ix8" text="{clanName} теперь состоит на службе у {kingdomName}!" original="{clanName} is now under contract with {kingdomName}!"/>
 
+		<!-- CampaignLogs -->
+		<string id="BLTCampaignLogsDisplayName" text="Журнал кампании" original="Campaign Logs"/>
+		<string id="BLTCampaignLogsDescription" text="Показывает важные события кампании" original="Shows relevant campaign logs"/>
+		<string id="BLTCampaignLogsCategoryGeneral" text="Общие" original="General"/>
+		<string id="BLTCampaignLogsHero" text="Герой" original="Hero"/>
+		<string id="BLTCampaignLogsClan" text="Клан" original="Clan"/>
+		<string id="BLTCampaignLogsKingdom" text="Королевство" original="Kingdom"/>
+		<string id="BLTCampaignLogsFief" text="Владение" original="Fief"/>
+		<string id="BLTCampaignLogsMaxHeroLogs" text="Максимальное количество записей для героя" original="Maximum logs per hero"/>
+		<string id="BLTCampaignLogsMaxClanLogs" text="Максимальное количество записей для клана" original="Maximum logs per clan"/>
+		<string id="BLTCampaignLogsMaxKingdomLogs" text="Максимальное количество записей для королевства" original="Maximum logs per kingdom"/>
+		<string id="BLTCampaignLogsMaxFiefLogs" text="Максимальное количество записей для владения" original="Maximum logs per fief"/>
+		<string id="BLTCampaignLogsSubHero" text="герой" original="hero"/>
+		<string id="BLTCampaignLogsSubClan" text="клан" original="clan"/>
+		<string id="BLTCampaignLogsSubKingdom" text="королевство" original="kingdom"/>
+		<string id="BLTCampaignLogsSubFief" text="владение" original="fief"/>
+		<string id="BLTCampaignLogsDocumentation" text="Использование: !logs герой/клан (клан)/королевство (королевство)/владение (владение)" original="Usage: !logs hero/clan (clan)/kingdom (kingdom)/fief (fief)"/>
+		<string id="BLTCampaignLogsInvalidArguments" text="Неверные аргументы. Используйте !logs герой/клан (клан)/королевство (королевство)/владение (владение)" original="Invalid. Use !logs hero/clan (clan)/kingdom (kingdom)/fief (fief)"/>
+		<string id="BLTCampaignLogsBehaviorNotFound" text="Компонент журнала не найден." original="Logs behavior not found."/>
+		<string id="BLTCampaignLogsNoHeroLogs" text="Для этого героя записи не найдены." original="No logs found for this hero."/>
+		<string id="BLTCampaignLogsNeedClanName" text="Укажите название клана" original="Need clan name"/>
+		<string id="BLTCampaignLogsClanNotFound" text="Не удалось найти клан с названием {name}" original="Could not find a clan with the name {name}"/>
+		<string id="BLTCampaignLogsNoClanLogs" text="Для этого клана записи не найдены." original="No logs found for this clan."/>
+		<string id="BLTCampaignLogsNeedKingdomName" text="Укажите название королевства" original="Need kingdom name"/>
+		<string id="BLTCampaignLogsKingdomNotFound" text="Не удалось найти королевство с названием {name}" original="Could not find a kingdom with the name {name}"/>
+		<string id="BLTCampaignLogsNoKingdomLogs" text="Для этого королевства записи не найдены." original="No logs found for this kingdom."/>
+		<string id="BLTCampaignLogsNeedFiefName" text="Укажите название владения" original="Need fief name"/>
+		<string id="BLTCampaignLogsFiefNotFound" text="Не удалось найти владение с названием {name}" original="Could not find a fief with the name {name}"/>
+		<string id="BLTCampaignLogsNoFiefLogs" text="Для этого владения записи не найдены." original="No logs found for this fief."/>
+
 		<!-- Missing in RU: CampaignInfo -->
 
-		<string id="5FynPtK8" text="Показывает список королевств, культур, войн и подробную информацию о них" original="Shows kingdom list, culture list, wars list and specific kingdom/war info"/>
+		<string id="5FynPtK8" text="Показывает информацию о королевствах, культурах, войнах, армиях, владениях, кланах, вассалах, карте, времени кампании и навыках игрока" original="Shows information about kingdoms, cultures, wars, armies, fiefs, clans, vassals, the map, campaign time, and player skills"/>
 		<string id="tk7R3uwg" text="Неверный режим (используйте kingdomlist, culturelist, warlist, kingdom (kingdom), war (kingdom))" original="invalid mode (use kingdomlist, culturelist, warlist, kingdom (kingdom), war (kingdom))"/>
 		<string id="DSNx7CFT" text="Требуется имя королевства" original="Need kingdom name"/>
 		<string id="Lk1NDpuQ" text="{kingdom} не находится в состоянии войны" original="{kingdom} is not at war"/>
@@ -1090,8 +1122,8 @@
 		<string id="Ki8jvwkw" text="Название клана: {name} | " original="Clan Name: {name} | "/>
 		<string id="Sg11nEUe" text="Уровень: {tier}({renown}) | " original="Tier: {tier}({renown}) | "/>
 		<string id="ZFGikYn8" text="Сила: {strength} | " original="Strength: {strength} | "/>
-		<string id="SDVLj0nw" text="Богатство: {wealth} | " original="Wealth: {wealth} | "/>
-		<string id="eHJYAZha" text="Члены: {members}" original="Members: {members}"/>
+		<string id="SDVLj0nw" text="Богатство: {wealth}({income}) | " original="Wealth: {wealth}({income}) | "/>
+		<string id="eHJYAZha" text="Члены: {members} | " original="Members: {members} | "/>
 		<string id="Ib213Hp9" text="Отряды: {cparties}/{mparties} |" original="Parties: {cparties}/{mparties} |"/>
 		<string id="BwuFSJU1" text="Города: {towns} | " original="Towns: {towns} | "/>
 
@@ -1140,9 +1172,82 @@
 		<string id="d76wc5iS" text="[Сила: {strength} | " original="[Strength: {strength} | "/>
 
 		<!-- Campaign / wars -->
+		<string id="BLTCampaignInfoDocumentation" text="&lt;strong&gt;Режимы:&lt;/strong&gt;&#10;списоккоролевств, списоккультур, списоквойн, королевство (королевство/игрок), война/войны (королевство/игрок), армии (королевство/игрок), владение (город/замок/деревня), владения (королевство), клан (клан/игрок), кланы (королевство/игрок), вассалы (клан), карта (королевство), время/дата, игрок" original="&lt;strong&gt;Modes:&lt;/strong&gt;&#10;kingdomlist, culturelist, warlist, kingdom (kingdom/player), war/wars (kingdom/player), armies (kingdom/player), fief (town/castle/village), fiefs (kingdom), clan (clan/player), clans (kingdom/player), vassals (clan), map (kingdom), time/date, player"/>
+		<string id="BLTCampaignInfoMissingMode" text="Неверный режим (используйте списоккоролевств, списоккультур, списоквойн, королевство, война/войны, армии, владение/владения, клан/кланы, вассалы, карта, время/дата, игрок)" original="Invalid mode (use kingdomlist, culturelist, warlist, kingdom, war/wars, armies, fief/fiefs, clan/clans, vassals, map, time/date, player)"/>
+		<string id="BLTCampaignInfoInvalidMode" text="Неверный режим (используйте списоккоролевств, списоккультур, списоквойн, королевство, война/войны, армии, владение/владения, клан/кланы, вассалы, карта, время/дата, игрок)" original="Invalid mode (use kingdomlist, culturelist, warlist, kingdom, war/wars, armies, fief/fiefs, clan/clans, vassals, map, time/date, player)"/>
+		<string id="BLTCampaignInfoSubKingdomList" text="списоккоролевств" original="kingdomlist"/>
+		<string id="BLTCampaignInfoSubCultureList" text="списоккультур" original="culturelist"/>
+		<string id="BLTCampaignInfoSubKingdom" text="королевство" original="kingdom"/>
+		<string id="BLTCampaignInfoSubWarList" text="списоквойн" original="warlist"/>
+		<string id="BLTCampaignInfoSubWars" text="войны" original="wars"/>
+		<string id="BLTCampaignInfoSubWar" text="война" original="war"/>
+		<string id="BLTCampaignInfoSubArmies" text="армии" original="armies"/>
+		<string id="BLTCampaignInfoSubFief" text="владение" original="fief"/>
+		<string id="BLTCampaignInfoSubFiefs" text="владения" original="fiefs"/>
+		<string id="BLTCampaignInfoSubClan" text="клан" original="clan"/>
+		<string id="BLTCampaignInfoSubClans" text="кланы" original="clans"/>
+		<string id="BLTCampaignInfoSubVassals" text="вассалы" original="vassals"/>
+		<string id="BLTCampaignInfoSubMap" text="карта" original="map"/>
+		<string id="BLTCampaignInfoSubTime" text="время" original="time"/>
+		<string id="BLTCampaignInfoSubDate" text="дата" original="date"/>
+		<string id="BLTCampaignInfoArgPlayer" text="игрок" original="player"/>
+		<string id="sZcYhSOL" text="Лидер: {leader} | " original="Leader: {leader} | "/>
+		<string id="ch83d8zT" text="Королевство: {kingdom} | " original="Kingdom: {kingdom} | "/>
+		<string id="BLTCampaignInfoAlliances" text="Союзы: {allies} | " original="Alliances: {allies} | "/>
+		<string id="BLTCampaignInfoTrades" text="Торговые соглашения: {trade} | " original="Trades: {trade} | "/>
+		<string id="BLTCampaignInfoArmyCount" text="| Армии: {count} " original="| Armies: {count} "/>
+		<string id="BLTCampaignInfoWarListEntry" text="{kingdom1}({strength1}) против {kingdom2}({strength2}) | " original="{kingdom1}({strength1}) VS {kingdom2}({strength2}) | "/>
+		<string id="BLTCampaignInfoArmiesHeader" text="Армии: {count} | " original="{count} Armies | "/>
+		<string id="BLTCampaignInfoArmyName" text="&#10;Армия: {name} | " original="&#10;Army: {name} | "/>
+		<string id="BLTCampaignInfoArmyStrength" text="Сила: {strength} | " original="{strength} Strength | "/>
+		<string id="BLTCampaignInfoArmyTroops" text="Войска: {troops} | " original="{troops} Troops | "/>
+		<string id="BLTCampaignInfoArmyParties" text="Отряды: {parties} | " original="{parties} Parties | "/>
+		<string id="BLTCampaignInfoArmyBehavior" text="Действие армии: {behavior} | " original="This army is: {behavior} | "/>
+		<string id="BLTCampaignInfoArmyTarget" text="Цель: {target} | " original="Target: {target} | "/>
+		<string id="BLTCampaignInfoNeedFiefName" text="Укажите название владения" original="Need fief name"/>
+		<string id="BLTCampaignInfoFiefNotFound" text="Не удалось найти владение с названием {name}" original="Could not find a fief with the name {name}"/>
+		<string id="BLTCampaignInfoFiefName" text="{name} " original="{name} "/>
+		<string id="BLTCampaignInfoVillage" text="Деревня | " original="Village | "/>
+		<string id="BLTCampaignInfoTown" text="Город | " original="Town | "/>
+		<string id="BLTCampaignInfoCastle" text="Замок | " original="Castle | "/>
+		<string id="BLTCampaignInfoCulture" text="Культура: {culture} | " original="Culture: {culture} | "/>
+		<string id="BLTCampaignInfoHearths" text="Дворы: {hearths}({change}) | " original="Hearths: {hearths}({change}) | "/>
+		<string id="BLTCampaignInfoBoundTo" text="Приписана к {parent}" original="Bound to {parent}"/>
+		<string id="BLTCampaignInfoOwner" text="Владелец: {owner} | " original="Owner: {owner} | "/>
+		<string id="BLTCampaignInfoKingdom" text="Королевство: {kingdom} | " original="Kingdom: {kingdom} | "/>
+		<string id="BLTCampaignInfoGovernor" text="Губернатор: {governor} | " original="Governor: {governor} | "/>
+		<string id="BLTCampaignInfoProsperity" text="Процветание: {value}({change}) | " original="Prosperity: {value}({change}) | "/>
+		<string id="BLTCampaignInfoLoyalty" text="Лояльность: {value}({change}) | " original="Loyalty: {value}({change}) | "/>
+		<string id="BLTCampaignInfoSecurity" text="Безопасность: {value}({change}) | " original="Security: {value}({change}) | "/>
+		<string id="BLTCampaignInfoFood" text="Запасы еды: {value}({change}) | " original="Food: {value}({change}) | "/>
+		<string id="BLTCampaignInfoDailyIncome" text="💰Ежедневный доход: {income} | " original="💰Daily income: {income} | "/>
+		<string id="BLTCampaignInfoMilitia" text="Ополчение: {value}({change}) | " original="Militia: {value}({change}) | "/>
+		<string id="BLTCampaignInfoGarrison" text="Гарнизон: {garrison}/{capacity} | " original="Garrison: {garrison}/{capacity} | "/>
+		<string id="BLTCampaignInfoVillagesHearths" text="Деревни и дворы: " original="Villages + Hearths: "/>
+		<string id="BLTCampaignInfoTownsList" text="Города: {towns} | Замки: {castles}" original="Towns: {towns} | Castles: {castles}"/>
+		<string id="BLTCampaignInfoNeedClanName" text="Укажите название клана" original="Need a clan name"/>
+		<string id="BLTCampaignInfoShips" text="Корабли: {ships} |" original="Ships: {ships} |"/>
+		<string id="BLTCampaignInfoClanNotFound" text="Не удалось найти клан с названием {name}" original="Could not find a clan with the name {name}"/>
+		<string id="BLTCampaignInfoNone" text=" Нет" original=" None"/>
+		<string id="BLTCampaignInfoClansList" text="Дворянские кланы ({nobleCount}): {nobles} | Наёмники ({mercenaryCount}): {mercenaries}" original="Nobles ({nobleCount}): {nobles} | Mercenaries ({mercenaryCount}): {mercenaries}"/>
+		<string id="BLTCampaignInfoVassalSystemUnavailable" text="Система вассалов недоступна" original="Vassal system is not available"/>
+		<string id="BLTCampaignInfoNoVassals" text="У клана {clan} нет вассалов" original="{clan} has no vassals"/>
+		<string id="BLTCampaignInfoVassalsHeader" text="Вассалы клана {clan} ({count}): " original="{clan} Vassals ({count}): "/>
+		<string id="BLTCampaignInfoVassalFiefs" text=" (Владения: {fiefs})" original=" (Fiefs: {fiefs})"/>
+		<string id="BLTCampaignInfoVassalNoFiefs" text=" (Нет владений)" original=" (No fiefs)"/>
+		<string id="BLTCampaignInfoNoFiefs" text="Нет владений" original="No fiefs"/>
+		<string id="BLTCampaignInfoNorth" text="↑ Север" original="↑ North"/>
+		<string id="BLTCampaignInfoNorthEast" text="↗ Северо-восток" original="↗ North-East"/>
+		<string id="BLTCampaignInfoEast" text="→ Восток" original="→ East"/>
+		<string id="BLTCampaignInfoSouthEast" text="↘ Юго-восток" original="↘ South-East"/>
+		<string id="BLTCampaignInfoSouth" text="↓ Юг" original="↓ South"/>
+		<string id="BLTCampaignInfoSouthWest" text="↙ Юго-запад" original="↙ South-West"/>
+		<string id="BLTCampaignInfoWest" text="← Запад" original="← West"/>
+		<string id="BLTCampaignInfoNorthWest" text="↖ Северо-запад" original="↖ North-West"/>
+		<string id="BLTCampaignInfoDate" text="Дата: {date} | дней с начала: {days} | лет: {years} ({daysPerYear} дней в году)" original="Date: {date} | {days} days since start | {years} years ({daysPerYear} days/year)"/>
 
 		<string id="OpptAAU9" text="Информация о кампании" original="CampaignInfo"/>
-		<string id="N9b5k8FR" text="{k1} против {k2} = Потери: {c1}/{c2} - Пленные: {p1}/{p2} - Набеги: {r1}/{r2} - Осады: {s1}/{s2} - Началась: {date}" original="{k1} VS {k2} = Casualties: {c1}/{c2} - Prisoners: {p1}/{p2}- Raids: {r1}/{r2} - Sieges: {s1}/{s2} - Started: {date}"/>
+		<string id="N9b5k8FR" text="{k1} против {k2} = Потери: {c1}/{c2} - Пленные: {p1}/{p2} - Набеги: {r1}/{r2} - Осады: {s1}/{s2} - Ход войны: {pr1}/{pr2} - Начало: {date}" original="{k1} VS {k2} = Casualties: {c1}/{c2} - Prisoners: {p1}/{p2} - Raids: {r1}/{r2} - Sieges: {s1}/{s2} - Progress: {pr1}/{pr2} Started: {date}"/>
 
 		<!-- Errors / misc -->
 

@@ -4,7 +4,7 @@ title: Улучшение атрибутов
 description: Инструкция по команде атрибут
 permalink: /attribute-points-command/
 previous_url: /upgrade-command/
-next_url: /auction-command/
+next_url: /campaign-info-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

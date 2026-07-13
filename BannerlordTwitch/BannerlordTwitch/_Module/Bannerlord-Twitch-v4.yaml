@@ -414,7 +414,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: Throw away one of your custom items.<br>Usage is <code>!discarditem (custom item index)</code>, e.g. <code>!discarditem 3</code> would discard your custom item with the index 3. The custom item index is shown in the 'customs' command.
+- Aliases: выбросить
+  Documentation: Throw away one of your custom items.<br>Usage is <code>!discarditem (custom item index)</code>, e.g. <code>!discarditem 3</code> would discard your custom item with the index 3. The custom item index is shown in the 'customs' command.
   Enabled: true
   Handler: DiscardItem
   HandlerConfig: 
@@ -897,7 +898,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: true
   RespondInTwitch: true
-- Documentation: ''
+- Aliases: информация
+  Documentation: ''
   Enabled: true
   Handler: CampaignInfo
   HandlerConfig: 
@@ -1164,7 +1166,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: false
   RespondInTwitch: true
-- Documentation: ''
+- Aliases: журнал
+  Documentation: ''
   Enabled: false
   Handler: CampaignLogs
   HandlerConfig:

@@ -17,25 +17,22 @@ namespace BLTAdoptAHero
         protected override void ExecuteInternal(Hero adoptedHero, ReplyContext context, object config,
             Action<string> onSuccess, Action<string> onFailure)
         {
-            // var customItems = 
-            //     BLTAdoptAHeroCampaignBehavior.Current.GetCustomItems(adoptedHero).ToList();
-            //
-            // if (!customItems.Any())
-            // {
-            //     ActionManager.SendReply(context, "{=oXQ4En4P}You have no items to discard".Translate());
-            //     return;
-            // }
-
             if (string.IsNullOrWhiteSpace(context.Args))
             {
                 ActionManager.SendReply(context, context.ArgsErrorMessage("{=by80aboy}(custom item index)".Translate()));
                 return;
             }
 
+            if (BLTAdoptAHeroCampaignBehavior.Current.GetCustomItems(adoptedHero).Count == 0)
+            {
+                ActionManager.SendReply(context, "{=oXQ4En4P}You have no items to discard".Translate());
+                return;
+            }
+
             (var element, string error) = BLTAdoptAHeroCampaignBehavior.Current.FindCustomItemByIndex(adoptedHero, context.Args);
             if (element.IsEqualTo(EquipmentElement.Invalid))
             {
-                ActionManager.SendReply(context, error ?? "(unknown error)");
+                ActionManager.SendReply(context, error ?? "{=DiscardItem_UnknownError}(unknown error)".Translate());
                 return;
             }
 

@@ -17,8 +17,8 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero.Actions
 {
-    [LocDisplayName("{=TESTING}CampaignLogs"),
-     LocDescription("{=TESTING}Logs with relevant info"),
+    [LocDisplayName("{=BLTCampaignLogsDisplayName}Campaign Logs"),
+     LocDescription("{=BLTCampaignLogsDescription}Shows relevant campaign logs"),
      UsedImplicitly]
     public class CampaignLogs : HeroCommandHandlerBase
     {
@@ -27,33 +27,33 @@ namespace BLTAdoptAHero.Actions
         public class Settings : IDocumentable
         {
             // General
-            [LocDisplayName("{=TESTING}Hero"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Maximum logs per hero"),
+            [LocDisplayName("{=BLTCampaignLogsHero}Hero"),
+             LocCategory("General", "{=BLTCampaignLogsCategoryGeneral}General"),
+             LocDescription("{=BLTCampaignLogsMaxHeroLogs}Maximum logs per hero"),
              PropertyOrder(1), UsedImplicitly]
             public int hLogs { get; set; } = 10;
 
-            [LocDisplayName("{=TESTING}Clan"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Maximum logs per clan"),
+            [LocDisplayName("{=BLTCampaignLogsClan}Clan"),
+             LocCategory("General", "{=BLTCampaignLogsCategoryGeneral}General"),
+             LocDescription("{=BLTCampaignLogsMaxClanLogs}Maximum logs per clan"),
              PropertyOrder(2), UsedImplicitly]
             public int cLogs { get; set; } = 10;
 
-            [LocDisplayName("{=TESTING}Kingdom"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Maximum logs per kingdom"),
+            [LocDisplayName("{=BLTCampaignLogsKingdom}Kingdom"),
+             LocCategory("General", "{=BLTCampaignLogsCategoryGeneral}General"),
+             LocDescription("{=BLTCampaignLogsMaxKingdomLogs}Maximum logs per kingdom"),
              PropertyOrder(3), UsedImplicitly]
             public int kLogs { get; set; } = 10;
 
-            [LocDisplayName("{=TESTING}Fief"),
-             LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=TESTING}Maximum logs per fief"),
+            [LocDisplayName("{=BLTCampaignLogsFief}Fief"),
+             LocCategory("General", "{=BLTCampaignLogsCategoryGeneral}General"),
+             LocDescription("{=BLTCampaignLogsMaxFiefLogs}Maximum logs per fief"),
              PropertyOrder(4), UsedImplicitly]
             public int fLogs { get; set; } = 10;
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.Value($"Usage: !logs hero/clan (clan)/kingdom (kingdom)/fief (fief)");
+                generator.Value("{=BLTCampaignLogsDocumentation}Usage: !logs hero/clan (clan)/kingdom (kingdom)/fief (fief)".Translate());
             }
 
         }
@@ -70,11 +70,11 @@ namespace BLTAdoptAHero.Actions
             }
             if (context.Args.Length == 0)
             {
-                onFailure("invalid. Use !logs hero/clan (clan)/kingdom (kingdom)/fief (fief)");
+                onFailure("{=BLTCampaignLogsInvalidArguments}Invalid. Use !logs hero/clan (clan)/kingdom (kingdom)/fief (fief)".Translate());
                 return;
             }
             var splitArgs = context.Args.Split(' ');
-            var mode = splitArgs[0];
+            var mode = GetCampaignLogsMode(splitArgs[0]);
             string name = string.Join(" ", splitArgs.Skip(1));
 
             switch (mode)
@@ -92,11 +92,25 @@ namespace BLTAdoptAHero.Actions
                     HandleFiefLogs(name, context, onFailure);
                     break;
                 default:
-                    onFailure("invalid. Use !logs hero/clan (clan)/kingdom (kingdom)/fief (fief)");
+                    onFailure("{=BLTCampaignLogsInvalidArguments}Invalid. Use !logs hero/clan (clan)/kingdom (kingdom)/fief (fief)".Translate());
                     break;
             }
 
         }
+
+        private string GetCampaignLogsMode(string mode)
+        {
+            if (MatchesCommand(mode, "{=BLTCampaignLogsSubHero}hero".Translate(), "hero")) return "hero";
+            if (MatchesCommand(mode, "{=BLTCampaignLogsSubClan}clan".Translate(), "clan")) return "clan";
+            if (MatchesCommand(mode, "{=BLTCampaignLogsSubKingdom}kingdom".Translate(), "kingdom")) return "kingdom";
+            if (MatchesCommand(mode, "{=BLTCampaignLogsSubFief}fief".Translate(), "fief")) return "fief";
+
+            return mode;
+        }
+
+        private bool MatchesCommand(string command, string translatedCommand, string defaultCommand)
+            => command.Equals(defaultCommand, StringComparison.OrdinalIgnoreCase)
+               || command.Equals(translatedCommand, StringComparison.OrdinalIgnoreCase);
 
         private void HandleHeroLogs(Hero hero, ReplyContext context, Action<string> onFailure)
         {
@@ -104,7 +118,7 @@ namespace BLTAdoptAHero.Actions
 
             if (logsBehavior == null)
             {
-                onFailure("Logs behavior not found.");
+                onFailure("{=BLTCampaignLogsBehaviorNotFound}Logs behavior not found.".Translate());
                 return;
             }
 
@@ -112,7 +126,7 @@ namespace BLTAdoptAHero.Actions
 
             if (!dict.TryGetValue(hero.StringId, out var logs) || logs.Count == 0)
             {
-                onFailure("No logs found for this hero.");
+                onFailure("{=BLTCampaignLogsNoHeroLogs}No logs found for this hero.".Translate());
                 return;
             }
 
@@ -126,14 +140,14 @@ namespace BLTAdoptAHero.Actions
 
             if (logsBehavior == null)
             {
-                onFailure("Logs behavior not found.");
+                onFailure("{=BLTCampaignLogsBehaviorNotFound}Logs behavior not found.".Translate());
                 return;
             }
 
             Clan desiredClan = adoptedHero.Clan;
             if (string.IsNullOrWhiteSpace(filter) && desiredClan == null)
             {
-                onFailure("{=DSNx7CFT}Need clan name".Translate());
+                onFailure("{=BLTCampaignLogsNeedClanName}Need clan name".Translate());
                 return;
             }
             else if (!string.IsNullOrWhiteSpace(filter))
@@ -144,7 +158,7 @@ namespace BLTAdoptAHero.Actions
             }
             if (desiredClan == null)
             {
-                onFailure($"Could not find a clan with the name {filter}");
+                onFailure("{=BLTCampaignLogsClanNotFound}Could not find a clan with the name {name}".Translate(("name", filter)));
                 return;
             }
 
@@ -152,7 +166,7 @@ namespace BLTAdoptAHero.Actions
             var dict = logsBehavior.clanLogs._clanLogs;
             if (!dict.TryGetValue(desiredClan.StringId, out var logs) || logs.Count == 0)
             {
-                onFailure("No logs found for this clan.");
+                onFailure("{=BLTCampaignLogsNoClanLogs}No logs found for this clan.".Translate());
                 return;
             }
 
@@ -166,14 +180,14 @@ namespace BLTAdoptAHero.Actions
 
             if (logsBehavior == null)
             {
-                onFailure("Logs behavior not found.");
+                onFailure("{=BLTCampaignLogsBehaviorNotFound}Logs behavior not found.".Translate());
                 return;
             }
 
             Kingdom desiredKingdom = adoptedHero?.Clan?.Kingdom;
             if (string.IsNullOrWhiteSpace(filter) && desiredKingdom == null)
             {
-                onFailure("{=DSNx7CFT}Need kingdom name".Translate());
+                onFailure("{=BLTCampaignLogsNeedKingdomName}Need kingdom name".Translate());
                 return;
             }
             else if (!string.IsNullOrWhiteSpace(filter))
@@ -184,7 +198,7 @@ namespace BLTAdoptAHero.Actions
             }
             if (desiredKingdom == null)
             {
-                onFailure($"Could not find a kingdom with the name {filter}");
+                onFailure("{=BLTCampaignLogsKingdomNotFound}Could not find a kingdom with the name {name}".Translate(("name", filter)));
                 return;
             }
 
@@ -194,7 +208,7 @@ namespace BLTAdoptAHero.Actions
 
             if (!dict.TryGetValue(desiredKingdom.StringId, out var logs) || logs.Count == 0)
             {
-                onFailure("No logs found for this kingdom.");
+                onFailure("{=BLTCampaignLogsNoKingdomLogs}No logs found for this kingdom.".Translate());
                 return;
             }
 
@@ -208,13 +222,13 @@ namespace BLTAdoptAHero.Actions
 
             if (logsBehavior == null)
             {
-                onFailure("Logs behavior not found.");
+                onFailure("{=BLTCampaignLogsBehaviorNotFound}Logs behavior not found.".Translate());
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(filter))
             {
-                onFailure("Need fief name");
+                onFailure("{=BLTCampaignLogsNeedFiefName}Need fief name".Translate());
                 return;
             }
 
@@ -228,7 +242,7 @@ namespace BLTAdoptAHero.Actions
 
             if (desiredFief == null)
             {
-                onFailure($"Could not find a fief with the name {filter}");
+                onFailure("{=BLTCampaignLogsFiefNotFound}Could not find a fief with the name {name}".Translate(("name", filter)));
                 return;
             }
 
@@ -237,7 +251,7 @@ namespace BLTAdoptAHero.Actions
 
             if (!dict.TryGetValue(desiredFief.StringId, out var logs) || logs.Count == 0)
             {
-                onFailure("No logs found for this fief.");
+                onFailure("{=BLTCampaignLogsNoFiefLogs}No logs found for this fief.".Translate());
                 return;
             }
             //Reply(desiredFief.Name.ToString(), logs, onSuccess);
