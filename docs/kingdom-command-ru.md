@@ -4,6 +4,7 @@ title: Управление королевством
 description: Инструкция по команде Королевство
 permalink: /kingdom-command/
 previous_url: /family-command/
+next_url: /upgrade-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

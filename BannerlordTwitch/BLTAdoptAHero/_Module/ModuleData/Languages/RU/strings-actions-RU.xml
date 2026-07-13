@@ -1435,5 +1435,204 @@
 		<string id="BLTFamilyMarryUsage" text="Использование: поженить (зритель) (имя ребёнка). Зритель, отправивший предложение, выдаёт замуж или женит своего ребёнка." original="Usage: marry (viewer) (child first name). The viewer who sends the proposal gives their child in marriage."/><string id="BLTFamilyHeroNotFound" text="Герой с именем {name} не найден" original="Could not find a hero named {name}"/><string id="BLTFamilyProposalRejected" text="Предложение героя {hero} отклонено" original="Rejected {hero}'s proposal"/><string id="BLTFamilyNoProposal" text="Нет предложения, которое можно отклонить" original="There is no proposal to reject"/><string id="BLTFamilyTooYoung" text="Один из героев слишком молод для брака" original="One of the heroes is too young to marry"/><string id="BLTFamilyCannotMarryBLT" text="Этой командой нельзя заключать браки усыновлённых героев" original="Adopted heroes cannot be married by this command"/><string id="BLTFamilyCannotMarryLeader" text="Этой командой нельзя заключать браки лидеров кланов" original="Clan leaders cannot be married by this command"/><string id="BLTFamilyAlreadyMarried" text="Один из героев уже состоит в браке" original="One of the heroes is already married"/><string id="BLTFamilyMarried" text="{hero1} из клана {clan1} вступил в брак с {hero2} из клана {clan2}" original="{hero1} of {clan1} married {hero2} of {clan2}"/><string id="BLTFamilyInvalidMarriage" text="Выбранный брак недопустим" original="The selected marriage is invalid"/><string id="BLTFamilyProposalSent" text="Предложение о браке отправлено герою {hero}" original="Sent a marriage proposal to {hero}"/>
 		<string id="BLTFamilyBabyLimitReached" text="В вашем клане уже {count} живых детей; лимит команды рождения — {limit}" original="You already have {count} living children in your clan; the baby command limit is {limit}"/><string id="BLTFamilyAlreadyPregnant" text="{hero} уже беременна." original="{hero} is already pregnant."/><string id="BLTFamilyNowPregnant" text="{hero} теперь беременна." original="{hero} is now pregnant."/>
 		<string id="BLTFamilyDocsOverview" text="&lt;strong&gt;Управление семьёй:&lt;/strong&gt; просмотр и управление супругами, детьми и родителями героя." original="&lt;strong&gt;Family Management:&lt;/strong&gt; Manage and view your hero's family members, including spouse, children, and parents."/><string id="BLTFamilyDocsLimit" text="&lt;strong&gt;Максимум детей от команды рождения:&lt;/strong&gt; {limit}" original="&lt;strong&gt;Max Kids From Baby Command:&lt;/strong&gt; {limit}"/><string id="BLTFamilyDocsUsage" text="&lt;strong&gt;Использование:&lt;/strong&gt; супруг; супруг переименовать [имя]; супруг внешность [код]; супруг ребёнок; супруг навыки; дети; [имя ребёнка]; [имя ребёнка] переименовать [имя]; [имя ребёнка] внешность [код]; [имя ребёнка] поженить [зритель] [ребёнок зрителя]; [имя ребёнка] [имя внука]" original="&lt;strong&gt;Usage:&lt;/strong&gt; spouse; spouse rename [name]; spouse looks [body]; spouse baby; spouse skills; children; [childName]; [childName] rename [name]; [childName] looks [body]; [childName] marry [viewer] [viewer_child]; [childName] [grandchildName]"/><string id="BLTFamilyDocsNotes" text="&lt;strong&gt;Примечания:&lt;/strong&gt; в квадратных скобках указаны аргументы. Если у детей одинаковые имена, добавьте номер из списка, например Caladog1 или Caladog2." original="&lt;strong&gt;Notes:&lt;/strong&gt; Names in square brackets are arguments. If children have the same name, add their list number, for example Caladog1 or Caladog2."/>
+        <!-- Upgrade command -->
+        <string id="BLT_UpgradeCmd" text="Улучшения" original="Upgrade"/>
+        <string id="BLT_UpgradeCmdDesc" text="Покупка улучшений для владений, кланов и королевств" original="Purchase upgrades for fiefs, clans, or kingdoms"/>
+        <string id="BLT_UpgradeEnabled" text="Включено" original="Enabled"/>
+        <string id="BLT_UpgradeEnabledDesc" text="Включить систему улучшений" original="Enable the upgrade system"/>
+        <string id="BLT_AllowList" text="Разрешить команду списка" original="Allow List Command"/>
+        <string id="BLT_AllowListDesc" text="Разрешить игрокам просматривать все доступные улучшения" original="Allow players to list all available upgrades"/>
+        <string id="BLT_AccumulateWhenFull" text="Накапливать войска при заполнении" original="Accumulate Troops When Full"/>
+        <string id="BLT_AccumulateWhenFullDesc" text="Если включено, улучшения пополнения войск будут сохранять бойцов, когда все отряды и гарнизоны заполнены, а затем добавят их, как только появится место. Если выключено, бойцы будут потеряны." original="When enabled, troop spawn upgrades will reserve troops if all war parties/garrisons are full, releasing them all once space becomes available. If this is off, troops will simply be lost if all parties/garrisons are full."/>
+        <string id="BLT_KingdomLeaderFiefs" text="Правители королевств могут улучшать владения" original="Kingdom Leaders Can Upgrade Fiefs"/>
+        <string id="BLT_KingdomLeaderFiefsDesc" text="Разрешить правителям королевств покупать улучшения для поселений своего королевства" original="Allow kingdom rulers to purchase fief upgrades for settlements in their kingdom"/>
+        <string id="BLT_AnyClanMember" text="Любой член клана может улучшать клан" original="Any Clan Member Can Upgrade Clan"/>
+        <string id="BLT_AnyClanMemberDesc" text="Разрешить любому члену клана покупать улучшения клана, а не только его лидеру" original="Allow any clan member to purchase clan upgrades (not just the leader)"/>
+        <string id="BLT_IndependentLord" text="Независимые кланы считаются лордами" original="Independent Clans Count as Lords"/>
+        <string id="BLT_IndependentLordDesc" text="Если включено, кланы с владениями, не входящие в королевство, получают преимущества улучшений только для лордов. По умолчанию включено для сохранения прежнего поведения." original="If enabled, clans that own fiefs but belong to no kingdom benefit from Lord Only upgrades. Default: true (preserves existing behaviour)."/>
+        <string id="BLT_IndependentMerc" text="Независимые кланы считаются наёмниками" original="Independent Clans Count as Mercenaries"/>
+        <string id="BLT_IndependentMercDesc" text="Если включено, кланы с владениями, не входящие в королевство, также получают преимущества улучшений только для наёмников." original="If enabled, clans that own fiefs but belong to no kingdom also benefit from Mercenary Only upgrades."/>
+        <string id="BLT_UpgradeDisabled" text="Система улучшений отключена" original="The upgrade system is disabled"/>
+        <string id="BLT_NoMission" text="Эту команду нельзя использовать во время миссии" original="Cannot use this command during a mission"/>
+        <string id="BLT_UpgradeInvalidConfig" text="Некорректная конфигурация" original="Invalid configuration"/>
+        <string id="BLT_UpgradeUsage" text="Использование: [авто|пакет] все | владение &lt;название_поселения|все&gt; [ID_улучшения] | клан &lt;ID_улучшения|все&gt; | королевство &lt;ID_улучшения|все&gt; | сведения &lt;владение|клан|королевство&gt; &lt;название&gt; | список [владение|клан|королевство] | удалить &lt;владение|клан|королевство&gt; &lt;название&gt; &lt;ID_улучшения&gt;" original="Usage: [auto|bulk] all | fief &lt;settlement_name|all&gt; [upgrade_id] | clan &lt;upgrade_id|all&gt; | kingdom &lt;upgrade_id|all&gt; | info &lt;fief|clan|kingdom&gt; &lt;name&gt; | list [fief|clan|kingdom] | remove &lt;fief|clan|kingdom&gt; &lt;name&gt; &lt;upgrade_id&gt;"/>
+        <string id="BLT_UpgradeConfigUnavailable" text="Конфигурация недоступна" original="Configuration not available"/>
+        <string id="BLT_UpgradeNoCommandAfterFlags" text="После флагов не указана команда" original="No command specified after flags"/>
+        <string id="BLT_UpgradeConflictingScopes" text="Параметры 'все' и 'всекоролевство' нельзя использовать одновременно" original="'all' and 'allk' cannot be used together"/>
+        <string id="BLT_UpgradeListDisabled" text="Команда списка отключена" original="The list command is disabled"/>
+        <string id="BLT_UpgradeInfoUsage" text="Использование: сведения &lt;владение|клан|королевство&gt; &lt;название&gt;" original="Usage: info &lt;fief|clan|kingdom&gt; &lt;name&gt;"/>
+        <string id="BLT_UpgradeRemoveUsage" text="Использование: удалить &lt;владение|клан|королевство&gt; &lt;название_поселения/ID_улучшения&gt; [ID_улучшения]" original="Usage: remove &lt;fief|clan|kingdom&gt; &lt;settlement_name/upgrade_id&gt; [upgrade_id]"/>
+        <string id="BLT_UpgradeRemoveFiefUsage" text="Использование: удалить владение &lt;название_поселения&gt; &lt;ID_улучшения&gt;" original="Usage: remove fief &lt;settlement_name&gt; &lt;upgrade_id&gt;"/>
+        <string id="BLT_UpgradeAllUsage" text="Использование: [авто|пакет] все" original="Usage: [auto|bulk] all"/>
+        <string id="BLT_UpgradeFiefUsage" text="Использование: [авто|пакет] владение &lt;название_поселения&gt; &lt;ID_улучшения&gt;" original="Usage: [auto|bulk] fief &lt;settlement_name&gt; &lt;upgrade_id&gt;"/>
+        <string id="BLT_UpgradeAvailableHeader" text="=== Доступные улучшения ===" original="=== Available Upgrades ==="/>
+        <string id="BLT_UpgradeFiefListHeader" text="&#10;[Улучшения владений]" original="&#10;[Fief Upgrades]"/>
+        <string id="BLT_UpgradeNoFiefConfigured" text="Улучшения владений не настроены" original="No fief upgrades configured"/>
+        <string id="BLT_UpgradeClanListHeader" text="&#10;[Улучшения клана]" original="&#10;[Clan Upgrades]"/>
+        <string id="BLT_UpgradeNoClanConfigured" text="Улучшения клана не настроены" original="No clan upgrades configured"/>
+        <string id="BLT_UpgradeKingdomListHeader" text="&#10;[Улучшения королевства]" original="&#10;[Kingdom Upgrades]"/>
+        <string id="BLT_UpgradeNoKingdomConfigured" text="Улучшения королевства не настроены" original="No kingdom upgrades configured"/>
+        <string id="BLT_UpgradeArgAuto" text="авто" original="auto"/>
+        <string id="BLT_UpgradeArgBulk" text="пакет" original="bulk"/>
+        <string id="BLT_UpgradeArgAll" text="все" original="all"/>
+        <string id="BLT_UpgradeArgAllKingdom" text="всекоролевство" original="allk"/>
+        <string id="BLT_UpgradeSubList" text="список" original="list"/>
+        <string id="BLT_UpgradeSubInfo" text="сведения" original="info"/>
+        <string id="BLT_UpgradeSubRemove" text="удалить" original="remove"/>
+        <string id="BLT_UpgradeTypeFief" text="владение" original="fief"/>
+        <string id="BLT_UpgradeTypeClan" text="клан" original="clan"/>
+        <string id="BLT_UpgradeTypeKingdom" text="королевство" original="kingdom"/>
+        <string id="BLT_UpgradeTypeUsage" text="Использование: [авто|пакет] {Command} [все|всекоролевство] &lt;ID_улучшения&gt;" original="Usage: [auto|bulk] {Command} [all|allk] &lt;upgrade_id&gt;"/>
+        <string id="BLT_UpgradeUnknownCommand" text="Неизвестная команда '{Command}'. Используйте все, владение, клан или королевство" original="Unknown command '{Command}'. Use all, fief, clan, or kingdom"/>
+        <string id="BLT_UpgradeInvalidListType" text="Недопустимый тип '{Type}'. Используйте 'все', 'владение', 'клан' или 'королевство'" original="Invalid type '{Type}'. Use 'all', 'fief', 'clan', or 'kingdom'"/>
+        <string id="BLT_UpgradeInvalidType" text="Недопустимый тип. Используйте 'владение', 'клан' или 'королевство'" original="Invalid type. Use 'fief', 'clan', or 'kingdom'"/>
+        <string id="BLT_UpgradeInfoFiefUsage" text="Использование: сведения &lt;владение&gt; &lt;название&gt;" original="Usage: info &lt;fief&gt; &lt;name&gt;"/>
+        <string id="BLT_UpgradeInfoKingdomUsage" text="Использование: сведения &lt;королевство&gt; &lt;название&gt;" original="Usage: info &lt;kingdom&gt; &lt;name&gt;"/>
+        <string id="BLT_UpgradeAllKingdomRulerOnly" text="Только правитель королевства может использовать 'всекоролевство'" original="Only the kingdom ruler can use 'allk'"/>
+        <string id="BLT_UpgradeAllClanLeaderOnly" text="Только лидеры кланов могут использовать 'все'" original="Only clan leaders can use 'all'"/>
+        <!-- Upgrade documentation -->
+        <string id="GeneralCat" text="Общие" original="General"/>
+        <string id="BLT_Permissions" text="Разрешения" original="Permissions"/>
+        <string id="BLT_UpgradeYes" text="Да" original="Yes"/>
+        <string id="BLT_UpgradeNo" text="Нет" original="No"/>
+        <string id="BLT_UpgradeDocsEnabled" text="&lt;strong&gt;Включено:&lt;/strong&gt; {Value}" original="&lt;strong&gt;Enabled:&lt;/strong&gt; {Value}"/>
+        <string id="BLT_UpgradeDocsAllowList" text="&lt;strong&gt;Разрешить команду списка:&lt;/strong&gt; {Value}" original="&lt;strong&gt;Allow List Command:&lt;/strong&gt; {Value}"/>
+        <string id="BLT_UpgradeDocsKingdomFiefs" text="&lt;strong&gt;Правители королевств могут улучшать владения:&lt;/strong&gt; {Value}" original="&lt;strong&gt;Kingdom Leaders Can Upgrade Fiefs:&lt;/strong&gt; {Value}"/>
+        <string id="BLT_UpgradeDocsAnyClanMember" text="&lt;strong&gt;Любой член клана может улучшать клан:&lt;/strong&gt; {Value}" original="&lt;strong&gt;Any Clan Member Can Upgrade Clan:&lt;/strong&gt; {Value}"/>
+        <string id="BLT_UpgradeDocsReserveTroops" text="&lt;strong&gt;Накапливать войска при заполнении:&lt;/strong&gt; {Value}" original="&lt;strong&gt;Reserve Troops When Full:&lt;/strong&gt; {Value}"/>
+        <string id="BLT_UpgradeDocsIndependentLords" text="&lt;strong&gt;Независимые кланы считаются лордами:&lt;/strong&gt; {Value}" original="&lt;strong&gt;Independent Clans Count as Lords:&lt;/strong&gt; {Value}"/>
+        <string id="BLT_UpgradeDocsIndependentMercs" text="&lt;strong&gt;Независимые кланы считаются наёмниками:&lt;/strong&gt; {Value}" original="&lt;strong&gt;Independent Clans Count as Mercenaries:&lt;/strong&gt; {Value}"/>
+        <string id="BLT_UpgradeDocsSystem" text="Система улучшений" original="Upgrade System"/>
+        <string id="BLT_UpgradeDocsOverview" text="В этом разделе перечислены все доступные улучшения по типам и ограничениям." original="This section contains all available upgrades organized by type and restrictions."/>
+        <string id="BLT_UpgradeDocsCounts" text="Количество улучшений" original="Upgrade Counts"/>
+        <string id="BLT_UpgradeDocsFiefCount" text="&lt;strong&gt;Улучшения владений:&lt;/strong&gt; {Count}" original="&lt;strong&gt;Fief Upgrades:&lt;/strong&gt; {Count}"/>
+        <string id="BLT_UpgradeDocsClanCount" text="&lt;strong&gt;Улучшения клана:&lt;/strong&gt; {Count}" original="&lt;strong&gt;Clan Upgrades:&lt;/strong&gt; {Count}"/>
+        <string id="BLT_UpgradeDocsKingdomCount" text="&lt;strong&gt;Улучшения королевства:&lt;/strong&gt; {Count}" original="&lt;strong&gt;Kingdom Upgrades:&lt;/strong&gt; {Count}"/>
+        <string id="BLT_UpgradeDocsFiefUpgrades" text="Улучшения владений" original="Fief Upgrades"/>
+        <string id="BLT_UpgradeDocsStandardFiefs" text="Обычные улучшения владений" original="Standard Fief Upgrades"/>
+        <string id="BLT_UpgradeDocsCoastalFiefs" text="Улучшения только для прибрежных владений" original="Coastal Only Fief Upgrades"/>
+        <string id="BLT_UpgradeDocsClanUpgrades" text="Улучшения клана" original="Clan Upgrades"/>
+        <string id="BLT_UpgradeDocsStandardClans" text="Обычные улучшения клана" original="Standard Clan Upgrades"/>
+        <string id="BLT_UpgradeDocsLordClans" text="Улучшения клана только для лордов" original="Lord Only Clan Upgrades"/>
+        <string id="BLT_UpgradeDocsMercenaryClans" text="Улучшения клана только для наёмников" original="Mercenary Only Clan Upgrades"/>
+        <string id="BLT_UpgradeDocsVassalClans" text="Улучшения клана только для вассалов" original="Vassal Only Clan Upgrades"/>
+        <string id="BLT_UpgradeDocsKingdomUpgrades" text="Улучшения королевства" original="Kingdom Upgrades"/>
+        <string id="BLT_UpgradeDocsId" text="ID" original="ID"/>
+        <string id="BLT_UpgradeDocsName" text="Название" original="Name"/>
+        <string id="BLT_UpgradeDocsCost" text="Стоимость" original="Cost"/>
+        <string id="BLT_UpgradeDocsTier" text="Уровень" original="Tier"/>
+        <string id="BLT_UpgradeDocsRequired" text="Требуется" original="Required"/>
+        <string id="BLT_UpgradeDocsDescription" text="Описание" original="Description"/>
+        <string id="BLT_UpgradeDocsViewDetails" text="Подробнее" original="View Details"/>
+        <string id="BLT_UpgradeDocsEffects" text="&lt;strong&gt;Эффекты:&lt;/strong&gt;&lt;br&gt;" original="&lt;strong&gt;Effects:&lt;/strong&gt;&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsCanRemove" text="Можно удалить&lt;br&gt;" original="Can Be Removed&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsNoEffects" text="Эффекты не настроены" original="No effects configured"/>
+        <string id="BLT_UpgradeDocsClanEffects" text="&lt;strong&gt;Эффекты клана:&lt;/strong&gt;&lt;br&gt;" original="&lt;strong&gt;Clan Effects:&lt;/strong&gt;&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsSettlementEffects" text="&lt;br&gt;&lt;strong&gt;Эффекты поселения:&lt;/strong&gt;&lt;br&gt;" original="&lt;br&gt;&lt;strong&gt;Settlement Effects:&lt;/strong&gt;&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsKingdomEffects" text="&lt;strong&gt;Эффекты королевства:&lt;/strong&gt;&lt;br&gt;" original="&lt;strong&gt;Kingdom Effects:&lt;/strong&gt;&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsAllClanEffects" text="&lt;br&gt;&lt;strong&gt;Эффекты клана (для всех кланов королевства):&lt;/strong&gt;&lt;br&gt;" original="&lt;br&gt;&lt;strong&gt;Clan Effects (All Kingdom Clans):&lt;/strong&gt;&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsAllSettlementEffects" text="&lt;br&gt;&lt;strong&gt;Эффекты поселения (для всех поселений королевства):&lt;/strong&gt;&lt;br&gt;" original="&lt;br&gt;&lt;strong&gt;Settlement Effects (All Kingdom Settlements):&lt;/strong&gt;&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsTroopSpawning" text="&lt;br&gt;&lt;strong&gt;Пополнение войск:&lt;/strong&gt;&lt;br&gt;" original="&lt;br&gt;&lt;strong&gt;Troop Spawning:&lt;/strong&gt;&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsAllTroopSpawning" text="&lt;br&gt;&lt;strong&gt;Пополнение войск (для всех кланов королевства):&lt;/strong&gt;&lt;br&gt;" original="&lt;br&gt;&lt;strong&gt;Troop Spawning (All Kingdom Clans):&lt;/strong&gt;&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsRenownDaily" text="Известность: {Value}/день&lt;br&gt;" original="Renown: {Value}/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsInfluenceDaily" text="Влияние: {Value}/день&lt;br&gt;" original="Influence: {Value}/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsPartySize" text="Размер отряда: {Value}&lt;br&gt;" original="Party Size: {Value}&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsPartySpeed" text="Скорость отряда: {Value}&lt;br&gt;" original="Party Speed: {Value}&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsPartyLimit" text="Лимит отрядов: {Value}&lt;br&gt;" original="Party Limit: {Value}&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsVassalLimit" text="Лимит вассалов: {Value}&lt;br&gt;" original="Vassal Limit: {Value}&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsRetinueSize" text="Размер свиты: {Value}&lt;br&gt;" original="Retinue Size: {Value}&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsArmySpeed" text="Скорость армии: {Value} (один раз на клан: {OncePerClan})&lt;br&gt;" original="Army Speed: {Value} (once/clan: {OncePerClan})&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsMercIncomeFlat" text="Доход наёмника (фиксированный): {Value}/день&lt;br&gt;" original="Merc Income (Flat): {Value}/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsMercIncomePercent" text="Доход наёмника (%): {Value}%/день&lt;br&gt;" original="Merc Income (%): {Value}%/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsRulerInfluence" text="Влияние: {Value}/день (только правитель)&lt;br&gt;" original="Influence: {Value}/day (ruler only)&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsMaxClans" text="Максимум кланов: {Value}&lt;br&gt;" original="Max Clans: {Value}&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsMaxMercClans" text="Максимум кланов-наёмников: {Value}&lt;br&gt;" original="Max Merc Clans: {Value}&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsAllClanInfluence" text="Влияние: {Value}/день (все кланы)&lt;br&gt;" original="Influence: {Value}/day (all clans)&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsRetinuePerClan" text="Размер свиты: {Value} на клан&lt;br&gt;" original="Retinue Size: {Value} per clan&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsArmySpeedPerClan" text="Скорость армии: {Value} на клан в армии (один раз на клан: {OncePerClan})&lt;br&gt;" original="Army Speed: {Value} per clan in army (once/clan: {OncePerClan})&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsLoyaltyDaily" text="Лояльность: {Value}/день&lt;br&gt;" original="Loyalty: {Value}/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsLoyaltyPercent" text="Лояльность: {Value}%/день&lt;br&gt;" original="Loyalty: {Value}%/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsProsperityDaily" text="Процветание: {Value}/день&lt;br&gt;" original="Prosperity: {Value}/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsProsperityPercent" text="Процветание: {Value}%/день&lt;br&gt;" original="Prosperity: {Value}%/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsSecurityDaily" text="Безопасность: {Value}/день&lt;br&gt;" original="Security: {Value}/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsSecurityPercent" text="Безопасность: {Value}%/день&lt;br&gt;" original="Security: {Value}%/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsMilitiaDaily" text="Ополчение: {Value}/день&lt;br&gt;" original="Militia: {Value}/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsMilitiaPercent" text="Ополчение: {Value}%/день&lt;br&gt;" original="Militia: {Value}%/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsFoodDaily" text="Еда: {Value}/день&lt;br&gt;" original="Food: {Value}/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsFoodPercent" text="Еда: {Value}%/день&lt;br&gt;" original="Food: {Value}%/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsTaxDaily" text="Налоговый доход: {Value}{Gold}/день&lt;br&gt;" original="Tax Income: {Value}{Gold}/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsTaxPercent" text="Налоговый доход: {Value}%&lt;br&gt;" original="Tax Income: {Value}%&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsGarrisonCapacity" text="Вместимость гарнизона: {Value}&lt;br&gt;" original="Garrison Capacity: {Value}&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsHearth" text="Очаги: {Value}&lt;br&gt;" original="Hearth: {Value}&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsDailySpawn" text="Ежедневное пополнение: {Amount} бойцов/день&lt;br&gt;" original="Daily Spawn: {Amount} troops/day&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsDailySpawnPerClan" text="Ежедневное пополнение: {Amount} бойцов/день на клан&lt;br&gt;" original="Daily Spawn: {Amount} troops/day per clan&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsTroopTree" text="Дерево войск: {Tree}&lt;br&gt;" original="Troop Tree: {Tree}&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsBaseTier" text="Базовый уровень: {Tier}&lt;br&gt;" original="Base Tier: {Tier}&lt;br&gt;"/>
+        <string id="BLT_UpgradeDocsTierBonus" text="Бонус уровня: +{Bonus} к {Target}&lt;br&gt;" original="Tier Bonus: +{Bonus} to {Target}&lt;br&gt;"/>
+        <!-- Upgrade command results -->
+        <string id="BLT_UpgradeCapitalOnlyTag" text=" [ТОЛЬКО ДЛЯ СТОЛИЦЫ — используйте: capital list]" original=" [CAPITAL ONLY — use: capital list]"/>
+        <string id="BLT_UpgradeCastleSuffix" text=" Замок" original=" Castle"/>
+        <string id="BLT_UpgradeSettlementNotFound" text="Поселение '{Name}' не найдено" original="Settlement '{Name}' not found"/>
+        <string id="BLT_UpgradeTownsCastlesOnly" text="Улучшения доступны только городам и замкам" original="Only towns and castles can have upgrades"/>
+        <string id="BLT_UpgradeEntityHeader" text="=== Улучшения: {Name} ===" original="=== {Name} Upgrades ==="/>
+        <string id="BLT_UpgradeNonePurchased" text="Улучшения ещё не приобретены" original="No upgrades purchased yet"/>
+        <string id="BLT_UpgradePurchasedHeader" text="Приобретённые улучшения:" original="Purchased Upgrades:"/>
+        <string id="BLT_UpgradeClanNotFoundNoClan" text="Клан '{Name}' не найден, и вы не состоите в клане!" original="Clan '{Name}' not found and you have no clan!"/>
+        <string id="BLT_UpgradeKingdomNotFound" text="Королевство '{Name}' не найдено" original="Kingdom '{Name}' not found"/>
+        <string id="BLT_UpgradeNoFiefPermission" text="У вас нет разрешения улучшать поселение {Settlement}" original="You don't have permission to upgrade {Settlement}"/>
+        <string id="BLT_UpgradeFiefClanLeaderOnly" text="Только лидеры кланов могут приобретать улучшения владений" original="Only clan leaders can purchase fief upgrades"/>
+        <string id="BLT_UpgradeNotFound" text="Улучшение '{Id}' не найдено" original="Upgrade '{Id}' not found"/>
+        <string id="BLT_UpgradeCoastalOnly" text="Это улучшение доступно только на побережье; выберите прибрежное поселение" original="This is a Coastal Only upgrade, try again on a coastal settlement"/>
+        <string id="BLT_UpgradeAlreadyOwned" text="У {Name} уже есть это улучшение" original="{Name} already has this upgrade"/>
+        <string id="BLT_UpgradeRequiresFirst" text="Сначала требуются улучшения: {Upgrades}" original="Requires upgrade(s) first: {Upgrades}"/>
+        <string id="BLT_UpgradeForEntity" text="для {Name}" original="for {Name}"/>
+        <string id="BLT_UpgradeLogPurchasedFief" text="{Hero} приобрёл улучшения для {Settlement}" original="{Hero} purchased upgrades for {Settlement}"/>
+        <string id="BLT_UpgradeFiefsLabel" text="Владения" original="Fiefs"/>
+        <string id="BLT_UpgradeClanLabel" text="Клан" original="Clan"/>
+        <string id="BLT_UpgradeKingdomLabel" text="Королевство" original="Kingdom"/>
+        <string id="BLT_UpgradeNoneCouldBePurchased" text="Не удалось приобрести ни одного улучшения." original="No upgrades could be purchased."/>
+        <string id="BLT_UpgradeNotInClan" text="Вы не состоите в клане!" original="You are not in a clan!"/>
+        <string id="BLT_UpgradeNotInKingdom" text="Вы не состоите в королевстве!" original="You are not in a kingdom!"/>
+        <string id="BLT_UpgradeNoValidSettlements" text="Подходящие поселения не найдены" original="No valid settlements found"/>
+        <string id="BLT_UpgradePurchasedFiefBulk" text="Приобретено улучшений владений: {Count}; затронуто поселений: {Settlements}." original="Purchased {Count} fief upgrade(s) across {Settlements} settlement(s)."/>
+        <string id="BLT_UpgradeStopped" text=" Остановлено: {Reason}" original=" Stopped: {Reason}"/>
+        <string id="BLT_UpgradeLogPurchasedAllFiefs" text="{Hero} приобрёл все доступные улучшения владений" original="{Hero} purchased all available fief upgrades"/>
+        <string id="BLT_UpgradeNoFiefCouldBePurchased" text="Не удалось приобрести улучшения владений." original="No fief upgrades could be purchased."/>
+        <string id="BLT_UpgradeClanLeaderOnly" text="Только лидер клана может приобретать улучшения клана" original="Only clan leaders can purchase clan upgrades"/>
+        <string id="BLT_UpgradePurchasedClanBulk" text="Приобретено улучшений клана: {Count}." original="Purchased {Count} clan upgrades."/>
+        <string id="BLT_UpgradeKingdomRulerOnly" text="Только правитель королевства может приобретать улучшения королевства" original="Only the kingdom ruler can purchase kingdom upgrades"/>
+        <string id="BLT_UpgradePurchasedKingdomBulk" text="Приобретено улучшений королевства для {Kingdom}: {Count}." original="Purchased {Count} kingdom upgrade(s) for {Kingdom}."/>
+        <string id="BLT_UpgradeNoKingdomCouldBePurchased" text="Не удалось приобрести улучшения королевства." original="No kingdom upgrades could be purchased."/>
+        <string id="BLT_UpgradeCapitalOnlyDirect" text="'{Id}' — улучшение только для столицы; приобретите его непосредственно для столичного поселения" original="'{Id}' is a capital-only upgrade; purchase it for your capital settlement directly"/>
+        <string id="BLT_UpgradeSettlementMissing" text="{Settlement}: отсутствуют {Upgrades}" original="{Settlement}: missing {Upgrades}"/>
+        <string id="BLT_UpgradeLogPurchasedMultiple" text="{Hero} приобрёл улучшения для нескольких поселений" original="{Hero} purchased upgrades across multiple settlements"/>
+        <string id="BLT_UpgradeResultsHeader" text="=== Результаты улучшения ({Scope}) ===" original="=== Upgrade Results ({Scope}) ==="/>
+        <string id="BLT_UpgradeSettlementsUpdated" text="Поселений улучшено : {Count}" original="Settlements updated : {Count}"/>
+        <string id="BLT_UpgradeSettlementsSkipped" text="Поселений пропущено : {Count}  (уже приобретено или неприменимо)" original="Settlements skipped : {Count}  (already owned or ineligible)"/>
+        <string id="BLT_UpgradeSettlementsFailed" text="Ошибок в поселениях : {Count}" original="Settlements failed  : {Count}"/>
+        <string id="BLT_UpgradeTotalBought" text="Всего улучшений приобретено: {Count}" original="Total upgrades bought: {Count}"/>
+        <string id="BLT_UpgradeFailuresHeader" text="Ошибки:" original="Failures:"/>
+        <string id="BLT_UpgradeNotFoundInConfig" text="Улучшение '{Id}' не найдено в конфигурации" original="Upgrade '{Id}' not found in config"/>
+        <string id="BLT_UpgradeMustBeActiveCapital" text="'{Upgrade}' — улучшение только для столицы; поселение {Settlement} должно быть вашей действующей столицей" original="'{Upgrade}' is a capital-only upgrade — {Settlement} must be your active capital"/>
+        <string id="BLT_UpgradeLogPurchasedClan" text="{Hero} приобрёл улучшения клана для {Clan}" original="{Hero} purchased clan upgrade(s) for {Clan}"/>
+        <string id="BLT_UpgradePurchased" text="Приобретено улучшение '{Upgrade}'" original="Purchased '{Upgrade}'"/>
+        <string id="BLT_UpgradeLogPurchasedKingdom" text="{Hero} приобрёл улучшения королевства для {Kingdom}" original="{Hero} purchased kingdom upgrade(s) for {Kingdom}"/>
+        <string id="BLT_UpgradeNotEnoughInfluence" text="Недостаточно влияния (требуется {Need}, имеется {Have})" original="Not enough influence (need {Need}, have {Have})"/>
+        <string id="BLT_UpgradePurchaseFailed" text="Не удалось приобрести улучшение" original="Purchase failed"/>
+        <string id="BLT_UpgradeAutoPurchased" text="Автоматически приобретено: {Upgrades}" original="Auto-purchased: {Upgrades}"/>
+        <string id="BLT_UpgradePurchasedFor" text="Приобретено улучшение '{Upgrade}' {Context}!" original="Purchased '{Upgrade}' {Context}!"/>
+        <string id="BLT_UpgradePartiallyPurchased" text="Частично приобретены необходимые улучшения {Context}" original="Partially purchased prerequisites {Context}"/>
+        <string id="BLT_UpgradeStoppedSeparator" text=" | Остановлено: {Reason}" original=" | Stopped: {Reason}"/>
+        <string id="BLT_UpgradeNoModifyPermission" text="У вас нет разрешения изменять улучшения поселения {Settlement}" original="You don't have permission to modify {Settlement}"/>
+        <string id="BLT_UpgradeRemoveFiefLeaderOnly" text="Только лидеры кланов могут удалять улучшения владений" original="Only clan leaders can remove fief upgrades"/>
+        <string id="BLT_UpgradeCannotRemove" text="Улучшение '{Upgrade}' нельзя удалить" original="'{Upgrade}' cannot be removed"/>
+        <string id="BLT_UpgradeCapitalNotOwned" text="У клана {Clan} нет столичного улучшения '{Id}'" original="{Clan} doesn't have capital upgrade '{Id}'"/>
+        <string id="BLT_UpgradeRemovedCapital" text="Столичное улучшение '{Upgrade}' удалено у клана {Clan}!" original="Removed capital upgrade '{Upgrade}' from {Clan}!"/>
+        <string id="BLT_UpgradeLogRemovedCapital" text="{Hero} удалил столичное улучшение {Upgrade}" original="{Hero} removed capital upgrade {Upgrade}"/>
+        <string id="BLT_UpgradeNotOwned" text="У {Name} нет этого улучшения" original="{Name} doesn't have this upgrade"/>
+        <string id="BLT_UpgradeRemovedFrom" text="Улучшение '{Upgrade}' удалено у {Name}!" original="Removed '{Upgrade}' from {Name}!"/>
+        <string id="BLT_UpgradeLogRemovedFrom" text="{Hero} удалил улучшение {Upgrade} у {Name}" original="{Hero} removed {Upgrade} from {Name}"/>
+        <string id="BLT_UpgradeRemoveClanLeaderOnly" text="Только лидер клана может удалять улучшения клана" original="Only clan leaders can remove clan upgrades"/>
+        <string id="BLT_UpgradeRemoveKingdomRulerOnly" text="Только правитель королевства может удалять улучшения королевства" original="Only the kingdom ruler can remove kingdom upgrades"/>
 </strings>
 </base>

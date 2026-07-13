@@ -77,13 +77,14 @@ namespace BLTAdoptAHero.Actions
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.P($"<strong>Enabled:</strong> {(Enabled ? "Yes" : "No")}");
-                generator.P($"<strong>Allow List Command:</strong> {(AllowListCommand ? "Yes" : "No")}");
-                generator.P($"<strong>Kingdom Leaders Can Upgrade Fiefs:</strong> {(AllowKingdomLeadersForFiefs ? "Yes" : "No")}");
-                generator.P($"<strong>Any Clan Member Can Upgrade Clan:</strong> {(AllowAnyClanMemberForClanUpgrades ? "Yes" : "No")}");
-                generator.P($"<strong>Reserve Troops When Full:</strong> {(AccumulateWhenFull ? "Yes" : "No")}");
-                generator.P($"<strong>Independent Clans Count as Lords:</strong> {(IndependentClansCountAsLords ? "Yes" : "No")}");
-                generator.P($"<strong>Independent Clans Count as Mercenaries:</strong> {(IndependentClansCountAsMercs ? "Yes" : "No")}");
+                string YesNo(bool value) => value ? "{=BLT_UpgradeYes}Yes".Translate() : "{=BLT_UpgradeNo}No".Translate();
+                generator.P("{=BLT_UpgradeDocsEnabled}<strong>Enabled:</strong> {Value}".Translate(("Value", YesNo(Enabled))));
+                generator.P("{=BLT_UpgradeDocsAllowList}<strong>Allow List Command:</strong> {Value}".Translate(("Value", YesNo(AllowListCommand))));
+                generator.P("{=BLT_UpgradeDocsKingdomFiefs}<strong>Kingdom Leaders Can Upgrade Fiefs:</strong> {Value}".Translate(("Value", YesNo(AllowKingdomLeadersForFiefs))));
+                generator.P("{=BLT_UpgradeDocsAnyClanMember}<strong>Any Clan Member Can Upgrade Clan:</strong> {Value}".Translate(("Value", YesNo(AllowAnyClanMemberForClanUpgrades))));
+                generator.P("{=BLT_UpgradeDocsReserveTroops}<strong>Reserve Troops When Full:</strong> {Value}".Translate(("Value", YesNo(AccumulateWhenFull))));
+                generator.P("{=BLT_UpgradeDocsIndependentLords}<strong>Independent Clans Count as Lords:</strong> {Value}".Translate(("Value", YesNo(IndependentClansCountAsLords))));
+                generator.P("{=BLT_UpgradeDocsIndependentMercs}<strong>Independent Clans Count as Mercenaries:</strong> {Value}".Translate(("Value", YesNo(IndependentClansCountAsMercs))));
             }
         }
 
@@ -91,13 +92,13 @@ namespace BLTAdoptAHero.Actions
         {
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.H1("Upgrade System");
-                generator.P("This section contains all available upgrades organized by type and restrictions.");
+                generator.H1("{=BLT_UpgradeDocsSystem}Upgrade System".Translate());
+                generator.P("{=BLT_UpgradeDocsOverview}This section contains all available upgrades organized by type and restrictions.".Translate());
 
                 var config = GlobalCommonConfig.Get();
                 if (config == null)
                 {
-                    generator.P("Configuration not available");
+                    generator.P("{=BLT_UpgradeConfigUnavailable}Configuration not available".Translate());
                     return;
                 }
 
@@ -107,10 +108,10 @@ namespace BLTAdoptAHero.Actions
 
             private void GenerateUpgradeCounts(IDocumentationGenerator generator, GlobalCommonConfig config)
             {
-                generator.H2("Upgrade Counts");
-                generator.P($"<strong>Fief Upgrades:</strong> {config.FiefUpgrades?.Count ?? 0}");
-                generator.P($"<strong>Clan Upgrades:</strong> {config.ClanUpgrades?.Count ?? 0}");
-                generator.P($"<strong>Kingdom Upgrades:</strong> {config.KingdomUpgrades?.Count ?? 0}");
+                generator.H2("{=BLT_UpgradeDocsCounts}Upgrade Counts".Translate());
+                generator.P("{=BLT_UpgradeDocsFiefCount}<strong>Fief Upgrades:</strong> {Count}".Translate(("Count", config.FiefUpgrades?.Count ?? 0)));
+                generator.P("{=BLT_UpgradeDocsClanCount}<strong>Clan Upgrades:</strong> {Count}".Translate(("Count", config.ClanUpgrades?.Count ?? 0)));
+                generator.P("{=BLT_UpgradeDocsKingdomCount}<strong>Kingdom Upgrades:</strong> {Count}".Translate(("Count", config.KingdomUpgrades?.Count ?? 0)));
             }
 
             private void GenerateUpgradesTables(IDocumentationGenerator generator, GlobalCommonConfig config)
@@ -119,9 +120,9 @@ namespace BLTAdoptAHero.Actions
                 {
                     var standard = config.FiefUpgrades.Where(u => !u.CoastalOnly).ToList();
                     var coastal = config.FiefUpgrades.Where(u => u.CoastalOnly).ToList();
-                    generator.H2("Fief Upgrades");
-                    if (standard.Count > 0) { generator.H3("Standard Fief Upgrades"); GenerateFiefUpgradeTable(generator, standard); }
-                    if (coastal.Count > 0) { generator.H3("Coastal Only Fief Upgrades"); GenerateFiefUpgradeTable(generator, coastal); }
+                    generator.H2("{=BLT_UpgradeDocsFiefUpgrades}Fief Upgrades".Translate());
+                    if (standard.Count > 0) { generator.H3("{=BLT_UpgradeDocsStandardFiefs}Standard Fief Upgrades".Translate()); GenerateFiefUpgradeTable(generator, standard); }
+                    if (coastal.Count > 0) { generator.H3("{=BLT_UpgradeDocsCoastalFiefs}Coastal Only Fief Upgrades".Translate()); GenerateFiefUpgradeTable(generator, coastal); }
                 }
 
                 if (config.ClanUpgrades != null && config.ClanUpgrades.Count > 0)
@@ -130,16 +131,16 @@ namespace BLTAdoptAHero.Actions
                     var lord = config.ClanUpgrades.Where(u => u.LordOnly && !u.MercOnly && !u.ApplyToVassals).ToList();
                     var merc = config.ClanUpgrades.Where(u => u.MercOnly && !u.LordOnly && !u.ApplyToVassals).ToList();
                     var vassal = config.ClanUpgrades.Where(u => u.ApplyToVassals).ToList();
-                    generator.H2("Clan Upgrades");
-                    if (std.Count > 0) { generator.H3("Standard Clan Upgrades"); GenerateClanUpgradeTable(generator, std); }
-                    if (lord.Count > 0) { generator.H3("Lord Only Clan Upgrades"); GenerateClanUpgradeTable(generator, lord); }
-                    if (merc.Count > 0) { generator.H3("Mercenary Only Clan Upgrades"); GenerateClanUpgradeTable(generator, merc); }
-                    if (vassal.Count > 0) { generator.H3("Vassal Only Clan Upgrades"); GenerateClanUpgradeTable(generator, vassal); }
+                    generator.H2("{=BLT_UpgradeDocsClanUpgrades}Clan Upgrades".Translate());
+                    if (std.Count > 0) { generator.H3("{=BLT_UpgradeDocsStandardClans}Standard Clan Upgrades".Translate()); GenerateClanUpgradeTable(generator, std); }
+                    if (lord.Count > 0) { generator.H3("{=BLT_UpgradeDocsLordClans}Lord Only Clan Upgrades".Translate()); GenerateClanUpgradeTable(generator, lord); }
+                    if (merc.Count > 0) { generator.H3("{=BLT_UpgradeDocsMercenaryClans}Mercenary Only Clan Upgrades".Translate()); GenerateClanUpgradeTable(generator, merc); }
+                    if (vassal.Count > 0) { generator.H3("{=BLT_UpgradeDocsVassalClans}Vassal Only Clan Upgrades".Translate()); GenerateClanUpgradeTable(generator, vassal); }
                 }
 
                 if (config.KingdomUpgrades != null && config.KingdomUpgrades.Count > 0)
                 {
-                    generator.H2("Kingdom Upgrades");
+                    generator.H2("{=BLT_UpgradeDocsKingdomUpgrades}Kingdom Upgrades".Translate());
                     GenerateKingdomUpgradeTable(generator, config.KingdomUpgrades.ToList());
                 }
             }
@@ -148,7 +149,7 @@ namespace BLTAdoptAHero.Actions
             {
                 generator.Table("upgrade-table", () =>
                 {
-                    generator.TR(() => { generator.TH("ID"); generator.TH("Name"); generator.TH("Cost"); generator.TH("Tier"); generator.TH("Required"); generator.TH("Description"); });
+                    generator.TR(() => { generator.TH("{=BLT_UpgradeDocsId}ID".Translate()); generator.TH("{=BLT_UpgradeDocsName}Name".Translate()); generator.TH("{=BLT_UpgradeDocsCost}Cost".Translate()); generator.TH("{=BLT_UpgradeDocsTier}Tier".Translate()); generator.TH("{=BLT_UpgradeDocsRequired}Required".Translate()); generator.TH("{=BLT_UpgradeDocsDescription}Description".Translate()); });
                     foreach (var u in upgrades)
                     {
                         generator.TR(() =>
@@ -162,7 +163,7 @@ namespace BLTAdoptAHero.Actions
                             {
                                 generator.P(u.Description);
                                 if (ShouldShowFullDescription(u.ID))
-                                    generator.Details(() => { generator.Summary("View Details"); var fx = GetUpgradeEffects(u); if (!string.IsNullOrEmpty(fx)) generator.P(fx); });
+                                    generator.Details(() => { generator.Summary("{=BLT_UpgradeDocsViewDetails}View Details".Translate()); var fx = GetUpgradeEffects(u); if (!string.IsNullOrEmpty(fx)) generator.P(fx); });
                             });
                         });
                     }
@@ -173,7 +174,7 @@ namespace BLTAdoptAHero.Actions
             {
                 generator.Table("upgrade-table", () =>
                 {
-                    generator.TR(() => { generator.TH("ID"); generator.TH("Name"); generator.TH("Cost"); generator.TH("Tier"); generator.TH("Required"); generator.TH("Description"); });
+                    generator.TR(() => { generator.TH("{=BLT_UpgradeDocsId}ID".Translate()); generator.TH("{=BLT_UpgradeDocsName}Name".Translate()); generator.TH("{=BLT_UpgradeDocsCost}Cost".Translate()); generator.TH("{=BLT_UpgradeDocsTier}Tier".Translate()); generator.TH("{=BLT_UpgradeDocsRequired}Required".Translate()); generator.TH("{=BLT_UpgradeDocsDescription}Description".Translate()); });
                     foreach (var u in upgrades)
                     {
                         generator.TR(() =>
@@ -187,7 +188,7 @@ namespace BLTAdoptAHero.Actions
                             {
                                 generator.P(u.Description);
                                 if (ShouldShowFullDescription(u.ID))
-                                    generator.Details(() => { generator.Summary("View Details"); var fx = GetUpgradeEffects(u); if (!string.IsNullOrEmpty(fx)) generator.P(fx); });
+                                    generator.Details(() => { generator.Summary("{=BLT_UpgradeDocsViewDetails}View Details".Translate()); var fx = GetUpgradeEffects(u); if (!string.IsNullOrEmpty(fx)) generator.P(fx); });
                             });
                         });
                     }
@@ -198,7 +199,7 @@ namespace BLTAdoptAHero.Actions
             {
                 generator.Table("upgrade-table", () =>
                 {
-                    generator.TR(() => { generator.TH("ID"); generator.TH("Name"); generator.TH("Cost"); generator.TH("Tier"); generator.TH("Required"); generator.TH("Description"); });
+                    generator.TR(() => { generator.TH("{=BLT_UpgradeDocsId}ID".Translate()); generator.TH("{=BLT_UpgradeDocsName}Name".Translate()); generator.TH("{=BLT_UpgradeDocsCost}Cost".Translate()); generator.TH("{=BLT_UpgradeDocsTier}Tier".Translate()); generator.TH("{=BLT_UpgradeDocsRequired}Required".Translate()); generator.TH("{=BLT_UpgradeDocsDescription}Description".Translate()); });
                     foreach (var u in upgrades)
                     {
                         generator.TR(() =>
@@ -212,7 +213,7 @@ namespace BLTAdoptAHero.Actions
                             {
                                 generator.P(u.Description);
                                 if (ShouldShowFullDescription(u.ID))
-                                    generator.Details(() => { generator.Summary("View Details"); var fx = GetUpgradeEffects(u); if (!string.IsNullOrEmpty(fx)) generator.P(fx); });
+                                    generator.Details(() => { generator.Summary("{=BLT_UpgradeDocsViewDetails}View Details".Translate()); var fx = GetUpgradeEffects(u); if (!string.IsNullOrEmpty(fx)) generator.P(fx); });
                             });
                         });
                     }
@@ -222,23 +223,13 @@ namespace BLTAdoptAHero.Actions
             private string GetUpgradeEffects(FiefUpgrade u)
             {
                 var sb = new StringBuilder();
-                sb.AppendLine("<strong>Effects:</strong><br>");
-                if (u.CanBeRemoved) sb.AppendLine($"Can Be Removed<br>");
-                if (u.LoyaltyDailyFlat != 0) sb.AppendLine($"Loyalty: {Signed(u.LoyaltyDailyFlat)}/day<br>");
-                if (u.LoyaltyDailyPercent != 0) sb.AppendLine($"Loyalty: {Signed(u.LoyaltyDailyPercent)}%/day<br>");
-                if (u.ProsperityDailyFlat != 0) sb.AppendLine($"Prosperity: {Signed(u.ProsperityDailyFlat)}/day<br>");
-                if (u.ProsperityDailyPercent != 0) sb.AppendLine($"Prosperity: {Signed(u.ProsperityDailyPercent)}%/day<br>");
-                if (u.SecurityDailyFlat != 0) sb.AppendLine($"Security: {Signed(u.SecurityDailyFlat)}/day<br>");
-                if (u.SecurityDailyPercent != 0) sb.AppendLine($"Security: {Signed(u.SecurityDailyPercent)}%/day<br>");
-                if (u.MilitiaDailyFlat != 0) sb.AppendLine($"Militia: {Signed(u.MilitiaDailyFlat)}/day<br>");
-                if (u.MilitiaDailyPercent != 0) sb.AppendLine($"Militia: {Signed(u.MilitiaDailyPercent)}%/day<br>");
-                if (u.FoodDailyFlat != 0) sb.AppendLine($"Food: {Signed(u.FoodDailyFlat)}/day<br>");
-                if (u.FoodDailyPercent != 0) sb.AppendLine($"Food: {Signed(u.FoodDailyPercent)}%/day<br>");
-                if (u.TaxIncomeFlat != 0) sb.AppendLine($"Tax Income: {Signed(u.TaxIncomeFlat)}{Naming.Gold}/day<br>");
-                if (u.TaxIncomePercent != 0) sb.AppendLine($"Tax Income: {Signed(u.TaxIncomePercent)}%<br>");
-                if (u.GarrisonCapacityBonus != 0) sb.AppendLine($"Garrison Capacity: {Signed(u.GarrisonCapacityBonus)}<br>");
-                if (u.HearthDaily != 0) sb.AppendLine($"Hearth: {Signed(u.HearthDaily)}<br>");
-                return sb.Length > 0 ? sb.ToString() : "No effects configured";
+                sb.AppendLine("{=BLT_UpgradeDocsEffects}<strong>Effects:</strong><br>".Translate());
+                if (u.CanBeRemoved) sb.AppendLine("{=BLT_UpgradeDocsCanRemove}Can Be Removed<br>".Translate());
+                AppendSettlementEffects(sb, u.LoyaltyDailyFlat, u.LoyaltyDailyPercent, u.ProsperityDailyFlat,
+                    u.ProsperityDailyPercent, u.SecurityDailyFlat, u.SecurityDailyPercent, u.MilitiaDailyFlat,
+                    u.MilitiaDailyPercent, u.FoodDailyFlat, u.FoodDailyPercent, u.TaxIncomeFlat,
+                    u.TaxIncomePercent, u.GarrisonCapacityBonus, u.HearthDaily);
+                return sb.Length > 0 ? sb.ToString() : "{=BLT_UpgradeDocsNoEffects}No effects configured".Translate();
             }
 
             private string GetUpgradeEffects(ClanUpgrade u)
@@ -246,53 +237,43 @@ namespace BLTAdoptAHero.Actions
                 var sb = new StringBuilder();
                 if (u.RenownDaily != 0 || u.PartySizeBonus != 0 || u.PartySpeedBonus != 0 || u.PartyAmountBonus != 0 || u.MaxVassalsBonus != 0 || u.RetinueSizeBonus != 0 || u.ArmySpeedBonus != 0 || u.MercIncomeFlat != 0 || u.MercIncomePercent != 0)
                 {
-                    sb.AppendLine("<strong>Clan Effects:</strong><br>");
-                    if (u.RenownDaily != 0) sb.AppendLine($"Renown: {Signed(u.RenownDaily)}/day<br>");
-                    if (u.InfluenceDaily != 0) sb.AppendLine($"Influence: {Signed(u.InfluenceDaily)}/day<br>");
-                    if (u.PartySizeBonus != 0) sb.AppendLine($"Party Size: {Signed(u.PartySizeBonus)}<br>");
-                    if (u.PartySpeedBonus != 0) sb.AppendLine($"Party Speed: {Signed(u.PartySpeedBonus)}<br>");
-                    if (u.PartyAmountBonus != 0) sb.AppendLine($"Party Limit: {Signed(u.PartyAmountBonus)}<br>");
-                    if (u.MaxVassalsBonus != 0) sb.AppendLine($"Vassal Limit: {Signed(u.MaxVassalsBonus)}<br>");
-                    if (u.RetinueSizeBonus != 0) sb.AppendLine($"Retinue Size: {Signed(u.RetinueSizeBonus)}<br>");
-                    if (u.ArmySpeedBonus != 0) sb.AppendLine($"Army Speed: {Signed(u.ArmySpeedBonus)} " +
-                                                             $"(once/clan: {u.ArmySpeedOncePerClan})<br>");
-                    if (u.MercIncomeFlat != 0) sb.AppendLine($"Merc Income (Flat): {Signed(u.MercIncomeFlat)}/day<br>");
-                    if (u.MercIncomePercent != 0) sb.AppendLine($"Merc Income (%): {Signed(u.MercIncomePercent)}%/day<br>");
+                    sb.AppendLine("{=BLT_UpgradeDocsClanEffects}<strong>Clan Effects:</strong><br>".Translate());
+                    if (u.RenownDaily != 0) sb.AppendLine("{=BLT_UpgradeDocsRenownDaily}Renown: {Value}/day<br>".Translate(("Value", Signed(u.RenownDaily))));
+                    if (u.InfluenceDaily != 0) sb.AppendLine("{=BLT_UpgradeDocsInfluenceDaily}Influence: {Value}/day<br>".Translate(("Value", Signed(u.InfluenceDaily))));
+                    if (u.PartySizeBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsPartySize}Party Size: {Value}<br>".Translate(("Value", Signed(u.PartySizeBonus))));
+                    if (u.PartySpeedBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsPartySpeed}Party Speed: {Value}<br>".Translate(("Value", Signed(u.PartySpeedBonus))));
+                    if (u.PartyAmountBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsPartyLimit}Party Limit: {Value}<br>".Translate(("Value", Signed(u.PartyAmountBonus))));
+                    if (u.MaxVassalsBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsVassalLimit}Vassal Limit: {Value}<br>".Translate(("Value", Signed(u.MaxVassalsBonus))));
+                    if (u.RetinueSizeBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsRetinueSize}Retinue Size: {Value}<br>".Translate(("Value", Signed(u.RetinueSizeBonus))));
+                    if (u.ArmySpeedBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsArmySpeed}Army Speed: {Value} (once/clan: {OncePerClan})<br>"
+                        .Translate(("Value", Signed(u.ArmySpeedBonus)), ("OncePerClan", FormatYesNo(u.ArmySpeedOncePerClan))));
+                    if (u.MercIncomeFlat != 0) sb.AppendLine("{=BLT_UpgradeDocsMercIncomeFlat}Merc Income (Flat): {Value}/day<br>".Translate(("Value", Signed(u.MercIncomeFlat))));
+                    if (u.MercIncomePercent != 0) sb.AppendLine("{=BLT_UpgradeDocsMercIncomePercent}Merc Income (%): {Value}%/day<br>".Translate(("Value", Signed(u.MercIncomePercent))));
                 }
                 if (u.LoyaltyDailyFlat != 0 || u.LoyaltyDailyPercent != 0 || u.ProsperityDailyFlat != 0 || u.ProsperityDailyPercent != 0 ||
                     u.SecurityDailyFlat != 0 || u.SecurityDailyPercent != 0 || u.MilitiaDailyFlat != 0 || u.MilitiaDailyPercent != 0 ||
                     u.FoodDailyFlat != 0 || u.FoodDailyPercent != 0 || u.TaxIncomeFlat != 0 || u.TaxIncomePercent != 0 ||
                     u.GarrisonCapacityBonus != 0 || u.HearthDaily != 0)
                 {
-                    sb.AppendLine("<br><strong>Settlement Effects:</strong><br>");
-                    if (u.LoyaltyDailyFlat != 0) sb.AppendLine($"Loyalty: {Signed(u.LoyaltyDailyFlat)}/day<br>");
-                    if (u.LoyaltyDailyPercent != 0) sb.AppendLine($"Loyalty: {Signed(u.LoyaltyDailyPercent)}%/day<br>");
-                    if (u.ProsperityDailyFlat != 0) sb.AppendLine($"Prosperity: {Signed(u.ProsperityDailyFlat)}/day<br>");
-                    if (u.ProsperityDailyPercent != 0) sb.AppendLine($"Prosperity: {Signed(u.ProsperityDailyPercent)}%/day<br>");
-                    if (u.SecurityDailyFlat != 0) sb.AppendLine($"Security: {Signed(u.SecurityDailyFlat)}/day<br>");
-                    if (u.SecurityDailyPercent != 0) sb.AppendLine($"Security: {Signed(u.SecurityDailyPercent)}%/day<br>");
-                    if (u.MilitiaDailyFlat != 0) sb.AppendLine($"Militia: {Signed(u.MilitiaDailyFlat)}/day<br>");
-                    if (u.MilitiaDailyPercent != 0) sb.AppendLine($"Militia: {Signed(u.MilitiaDailyPercent)}%/day<br>");
-                    if (u.FoodDailyFlat != 0) sb.AppendLine($"Food: {Signed(u.FoodDailyFlat)}/day<br>");
-                    if (u.FoodDailyPercent != 0) sb.AppendLine($"Food: {Signed(u.FoodDailyPercent)}%/day<br>");
-                    if (u.TaxIncomeFlat != 0) sb.AppendLine($"Tax Income: {Signed(u.TaxIncomeFlat)}{Naming.Gold}/day<br>");
-                    if (u.TaxIncomePercent != 0) sb.AppendLine($"Tax Income: {Signed(u.TaxIncomePercent)}%<br>");
-                    if (u.GarrisonCapacityBonus != 0) sb.AppendLine($"Garrison Capacity: {Signed(u.GarrisonCapacityBonus)}<br>");
-                    if (u.HearthDaily != 0) sb.AppendLine($"Hearth: {Signed(u.HearthDaily)}<br>");
+                    sb.AppendLine("{=BLT_UpgradeDocsSettlementEffects}<br><strong>Settlement Effects:</strong><br>".Translate());
+                    AppendSettlementEffects(sb, u.LoyaltyDailyFlat, u.LoyaltyDailyPercent, u.ProsperityDailyFlat,
+                        u.ProsperityDailyPercent, u.SecurityDailyFlat, u.SecurityDailyPercent, u.MilitiaDailyFlat,
+                        u.MilitiaDailyPercent, u.FoodDailyFlat, u.FoodDailyPercent, u.TaxIncomeFlat,
+                        u.TaxIncomePercent, u.GarrisonCapacityBonus, u.HearthDaily);
                 }
                 if (u.DailyTroopSpawnAmount > 0 || u.TroopTierBonus > 0)
                 {
-                    sb.AppendLine("<br><strong>Troop Spawning:</strong><br>");
+                    sb.AppendLine("{=BLT_UpgradeDocsTroopSpawning}<br><strong>Troop Spawning:</strong><br>".Translate());
                     if (u.DailyTroopSpawnAmount > 0)
                     {
-                        sb.AppendLine($"Daily Spawn: {u.DailyTroopSpawnAmount} troops/day<br>");
-                        sb.AppendLine($"Troop Tree: {u.TroopTree}<br>");
-                        sb.AppendLine($"Base Tier: {u.TroopTier}<br>");
+                        sb.AppendLine("{=BLT_UpgradeDocsDailySpawn}Daily Spawn: {Amount} troops/day<br>".Translate(("Amount", u.DailyTroopSpawnAmount)));
+                        sb.AppendLine("{=BLT_UpgradeDocsTroopTree}Troop Tree: {Tree}<br>".Translate(("Tree", u.TroopTree)));
+                        sb.AppendLine("{=BLT_UpgradeDocsBaseTier}Base Tier: {Tier}<br>".Translate(("Tier", u.TroopTier)));
                     }
                     if (u.TroopTierBonus > 0 && !string.IsNullOrEmpty(u.BuffsTroopTierOf))
-                        sb.AppendLine($"Tier Bonus: +{u.TroopTierBonus} to {u.BuffsTroopTierOf}<br>");
+                        sb.AppendLine("{=BLT_UpgradeDocsTierBonus}Tier Bonus: +{Bonus} to {Target}<br>".Translate(("Bonus", u.TroopTierBonus), ("Target", u.BuffsTroopTierOf)));
                 }
-                return sb.Length > 0 ? sb.ToString() : "No effects configured";
+                return sb.Length > 0 ? sb.ToString() : "{=BLT_UpgradeDocsNoEffects}No effects configured".Translate();
             }
 
             private string GetUpgradeEffects(KingdomUpgrade u)
@@ -300,60 +281,73 @@ namespace BLTAdoptAHero.Actions
                 var sb = new StringBuilder();
                 if (u.InfluenceDaily != 0 || u.MaxClansBonus != 0 || u.MaxMercClansBonus != 0)
                 {
-                    sb.AppendLine("<strong>Kingdom Effects:</strong><br>");
-                    if (u.InfluenceDaily != 0) sb.AppendLine($"Influence: {Signed(u.InfluenceDaily)}/day (ruler only)<br>");
-                    if (u.MaxClansBonus != 0) sb.AppendLine($"Max Clans: {Signed(u.MaxClansBonus)}<br>");
-                    if (u.MaxMercClansBonus != 0) sb.AppendLine($"Max Merc Clans: {Signed(u.MaxMercClansBonus)}<br>");
+                    sb.AppendLine("{=BLT_UpgradeDocsKingdomEffects}<strong>Kingdom Effects:</strong><br>".Translate());
+                    if (u.InfluenceDaily != 0) sb.AppendLine("{=BLT_UpgradeDocsRulerInfluence}Influence: {Value}/day (ruler only)<br>".Translate(("Value", Signed(u.InfluenceDaily))));
+                    if (u.MaxClansBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsMaxClans}Max Clans: {Value}<br>".Translate(("Value", Signed(u.MaxClansBonus))));
+                    if (u.MaxMercClansBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsMaxMercClans}Max Merc Clans: {Value}<br>".Translate(("Value", Signed(u.MaxMercClansBonus))));
                 }
                 if (u.RenownDaily != 0 || u.PartySizeBonus != 0 || u.PartySpeedBonus != 0 || u.InfluenceDaily != 0 || u.RetinueSizeBonus != 0 || u.ArmySpeedBonus != 0)
                 {
-                    sb.AppendLine("<br><strong>Clan Effects (All Kingdom Clans):</strong><br>");
-                    if (u.RenownDaily != 0) sb.AppendLine($"Renown: {Signed(u.RenownDaily)}/day<br>");
-                    if (u.PartySizeBonus != 0) sb.AppendLine($"Party Size: {Signed(u.PartySizeBonus)}<br>");
-                    if (u.PartySpeedBonus != 0) sb.AppendLine($"Party Speed: {Signed(u.PartySpeedBonus)}<br>");
-                    if (u.InfluenceDaily != 0) sb.AppendLine($"Influence: {Signed(u.InfluenceDaily)}/day (all clans)<br>");
-                    if (u.RetinueSizeBonus != 0) sb.AppendLine($"Retinue Size: {Signed(u.RetinueSizeBonus)} per clan<br>");
-                    if (u.ArmySpeedBonus != 0) sb.AppendLine($"Army Speed: {Signed(u.ArmySpeedBonus)} per clan in army " +
-                                                             $"(once/clan: {u.ArmySpeedOncePerClan})<br>");
+                    sb.AppendLine("{=BLT_UpgradeDocsAllClanEffects}<br><strong>Clan Effects (All Kingdom Clans):</strong><br>".Translate());
+                    if (u.RenownDaily != 0) sb.AppendLine("{=BLT_UpgradeDocsRenownDaily}Renown: {Value}/day<br>".Translate(("Value", Signed(u.RenownDaily))));
+                    if (u.PartySizeBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsPartySize}Party Size: {Value}<br>".Translate(("Value", Signed(u.PartySizeBonus))));
+                    if (u.PartySpeedBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsPartySpeed}Party Speed: {Value}<br>".Translate(("Value", Signed(u.PartySpeedBonus))));
+                    if (u.InfluenceDaily != 0) sb.AppendLine("{=BLT_UpgradeDocsAllClanInfluence}Influence: {Value}/day (all clans)<br>".Translate(("Value", Signed(u.InfluenceDaily))));
+                    if (u.RetinueSizeBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsRetinuePerClan}Retinue Size: {Value} per clan<br>".Translate(("Value", Signed(u.RetinueSizeBonus))));
+                    if (u.ArmySpeedBonus != 0) sb.AppendLine("{=BLT_UpgradeDocsArmySpeedPerClan}Army Speed: {Value} per clan in army (once/clan: {OncePerClan})<br>"
+                        .Translate(("Value", Signed(u.ArmySpeedBonus)), ("OncePerClan", FormatYesNo(u.ArmySpeedOncePerClan))));
                 }
                 if (u.LoyaltyDailyFlat != 0 || u.LoyaltyDailyPercent != 0 || u.ProsperityDailyFlat != 0 || u.ProsperityDailyPercent != 0 ||
                     u.SecurityDailyFlat != 0 || u.SecurityDailyPercent != 0 || u.MilitiaDailyFlat != 0 || u.MilitiaDailyPercent != 0 ||
                     u.FoodDailyFlat != 0 || u.FoodDailyPercent != 0 || u.TaxIncomeFlat != 0 || u.TaxIncomePercent != 0 ||
                     u.GarrisonCapacityBonus != 0 || u.HearthDaily != 0)
                 {
-                    sb.AppendLine("<br><strong>Settlement Effects (All Kingdom Settlements):</strong><br>");
-                    if (u.LoyaltyDailyFlat != 0) sb.AppendLine($"Loyalty: {Signed(u.LoyaltyDailyFlat)}/day<br>");
-                    if (u.LoyaltyDailyPercent != 0) sb.AppendLine($"Loyalty: {Signed(u.LoyaltyDailyPercent)}%/day<br>");
-                    if (u.ProsperityDailyFlat != 0) sb.AppendLine($"Prosperity: {Signed(u.ProsperityDailyFlat)}/day<br>");
-                    if (u.ProsperityDailyPercent != 0) sb.AppendLine($"Prosperity: {Signed(u.ProsperityDailyPercent)}%/day<br>");
-                    if (u.SecurityDailyFlat != 0) sb.AppendLine($"Security: {Signed(u.SecurityDailyFlat)}/day<br>");
-                    if (u.SecurityDailyPercent != 0) sb.AppendLine($"Security: {Signed(u.SecurityDailyPercent)}%/day<br>");
-                    if (u.MilitiaDailyFlat != 0) sb.AppendLine($"Militia: {Signed(u.MilitiaDailyFlat)}/day<br>");
-                    if (u.MilitiaDailyPercent != 0) sb.AppendLine($"Militia: {Signed(u.MilitiaDailyPercent)}%/day<br>");
-                    if (u.FoodDailyFlat != 0) sb.AppendLine($"Food: {Signed(u.FoodDailyFlat)}/day<br>");
-                    if (u.FoodDailyPercent != 0) sb.AppendLine($"Food: {Signed(u.FoodDailyPercent)}%/day<br>");
-                    if (u.TaxIncomeFlat != 0) sb.AppendLine($"Tax Income: {Signed(u.TaxIncomeFlat)}{Naming.Gold}/day<br>");
-                    if (u.TaxIncomePercent != 0) sb.AppendLine($"Tax Income: {Signed(u.TaxIncomePercent)}%<br>");
-                    if (u.GarrisonCapacityBonus != 0) sb.AppendLine($"Garrison Capacity: {Signed(u.GarrisonCapacityBonus)}<br>");
-                    if (u.HearthDaily != 0) sb.AppendLine($"Hearth: {Signed(u.HearthDaily)}<br>");
+                    sb.AppendLine("{=BLT_UpgradeDocsAllSettlementEffects}<br><strong>Settlement Effects (All Kingdom Settlements):</strong><br>".Translate());
+                    AppendSettlementEffects(sb, u.LoyaltyDailyFlat, u.LoyaltyDailyPercent, u.ProsperityDailyFlat,
+                        u.ProsperityDailyPercent, u.SecurityDailyFlat, u.SecurityDailyPercent, u.MilitiaDailyFlat,
+                        u.MilitiaDailyPercent, u.FoodDailyFlat, u.FoodDailyPercent, u.TaxIncomeFlat,
+                        u.TaxIncomePercent, u.GarrisonCapacityBonus, u.HearthDaily);
                 }
                 if (u.DailyTroopSpawnAmount > 0 || u.TroopTierBonus > 0)
                 {
-                    sb.AppendLine("<br><strong>Troop Spawning (All Kingdom Clans):</strong><br>");
+                    sb.AppendLine("{=BLT_UpgradeDocsAllTroopSpawning}<br><strong>Troop Spawning (All Kingdom Clans):</strong><br>".Translate());
                     if (u.DailyTroopSpawnAmount > 0)
                     {
-                        sb.AppendLine($"Daily Spawn: {u.DailyTroopSpawnAmount} troops/day per clan<br>");
-                        sb.AppendLine($"Troop Tree: {u.TroopTree}<br>");
-                        sb.AppendLine($"Base Tier: {u.TroopTier}<br>");
+                        sb.AppendLine("{=BLT_UpgradeDocsDailySpawnPerClan}Daily Spawn: {Amount} troops/day per clan<br>".Translate(("Amount", u.DailyTroopSpawnAmount)));
+                        sb.AppendLine("{=BLT_UpgradeDocsTroopTree}Troop Tree: {Tree}<br>".Translate(("Tree", u.TroopTree)));
+                        sb.AppendLine("{=BLT_UpgradeDocsBaseTier}Base Tier: {Tier}<br>".Translate(("Tier", u.TroopTier)));
                     }
                     if (u.TroopTierBonus > 0 && !string.IsNullOrEmpty(u.BuffsTroopTierOf))
-                        sb.AppendLine($"Tier Bonus: +{u.TroopTierBonus} to {u.BuffsTroopTierOf}<br>");
+                        sb.AppendLine("{=BLT_UpgradeDocsTierBonus}Tier Bonus: +{Bonus} to {Target}<br>".Translate(("Bonus", u.TroopTierBonus), ("Target", u.BuffsTroopTierOf)));
                 }
-                return sb.Length > 0 ? sb.ToString() : "No effects configured";
+                return sb.Length > 0 ? sb.ToString() : "{=BLT_UpgradeDocsNoEffects}No effects configured".Translate();
+            }
+
+            private static void AppendSettlementEffects(StringBuilder sb, float loyaltyFlat, float loyaltyPercent,
+                float prosperityFlat, float prosperityPercent, float securityFlat, float securityPercent,
+                float militiaFlat, float militiaPercent, float foodFlat, float foodPercent, int taxFlat,
+                float taxPercent, int garrisonCapacity, float hearth)
+            {
+                if (loyaltyFlat != 0) sb.AppendLine("{=BLT_UpgradeDocsLoyaltyDaily}Loyalty: {Value}/day<br>".Translate(("Value", Signed(loyaltyFlat))));
+                if (loyaltyPercent != 0) sb.AppendLine("{=BLT_UpgradeDocsLoyaltyPercent}Loyalty: {Value}%/day<br>".Translate(("Value", Signed(loyaltyPercent))));
+                if (prosperityFlat != 0) sb.AppendLine("{=BLT_UpgradeDocsProsperityDaily}Prosperity: {Value}/day<br>".Translate(("Value", Signed(prosperityFlat))));
+                if (prosperityPercent != 0) sb.AppendLine("{=BLT_UpgradeDocsProsperityPercent}Prosperity: {Value}%/day<br>".Translate(("Value", Signed(prosperityPercent))));
+                if (securityFlat != 0) sb.AppendLine("{=BLT_UpgradeDocsSecurityDaily}Security: {Value}/day<br>".Translate(("Value", Signed(securityFlat))));
+                if (securityPercent != 0) sb.AppendLine("{=BLT_UpgradeDocsSecurityPercent}Security: {Value}%/day<br>".Translate(("Value", Signed(securityPercent))));
+                if (militiaFlat != 0) sb.AppendLine("{=BLT_UpgradeDocsMilitiaDaily}Militia: {Value}/day<br>".Translate(("Value", Signed(militiaFlat))));
+                if (militiaPercent != 0) sb.AppendLine("{=BLT_UpgradeDocsMilitiaPercent}Militia: {Value}%/day<br>".Translate(("Value", Signed(militiaPercent))));
+                if (foodFlat != 0) sb.AppendLine("{=BLT_UpgradeDocsFoodDaily}Food: {Value}/day<br>".Translate(("Value", Signed(foodFlat))));
+                if (foodPercent != 0) sb.AppendLine("{=BLT_UpgradeDocsFoodPercent}Food: {Value}%/day<br>".Translate(("Value", Signed(foodPercent))));
+                if (taxFlat != 0) sb.AppendLine("{=BLT_UpgradeDocsTaxDaily}Tax Income: {Value}{Gold}/day<br>".Translate(("Value", Signed(taxFlat)), ("Gold", Naming.Gold)));
+                if (taxPercent != 0) sb.AppendLine("{=BLT_UpgradeDocsTaxPercent}Tax Income: {Value}%<br>".Translate(("Value", Signed(taxPercent))));
+                if (garrisonCapacity != 0) sb.AppendLine("{=BLT_UpgradeDocsGarrisonCapacity}Garrison Capacity: {Value}<br>".Translate(("Value", Signed(garrisonCapacity))));
+                if (hearth != 0) sb.AppendLine("{=BLT_UpgradeDocsHearth}Hearth: {Value}<br>".Translate(("Value", Signed(hearth))));
             }
 
             private static string Signed(float v) => v > 0 ? $"+{v}" : v.ToString();
             private static string Signed(int v) => v > 0 ? $"+{v}" : v.ToString();
+            private static string FormatYesNo(bool value)
+                => value ? "{=BLT_UpgradeYes}Yes".Translate() : "{=BLT_UpgradeNo}No".Translate();
 
             private bool ShouldShowFullDescription(string upgradeId)
             {
@@ -369,13 +363,13 @@ namespace BLTAdoptAHero.Actions
 
         protected override void ExecuteInternal(Hero adoptedHero, ReplyContext context, object config, Action<string> onSuccess, Action<string> onFailure)
         {
-            if (config is not Settings settings) { onFailure("Invalid configuration"); return; }
+            if (config is not Settings settings) { onFailure("{=BLT_UpgradeInvalidConfig}Invalid configuration".Translate()); return; }
             if (adoptedHero == null) { onFailure(AdoptAHero.NoHeroMessage); return; }
             if (!settings.Enabled) { onFailure("{=BLT_UpgradeDisabled}The upgrade system is disabled".Translate()); return; }
             if (Mission.Current != null) { onFailure("{=BLT_NoMission}Cannot use this command during a mission".Translate()); return; }
             if (context.Args.IsEmpty())
             {
-                onFailure("Usage: [auto|bulk] all | fief <settlement_name|all> [upgrade_id] | clan <upgrade_id|all> | kingdom <upgrade_id|all> | info <fief|clan|kingdom> <name> | list [fief|clan|kingdom] | remove <fief|clan|kingdom> <name> <upgrade_id>");
+                onFailure("{=BLT_UpgradeUsage}Usage: [auto|bulk] all | fief <settlement_name|all> [upgrade_id] | clan <upgrade_id|all> | kingdom <upgrade_id|all> | info <fief|clan|kingdom> <name> | list [fief|clan|kingdom] | remove <fief|clan|kingdom> <name> <upgrade_id>".Translate());
                 return;
             }
 
@@ -388,49 +382,55 @@ namespace BLTAdoptAHero.Actions
             }
 
             var globalConfig = GlobalCommonConfig.Get();
-            if (globalConfig == null) { onFailure("Configuration not available"); return; }
+            if (globalConfig == null) { onFailure("{=BLT_UpgradeConfigUnavailable}Configuration not available".Translate()); return; }
 
             // ── Parse special flags (position-independent) ──────────────────────
             var rawArgs = context.Args.Split(' ');
 
-            bool autoBuy = rawArgs.Any(a => a.Equals("auto", OIC) || a.Equals("bulk", OIC));
+            bool autoBuy = rawArgs.Any(a => MatchesCommand(a, "{=BLT_UpgradeArgAuto}auto".Translate(), "auto")
+                                            || MatchesCommand(a, "{=BLT_UpgradeArgBulk}bulk".Translate(), "bulk"));
 
             var rawWithoutAuto = rawArgs
-                .Where(a => !a.Equals("auto", OIC) && !a.Equals("bulk", OIC))
+                .Where(a => !MatchesCommand(a, "{=BLT_UpgradeArgAuto}auto".Translate(), "auto")
+                            && !MatchesCommand(a, "{=BLT_UpgradeArgBulk}bulk".Translate(), "bulk"))
                 .ToArray();
 
             if (rawWithoutAuto.Length == 0)
             {
-                onFailure("No command specified after flags");
+                onFailure("{=BLT_UpgradeNoCommandAfterFlags}No command specified after flags".Translate());
                 return;
             }
 
-            var command = rawWithoutAuto[0].ToLowerInvariant();
+            var command = GetCommand(rawWithoutAuto[0]);
 
-            bool applyAll = command == "fief" && rawWithoutAuto.Length == 2 && rawWithoutAuto[1].Equals("all", OIC);
-            bool applyAllK = command == "fief" && rawWithoutAuto.Any(a => a.Equals("allk", OIC));
+            bool applyAll = command == "fief" && rawWithoutAuto.Length == 2
+                                                   && MatchesCommand(rawWithoutAuto[1], "{=BLT_UpgradeArgAll}all".Translate(), "all");
+            bool applyAllK = command == "fief" && rawWithoutAuto.Any(a =>
+                MatchesCommand(a, "{=BLT_UpgradeArgAllKingdom}allk".Translate(), "allk"));
 
             if (applyAll && applyAllK)
             {
-                onFailure("'all' and 'allk' cannot be used together");
+                onFailure("{=BLT_UpgradeConflictingScopes}'all' and 'allk' cannot be used together".Translate());
                 return;
             }
 
             var cleanArgs = rawWithoutAuto
-                .Where(a => command != "fief" || (!a.Equals("all", OIC) && !a.Equals("allk", OIC)))
+                .Where(a => command != "fief"
+                            || (!MatchesCommand(a, "{=BLT_UpgradeArgAll}all".Translate(), "all")
+                                && !MatchesCommand(a, "{=BLT_UpgradeArgAllKingdom}allk".Translate(), "allk")))
                 .ToArray();
 
             if (cleanArgs.Length == 0)
             {
-                onFailure("No command specified after flags");
+                onFailure("{=BLT_UpgradeNoCommandAfterFlags}No command specified after flags".Translate());
                 return;
             }
             
             // ── list ────────────────────────────────────────────────────────────
             if (command == "list")
             {
-                if (!settings.AllowListCommand) { onFailure("The list command is disabled"); return; }
-                string type = cleanArgs.Length > 1 ? cleanArgs[1].ToLowerInvariant() : "all";
+                if (!settings.AllowListCommand) { onFailure("{=BLT_UpgradeListDisabled}The list command is disabled".Translate()); return; }
+                string type = cleanArgs.Length > 1 ? GetCommand(cleanArgs[1]) : "all";
                 HandleListCommand(type, globalConfig, onSuccess, onFailure);
                 return;
             }
@@ -438,8 +438,8 @@ namespace BLTAdoptAHero.Actions
             // ── info ────────────────────────────────────────────────────────────
             if (command == "info")
             {
-                if (cleanArgs.Length < 2) { onFailure("Usage: info <fief|clan|kingdom> <name>"); return; }
-                string type = cleanArgs[1].ToLowerInvariant();
+                if (cleanArgs.Length < 2) { onFailure("{=BLT_UpgradeInfoUsage}Usage: info <fief|clan|kingdom> <name>".Translate()); return; }
+                string type = GetCommand(cleanArgs[1]);
                 string name = string.Join(" ", cleanArgs.Skip(2));
                 HandleInfoCommand(type, name, adoptedHero, globalConfig, onSuccess, onFailure);
                 return;
@@ -448,11 +448,11 @@ namespace BLTAdoptAHero.Actions
             // ── remove ──────────────────────────────────────────────────────────
             if (command == "remove")
             {
-                if (cleanArgs.Length < 3) { onFailure("Usage: remove <fief|clan|kingdom> <settlement_name/upgrade_id> [upgrade_id]"); return; }
-                string type = cleanArgs[1].ToLowerInvariant();
+                if (cleanArgs.Length < 3) { onFailure("{=BLT_UpgradeRemoveUsage}Usage: remove <fief|clan|kingdom> <settlement_name/upgrade_id> [upgrade_id]".Translate()); return; }
+                string type = GetCommand(cleanArgs[1]);
                 if (type == "fief")
                 {
-                    if (cleanArgs.Length < 4) { onFailure("Usage: remove fief <settlement_name> <upgrade_id>"); return; }
+                    if (cleanArgs.Length < 4) { onFailure("{=BLT_UpgradeRemoveFiefUsage}Usage: remove fief <settlement_name> <upgrade_id>".Translate()); return; }
                     string tName = string.Join(" ", cleanArgs.Skip(2).Take(cleanArgs.Length - 3));
                     string uId = cleanArgs.Last();
                     HandleRemoveCommand(type, tName, uId, adoptedHero, settings, globalConfig, onSuccess, onFailure);
@@ -467,7 +467,7 @@ namespace BLTAdoptAHero.Actions
             // ── purchase (fief / clan / kingdom) ────────────────────────────────
             if (command == "all")
             {
-                if (cleanArgs.Length != 1) { onFailure("Usage: [auto|bulk] all"); return; }
+                if (cleanArgs.Length != 1) { onFailure("{=BLT_UpgradeAllUsage}Usage: [auto|bulk] all".Translate()); return; }
                 PurchaseAllAvailableUpgrades(adoptedHero, settings, globalConfig, autoBuy, onSuccess, onFailure);
                 return;
             }
@@ -482,17 +482,19 @@ namespace BLTAdoptAHero.Actions
 
             if (needsSettlementName && cleanArgs.Length < 3)
             {
-                onFailure("Usage: [auto|bulk] fief <settlement_name> <upgrade_id>");
+                onFailure("{=BLT_UpgradeFiefUsage}Usage: [auto|bulk] fief <settlement_name> <upgrade_id>".Translate());
                 return;
             }
             else if (!needsSettlementName && (command == "fief" || command == "clan" || command == "kingdom") && cleanArgs.Length < 2)
             {
-                onFailure($"Usage: [auto|bulk] {command} [all|allk] <upgrade_id>");
+                onFailure("{=BLT_UpgradeTypeUsage}Usage: [auto|bulk] {Command} [all|allk] <upgrade_id>"
+                    .Translate(("Command", GetCommandDisplayName(command))));
                 return;
             }
             else if (command != "fief" && command != "clan" && command != "kingdom")
             {
-                onFailure($"Unknown command '{command}'. Use all, fief, clan, or kingdom");
+                onFailure("{=BLT_UpgradeUnknownCommand}Unknown command '{Command}'. Use all, fief, clan, or kingdom"
+                    .Translate(("Command", command)));
                 return;
             }
 
@@ -511,6 +513,38 @@ namespace BLTAdoptAHero.Actions
 
             HandlePurchaseCommand(command, targetName, upgradeId, adoptedHero, settings, globalConfig, autoBuy, applyAll, applyAllK, onSuccess, onFailure);
         }
+
+        private static string GetCommand(string command)
+        {
+            if (string.IsNullOrWhiteSpace(command)) return "";
+
+            command = command.Trim();
+
+            if (MatchesCommand(command, "{=BLT_UpgradeArgAuto}auto".Translate(), "auto")) return "auto";
+            if (MatchesCommand(command, "{=BLT_UpgradeArgBulk}bulk".Translate(), "bulk")) return "bulk";
+            if (MatchesCommand(command, "{=BLT_UpgradeArgAll}all".Translate(), "all")) return "all";
+            if (MatchesCommand(command, "{=BLT_UpgradeArgAllKingdom}allk".Translate(), "allk")) return "allk";
+            if (MatchesCommand(command, "{=BLT_UpgradeSubList}list".Translate(), "list")) return "list";
+            if (MatchesCommand(command, "{=BLT_UpgradeSubInfo}info".Translate(), "info")) return "info";
+            if (MatchesCommand(command, "{=BLT_UpgradeSubRemove}remove".Translate(), "remove")) return "remove";
+            if (MatchesCommand(command, "{=BLT_UpgradeTypeFief}fief".Translate(), "fief")) return "fief";
+            if (MatchesCommand(command, "{=BLT_UpgradeTypeClan}clan".Translate(), "clan")) return "clan";
+            if (MatchesCommand(command, "{=BLT_UpgradeTypeKingdom}kingdom".Translate(), "kingdom")) return "kingdom";
+
+            return command.ToLowerInvariant();
+        }
+
+        private static bool MatchesCommand(string command, string translatedCommand, string defaultCommand)
+            => command.Equals(defaultCommand, StringComparison.OrdinalIgnoreCase)
+               || command.Equals(translatedCommand, StringComparison.OrdinalIgnoreCase);
+
+        private static string GetCommandDisplayName(string command) => command switch
+        {
+            "fief" => "{=BLT_UpgradeTypeFief}fief".Translate(),
+            "clan" => "{=BLT_UpgradeTypeClan}clan".Translate(),
+            "kingdom" => "{=BLT_UpgradeTypeKingdom}kingdom".Translate(),
+            _ => command
+        };
 
         // ════════════════════════════════════════════════════════════════════════
         // Auto-buy prerequisite chain builders
@@ -583,37 +617,40 @@ namespace BLTAdoptAHero.Actions
         private void HandleListCommand(string type, GlobalCommonConfig gc, Action<string> ok, Action<string> fail)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("=== Available Upgrades ===");
+            sb.AppendLine("{=BLT_UpgradeAvailableHeader}=== Available Upgrades ===".Translate());
 
             if (type == "all" || type == "fief")
             {
-                sb.AppendLine("\n[Fief Upgrades]");
+                sb.AppendLine("{=BLT_UpgradeFiefListHeader}\n[Fief Upgrades]".Translate());
                 if (gc.FiefUpgrades?.Count > 0)
                     foreach (var u in gc.FiefUpgrades)
                     {
-                        string tag = u.CapitalOnly ? " [CAPITAL ONLY — use: capital list]" : "";
+                        string tag = u.CapitalOnly
+                            ? "{=BLT_UpgradeCapitalOnlyTag} [CAPITAL ONLY — use: capital list]".Translate()
+                            : "";
                         sb.AppendLine($"  {u.ID}: {u.Name} - {u.GetCostString()}{tag}");
                         sb.AppendLine($"    {u.Description}");
                     }
-                else sb.AppendLine("  No fief upgrades configured");
+                else { sb.Append("  "); sb.AppendLine("{=BLT_UpgradeNoFiefConfigured}No fief upgrades configured".Translate()); }
             }
             if (type == "all" || type == "clan")
             {
-                sb.AppendLine("\n[Clan Upgrades]");
+                sb.AppendLine("{=BLT_UpgradeClanListHeader}\n[Clan Upgrades]".Translate());
                 if (gc.ClanUpgrades?.Count > 0)
                     foreach (var u in gc.ClanUpgrades) { sb.AppendLine($"  {u.ID}: {u.Name} - {u.GetCostString()}"); sb.AppendLine($"    {u.Description}"); }
-                else sb.AppendLine("  No clan upgrades configured");
+                else { sb.Append("  "); sb.AppendLine("{=BLT_UpgradeNoClanConfigured}No clan upgrades configured".Translate()); }
             }
             if (type == "all" || type == "kingdom")
             {
-                sb.AppendLine("\n[Kingdom Upgrades]");
+                sb.AppendLine("{=BLT_UpgradeKingdomListHeader}\n[Kingdom Upgrades]".Translate());
                 if (gc.KingdomUpgrades?.Count > 0)
                     foreach (var u in gc.KingdomUpgrades) { sb.AppendLine($"  {u.ID}: {u.Name} - {u.GetCostString()}"); sb.AppendLine($"    {u.Description}"); }
-                else sb.AppendLine("  No kingdom upgrades configured");
+                else { sb.Append("  "); sb.AppendLine("{=BLT_UpgradeNoKingdomConfigured}No kingdom upgrades configured".Translate()); }
             }
 
             if (type != "all" && type != "fief" && type != "clan" && type != "kingdom")
-            { fail($"Invalid type '{type}'. Use 'all', 'fief', 'clan', or 'kingdom'"); return; }
+            { fail("{=BLT_UpgradeInvalidListType}Invalid type '{Type}'. Use 'all', 'fief', 'clan', or 'kingdom'"
+                .Translate(("Type", type))); return; }
 
             ok(sb.ToString());
         }
@@ -625,24 +662,24 @@ namespace BLTAdoptAHero.Actions
                 case "fief": ShowFiefInfo(name, hero, gc, ok, fail); break;
                 case "clan": ShowClanInfo(name, hero, gc, ok, fail); break;
                 case "kingdom": ShowKingdomInfo(name, hero, gc, ok, fail); break;
-                default: fail("Invalid type. Use 'fief', 'clan', or 'kingdom'"); break;
+                default: fail("{=BLT_UpgradeInvalidType}Invalid type. Use 'fief', 'clan', or 'kingdom'".Translate()); break;
             }
         }
 
         private void ShowFiefInfo(string name, Hero hero, GlobalCommonConfig gc, Action<string> ok, Action<string> fail)
         {
-            if (string.IsNullOrEmpty(name)) { fail("Usage: info <fief> <name>"); return; }
+            if (string.IsNullOrEmpty(name)) { fail("{=BLT_UpgradeInfoFiefUsage}Usage: info <fief> <name>".Translate()); return; }
             var settlement = FindSettlement(name);
-            if (settlement == null) { fail($"Settlement '{name}' not found"); return; }
-            if (settlement.Town == null || settlement.IsVillage) { fail("Only towns and castles can have upgrades"); return; }
+            if (settlement == null) { fail("{=BLT_UpgradeSettlementNotFound}Settlement '{Name}' not found".Translate(("Name", name))); return; }
+            if (settlement.Town == null || settlement.IsVillage) { fail("{=BLT_UpgradeTownsCastlesOnly}Only towns and castles can have upgrades".Translate()); return; }
 
             var ids = UpgradeBehavior.Current?.GetFiefUpgrades(settlement) ?? new List<string>();
             var sb = new StringBuilder();
-            sb.AppendLine($"=== {settlement.Name} Upgrades ===");
-            if (ids.Count == 0) { sb.AppendLine("No upgrades purchased yet"); }
+            sb.AppendLine("{=BLT_UpgradeEntityHeader}=== {Name} Upgrades ===".Translate(("Name", settlement.Name)));
+            if (ids.Count == 0) { sb.AppendLine("{=BLT_UpgradeNonePurchased}No upgrades purchased yet".Translate()); }
             else
             {
-                sb.AppendLine("Purchased Upgrades:");
+                sb.AppendLine("{=BLT_UpgradePurchasedHeader}Purchased Upgrades:".Translate());
                 foreach (var u in HighestTierOnly(ids.Select(id => gc.FiefUpgrades.FirstOrDefault(u => u.ID == id)).Where(u => u != null).Cast<object>()))
                     sb.AppendLine($"  • {((FiefUpgrade)u).Name}");
             }
@@ -654,14 +691,14 @@ namespace BLTAdoptAHero.Actions
             if (string.IsNullOrEmpty(name)) { name = ""; }
             var clan = FindClan(name);
             if (clan == null) { clan = hero?.Clan; }
-            if (clan == null) { fail($"Clan '{name}' not found and you have no clan!"); return; }
+            if (clan == null) { fail("{=BLT_UpgradeClanNotFoundNoClan}Clan '{Name}' not found and you have no clan!".Translate(("Name", name))); return; }
             var ids = UpgradeBehavior.Current?.GetClanUpgrades(clan) ?? new List<string>();
             var sb = new StringBuilder();
-            sb.AppendLine($"=== {clan.Name} Upgrades ===");
-            if (ids.Count == 0) { sb.AppendLine("No upgrades purchased yet"); }
+            sb.AppendLine("{=BLT_UpgradeEntityHeader}=== {Name} Upgrades ===".Translate(("Name", clan.Name)));
+            if (ids.Count == 0) { sb.AppendLine("{=BLT_UpgradeNonePurchased}No upgrades purchased yet".Translate()); }
             else
             {
-                sb.AppendLine("Purchased Upgrades:");
+                sb.AppendLine("{=BLT_UpgradePurchasedHeader}Purchased Upgrades:".Translate());
                 foreach (var u in HighestTierOnly(ids.Select(id => gc.ClanUpgrades.FirstOrDefault(u => u.ID == id)).Where(u => u != null).Cast<object>()))
                     sb.AppendLine($"  • {((ClanUpgrade)u).Name}");
             }
@@ -670,17 +707,17 @@ namespace BLTAdoptAHero.Actions
 
         private void ShowKingdomInfo(string name, Hero hero, GlobalCommonConfig gc, Action<string> ok, Action<string> fail)
         {
-            if (string.IsNullOrEmpty(name)) { fail("Usage: info <kingdom> <name>"); return; }
+            if (string.IsNullOrEmpty(name)) { fail("{=BLT_UpgradeInfoKingdomUsage}Usage: info <kingdom> <name>".Translate()); return; }
             var kingdom = FindKingdom(name);
             if (kingdom == null) { kingdom = hero?.Clan?.Kingdom; }
-            if (kingdom == null) { fail($"Kingdom '{name}' not found"); return; }
+            if (kingdom == null) { fail("{=BLT_UpgradeKingdomNotFound}Kingdom '{Name}' not found".Translate(("Name", name))); return; }
             var ids = UpgradeBehavior.Current?.GetKingdomUpgrades(kingdom) ?? new List<string>();
             var sb = new StringBuilder();
-            sb.AppendLine($"=== {kingdom.Name} Upgrades ===");
-            if (ids.Count == 0) { sb.AppendLine("No upgrades purchased yet"); }
+            sb.AppendLine("{=BLT_UpgradeEntityHeader}=== {Name} Upgrades ===".Translate(("Name", kingdom.Name)));
+            if (ids.Count == 0) { sb.AppendLine("{=BLT_UpgradeNonePurchased}No upgrades purchased yet".Translate()); }
             else
             {
-                sb.AppendLine("Purchased Upgrades:");
+                sb.AppendLine("{=BLT_UpgradePurchasedHeader}Purchased Upgrades:".Translate());
                 foreach (var u in HighestTierOnly(ids.Select(id => gc.KingdomUpgrades.FirstOrDefault(u => u.ID == id)).Where(u => u != null).Cast<object>()))
                     sb.AppendLine($"  • {((KingdomUpgrade)u).Name}");
             }
@@ -727,7 +764,7 @@ namespace BLTAdoptAHero.Actions
                         PurchaseFiefUpgrade(name, upgradeId, hero, settings, gc, autoBuy, ok, fail);
                     break;
                 case "clan":
-                    if (upgradeId.Equals("all", OIC))
+                    if (MatchesCommand(upgradeId, "{=BLT_UpgradeArgAll}all".Translate(), "all"))
                     {
                         PurchaseAllClanUpgrades(hero, settings, gc, autoBuy, ok, fail);
                         return;
@@ -735,7 +772,7 @@ namespace BLTAdoptAHero.Actions
                     PurchaseClanUpgrade(upgradeId, hero, settings, gc, autoBuy, ok, fail);
                     break;
                 case "kingdom":
-                    if (upgradeId.Equals("all", OIC))
+                    if (MatchesCommand(upgradeId, "{=BLT_UpgradeArgAll}all".Translate(), "all"))
                     {
                         PurchaseAllKingdomUpgrades(hero, gc, ok, fail);
                         return;
@@ -757,8 +794,8 @@ namespace BLTAdoptAHero.Actions
             Action<string> ok, Action<string> fail)
         {
             var settlement = FindSettlement(name);
-            if (settlement == null) { fail($"Settlement '{name}' not found"); return; }
-            if (settlement.Town == null) { fail("Only towns and castles can have upgrades"); return; }
+            if (settlement == null) { fail("{=BLT_UpgradeSettlementNotFound}Settlement '{Name}' not found".Translate(("Name", name))); return; }
+            if (settlement.Town == null) { fail("{=BLT_UpgradeTownsCastlesOnly}Only towns and castles can have upgrades".Translate()); return; }
 
             // Permission check
             bool isOwner = settlement.OwnerClan == hero.Clan;
@@ -771,13 +808,13 @@ namespace BLTAdoptAHero.Actions
                 && hero.Clan.Kingdom.Leader == hero
                 && settlement.OwnerClan?.Kingdom == hero.Clan.Kingdom;
 
-            if (!isOwner && !isKingdomLeader) { fail($"You don't have permission to upgrade {settlement.Name}"); return; }
-            if (!hero.IsClanLeader && !isKingdomLeader) { fail("Only clan leaders can purchase fief upgrades"); return; }
+            if (!isOwner && !isKingdomLeader) { fail("{=BLT_UpgradeNoFiefPermission}You don't have permission to upgrade {Settlement}".Translate(("Settlement", settlement.Name))); return; }
+            if (!hero.IsClanLeader && !isKingdomLeader) { fail("{=BLT_UpgradeFiefClanLeaderOnly}Only clan leaders can purchase fief upgrades".Translate()); return; }
 
             // Resolve the upgrade object for the final target first (validate it exists)
             var targetUpgrade = gc.FiefUpgrades?.FirstOrDefault(u => u.ID == upgradeId);
-            if (targetUpgrade == null) { fail($"Upgrade '{upgradeId}' not found"); return; }
-            if (targetUpgrade.CoastalOnly && !settlement.HasPort) { fail("This is a Coastal Only upgrade, try again on a coastal settlement"); return; }
+            if (targetUpgrade == null) { fail("{=BLT_UpgradeNotFound}Upgrade '{Id}' not found".Translate(("Id", upgradeId))); return; }
+            if (targetUpgrade.CoastalOnly && !settlement.HasPort) { fail("{=BLT_UpgradeCoastalOnly}This is a Coastal Only upgrade, try again on a coastal settlement".Translate()); return; }
 
             // Build purchase chain (includes prerequisites when autoBuy is true)
             var owned = new HashSet<string>(UpgradeBehavior.Current?.GetFiefUpgrades(settlement) ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
@@ -785,13 +822,13 @@ namespace BLTAdoptAHero.Actions
             if (CapitalBehavior.Current != null)
                 owned.UnionWith(CapitalBehavior.Current.GetCapitalUpgrades(hero.Clan));
 
-            if (owned.Contains(upgradeId)) { fail($"{settlement.Name} already has this upgrade"); return; }
+            if (owned.Contains(upgradeId)) { fail("{=BLT_UpgradeAlreadyOwned}{Name} already has this upgrade".Translate(("Name", settlement.Name))); return; }
 
             List<string> chain;
             if (autoBuy)
             {
                 chain = BuildFiefPurchaseChain(upgradeId, owned, gc);
-                if (chain.Count == 0) { fail($"{settlement.Name} already has this upgrade"); return; }
+            if (chain.Count == 0) { fail("{=BLT_UpgradeAlreadyOwned}{Name} already has this upgrade".Translate(("Name", settlement.Name))); return; }
             }
             else
             {
@@ -800,7 +837,7 @@ namespace BLTAdoptAHero.Actions
                 if (reqIds.Count > 0 && !targetUpgrade.AreRequiredUpgradesMet(owned))
                 {
                     var missing = reqIds.Where(id => !owned.Contains(id, StringComparer.OrdinalIgnoreCase));
-                    fail($"Requires upgrade(s) first: {string.Join(", ", missing)}");
+                    fail("{=BLT_UpgradeRequiresFirst}Requires upgrade(s) first: {Upgrades}".Translate(("Upgrades", string.Join(", ", missing))));
                     return;
                 }
                 chain = new List<string> { upgradeId };
@@ -808,10 +845,12 @@ namespace BLTAdoptAHero.Actions
 
             // Execute the chain
             var results = ExecuteFiefChain(settlement, chain, hero, gc, owned);
-            ReportChainResults(results, upgradeId, $"for {settlement.Name}", ok, fail);
+            ReportChainResults(results, upgradeId,
+                "{=BLT_UpgradeForEntity}for {Name}".Translate(("Name", settlement.Name)), ok, fail);
 
             if (results.Any(r => r.Success))
-                Log.ShowInformation($"{hero.Name} purchased upgrades for {settlement.Name}", hero.CharacterObject, Log.Sound.Notification1);
+                Log.ShowInformation("{=BLT_UpgradeLogPurchasedFief}{Hero} purchased upgrades for {Settlement}"
+                    .Translate(("Hero", hero.Name), ("Settlement", settlement.Name)), hero.CharacterObject, Log.Sound.Notification1);
         }
 
         // ════════════════════════════════════════════════════════════════════════
@@ -836,23 +875,23 @@ namespace BLTAdoptAHero.Actions
                     message => sections.Add($"{label}: {message}"));
             }
 
-            Capture("Fiefs", (s, f) => PurchaseAllFiefUpgrades(hero, settings, gc, autoBuy, s, f));
-            Capture("Clan", (s, f) => PurchaseAllClanUpgrades(hero, settings, gc, autoBuy, s, f));
-            Capture("Kingdom", (s, f) => PurchaseAllKingdomUpgrades(hero, gc, s, f));
+            Capture("{=BLT_UpgradeFiefsLabel}Fiefs".Translate(), (s, f) => PurchaseAllFiefUpgrades(hero, settings, gc, autoBuy, s, f));
+            Capture("{=BLT_UpgradeClanLabel}Clan".Translate(), (s, f) => PurchaseAllClanUpgrades(hero, settings, gc, autoBuy, s, f));
+            Capture("{=BLT_UpgradeKingdomLabel}Kingdom".Translate(), (s, f) => PurchaseAllKingdomUpgrades(hero, gc, s, f));
 
             var report = string.Join("\n", sections.Where(s => !string.IsNullOrWhiteSpace(s)));
             if (successes > 0)
                 ok(report);
             else
-                fail(string.IsNullOrWhiteSpace(report) ? "No upgrades could be purchased." : report);
+                fail(string.IsNullOrWhiteSpace(report) ? "{=BLT_UpgradeNoneCouldBePurchased}No upgrades could be purchased.".Translate() : report);
         }
 
         private void PurchaseAllFiefUpgrades(
             Hero hero, Settings settings, GlobalCommonConfig gc, bool autoBuy,
             Action<string> ok, Action<string> fail)
         {
-            if (hero?.Clan == null) { fail("You are not in a clan!"); return; }
-            if (gc.FiefUpgrades == null || gc.FiefUpgrades.Count == 0) { fail("No fief upgrades configured"); return; }
+            if (hero?.Clan == null) { fail("{=BLT_UpgradeNotInClan}You are not in a clan!".Translate()); return; }
+            if (gc.FiefUpgrades == null || gc.FiefUpgrades.Count == 0) { fail("{=BLT_UpgradeNoFiefConfigured}No fief upgrades configured".Translate()); return; }
 
             var targetSet = new HashSet<Settlement>();
 
@@ -876,7 +915,7 @@ namespace BLTAdoptAHero.Actions
                     targetSet.Add(settlement);
 
             var targets = targetSet.ToList();
-            if (targets.Count == 0) { fail("No valid settlements found"); return; }
+            if (targets.Count == 0) { fail("{=BLT_UpgradeNoValidSettlements}No valid settlements found".Translate()); return; }
 
             int settlementsUpdated = 0;
             int totalBought = 0;
@@ -933,16 +972,18 @@ namespace BLTAdoptAHero.Actions
 
             if (totalBought > 0)
             {
-                var message = $"Purchased {totalBought} fief upgrade(s) across {settlementsUpdated} settlement(s).";
+                var message = "{=BLT_UpgradePurchasedFiefBulk}Purchased {Count} fief upgrade(s) across {Settlements} settlement(s)."
+                    .Translate(("Count", totalBought), ("Settlements", settlementsUpdated));
                 if (failed.Count > 0)
-                    message += $" Stopped: {failed[0]}";
+                    message += "{=BLT_UpgradeStopped} Stopped: {Reason}".Translate(("Reason", failed[0]));
 
                 ok(message);
-                Log.ShowInformation($"{hero.Name} purchased all available fief upgrades", hero.CharacterObject, Log.Sound.Notification1);
+                Log.ShowInformation("{=BLT_UpgradeLogPurchasedAllFiefs}{Hero} purchased all available fief upgrades"
+                    .Translate(("Hero", hero.Name)), hero.CharacterObject, Log.Sound.Notification1);
                 return;
             }
 
-            fail(failed.Count > 0 ? failed[0] : "No fief upgrades could be purchased.");
+            fail(failed.Count > 0 ? failed[0] : "{=BLT_UpgradeNoFiefCouldBePurchased}No fief upgrades could be purchased.".Translate());
         }
 
         private void PurchaseAllClanUpgrades(
@@ -956,19 +997,19 @@ namespace BLTAdoptAHero.Actions
             var clan = hero?.Clan;
             if (clan == null)
             {
-                fail("You are not in a clan!");
+                fail("{=BLT_UpgradeNotInClan}You are not in a clan!".Translate());
                 return;
             }
 
             if (!settings.AllowAnyClanMemberForClanUpgrades && !hero.IsClanLeader)
             {
-                fail("Only clan leaders can purchase clan upgrades");
+                fail("{=BLT_UpgradeClanLeaderOnly}Only clan leaders can purchase clan upgrades".Translate());
                 return;
             }
 
             if (gc.ClanUpgrades == null || gc.ClanUpgrades.Count == 0)
             {
-                fail("No clan upgrades configured");
+                fail("{=BLT_UpgradeNoClanConfigured}No clan upgrades configured".Translate());
                 return;
             }
 
@@ -999,9 +1040,9 @@ namespace BLTAdoptAHero.Actions
             }
 
             if (bought > 0)
-                ok($"Purchased {bought} clan upgrades.");
+                ok("{=BLT_UpgradePurchasedClanBulk}Purchased {Count} clan upgrades.".Translate(("Count", bought)));
             else
-                fail("No upgrades could be purchased.");
+                fail("{=BLT_UpgradeNoneCouldBePurchased}No upgrades could be purchased.".Translate());
         }
         
         private void PurchaseAllKingdomUpgrades(
@@ -1012,26 +1053,26 @@ namespace BLTAdoptAHero.Actions
         {
             if (hero.Clan == null)
             {
-                fail("You're not in a clan!");
+                fail("{=BLT_UpgradeNotInClan}You are not in a clan!".Translate());
                 return;
             }
 
             var kingdom = hero.Clan.Kingdom;
             if (kingdom == null)
             {
-                fail("You're not in a kingdom!");
+                fail("{=BLT_UpgradeNotInKingdom}You are not in a kingdom!".Translate());
                 return;
             }
 
             if (kingdom.Leader != hero)
             {
-                fail("Only the kingdom ruler can purchase kingdom upgrades");
+                fail("{=BLT_UpgradeKingdomRulerOnly}Only the kingdom ruler can purchase kingdom upgrades".Translate());
                 return;
             }
 
             if (gc.KingdomUpgrades == null || gc.KingdomUpgrades.Count == 0)
             {
-                fail("No kingdom upgrades configured");
+                fail("{=BLT_UpgradeNoKingdomConfigured}No kingdom upgrades configured".Translate());
                 return;
             }
 
@@ -1065,15 +1106,16 @@ namespace BLTAdoptAHero.Actions
 
             if (bought > 0)
             {
-                var message = $"Purchased {bought} kingdom upgrade(s) for {kingdom.Name}.";
+                var message = "{=BLT_UpgradePurchasedKingdomBulk}Purchased {Count} kingdom upgrade(s) for {Kingdom}."
+                    .Translate(("Count", bought), ("Kingdom", kingdom.Name));
                 if (failed.Count > 0)
-                    message += $" Stopped: {failed[0]}";
+                    message += "{=BLT_UpgradeStopped} Stopped: {Reason}".Translate(("Reason", failed[0]));
 
                 ok(message);
                 return;
             }
 
-            fail(failed.Count > 0 ? failed[0] : "No kingdom upgrades could be purchased.");
+            fail(failed.Count > 0 ? failed[0] : "{=BLT_UpgradeNoKingdomCouldBePurchased}No kingdom upgrades could be purchased.".Translate());
         }
         
         private void PurchaseFiefUpgradeMulti(
@@ -1086,17 +1128,17 @@ namespace BLTAdoptAHero.Actions
 
             if (forKingdom)
             {
-                if (hero.Clan == null) { fail("You are not in a clan!"); return; }
+                if (hero.Clan == null) { fail("{=BLT_UpgradeNotInClan}You are not in a clan!".Translate()); return; }
                 var kingdom = hero.Clan.Kingdom;
-                if (kingdom == null) { fail("You are not in a kingdom!"); return; }
+                if (kingdom == null) { fail("{=BLT_UpgradeNotInKingdom}You are not in a kingdom!".Translate()); return; }
                 if (kingdom.Leader != hero && !settings.AllowKingdomLeadersForFiefs)
-                { fail("Only the kingdom ruler can use 'allk'"); return; }
+                { fail("{=BLT_UpgradeAllKingdomRulerOnly}Only the kingdom ruler can use 'allk'".Translate()); return; }
                 targets = Settlement.All.Where(s => s.OwnerClan?.Kingdom == kingdom && s.Town != null);
             }
             else // applyAll — clan's own fiefs + vassal fiefs (same scope as single-settlement permission)
             {
-                if (hero.Clan == null) { fail("You are not in a clan!"); return; }
-                if (!hero.IsClanLeader) { fail("Only clan leaders can use 'all'"); return; }
+                if (hero.Clan == null) { fail("{=BLT_UpgradeNotInClan}You are not in a clan!".Translate()); return; }
+                if (!hero.IsClanLeader) { fail("{=BLT_UpgradeAllClanLeaderOnly}Only clan leaders can use 'all'".Translate()); return; }
                 var allowedClans = new HashSet<Clan> { hero.Clan };
                 if (VassalBehavior.Current != null)
                     foreach (var v in VassalBehavior.Current.GetVassalClans(hero.Clan))
@@ -1105,11 +1147,11 @@ namespace BLTAdoptAHero.Actions
             }
 
             var targetList = targets.ToList();
-            if (targetList.Count == 0) { fail("No valid settlements found"); return; }
+            if (targetList.Count == 0) { fail("{=BLT_UpgradeNoValidSettlements}No valid settlements found".Translate()); return; }
 
             // Validate the upgrade exists once up-front
             var targetUpgrade = gc.FiefUpgrades?.FirstOrDefault(u => u.ID == upgradeId);
-            if (targetUpgrade == null) { fail($"Upgrade '{upgradeId}' not found"); return; }
+            if (targetUpgrade == null) { fail("{=BLT_UpgradeNotFound}Upgrade '{Id}' not found".Translate(("Id", upgradeId))); return; }
 
             int settlementsSuccess = 0, settlementsSkipped = 0, settlementsFailed = 0;
             int totalBought = 0;
@@ -1122,7 +1164,7 @@ namespace BLTAdoptAHero.Actions
 
                 var owned = new HashSet<string>(UpgradeBehavior.Current?.GetFiefUpgrades(settlement) ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
 
-                if (targetUpgrade.CapitalOnly) { fail($"'{upgradeId}' is a capital-only upgrade; purchase it for your capital settlement directly"); return; }
+            if (targetUpgrade.CapitalOnly) { fail("{=BLT_UpgradeCapitalOnlyDirect}'{Id}' is a capital-only upgrade; purchase it for your capital settlement directly".Translate(("Id", upgradeId))); return; }
 
                 // Already fully upgraded — skip silently
                 if (owned.Contains(upgradeId)) { settlementsSkipped++; continue; }
@@ -1139,7 +1181,8 @@ namespace BLTAdoptAHero.Actions
                     if (reqIds.Count > 0 && !targetUpgrade.AreRequiredUpgradesMet(owned))
                     {
                         var missing = reqIds.Where(id => !owned.Contains(id, StringComparer.OrdinalIgnoreCase));
-                        failMessages.Add($"{settlement.Name}: missing {string.Join(", ", missing)}");
+                    failMessages.Add("{=BLT_UpgradeSettlementMissing}{Settlement}: missing {Upgrades}"
+                        .Translate(("Settlement", settlement.Name), ("Upgrades", string.Join(", ", missing))));
                         settlementsFailed++;
                         continue;
                     }
@@ -1158,18 +1201,19 @@ namespace BLTAdoptAHero.Actions
             }
 
             if (settlementsSuccess > 0)
-                Log.ShowInformation($"{hero.Name} purchased upgrades across multiple settlements", hero.CharacterObject, Log.Sound.Notification1);
+                Log.ShowInformation("{=BLT_UpgradeLogPurchasedMultiple}{Hero} purchased upgrades across multiple settlements"
+                    .Translate(("Hero", hero.Name)), hero.CharacterObject, Log.Sound.Notification1);
 
             var sb = new StringBuilder();
-            string scope = forKingdom ? "kingdom" : "clan";
-            sb.AppendLine($"=== Upgrade Results ({scope}) ===");
-            sb.AppendLine($"Settlements updated : {settlementsSuccess}");
-            sb.AppendLine($"Settlements skipped : {settlementsSkipped}  (already owned or ineligible)");
-            sb.AppendLine($"Settlements failed  : {settlementsFailed}");
-            if (totalBought > 0) sb.AppendLine($"Total upgrades bought: {totalBought}");
+            string scope = forKingdom ? "{=BLT_UpgradeTypeKingdom}kingdom".Translate() : "{=BLT_UpgradeTypeClan}clan".Translate();
+            sb.AppendLine("{=BLT_UpgradeResultsHeader}=== Upgrade Results ({Scope}) ===".Translate(("Scope", scope)));
+            sb.AppendLine("{=BLT_UpgradeSettlementsUpdated}Settlements updated : {Count}".Translate(("Count", settlementsSuccess)));
+            sb.AppendLine("{=BLT_UpgradeSettlementsSkipped}Settlements skipped : {Count}  (already owned or ineligible)".Translate(("Count", settlementsSkipped)));
+            sb.AppendLine("{=BLT_UpgradeSettlementsFailed}Settlements failed  : {Count}".Translate(("Count", settlementsFailed)));
+            if (totalBought > 0) sb.AppendLine("{=BLT_UpgradeTotalBought}Total upgrades bought: {Count}".Translate(("Count", totalBought)));
             if (failMessages.Count > 0)
             {
-                sb.AppendLine("Failures:");
+                sb.AppendLine("{=BLT_UpgradeFailuresHeader}Failures:".Translate());
                 foreach (var m in failMessages) sb.AppendLine($"  • {m}");
             }
 
@@ -1197,7 +1241,7 @@ namespace BLTAdoptAHero.Actions
                 if (alreadyOwned.Contains(id)) continue;
                 var up = gc.FiefUpgrades.FirstOrDefault(u => u.ID == id);
                 if (up == null)
-                { results.Add(new PurchaseResult { UpgradeId = id, UpgradeName = id, Success = false, Message = $"Upgrade '{id}' not found in config" }); return results; }
+                { results.Add(new PurchaseResult { UpgradeId = id, UpgradeName = id, Success = false, Message = "{=BLT_UpgradeNotFoundInConfig}Upgrade '{Id}' not found in config".Translate(("Id", id)) }); return results; }
 
                 int gold = BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(hero);
                 if (gold < up.GoldCost)
@@ -1212,7 +1256,8 @@ namespace BLTAdoptAHero.Actions
                             UpgradeId = id,
                             UpgradeName = up.Name,
                             Success = false,
-                            Message = $"'{up.Name}' is a capital-only upgrade — {settlement.Name} must be your active capital"
+                            Message = "{=BLT_UpgradeMustBeActiveCapital}'{Upgrade}' is a capital-only upgrade — {Settlement} must be your active capital"
+                                .Translate(("Upgrade", up.Name), ("Settlement", settlement.Name))
                         });
                         return results;
                     }
@@ -1242,22 +1287,22 @@ namespace BLTAdoptAHero.Actions
             Action<string> ok, Action<string> fail)
         {
             var clan = hero?.Clan;
-            if (clan == null) { fail("You are not in a clan!"); return; }
+            if (clan == null) { fail("{=BLT_UpgradeNotInClan}You are not in a clan!".Translate()); return; }
 
             if (!settings.AllowAnyClanMemberForClanUpgrades && !hero.IsClanLeader)
-            { fail("Only clan leaders can purchase clan upgrades"); return; }
+            { fail("{=BLT_UpgradeClanLeaderOnly}Only clan leaders can purchase clan upgrades".Translate()); return; }
 
             var targetUpgrade = gc.ClanUpgrades?.FirstOrDefault(u => u.ID == upgradeId);
-            if (targetUpgrade == null) { fail($"Upgrade '{upgradeId}' not found"); return; }
+            if (targetUpgrade == null) { fail("{=BLT_UpgradeNotFound}Upgrade '{Id}' not found".Translate(("Id", upgradeId))); return; }
 
             var owned = new HashSet<string>(UpgradeBehavior.Current?.GetClanUpgrades(clan) ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
-            if (owned.Contains(upgradeId)) { fail($"{clan.Name} already has this upgrade"); return; }
+            if (owned.Contains(upgradeId)) { fail("{=BLT_UpgradeAlreadyOwned}{Name} already has this upgrade".Translate(("Name", clan.Name))); return; }
 
             List<string> chain;
             if (autoBuy)
             {
                 chain = BuildClanPurchaseChain(upgradeId, owned, gc);
-                if (chain.Count == 0) { fail($"{clan.Name} already has this upgrade"); return; }
+            if (chain.Count == 0) { fail("{=BLT_UpgradeAlreadyOwned}{Name} already has this upgrade".Translate(("Name", clan.Name))); return; }
             }
             else
             {
@@ -1265,17 +1310,19 @@ namespace BLTAdoptAHero.Actions
                 if (reqIds.Count > 0 && !targetUpgrade.AreRequiredUpgradesMet(owned))
                 {
                     var missing = reqIds.Where(id => !owned.Contains(id, StringComparer.OrdinalIgnoreCase));
-                    fail($"Requires upgrade(s) first: {string.Join(", ", missing)}");
+                fail("{=BLT_UpgradeRequiresFirst}Requires upgrade(s) first: {Upgrades}".Translate(("Upgrades", string.Join(", ", missing))));
                     return;
                 }
                 chain = new List<string> { upgradeId };
             }
 
             var results = ExecuteClanChain(clan, chain, hero, gc, owned);
-            ReportChainResults(results, upgradeId, $"for {clan.Name}", ok, fail);
+            ReportChainResults(results, upgradeId,
+                "{=BLT_UpgradeForEntity}for {Name}".Translate(("Name", clan.Name)), ok, fail);
 
             if (results.Any(r => r.Success))
-                Log.ShowInformation($"{hero.Name} purchased clan upgrade(s) for {clan.Name}", hero.CharacterObject, Log.Sound.Notification1);
+                Log.ShowInformation("{=BLT_UpgradeLogPurchasedClan}{Hero} purchased clan upgrade(s) for {Clan}"
+                    .Translate(("Hero", hero.Name), ("Clan", clan.Name)), hero.CharacterObject, Log.Sound.Notification1);
         }
 
         private List<PurchaseResult> ExecuteClanChain(Clan clan, List<string> chain, Hero hero, GlobalCommonConfig gc, HashSet<string> owned)
@@ -1285,13 +1332,13 @@ namespace BLTAdoptAHero.Actions
             {
                 if (owned.Contains(id)) continue;
                 var up = gc.ClanUpgrades.FirstOrDefault(u => u.ID == id);
-                if (up == null) { results.Add(new PurchaseResult { UpgradeId = id, Success = false, Message = $"Upgrade '{id}' not found" }); return results; }
+                if (up == null) { results.Add(new PurchaseResult { UpgradeId = id, Success = false, Message = "{=BLT_UpgradeNotFound}Upgrade '{Id}' not found".Translate(("Id", id)) }); return results; }
                 int gold = BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(hero);
                 if (gold < up.GoldCost) { results.Add(new PurchaseResult { UpgradeId = id, Success = false, Message = Naming.NotEnoughGold(up.GoldCost, gold) }); return results; }
                 BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(hero, -up.GoldCost, true);
                 UpgradeBehavior.Current?.AddClanUpgrade(clan, id);
                 owned.Add(id);
-                results.Add(new PurchaseResult { UpgradeId = id, UpgradeName = up.Name, Success = true, Message = $"Purchased '{up.Name}'" });
+                results.Add(new PurchaseResult { UpgradeId = id, UpgradeName = up.Name, Success = true, Message = "{=BLT_UpgradePurchased}Purchased '{Upgrade}'".Translate(("Upgrade", up.Name)) });
             }
             return results;
         }
@@ -1305,22 +1352,22 @@ namespace BLTAdoptAHero.Actions
             bool autoBuy,
             Action<string> ok, Action<string> fail)
         {
-            if (hero.Clan == null) { fail("You're not in a clan!"); return; }
+            if (hero.Clan == null) { fail("{=BLT_UpgradeNotInClan}You are not in a clan!".Translate()); return; }
             var kingdom = hero.Clan.Kingdom;
-            if (kingdom == null) { fail("You're not in a kingdom!"); return; }
-            if (kingdom.Leader != hero) { fail("Only the kingdom ruler can purchase kingdom upgrades"); return; }
+            if (kingdom == null) { fail("{=BLT_UpgradeNotInKingdom}You are not in a kingdom!".Translate()); return; }
+            if (kingdom.Leader != hero) { fail("{=BLT_UpgradeKingdomRulerOnly}Only the kingdom ruler can purchase kingdom upgrades".Translate()); return; }
 
             var targetUpgrade = gc.KingdomUpgrades?.FirstOrDefault(u => u.ID == upgradeId);
-            if (targetUpgrade == null) { fail($"Upgrade '{upgradeId}' not found"); return; }
+            if (targetUpgrade == null) { fail("{=BLT_UpgradeNotFound}Upgrade '{Id}' not found".Translate(("Id", upgradeId))); return; }
 
             var owned = new HashSet<string>(UpgradeBehavior.Current?.GetKingdomUpgrades(kingdom) ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
-            if (owned.Contains(upgradeId)) { fail($"{kingdom.Name} already has this upgrade"); return; }
+            if (owned.Contains(upgradeId)) { fail("{=BLT_UpgradeAlreadyOwned}{Name} already has this upgrade".Translate(("Name", kingdom.Name))); return; }
 
             List<string> chain;
             if (autoBuy)
             {
                 chain = BuildKingdomPurchaseChain(upgradeId, owned, gc);
-                if (chain.Count == 0) { fail($"{kingdom.Name} already has this upgrade"); return; }
+            if (chain.Count == 0) { fail("{=BLT_UpgradeAlreadyOwned}{Name} already has this upgrade".Translate(("Name", kingdom.Name))); return; }
             }
             else
             {
@@ -1328,17 +1375,19 @@ namespace BLTAdoptAHero.Actions
                 if (reqIds.Count > 0 && !targetUpgrade.AreRequiredUpgradesMet(owned))
                 {
                     var missing = reqIds.Where(id => !owned.Contains(id, StringComparer.OrdinalIgnoreCase));
-                    fail($"Requires upgrade(s) first: {string.Join(", ", missing)}");
+                fail("{=BLT_UpgradeRequiresFirst}Requires upgrade(s) first: {Upgrades}".Translate(("Upgrades", string.Join(", ", missing))));
                     return;
                 }
                 chain = new List<string> { upgradeId };
             }
 
             var results = ExecuteKingdomChain(kingdom, chain, hero, gc, owned);
-            ReportChainResults(results, upgradeId, $"for {kingdom.Name}", ok, fail);
+            ReportChainResults(results, upgradeId,
+                "{=BLT_UpgradeForEntity}for {Name}".Translate(("Name", kingdom.Name)), ok, fail);
 
             if (results.Any(r => r.Success))
-                Log.ShowInformation($"{hero.Name} purchased kingdom upgrade(s) for {kingdom.Name}", hero.CharacterObject, Log.Sound.Horns2);
+                Log.ShowInformation("{=BLT_UpgradeLogPurchasedKingdom}{Hero} purchased kingdom upgrade(s) for {Kingdom}"
+                    .Translate(("Hero", hero.Name), ("Kingdom", kingdom.Name)), hero.CharacterObject, Log.Sound.Horns2);
         }
 
         private List<PurchaseResult> ExecuteKingdomChain(Kingdom kingdom, List<string> chain, Hero hero, GlobalCommonConfig gc, HashSet<string> owned)
@@ -1348,19 +1397,20 @@ namespace BLTAdoptAHero.Actions
             {
                 if (owned.Contains(id)) continue;
                 var up = gc.KingdomUpgrades.FirstOrDefault(u => u.ID == id);
-                if (up == null) { results.Add(new PurchaseResult { UpgradeId = id, Success = false, Message = $"Upgrade '{id}' not found" }); return results; }
+                if (up == null) { results.Add(new PurchaseResult { UpgradeId = id, Success = false, Message = "{=BLT_UpgradeNotFound}Upgrade '{Id}' not found".Translate(("Id", id)) }); return results; }
                 int gold = BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(hero);
                 if (gold < up.GoldCost) { results.Add(new PurchaseResult { UpgradeId = id, Success = false, Message = Naming.NotEnoughGold(up.GoldCost, gold) }); return results; }
                 if (up.InfluenceCost > 0 && hero.Clan.Influence < up.InfluenceCost)
                 {
-                    results.Add(new PurchaseResult { UpgradeId = id, Success = false, Message = $"Not enough influence (need {up.InfluenceCost}, have {(int)hero.Clan.Influence})" });
+                    results.Add(new PurchaseResult { UpgradeId = id, Success = false, Message = "{=BLT_UpgradeNotEnoughInfluence}Not enough influence (need {Need}, have {Have})"
+                        .Translate(("Need", up.InfluenceCost), ("Have", (int)hero.Clan.Influence)) });
                     return results;
                 }
                 BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(hero, -up.GoldCost, true);
                 if (up.InfluenceCost > 0) hero.Clan.Influence -= up.InfluenceCost;
                 UpgradeBehavior.Current?.AddKingdomUpgrade(kingdom, id);
                 owned.Add(id);
-                results.Add(new PurchaseResult { UpgradeId = id, UpgradeName = up.Name, Success = true, Message = $"Purchased '{up.Name}'" });
+                results.Add(new PurchaseResult { UpgradeId = id, UpgradeName = up.Name, Success = true, Message = "{=BLT_UpgradePurchased}Purchased '{Upgrade}'".Translate(("Upgrade", up.Name)) });
             }
             return results;
         }
@@ -1382,7 +1432,7 @@ namespace BLTAdoptAHero.Actions
 
             if (bought.Count == 0)
             {
-                fail(blocked?.Message ?? "Purchase failed");
+                fail(blocked?.Message ?? "{=BLT_UpgradePurchaseFailed}Purchase failed".Translate());
                 return;
             }
 
@@ -1392,15 +1442,18 @@ namespace BLTAdoptAHero.Actions
             var sb = new StringBuilder();
 
             if (prereqs.Count > 0)
-                sb.AppendLine($"Auto-purchased: {CollapseChainNames(prereqs)}");
+                sb.AppendLine("{=BLT_UpgradeAutoPurchased}Auto-purchased: {Upgrades}"
+                    .Translate(("Upgrades", CollapseChainNames(prereqs))));
 
             if (target != null)
-                sb.Append($"Purchased '{target.UpgradeName}' {context}!");
+                sb.Append("{=BLT_UpgradePurchasedFor}Purchased '{Upgrade}' {Context}!"
+                    .Translate(("Upgrade", target.UpgradeName), ("Context", context)));
             else // target wasn't reached (ran out of gold mid-chain), but some prereqs succeeded
-                sb.Append($"Partially purchased prerequisites {context}");
+                sb.Append("{=BLT_UpgradePartiallyPurchased}Partially purchased prerequisites {Context}"
+                    .Translate(("Context", context)));
 
             if (blocked != null)
-                sb.Append($" | Stopped: {blocked.Message}");
+                sb.Append("{=BLT_UpgradeStoppedSeparator} | Stopped: {Reason}".Translate(("Reason", blocked.Message)));
 
             ok(sb.ToString());
         }
@@ -1478,8 +1531,13 @@ namespace BLTAdoptAHero.Actions
             var settlement = Settlement.All.FirstOrDefault(s => s?.Name?.ToString().Equals(name, OIC) == true);
             if (settlement?.IsVillage == true)
             {
-                name = name.Add(" Castle", false);
-                settlement = Settlement.All.FirstOrDefault(s => s?.Name?.ToString().Equals(name, OIC) == true);
+                string englishCastleName = name.Add(" Castle", false);
+                settlement = Settlement.All.FirstOrDefault(s => s?.Name?.ToString().Equals(englishCastleName, OIC) == true);
+                if (settlement == null)
+                {
+                    string localizedCastleName = name.Add("{=BLT_UpgradeCastleSuffix} Castle".Translate(), false);
+                    settlement = Settlement.All.FirstOrDefault(s => s?.Name?.ToString().Equals(localizedCastleName, OIC) == true);
+                }
             }
             return settlement;
         }
@@ -1510,40 +1568,44 @@ namespace BLTAdoptAHero.Actions
                 case "fief": RemoveFiefUpgrade(name, upgradeId, hero, settings, gc, ok, fail); break;
                 case "clan": RemoveClanUpgrade(upgradeId, hero, settings, gc, ok, fail); break;
                 case "kingdom": RemoveKingdomUpgrade(upgradeId, hero, gc, ok, fail); break;
-                default: fail("Invalid type. Use 'fief', 'clan', or 'kingdom'"); break;
+                default: fail("{=BLT_UpgradeInvalidType}Invalid type. Use 'fief', 'clan', or 'kingdom'".Translate()); break;
             }
         }
 
         private void RemoveFiefUpgrade(string name, string upgradeId, Hero hero, Settings settings, GlobalCommonConfig gc, Action<string> ok, Action<string> fail)
         {
             var settlement = FindSettlement(name);
-            if (settlement == null) { fail($"Settlement '{name}' not found"); return; }
-            if (settlement.Town == null) { fail("Only towns and castles can have upgrades"); return; }
+            if (settlement == null) { fail("{=BLT_UpgradeSettlementNotFound}Settlement '{Name}' not found".Translate(("Name", name))); return; }
+            if (settlement.Town == null) { fail("{=BLT_UpgradeTownsCastlesOnly}Only towns and castles can have upgrades".Translate()); return; }
 
             bool isOwner = settlement.OwnerClan == hero.Clan;
             bool isKingdomLeader = settings.AllowKingdomLeadersForFiefs && hero.Clan?.Kingdom != null && hero.Clan.Kingdom.Leader == hero && settlement.OwnerClan?.Kingdom == hero.Clan.Kingdom;
-            if (!isOwner && !isKingdomLeader) { fail($"You don't have permission to modify {settlement.Name}"); return; }
-            if (!hero.IsClanLeader && !isKingdomLeader) { fail("Only clan leaders can remove fief upgrades"); return; }
+            if (!isOwner && !isKingdomLeader) { fail("{=BLT_UpgradeNoModifyPermission}You don't have permission to modify {Settlement}".Translate(("Settlement", settlement.Name))); return; }
+            if (!hero.IsClanLeader && !isKingdomLeader) { fail("{=BLT_UpgradeRemoveFiefLeaderOnly}Only clan leaders can remove fief upgrades".Translate()); return; }
 
             var up = gc.FiefUpgrades?.FirstOrDefault(u => u.ID == upgradeId);
-            if (up == null) { fail($"Upgrade '{upgradeId}' not found"); return; }
-            if (!up.CanBeRemoved) { fail($"'{up.Name}' cannot be removed"); return; }
+            if (up == null) { fail("{=BLT_UpgradeNotFound}Upgrade '{Id}' not found".Translate(("Id", upgradeId))); return; }
+            if (!up.CanBeRemoved) { fail("{=BLT_UpgradeCannotRemove}'{Upgrade}' cannot be removed".Translate(("Upgrade", up.Name))); return; }
 
             if (up.CapitalOnly)
             {
                 if (CapitalBehavior.Current?.HasCapitalUpgrade(hero.Clan, upgradeId) != true)
-                { fail($"{hero.Clan.Name} doesn't have capital upgrade '{upgradeId}'"); return; }
+                { fail("{=BLT_UpgradeCapitalNotOwned}{Clan} doesn't have capital upgrade '{Id}'"
+                    .Translate(("Clan", hero.Clan.Name), ("Id", upgradeId))); return; }
                 CapitalBehavior.Current.RemoveCapitalUpgrade(hero.Clan, upgradeId);
-                ok($"Removed capital upgrade '{up.Name}' from {hero.Clan.Name}!");
-                Log.ShowInformation($"{hero.Name} removed capital upgrade {up.Name}", hero.CharacterObject, Log.Sound.Notification1);
+                ok("{=BLT_UpgradeRemovedCapital}Removed capital upgrade '{Upgrade}' from {Clan}!"
+                    .Translate(("Upgrade", up.Name), ("Clan", hero.Clan.Name)));
+                Log.ShowInformation("{=BLT_UpgradeLogRemovedCapital}{Hero} removed capital upgrade {Upgrade}"
+                    .Translate(("Hero", hero.Name), ("Upgrade", up.Name)), hero.CharacterObject, Log.Sound.Notification1);
             }
             else
             {
                 if (UpgradeBehavior.Current?.HasFiefUpgrade(settlement, upgradeId) != true)
-                { fail($"{settlement.Name} doesn't have this upgrade"); return; }
+                { fail("{=BLT_UpgradeNotOwned}{Name} doesn't have this upgrade".Translate(("Name", settlement.Name))); return; }
                 UpgradeBehavior.Current?.RemoveFiefUpgrade(settlement, upgradeId);
-                ok($"Removed '{up.Name}' from {settlement.Name}!");
-                Log.ShowInformation($"{hero.Name} removed {up.Name} from {settlement.Name}", hero.CharacterObject, Log.Sound.Notification1);
+                ok("{=BLT_UpgradeRemovedFrom}Removed '{Upgrade}' from {Name}!".Translate(("Upgrade", up.Name), ("Name", settlement.Name)));
+                Log.ShowInformation("{=BLT_UpgradeLogRemovedFrom}{Hero} removed {Upgrade} from {Name}"
+                    .Translate(("Hero", hero.Name), ("Upgrade", up.Name), ("Name", settlement.Name)), hero.CharacterObject, Log.Sound.Notification1);
             }
         }
 
@@ -1551,34 +1613,36 @@ namespace BLTAdoptAHero.Actions
         private void RemoveClanUpgrade(string upgradeId, Hero hero, Settings settings, GlobalCommonConfig gc, Action<string> ok, Action<string> fail)
         {
             var clan = hero?.Clan;
-            if (clan == null) { fail("You are not in a clan!"); return; }
-            if (!settings.AllowAnyClanMemberForClanUpgrades && !hero.IsClanLeader) { fail("Only clan leaders can remove clan upgrades"); return; }
+            if (clan == null) { fail("{=BLT_UpgradeNotInClan}You are not in a clan!".Translate()); return; }
+            if (!settings.AllowAnyClanMemberForClanUpgrades && !hero.IsClanLeader) { fail("{=BLT_UpgradeRemoveClanLeaderOnly}Only clan leaders can remove clan upgrades".Translate()); return; }
 
             var up = gc.ClanUpgrades?.FirstOrDefault(u => u.ID == upgradeId);
-            if (up == null) { fail($"Upgrade '{upgradeId}' not found"); return; }
-            if (!up.CanBeRemoved) { fail($"'{up.Name}' cannot be removed"); return; }
-            if (UpgradeBehavior.Current?.HasClanUpgrade(clan, upgradeId) != true) { fail($"{clan.Name} doesn't have this upgrade"); return; }
+            if (up == null) { fail("{=BLT_UpgradeNotFound}Upgrade '{Id}' not found".Translate(("Id", upgradeId))); return; }
+            if (!up.CanBeRemoved) { fail("{=BLT_UpgradeCannotRemove}'{Upgrade}' cannot be removed".Translate(("Upgrade", up.Name))); return; }
+            if (UpgradeBehavior.Current?.HasClanUpgrade(clan, upgradeId) != true) { fail("{=BLT_UpgradeNotOwned}{Name} doesn't have this upgrade".Translate(("Name", clan.Name))); return; }
 
             UpgradeBehavior.Current?.RemoveClanUpgrade(clan, upgradeId);
-            ok($"Removed '{up.Name}' from {clan.Name}!");
-            Log.ShowInformation($"{hero.Name} removed {up.Name} from {clan.Name}", hero.CharacterObject, Log.Sound.Notification1);
+            ok("{=BLT_UpgradeRemovedFrom}Removed '{Upgrade}' from {Name}!".Translate(("Upgrade", up.Name), ("Name", clan.Name)));
+            Log.ShowInformation("{=BLT_UpgradeLogRemovedFrom}{Hero} removed {Upgrade} from {Name}"
+                .Translate(("Hero", hero.Name), ("Upgrade", up.Name), ("Name", clan.Name)), hero.CharacterObject, Log.Sound.Notification1);
         }
 
         private void RemoveKingdomUpgrade(string upgradeId, Hero hero, GlobalCommonConfig gc, Action<string> ok, Action<string> fail)
         {
-            if (hero.Clan == null) { fail("You're not in a clan!"); return; }
+            if (hero.Clan == null) { fail("{=BLT_UpgradeNotInClan}You are not in a clan!".Translate()); return; }
             var kingdom = hero.Clan.Kingdom;
-            if (kingdom == null) { fail("You're not in a kingdom!"); return; }
-            if (kingdom.Leader != hero) { fail("Only the kingdom ruler can remove kingdom upgrades"); return; }
+            if (kingdom == null) { fail("{=BLT_UpgradeNotInKingdom}You are not in a kingdom!".Translate()); return; }
+            if (kingdom.Leader != hero) { fail("{=BLT_UpgradeRemoveKingdomRulerOnly}Only the kingdom ruler can remove kingdom upgrades".Translate()); return; }
 
             var up = gc.KingdomUpgrades?.FirstOrDefault(u => u.ID == upgradeId);
-            if (up == null) { fail($"Upgrade '{upgradeId}' not found"); return; }
-            if (!up.CanBeRemoved) { fail($"'{up.Name}' cannot be removed"); return; }
-            if (UpgradeBehavior.Current?.HasKingdomUpgrade(kingdom, upgradeId) != true) { fail($"{kingdom.Name} doesn't have this upgrade"); return; }
+            if (up == null) { fail("{=BLT_UpgradeNotFound}Upgrade '{Id}' not found".Translate(("Id", upgradeId))); return; }
+            if (!up.CanBeRemoved) { fail("{=BLT_UpgradeCannotRemove}'{Upgrade}' cannot be removed".Translate(("Upgrade", up.Name))); return; }
+            if (UpgradeBehavior.Current?.HasKingdomUpgrade(kingdom, upgradeId) != true) { fail("{=BLT_UpgradeNotOwned}{Name} doesn't have this upgrade".Translate(("Name", kingdom.Name))); return; }
 
             UpgradeBehavior.Current?.RemoveKingdomUpgrade(kingdom, upgradeId);
-            ok($"Removed '{up.Name}' from {kingdom.Name}!");
-            Log.ShowInformation($"{hero.Name} removed {up.Name} from {kingdom.Name}", hero.CharacterObject, Log.Sound.Horns2);
+            ok("{=BLT_UpgradeRemovedFrom}Removed '{Upgrade}' from {Name}!".Translate(("Upgrade", up.Name), ("Name", kingdom.Name)));
+            Log.ShowInformation("{=BLT_UpgradeLogRemovedFrom}{Hero} removed {Upgrade} from {Name}"
+                .Translate(("Hero", hero.Name), ("Upgrade", up.Name), ("Name", kingdom.Name)), hero.CharacterObject, Log.Sound.Horns2);
         }
     }
 }

@@ -1126,7 +1126,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: false
   RespondInTwitch: true
-- Documentation: ''
+- Aliases: Апгрейд
+  Documentation: ''
   Enabled: true
   Handler: UpgradeAction
   HandlerConfig:
