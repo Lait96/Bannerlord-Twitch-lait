@@ -474,16 +474,30 @@
         <string id="Q1QZbwR3" text="Auction Item"/>
         <!-- Allows viewers to auction custom items, for other viewers to bid on (make sure to add a bid command also) -->
         <string id="024hOo3G" text="Allows viewers to auction custom items, for other viewers to bid on (make sure to add a bid command also)"/>
-        <!-- Auction Item -->
-        <string id="34GjlaWu" text="Auction Item"/>
+        <!-- Auction Duration In Seconds -->
+        <string id="34GjlaWu" text="Auction Duration In Seconds"/>
         <!-- How long the auction should last before the highest bidder wins -->
         <string id="zsvhQABf" text="How long the auction should last before the highest bidder wins"/>
-        <!-- Auction Item -->
-        <string id="ssmJ9c5L" text="Auction Item"/>
+        <!-- Auction Reminder Interval In Seconds -->
+        <string id="ssmJ9c5L" text="Auction Reminder Interval In Seconds"/>
         <!-- Interval at which to output a reminder of the auction -->
         <string id="ijkjWj5q" text="Interval at which to output a reminder of the auction"/>
+        <!-- Extend Auction On Bid -->
+        <string id="BLT_AuctionExtendOnBid_Name" text="Extend Auction On Bid"/>
+        <!-- Add time to the auction whenever a valid bid is placed -->
+        <string id="BLT_AuctionExtendOnBid_Desc" text="Add time to the auction whenever a valid bid is placed"/>
+        <!-- Bid Extension In Seconds -->
+        <string id="BLT_AuctionBidExtensionSeconds_Name" text="Bid Extension In Seconds"/>
+        <!-- How many seconds to add to the auction after each valid bid -->
+        <string id="BLT_AuctionBidExtensionSeconds_Desc" text="How many seconds to add to the auction after each valid bid"/>
+        <!-- Minimum Bid Increment -->
+        <string id="BLT_AuctionMinimumBidIncrement_Name" text="Minimum Bid Increment"/>
+        <!-- Minimum amount a new bid must exceed the current highest bid by -->
+        <string id="BLT_AuctionMinimumBidIncrement_Desc" text="Minimum amount a new bid must exceed the current highest bid by"/>
         <!-- Another auction is already in progress -->
         <string id="T2R35HHV" text="Another auction is already in progress"/>
+        <!-- (custom item index) (reserve price) -->
+        <string id="BLT_AuctionItem_Args" text="(custom item index) (reserve price)"/>
         <!-- You have no items to auction -->
         <string id="kYHEtOM7" text="You have no items to auction"/>
         <!-- (reserve price) (partial item name) -->

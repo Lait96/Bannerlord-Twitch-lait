@@ -163,13 +163,13 @@
         <!-- Auction Item -->
         <string id="Q1QZbwR3" text="Предмет аукциона" original="Auction Item"/>
         <!-- Allows viewers to auction custom items, for other viewers to bid on (make sure to add a bid command also) -->
-        <string id="024hOo3G" text="Позволяет зрителям выставлять на аукцион персонализированные товары, чтобы другие зрители могли делать ставки (не забудьте также добавить команду ставки)" original="Allows viewers to auction custom items, for other viewers to bid on (make sure to add a bid command also)"/>
-        <!-- Auction Item -->
-        <string id="34GjlaWu" text="Предмет аукциона" original="Auction Item"/>
+        <string id="024hOo3G" text="Позволяет зрителям выставлять особые предметы на аукцион, чтобы другие зрители могли делать ставки (не забудьте также добавить команду для ставок)" original="Allows viewers to auction custom items, for other viewers to bid on (make sure to add a bid command also)"/>
+        <!-- Auction Duration In Seconds -->
+        <string id="34GjlaWu" text="Продолжительность аукциона в секундах" original="Auction Duration In Seconds"/>
         <!-- How long the auction should last before the highest bidder wins -->
         <string id="zsvhQABf" text="Как долго должен продлиться аукцион, прежде чем выиграет участник, предложивший самую высокую цену" original="How long the auction should last before the highest bidder wins"/>
-        <!-- Auction Item -->
-        <string id="ssmJ9c5L" text="Предмет аукциона" original="Auction Item"/>
+        <!-- Auction Reminder Interval In Seconds -->
+        <string id="ssmJ9c5L" text="Интервал напоминаний об аукционе в секундах" original="Auction Reminder Interval In Seconds"/>
         <!-- Interval at which to output a reminder of the auction -->
         <string id="ijkjWj5q" text="Интервал, через который выводится напоминание об аукционе" original="Interval at which to output a reminder of the auction"/>
         <!-- Extend Auction On Bid -->
@@ -177,7 +177,7 @@
         <!-- Add time to the auction whenever a valid bid is placed -->
         <string id="BLT_AuctionExtendOnBid_Desc" text="Добавлять время к аукциону после каждой действительной ставки" original="Add time to the auction whenever a valid bid is placed"/>
         <!-- Bid Extension In Seconds -->
-        <string id="BLT_AuctionBidExtensionSeconds_Name" text="Продление ставки в секундах" original="Bid Extension In Seconds"/>
+        <string id="BLT_AuctionBidExtensionSeconds_Name" text="Продление аукциона в секундах" original="Bid Extension In Seconds"/>
         <!-- How many seconds to add to the auction after each valid bid -->
         <string id="BLT_AuctionBidExtensionSeconds_Desc" text="Сколько секунд добавлять к аукциону после каждой действительной ставки" original="How many seconds to add to the auction after each valid bid"/>
         <!-- Minimum Bid Increment -->
@@ -186,6 +186,8 @@
         <string id="BLT_AuctionMinimumBidIncrement_Desc" text="Минимальная сумма, на которую новая ставка должна превышать текущую максимальную ставку" original="Minimum amount a new bid must exceed the current highest bid by"/>
         <!-- Another auction is already in progress -->
         <string id="T2R35HHV" text="Другой аукцион уже идет" original="Another auction is already in progress"/>
+        <!-- (custom item index) (reserve price) -->
+        <string id="BLT_AuctionItem_Args" text="(индекс особого предмета) (резервная цена)" original="(custom item index) (reserve price)"/>
         <!-- You have no items to auction -->
         <string id="kYHEtOM7" text="У вас нет предметов для аукциона" original="You have no items to auction"/>
         <!-- (reserve price) (partial item name) -->
@@ -197,7 +199,7 @@
         <!-- {ItemCount} items found matching '{ItemName}', be more specific -->
         <string id="S2cszVBa" text="Найдено {ItemCount} элементов, соответствующих '{ItemName}', будьте более специфичны" original="{ItemCount} items found matching '{ItemName}', be more specific"/>
         <!-- Auction of '{ItemName}' is OPEN! Reserve price is {ReservePrice}{GoldIcon}, bidding closes in {AuctionDurationInSeconds} seconds. -->
-        <string id="BH5rnHNq" text="Аукцион '{ItemName}' is OPEN! Reserve price is {ReservePrice}{GoldIcon}, bidding closes in {AuctionDurationInSeconds} секунд." original="Auction of '{ItemName}' is OPEN! Reserve price is {ReservePrice}{GoldIcon}, bidding closes in {AuctionDurationInSeconds} seconds."/>
+        <string id="BH5rnHNq" text="Аукцион предмета «{ItemName}» ОТКРЫТ! Резервная цена: {ReservePrice}{GoldIcon}. Прием ставок завершится через {AuctionDurationInSeconds} сек." original="Auction of '{ItemName}' is OPEN! Reserve price is {ReservePrice}{GoldIcon}, bidding closes in {AuctionDurationInSeconds} seconds."/>
         <!-- Bid On Item -->
         <string id="rBAvqAh7" text="Ставка на предмет" original="Bid On Item"/>
         <!-- Allows viewers bid on an active custom item auction (make sure to add an auction command also) -->

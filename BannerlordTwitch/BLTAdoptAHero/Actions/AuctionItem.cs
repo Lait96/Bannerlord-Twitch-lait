@@ -61,21 +61,21 @@ namespace BLTAdoptAHero
             if (string.IsNullOrWhiteSpace(context.Args))
             {
                 ActionManager.SendReply(context,
-                    context.ArgsErrorMessage("{=}(custom item index) (reserve price)".Translate()));
+                    context.ArgsErrorMessage("{=BLT_AuctionItem_Args}(custom item index) (reserve price)".Translate()));
                 return;
             }
 
             var argParts = context.Args.Trim().Split(' ').ToList();
             if (argParts.Count != 2)
             {
-                ActionManager.SendReply(context, "{=}(custom item index) (reserve price)".Translate());
+                ActionManager.SendReply(context, "{=BLT_AuctionItem_Args}(custom item index) (reserve price)".Translate());
                 return;
             }
 
             (var element, string error) = BLTAdoptAHeroCampaignBehavior.Current.FindCustomItemByIndex(adoptedHero, argParts[0]);
             if (element.IsEqualTo(EquipmentElement.Invalid))
             {
-                ActionManager.SendReply(context, error ?? "(unknown error)");
+                ActionManager.SendReply(context, error ?? "{=3ZKRp5OF}(unknown error)".Translate());
                 return;
             }
 
