@@ -1007,7 +1007,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: ''
+- Aliases: Битваинфо
+  Documentation: ''
   Enabled: true
   Handler: BattleInfo
   HandlerConfig: {}

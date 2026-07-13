@@ -3,7 +3,7 @@ layout: default
 title: Управление отрядом
 description: Инструкция по команде Отряд
 permalink: /party-command/
-previous_url: /formation-command/
+previous_url: /battle-info-command/
 next_url: /clan-command/
 ---
 

@@ -1671,5 +1671,26 @@
         <string id="BLTAdoptClanNameRequired" text="Введите название клана, из которого хотите усыновить героя" original="Please enter the name of the clan you wish to adopt a hero from"/>
         <string id="BLTAdoptArgList" text="список" original="list"/>
         <string id="BLTAdoptArgListShort" text="а" original="a"/>
+        <!-- BattleInfo localization refactor -->
+        <string id="BLTBattleInfoDisplayName" text="Информация о бое" original="BattleInfo"/>
+        <string id="BLTBattleInfoDescription" text="Показывает боевую информацию о герое" original="Shows hero battle info"/>
+        <string id="BLTBattleInfoDocumentation" text="&lt;strong&gt;Описание:&lt;/strong&gt; Показывает подробную информацию о текущем состоянии вашего героя в бою, включая здоровье, скакуна, оружие, убийства, свиту, золото, опыт и активные способности.&#10;" original="&lt;strong&gt;Description:&lt;/strong&gt; Shows detailed information about your adopted hero's current battle status, including health, mount, weapons, kills, retinue, gold, XP, and active powers.&#10;"/>
+        <string id="BLTBattleInfoNoMission" text="Нет активной миссии!" original="No mission!"/>
+        <string id="BLTBattleInfoMissionBehaviorNotFound" text="Компонент миссии не найден!" original="Mission behavior not found!"/>
+        <string id="BLTBattleInfoBattleSummary" text="{PlayerFaction} против {EnemyFaction} (союзники/враги): {AllyTotal}({AllyActive})/{EnemyTotal}({EnemyActive}) - " original="{PlayerFaction} vs {EnemyFaction}(P/E):{AllyTotal}({AllyActive})/{EnemyTotal}({EnemyActive}) - "/>
+        <string id="BLTBattleInfoActiveBattleSummary" text="{PlayerFaction} против {EnemyFaction} (союзники/враги): {AllyActive}/{EnemyActive} - " original="{PlayerFaction} vs {EnemyFaction}(P/E):{AllyActive}/{EnemyActive} - "/>
+        <string id="BLTBattleInfoFactionError" text="Ошибка при получении данных о фракциях - " original="Error getting factions - "/>
+        <string id="BLTBattleInfoHeroNotInBattleCooldown" text="Герой сейчас не участвует в бою! (перезарядка: {Cooldown} с)" original="Hero is not currently in battle! ({Cooldown}s)"/>
+        <string id="BLTBattleInfoKilledBy" text=" | Убит бойцом {Killer} с помощью {Weapon} (урон: {Damage})" original=" | Killed by {Killer} with {Weapon}({Damage})"/>
+        <string id="BLTBattleInfoDeathChance" text=" | Вероятность смерти: {Chance}%" original=" | Death chance: {Chance}%"/>
+        <string id="BLTBattleInfoHeroNotInBattle" text="Герой сейчас не участвует в бою!" original="Hero is not currently in battle!"/>
+        <string id="BLTBattleInfoUnarmed" text="Без оружия" original="Unarmed"/>
+        <string id="BLTBattleInfoAmmo" text=" - Боеприпасы: {Ammo}/{MaxAmmo}" original=" - Ammo: {Ammo}/{MaxAmmo}"/>
+        <string id="BLTBattleInfoAdditionalWeaponAmmo" text=" + {Weapon} ({WeaponType}) - Боеприпасы: {Ammo}/{MaxAmmo}" original=" + {Weapon} ({WeaponType}) - Ammo: {Ammo}/{MaxAmmo}"/>
+        <string id="BLTBattleInfoClassAndHealth" text="Класс: {Class}&#10;- ОЗ: {Health}/{MaxHealth}&#10;" original="Class: {Class}&#10;- HP: {Health}/{MaxHealth}&#10;"/>
+        <string id="BLTBattleInfoNoClass" text="Без класса" original="No class"/>
+        <string id="BLTBattleInfoMountHealth" text="- ОЗ скакуна: {MountHealth}&#10;" original="- Mount HP: {MountHealth}&#10;"/>
+        <string id="BLTBattleInfoCombatStats" text="- Оружие: {Weapon}&#10;- Убийства: {Kills}&#10;- Свита ({Retinue}): {RetinueKills}&#10;- Золото: {Gold}&#10;- Опыт: {XP}&#10;- Способность: {Power}% " original="- Weapon: {Weapon}&#10;- Kills: {Kills}&#10;- Retinue({Retinue}): {RetinueKills}&#10;- Gold: {Gold}&#10;- XP: {XP}&#10;- Power: {Power}% "/>
+        <string id="BLTBattleInfoActiveCombat" text="- Активно сражается" original="- Active combat"/>
 </strings>
 </base>

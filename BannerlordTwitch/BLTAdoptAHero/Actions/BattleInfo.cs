@@ -14,8 +14,8 @@ using BLTAdoptAHero;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=TESTING}BattleInfo"),
-     LocDescription("{=TESTING}Shows hero battle info"),
+    [LocDisplayName("{=BLTBattleInfoDisplayName}BattleInfo"),
+     LocDescription("{=BLTBattleInfoDescription}Shows hero battle info"),
      UsedImplicitly]
     public class BattleInfo : HeroCommandHandlerBase
     {
@@ -23,7 +23,7 @@ namespace BLTAdoptAHero
         {
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.Value("<strong>Description:</strong> Shows detailed information about your adopted hero's current battle status, including health, mount, weapons, kills, retinue, gold, XP, and active powers.\n");
+                generator.Value("{=BLTBattleInfoDocumentation}<strong>Description:</strong> Shows detailed information about your adopted hero's current battle status, including health, mount, weapons, kills, retinue, gold, XP, and active powers.\n".Translate());
             }
         }
 
@@ -41,7 +41,7 @@ namespace BLTAdoptAHero
 
             if (Mission.Current == null)
             {
-                onFailure("{=TESTING}No mission!".Translate());
+                onFailure("{=BLTBattleInfoNoMission}No mission!".Translate());
                 return;
             }
 
@@ -77,7 +77,7 @@ namespace BLTAdoptAHero
             var missionBehavior = BLTAdoptAHeroCommonMissionBehavior.Current;
             if (missionBehavior == null)
             {
-                onFailure("Mission behavior not found!");
+                onFailure("{=BLTBattleInfoMissionBehaviorNotFound}Mission behavior not found!".Translate());
                 return;
             }
 
@@ -101,27 +101,30 @@ namespace BLTAdoptAHero
                 try
                 {
                     string playerFaction = (isDefend ? mapEvent.DefenderSide.MapFaction.Name.ToString() : mapEvent.AttackerSide.MapFaction.Name.ToString()); string enemyFaction = (isDefend ? mapEvent.AttackerSide.MapFaction.Name.ToString() : mapEvent.DefenderSide.MapFaction.Name.ToString());
-                    battlestring += $"{playerFaction} vs {enemyFaction}(P/E):" + (isDefend ? $"{allyTotal}({defendCount})/{enemyTotal}({attackCount}) - " : $"{allyTotal}({attackCount})/{enemyTotal}({defendCount}) - ");
+                    battlestring += "{=BLTBattleInfoBattleSummary}{PlayerFaction} vs {EnemyFaction}(P/E):{AllyTotal}({AllyActive})/{EnemyTotal}({EnemyActive}) - ".Translate(
+                        ("PlayerFaction", playerFaction), ("EnemyFaction", enemyFaction),
+                        ("AllyTotal", allyTotal), ("AllyActive", isDefend ? defendCount : attackCount),
+                        ("EnemyTotal", enemyTotal), ("EnemyActive", isDefend ? attackCount : defendCount));
                 }
-                catch (Exception e) { battlestring += "Error getting factions - "; Log.Trace(e.StackTrace); }
+                catch (Exception e) { battlestring += "{=BLTBattleInfoFactionError}Error getting factions - ".Translate(); Log.Trace(e.StackTrace); }
 
 
-                battlestring += $"Hero is not currently in battle! ({cd}s)";
+                battlestring += "{=BLTBattleInfoHeroNotInBattleCooldown}Hero is not currently in battle! ({Cooldown}s)".Translate(("Cooldown", cd));
 
                 if (diedInfo.killer != null)
                 {                   
                     var weaponClass = (WeaponClass)diedInfo.blow.WeaponClass;
                     string weaponName = weaponClass.ToString();
 
-                    battlestring +=
-                        $" | Killed by {diedInfo.killer.Name} with {weaponName}({diedInfo.blow.InflictedDamage})";
+                    battlestring += "{=BLTBattleInfoKilledBy} | Killed by {Killer} with {Weapon}({Damage})".Translate(
+                        ("Killer", diedInfo.killer.Name), ("Weapon", weaponName), ("Damage", diedInfo.blow.InflictedDamage));
 
                     if (canDie)
                     {
                         float deathMod = GlobalCommonConfig.Get().DeathChance;
                         var deathChance = Campaign.Current.Models.PartyHealingModel.GetSurvivalChance(adoptedHero.PartyBelongedTo.Party, adoptedHero.CharacterObject, diedInfo.blow.DamageType, true);
-                        battlestring +=
-                            $" | Death chance: {(deathChance * deathMod * 100)}%";
+                        battlestring += "{=BLTBattleInfoDeathChance} | Death chance: {Chance}%".Translate(
+                            ("Chance", deathChance * deathMod * 100));
                     }
                         
 
@@ -132,7 +135,7 @@ namespace BLTAdoptAHero
             }
             else if (agent == null && MissionHelpers.InTournament())
             {
-                onFailure($"Hero is not currently in battle!");
+                onFailure("{=BLTBattleInfoHeroNotInBattle}Hero is not currently in battle!".Translate());
                 return;
             }
 
@@ -172,7 +175,7 @@ namespace BLTAdoptAHero
             // --- Main hand ---
             var mainIndex = agent.GetPrimaryWieldedItemIndex();
             var mainItemObj = mainIndex != EquipmentIndex.None ? equipment[mainIndex].Item : null;
-            string weaponInfo = "Unarmed";
+            string weaponInfo = "{=BLTBattleInfoUnarmed}Unarmed".Translate();
 
             if (mainItemObj != null)
             {
@@ -186,7 +189,7 @@ namespace BLTAdoptAHero
                 {
                     int ammo = equipment.GetAmmoAmount(mainIndex);
                     int maxAmmo = equipment.GetMaxAmmo(mainIndex);
-                    ammoInfo = $" - Ammo: {ammo}/{maxAmmo}";
+                    ammoInfo = "{=BLTBattleInfoAmmo} - Ammo: {Ammo}/{MaxAmmo}".Translate(("Ammo", ammo), ("MaxAmmo", maxAmmo));
                 }
 
                 weaponInfo = $"{mainItemObj.Name} ({mainItemObj.ItemType}){ammoInfo}";
@@ -246,7 +249,8 @@ namespace BLTAdoptAHero
                             int ammo = equipment.GetAmmoAmount(slot);
                             int maxAmmo = equipment.GetMaxAmmo(slot);
 
-                            weaponInfo += $" + {item.Name} ({item.ItemType}) - Ammo: {ammo}/{maxAmmo}";
+                            weaponInfo += "{=BLTBattleInfoAdditionalWeaponAmmo} + {Weapon} ({WeaponType}) - Ammo: {Ammo}/{MaxAmmo}".Translate(
+                                ("Weapon", item.Name), ("WeaponType", item.ItemType), ("Ammo", ammo), ("MaxAmmo", maxAmmo));
                             break;
                         }
                 }
@@ -258,26 +262,26 @@ namespace BLTAdoptAHero
                 try
                 {
                     string playerFaction = (isDefend ? mapEvent.DefenderSide.MapFaction.Name.ToString() : mapEvent.AttackerSide.MapFaction.Name.ToString()); string enemyFaction = (isDefend ? mapEvent.AttackerSide.MapFaction.Name.ToString() : mapEvent.DefenderSide.MapFaction.Name.ToString());
-                    message += $"{playerFaction} vs {enemyFaction}(P/E):" + (isDefend ? $"{defendCount}/{attackCount} - " : $"{attackCount}/{defendCount} - ");
+                    message += "{=BLTBattleInfoActiveBattleSummary}{PlayerFaction} vs {EnemyFaction}(P/E):{AllyActive}/{EnemyActive} - ".Translate(
+                        ("PlayerFaction", playerFaction), ("EnemyFaction", enemyFaction),
+                        ("AllyActive", isDefend ? defendCount : attackCount),
+                        ("EnemyActive", isDefend ? attackCount : defendCount));
                 }
-                catch (Exception e) { message += "Error getting factions - "; Log.Trace(e.StackTrace); }
+                catch (Exception e) { message += "{=BLTBattleInfoFactionError}Error getting factions - ".Translate(); Log.Trace(e.StackTrace); }
             }
                 
-            message +=
-                $"Class: {adoptedHero.GetClass()?.Name.ToString() ?? "No class"}\n" +
-                $"- HP: {(int)agent.Health}/{(int)agent.HealthLimit}\n";
+            message += "{=BLTBattleInfoClassAndHealth}Class: {Class}\n- HP: {Health}/{MaxHealth}\n".Translate(
+                ("Class", adoptedHero.GetClass()?.Name.ToString() ?? "{=BLTBattleInfoNoClass}No class".Translate()),
+                ("Health", (int)agent.Health), ("MaxHealth", (int)agent.HealthLimit));
             if (agent.MountAgent != null)
-                message += $"- Mount HP: {mountInfo}\n";
+                message += "{=BLTBattleInfoMountHealth}- Mount HP: {MountHealth}\n".Translate(("MountHealth", mountInfo));
 
-            message +=
-                $"- Weapon: {weaponInfo}\n" +
-                $"- Kills: {state.Kills}\n" +
-                $"- Retinue({state2.ActiveRetinue + state2.ActiveRetinue2}): {state.RetinueKills}\n" +
-                $"- Gold: {state.WonGold}\n" +
-                $"- XP: {state.WonXP}\n" +
-                $"- Power: { ActivePowerFraction(adoptedHero) * 100:0}% ";
+            message += "{=BLTBattleInfoCombatStats}- Weapon: {Weapon}\n- Kills: {Kills}\n- Retinue({Retinue}): {RetinueKills}\n- Gold: {Gold}\n- XP: {XP}\n- Power: {Power}% ".Translate(
+                ("Weapon", weaponInfo), ("Kills", state.Kills),
+                ("Retinue", state2.ActiveRetinue + state2.ActiveRetinue2), ("RetinueKills", state.RetinueKills),
+                ("Gold", state.WonGold), ("XP", state.WonXP), ("Power", $"{ActivePowerFraction(adoptedHero) * 100:0}"));
             if (hasAttacked)
-                message += $"- Active combat";
+                message += "{=BLTBattleInfoActiveCombat}- Active combat".Translate();
 
             onSuccess(message);
         }

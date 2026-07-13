@@ -4,7 +4,7 @@ title: Управление формациями
 description: Инструкция по команде Формация
 permalink: /formation-command/
 previous_url: /adopt-command/
-next_url: /party-command/
+next_url: /battle-info-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>
