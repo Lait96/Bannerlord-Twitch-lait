@@ -1940,5 +1940,31 @@
         <string id="BLTGoldIncomeTributesReceived" text="Tributes received: +{INCOME} | "/>
         <string id="BLTGoldIncomeTributesPaid" text="Tributes paid: -{AMOUNT} | "/>
         <string id="BLTGoldIncomeTotal" text=" | Total: {SIGN}{INCOME}/day"/>
+        <!-- HeirCommand localization -->
+        <string id="BLTHeirDisplayName" text="Assign Heir"/>
+        <string id="BLTHeirDescription" text="Assigns a hero as heir. Optional: specify a name. Inherits gold, custom items, and can override age or skills."/>
+        <string id="BLTHeirOverrideAge" text="Override Age"/>
+        <string id="BLTHeirOverrideAgeDescription" text="Override the heir's age"/>
+        <string id="BLTHeirStartingAgeRange" text="Starting Age Range"/>
+        <string id="BLTHeirStartingAgeRangeDescription" text="Random range of age when overriding it"/>
+        <string id="BLTHeirStartingSkills" text="Starting Skills"/>
+        <string id="BLTHeirStartingSkillsDescription" text="Starting skills, if empty defaults are kept"/>
+        <string id="BLTHeirStartingGold" text="Starting Gold"/>
+        <string id="BLTHeirStartingGoldDescription" text="Gold the heir starts with"/>
+        <string id="BLTHeirInheritancePercentage" text="Inheritance Percentage"/>
+        <string id="BLTHeirInheritancePercentageDescription" text="Fraction of assets inherited (0-1)"/>
+        <string id="BLTHeirMaxInheritedCustomItems" text="Maximum Inherited Custom Items"/>
+        <string id="BLTHeirMaxInheritedCustomItemsDescription" text="Max custom items inherited"/>
+        <string id="BLTHeirStartingEquipmentTier" text="Starting Equipment Tier"/>
+        <string id="BLTHeirStartingEquipmentTierDescription" text="Optional starting equipment tier"/>
+        <string id="BLTHeirShowNotifications" text="Show Notifications"/>
+        <string id="BLTHeirShowNotificationsDescription" text="Display feed notifications when assigning heir"/>
+        <string id="BLTHeirDocumentation" text="HeirCommand settings for age, skills, gold, inheritance, equipment, and notifications."/>
+        <string id="BLTHeirBehaviorNotInitialized" text="BLTHeirBehavior not initialized"/>
+        <string id="BLTHeirNoSuitableHeir" text="No suitable heir found in adopted hero's clan."/>
+        <string id="BLTHeirAssigned" text="Assigned heir to {HeirName}"/>
+        <string id="BLTHeirNamedHeroNotFound" text="No hero named '{HeroName}' found to adopt as heir."/>
+        <string id="BLTHeirCurrentHeir" text="Heir is {HeirName}"/>
+        <string id="BLTHeirNoneToAdopt" text="No heir to adopt"/>
 </strings>
 </base>

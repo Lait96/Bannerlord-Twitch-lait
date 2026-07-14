@@ -938,7 +938,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: ''
+- Aliases: наследник
+  Documentation: ''
   Enabled: true
   Handler: HeirCommand
   HandlerConfig:

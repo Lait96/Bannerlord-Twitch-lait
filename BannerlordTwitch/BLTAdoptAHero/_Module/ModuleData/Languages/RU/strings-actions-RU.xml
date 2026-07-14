@@ -1866,5 +1866,31 @@
         <string id="BLTGoldIncomeTributesReceived" text="Полученная дань: +{INCOME} | " original="Tributes received: +{INCOME} | "/>
         <string id="BLTGoldIncomeTributesPaid" text="Выплаченная дань: -{AMOUNT} | " original="Tributes paid: -{AMOUNT} | "/>
         <string id="BLTGoldIncomeTotal" text=" | Итого: {SIGN}{INCOME}/день" original=" | Total: {SIGN}{INCOME}/day"/>
+        <!-- HeirCommand localization -->
+        <string id="BLTHeirDisplayName" text="Назначить наследника" original="Assign Heir"/>
+        <string id="BLTHeirDescription" text="Назначает героя наследником. Необязательно: укажите имя. Наследник получает золото и особые предметы; его возраст и навыки можно переопределить." original="Assigns a hero as heir. Optional: specify a name. Inherits gold, custom items, and can override age or skills."/>
+        <string id="BLTHeirOverrideAge" text="Переопределить возраст" original="Override Age"/>
+        <string id="BLTHeirOverrideAgeDescription" text="Переопределить возраст наследника" original="Override the heir's age"/>
+        <string id="BLTHeirStartingAgeRange" text="Диапазон начального возраста" original="Starting Age Range"/>
+        <string id="BLTHeirStartingAgeRangeDescription" text="Диапазон случайного возраста при его переопределении" original="Random range of age when overriding it"/>
+        <string id="BLTHeirStartingSkills" text="Начальные навыки" original="Starting Skills"/>
+        <string id="BLTHeirStartingSkillsDescription" text="Начальные навыки; если список пуст, сохраняются навыки по умолчанию" original="Starting skills, if empty defaults are kept"/>
+        <string id="BLTHeirStartingGold" text="Начальное золото" original="Starting Gold"/>
+        <string id="BLTHeirStartingGoldDescription" text="Количество золота, с которым начинает наследник" original="Gold the heir starts with"/>
+        <string id="BLTHeirInheritancePercentage" text="Доля наследства" original="Inheritance Percentage"/>
+        <string id="BLTHeirInheritancePercentageDescription" text="Доля наследуемого имущества (от 0 до 1)" original="Fraction of assets inherited (0-1)"/>
+        <string id="BLTHeirMaxInheritedCustomItems" text="Максимум наследуемых особых предметов" original="Maximum Inherited Custom Items"/>
+        <string id="BLTHeirMaxInheritedCustomItemsDescription" text="Максимальное количество наследуемых особых предметов" original="Max custom items inherited"/>
+        <string id="BLTHeirStartingEquipmentTier" text="Уровень начального снаряжения" original="Starting Equipment Tier"/>
+        <string id="BLTHeirStartingEquipmentTierDescription" text="Необязательный уровень начального снаряжения" original="Optional starting equipment tier"/>
+        <string id="BLTHeirShowNotifications" text="Показывать уведомления" original="Show Notifications"/>
+        <string id="BLTHeirShowNotificationsDescription" text="Показывать уведомления в ленте при назначении наследника" original="Display feed notifications when assigning heir"/>
+        <string id="BLTHeirDocumentation" text="Настройки HeirCommand: возраст, навыки, золото, наследство, снаряжение и уведомления." original="HeirCommand settings for age, skills, gold, inheritance, equipment, and notifications."/>
+        <string id="BLTHeirBehaviorNotInitialized" text="Компонент BLTHeirBehavior не инициализирован" original="BLTHeirBehavior not initialized"/>
+        <string id="BLTHeirNoSuitableHeir" text="В клане усыновлённого героя не найден подходящий наследник." original="No suitable heir found in adopted hero's clan."/>
+        <string id="BLTHeirAssigned" text="Наследником назначен герой {HeirName}" original="Assigned heir to {HeirName}"/>
+        <string id="BLTHeirNamedHeroNotFound" text="Герой с именем «{HeroName}», подходящий на роль наследника, не найден." original="No hero named '{HeroName}' found to adopt as heir."/>
+        <string id="BLTHeirCurrentHeir" text="Текущий наследник — {HeirName}" original="Heir is {HeirName}"/>
+        <string id="BLTHeirNoneToAdopt" text="Нет наследника, которого можно усыновить" original="No heir to adopt"/>
 </strings>
 </base>

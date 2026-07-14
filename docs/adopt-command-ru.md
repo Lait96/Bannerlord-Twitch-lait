@@ -3,7 +3,7 @@ layout: default
 title: Усыновление героя
 description: Инструкция по команде Усыновить
 permalink: /adopt-command/
-next_url: /formation-command/
+next_url: /heir-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

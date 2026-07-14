@@ -25,51 +25,51 @@ using YamlDotNet.Serialization;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("Assign Heir"),
-     LocDescription("Assigns a hero as heir. Optional: specify a name. Inherits gold, custom items, and can override age or skills."),
+    [LocDisplayName("{=BLTHeirDisplayName}Assign Heir"),
+     LocDescription("{=BLTHeirDescription}Assigns a hero as heir. Optional: specify a name. Inherits gold, custom items, and can override age or skills."),
      UsedImplicitly]
     public class HeirCommand : ICommandHandler, IRewardHandler
     {
         private class Settings : IDocumentable
         {
-            [LocDisplayName("Override Age"),
-             LocDescription("Override the heir's age"),
+            [LocDisplayName("{=BLTHeirOverrideAge}Override Age"),
+             LocDescription("{=BLTHeirOverrideAgeDescription}Override the heir's age"),
              PropertyOrder(1)]
             public bool OverrideAge { get; set; } = false;
 
-            [LocDisplayName("Starting Age Range"),
-             LocDescription("Random range of age when overriding it"),
+            [LocDisplayName("{=BLTHeirStartingAgeRange}Starting Age Range"),
+             LocDescription("{=BLTHeirStartingAgeRangeDescription}Random range of age when overriding it"),
              PropertyOrder(2)]
             public RangeFloat StartingAgeRange { get; set; } = new(18, 35);
 
-            [LocDisplayName("Starting Skills"),
-             LocDescription("Starting skills, if empty defaults are kept"),
+            [LocDisplayName("{=BLTHeirStartingSkills}Starting Skills"),
+             LocDescription("{=BLTHeirStartingSkillsDescription}Starting skills, if empty defaults are kept"),
              Editor(typeof(DefaultCollectionEditor), typeof(DefaultCollectionEditor)),
              PropertyOrder(3)]
             public ObservableCollection<SkillRangeDef> StartingSkills { get; set; } = new();
 
-            [LocDisplayName("Starting Gold"),
-             LocDescription("Gold the heir starts with"),
+            [LocDisplayName("{=BLTHeirStartingGold}Starting Gold"),
+             LocDescription("{=BLTHeirStartingGoldDescription}Gold the heir starts with"),
              PropertyOrder(4)]
             public int StartingGold { get; set; } = 0;
 
-            [LocDisplayName("Inheritance Percentage"),
-             LocDescription("Fraction of assets inherited (0-1)"),
+            [LocDisplayName("{=BLTHeirInheritancePercentage}Inheritance Percentage"),
+             LocDescription("{=BLTHeirInheritancePercentageDescription}Fraction of assets inherited (0-1)"),
              PropertyOrder(5)]
             public float Inheritance { get; set; } = 0.5f;
 
-            [LocDisplayName("Maximum Inherited Custom Items"),
-             LocDescription("Max custom items inherited"),
+            [LocDisplayName("{=BLTHeirMaxInheritedCustomItems}Maximum Inherited Custom Items"),
+             LocDescription("{=BLTHeirMaxInheritedCustomItemsDescription}Max custom items inherited"),
              PropertyOrder(6)]
             public int MaxInheritedCustomItems { get; set; } = 10;
 
-            [LocDisplayName("Starting Equipment Tier"),
-             LocDescription("Optional starting equipment tier"),
+            [LocDisplayName("{=BLTHeirStartingEquipmentTier}Starting Equipment Tier"),
+             LocDescription("{=BLTHeirStartingEquipmentTierDescription}Optional starting equipment tier"),
              PropertyOrder(7)]
             public int? StartingEquipmentTier { get; set; }
 
-            [LocDisplayName("Show Notifications"),
-             LocDescription("Display feed notifications when assigning heir"),
+            [LocDisplayName("{=BLTHeirShowNotifications}Show Notifications"),
+             LocDescription("{=BLTHeirShowNotificationsDescription}Display feed notifications when assigning heir"),
              PropertyOrder(8)]
             public bool Notifications { get; set; } = true;
 
@@ -79,7 +79,7 @@ namespace BLTAdoptAHero
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.P("HeirCommand settings for age, skills, gold, inheritance, equipment, and notifications.");
+                generator.P("{=BLTHeirDocumentation}HeirCommand settings for age, skills, gold, inheritance, equipment, and notifications.".Translate());
             }
         }
 
@@ -107,7 +107,7 @@ namespace BLTAdoptAHero
             Hero heirHero = null;
             bool leader = false;
             var behavior = Campaign.Current.GetCampaignBehavior<BLTHeirBehavior>();
-            if (behavior == null) return (false, "BLTHeirBehavior not initialized");
+            if (behavior == null) return (false, "{=BLTHeirBehaviorNotInitialized}BLTHeirBehavior not initialized".Translate());
             if (behavior.heirList.TryGetValue(ancestor, out var value))
             {
                 heirHero = value.heir;
@@ -122,11 +122,11 @@ namespace BLTAdoptAHero
                     .Where(h => h.IsAlive && h.Age >= Campaign.Current.Models.AgeModel.HeroComesOfAge && (h.Father == adoptedHero || h.Mother == adoptedHero || h.Siblings.Contains(adoptedHero)) && !h.IsAdopted())
                     .SelectRandom();
                     if (newHeir == null)
-                        return (false, "No suitable heir found in adopted hero's clan.");
+                        return (false, "{=BLTHeirNoSuitableHeir}No suitable heir found in adopted hero's clan.".Translate());
 
                     behavior.heirList.Add(adoptedHero, (newHeir, adoptedHero.IsClanLeader));
                     behavior._heirs.Add(newHeir);
-                    return (true, $"Assigned heir to {newHeir.FirstName}");
+                    return (true, "{=BLTHeirAssigned}Assigned heir to {HeirName}".Translate(("HeirName", newHeir.FirstName)));
                 }
                 else
                 {
@@ -135,11 +135,12 @@ namespace BLTAdoptAHero
                    .FirstOrDefault(c => c.Name.ToString().IndexOf(contextArgs, StringComparison.OrdinalIgnoreCase) >= 0);
 
                     if (newHeir == null)
-                        return (false, $"No hero named '{contextArgs}' found to adopt as heir.");
+                        return (false, "{=BLTHeirNamedHeroNotFound}No hero named '{HeroName}' found to adopt as heir."
+                            .Translate(("HeroName", contextArgs)));
 
                     behavior.heirList.Add(adoptedHero, (newHeir, adoptedHero.IsClanLeader));
                     behavior._heirs.Add(newHeir);
-                    return (true, $"Assigned heir to {newHeir.FirstName}");
+                    return (true, "{=BLTHeirAssigned}Assigned heir to {HeirName}".Translate(("HeirName", newHeir.FirstName)));
                 }
             }
             else if (adoptedHero != null && heirHero != null)
@@ -151,16 +152,17 @@ namespace BLTAdoptAHero
                     .Where(h => h.IsAlive && h.Age >= Campaign.Current.Models.AgeModel.HeroComesOfAge && (h.Father == adoptedHero || h.Mother == adoptedHero || h.Siblings.Contains(adoptedHero) || h.Spouse == adoptedHero) && !h.IsAdopted())
                     .FirstOrDefault(c => c.Name.ToString().IndexOf(contextArgs, StringComparison.OrdinalIgnoreCase) >= 0);
                     if (newHeir == null)
-                        return (false, $"No hero named '{contextArgs}' found to adopt as heir.");
+                        return (false, "{=BLTHeirNamedHeroNotFound}No hero named '{HeroName}' found to adopt as heir."
+                            .Translate(("HeroName", contextArgs)));
                     behavior.heirList.Remove(adoptedHero);
                     behavior.heirList.Add(adoptedHero, (newHeir,adoptedHero.IsClanLeader));
                     behavior._heirs.Remove(heirHero);
                     behavior._heirs.Add(newHeir);
-                    return (true, $"Assigned heir to {newHeir.FirstName}");
+                    return (true, "{=BLTHeirAssigned}Assigned heir to {HeirName}".Translate(("HeirName", newHeir.FirstName)));
                 }
                 else
                 {
-                    return (true, $"Heir is {heirHero.FirstName}");
+                    return (true, "{=BLTHeirCurrentHeir}Heir is {HeirName}".Translate(("HeirName", heirHero.FirstName)));
                 }
             }
             else if (adoptedHero == null && heirHero != null) // adoption
@@ -264,7 +266,7 @@ namespace BLTAdoptAHero
                         ("NewGold", newGold + Naming.Gold)));
                 
             }
-            else { return (false, "No heir to adopt"); }           
+            else { return (false, "{=BLTHeirNoneToAdopt}No heir to adopt".Translate()); }
         }
     }
 }
