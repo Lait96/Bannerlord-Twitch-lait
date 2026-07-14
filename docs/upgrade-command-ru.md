@@ -3,8 +3,8 @@ layout: default
 title: Управление улучшениями
 description: Инструкция по команде Апгрейд
 permalink: /upgrade-command/
-previous_url: /kingdom-command/
-next_url: /attribute-points-command/
+previous_url: /gold-income-command/
+next_url: /campaign-info-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

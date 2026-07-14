@@ -3,8 +3,8 @@ layout: default
 title: Управление семьёй
 description: Инструкция по команде Семья
 permalink: /family-command/
-previous_url: /clan-command/
-next_url: /kingdom-command/
+previous_url: /party-command/
+next_url: /clan-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

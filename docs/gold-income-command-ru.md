@@ -3,8 +3,8 @@ layout: default
 title: Ежедневный доход
 description: Инструкция по команде Доход
 permalink: /gold-income-command/
-previous_url: /party-command/
-next_url: /clan-command/
+previous_url: /kingdom-command/
+next_url: /upgrade-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

@@ -3,8 +3,8 @@ layout: default
 title: Особенности героя
 description: Инструкция по команде Герой
 permalink: /hero-features-command/
-previous_url: /heir-command/
-next_url: /formation-command/
+previous_url: /adopt-command/
+next_url: /attribute-points-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

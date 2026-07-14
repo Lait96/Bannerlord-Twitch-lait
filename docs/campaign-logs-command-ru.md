@@ -4,7 +4,7 @@ title: Журнал кампании
 description: Инструкция по команде журнал
 permalink: /campaign-logs-command/
 previous_url: /campaign-info-command/
-next_url: /auction-command/
+next_url: /equip-hero-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

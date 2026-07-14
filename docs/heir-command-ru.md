@@ -3,8 +3,8 @@ layout: default
 title: Назначение наследника
 description: Инструкция по команде наследник
 permalink: /heir-command/
-previous_url: /adopt-command/
-next_url: /hero-features-command/
+previous_url: /attribute-points-command/
+next_url: /formation-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

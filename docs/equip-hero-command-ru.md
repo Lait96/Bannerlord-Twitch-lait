@@ -3,8 +3,8 @@ layout: default
 title: Улучшение снаряжения
 description: Инструкция по команде Снаряга
 permalink: /equip-hero-command/
-previous_url: /discard-item-command/
-next_url: /equip-custom-item-command/
+previous_url: /campaign-logs-command/
+next_url: /auction-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

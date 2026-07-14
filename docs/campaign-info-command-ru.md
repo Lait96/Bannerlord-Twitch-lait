@@ -3,7 +3,7 @@ layout: default
 title: Информация о кампании
 description: Инструкция по команде информации о кампании
 permalink: /campaign-info-command/
-previous_url: /attribute-points-command/
+previous_url: /upgrade-command/
 next_url: /campaign-logs-command/
 ---
 

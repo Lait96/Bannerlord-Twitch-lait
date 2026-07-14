@@ -3,8 +3,8 @@ layout: default
 title: Аукцион особых предметов
 description: Инструкция по команде аукцион
 permalink: /auction-command/
-previous_url: /campaign-logs-command/
-next_url: /discard-item-command/
+previous_url: /equip-hero-command/
+next_url: /equip-custom-item-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

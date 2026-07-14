@@ -3,8 +3,8 @@ layout: default
 title: Улучшение атрибутов
 description: Инструкция по команде атрибут
 permalink: /attribute-points-command/
-previous_url: /upgrade-command/
-next_url: /campaign-info-command/
+previous_url: /hero-features-command/
+next_url: /heir-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>
