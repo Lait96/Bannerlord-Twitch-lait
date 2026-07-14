@@ -19,8 +19,8 @@ using static TaleWorlds.CampaignSystem.CharacterDevelopment.DefaultPerks;
 
 namespace BLTAdoptAHero.Actions
 {
-    [LocDisplayName("{=GoldIncomeCmd}GoldIncome"),
-     LocDescription("{=GoldIncomeDesc}Daily BLT gold income from fiefs and mercenary contracts"),
+    [LocDisplayName("{=BLTGoldIncomeDisplayName}Gold Income"),
+     LocDescription("{=BLTGoldIncomeDescription}Daily BLT gold income from fiefs, mercenary contracts, and tributes"),
      UsedImplicitly]
     public class GoldIncomeAction : HeroCommandHandlerBase
     {
@@ -41,14 +41,14 @@ namespace BLTAdoptAHero.Actions
             // Check if action is enabled
             if (!BLTAdoptAHeroModule.CommonConfig.GoldIncomeEnabled)
             {
-                onFailure("Gold income is disabled.");
+                onFailure(LocString.Translate("{=BLTGoldIncomeDisabled}Gold income is disabled."));
                 return;
             }
 
             var clan = adoptedHero.Clan;
             if (clan == null)
             {
-                onFailure("You are not in a clan.");
+                onFailure(LocString.Translate("{=BLTGoldIncomeNoClan}You are not in a clan."));
                 return;
             }
 
@@ -67,7 +67,7 @@ namespace BLTAdoptAHero.Actions
             // If no income sources at all
             if (!hasFiefs && !isMercenary && !hasTributes)
             {
-                onSuccess("You have no income sources (no settlements, mercenary contract, or tributes).");
+                onSuccess(LocString.Translate("{=BLTGoldIncomeNoSources}You have no income sources (no settlements, mercenary contract, or tributes)."));
                 return;
             }
 
@@ -88,7 +88,8 @@ namespace BLTAdoptAHero.Actions
                 {
                     int income = CalculateSettlementIncome(s);
                     fiefIncome += income;
-                    sb.Append($"{s.Name}: {(income >= 0 ? "+" : "")}{income} | ");
+                    sb.Append(LocString.Translate("{=BLTGoldIncomeSettlement}{SETTLEMENT}: {SIGN}{INCOME} | ",
+                        ("SETTLEMENT", s.Name), ("SIGN", income >= 0 ? "+" : ""), ("INCOME", income)));
                 }
 
                 // Add vassal fief income
@@ -102,7 +103,8 @@ namespace BLTAdoptAHero.Actions
 
                 if (vassalFiefIncome > 0)
                 {
-                    sb.Append($"Vassal fiefs: +{vassalFiefIncome} | ");
+                    sb.Append(LocString.Translate("{=BLTGoldIncomeVassalFiefs}Vassal fiefs: +{INCOME} | ",
+                        ("INCOME", vassalFiefIncome)));
                 }
 
                 // Check if ruling clan (for tax collection)
@@ -144,7 +146,8 @@ namespace BLTAdoptAHero.Actions
                         }
 
                         totalIncome += totalFiefIncome + totalTaxRevenue;
-                        sb.Append($"Tax revenue ({(taxRate * 100f):F1}%): +{totalTaxRevenue} | ");
+                        sb.Append(LocString.Translate("{=BLTGoldIncomeTaxRevenue}Tax revenue ({RATE}%): +{INCOME} | ",
+                            ("RATE", (taxRate * 100f).ToString("F1")), ("INCOME", totalTaxRevenue)));
                     }
                     else
                     {
@@ -162,7 +165,8 @@ namespace BLTAdoptAHero.Actions
                             var taxResult = KingdomTaxBehavior.Current.CalculateTax(clan, totalFiefIncome);
                             int taxAmount = taxResult.taxAmount;
                             totalFiefIncome = taxResult.incomeAfterTax;
-                            sb.Append($"Tax ({(taxRate * 100f):F1}%): -{taxAmount} | ");
+                            sb.Append(LocString.Translate("{=BLTGoldIncomeTax}Tax ({RATE}%): -{AMOUNT} | ",
+                                ("RATE", (taxRate * 100f).ToString("F1")), ("AMOUNT", taxAmount)));
                         }
                     }
 
@@ -185,9 +189,11 @@ namespace BLTAdoptAHero.Actions
 
                     totalIncome += mercIncome + bonusMerc + vassalMercIncome;
 
-                    sb.Append($"Mercenary: +{mercIncome}{(bonusMerc > 0 ? $"(+{bonusMerc})" : "")}");
+                    sb.Append(LocString.Translate("{=BLTGoldIncomeMercenary}Mercenary: +{INCOME}{BONUS}",
+                        ("INCOME", mercIncome), ("BONUS", bonusMerc > 0 ? $"(+{bonusMerc})" : "")));
                     if (vassalMercIncome > 0)
-                        sb.Append($" | Vassal contracts: +{vassalMercIncome}");
+                        sb.Append(LocString.Translate("{=BLTGoldIncomeVassalContractsWithSeparator} | Vassal contracts: +{INCOME}",
+                            ("INCOME", vassalMercIncome)));
                     sb.Append(" | ");
                 }
                 else
@@ -196,14 +202,16 @@ namespace BLTAdoptAHero.Actions
                     if (flatBonus > 0)
                     {
                         totalIncome += flatBonus;
-                        sb.Append($"Income bonus: +{flatBonus} | ");
+                        sb.Append(LocString.Translate("{=BLTGoldIncomeBonus}Income bonus: +{INCOME} | ",
+                            ("INCOME", flatBonus)));
                     }
 
                     int vassalMercIncome = VassalBehavior.Current?.CalculateVassalMercenaryBonus(clan) ?? 0;
                     if (vassalMercIncome > 0)
                     {
                         totalIncome += vassalMercIncome;
-                        sb.Append($"Vassal contracts: +{vassalMercIncome} | ");
+                        sb.Append(LocString.Translate("{=BLTGoldIncomeVassalContracts}Vassal contracts: +{INCOME} | ",
+                            ("INCOME", vassalMercIncome)));
                     }
                 }
             }
@@ -212,19 +220,22 @@ namespace BLTAdoptAHero.Actions
             if (tributeIncome > 0)
             {
                 totalIncome += tributeIncome;
-                sb.Append($"Tributes received: +{tributeIncome} | ");
+                sb.Append(LocString.Translate("{=BLTGoldIncomeTributesReceived}Tributes received: +{INCOME} | ",
+                    ("INCOME", tributeIncome)));
             }
 
             // === TRIBUTE PAYMENTS ===
             if (tributePayments > 0)
             {
                 totalIncome -= tributePayments;
-                sb.Append($"Tributes paid: -{tributePayments} | ");
+                sb.Append(LocString.Translate("{=BLTGoldIncomeTributesPaid}Tributes paid: -{AMOUNT} | ",
+                    ("AMOUNT", tributePayments)));
             }
 
             // === TOTAL ===
             var result = sb.ToString().TrimEnd(' ', '|');
-            result += $" | Total: {(totalIncome >= 0 ? "+" : "")}{totalIncome}/day";
+            result += LocString.Translate("{=BLTGoldIncomeTotal} | Total: {SIGN}{INCOME}/day",
+                ("SIGN", totalIncome >= 0 ? "+" : ""), ("INCOME", totalIncome));
 
             onSuccess(result);
         }

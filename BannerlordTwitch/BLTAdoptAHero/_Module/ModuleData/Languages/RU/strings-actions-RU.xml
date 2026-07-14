@@ -1850,5 +1850,21 @@
         <string id="BLTEquipCustomItemTypeBanner" text="Знамя" original="Banner"/>
         <string id="BLTEquipCustomItemTypeSling" text="Праща" original="Sling"/>
         <string id="BLTEquipCustomItemTypeSlingStones" text="Камни для пращи" original="Sling stones"/>
+        <string id="BLTGoldIncomeDisplayName" text="Доход золота" original="Gold Income"/>
+        <string id="BLTGoldIncomeDescription" text="Ежедневный доход BLT-золота от владений, наёмнических контрактов и дани" original="Daily BLT gold income from fiefs, mercenary contracts, and tributes"/>
+        <string id="BLTGoldIncomeDisabled" text="Доход золота отключён." original="Gold income is disabled."/>
+        <string id="BLTGoldIncomeNoClan" text="Вы не состоите в клане." original="You are not in a clan."/>
+        <string id="BLTGoldIncomeNoSources" text="У вас нет источников дохода (поселений, наёмнического контракта или дани)." original="You have no income sources (no settlements, mercenary contract, or tributes)."/>
+        <string id="BLTGoldIncomeSettlement" text="{SETTLEMENT}: {SIGN}{INCOME} | " original="{SETTLEMENT}: {SIGN}{INCOME} | "/>
+        <string id="BLTGoldIncomeVassalFiefs" text="Владения вассалов: +{INCOME} | " original="Vassal fiefs: +{INCOME} | "/>
+        <string id="BLTGoldIncomeTaxRevenue" text="Налоговые поступления ({RATE}%): +{INCOME} | " original="Tax revenue ({RATE}%): +{INCOME} | "/>
+        <string id="BLTGoldIncomeTax" text="Налог ({RATE}%): -{AMOUNT} | " original="Tax ({RATE}%): -{AMOUNT} | "/>
+        <string id="BLTGoldIncomeMercenary" text="Наёмничество: +{INCOME}{BONUS}" original="Mercenary: +{INCOME}{BONUS}"/>
+        <string id="BLTGoldIncomeVassalContractsWithSeparator" text=" | Контракты вассалов: +{INCOME}" original=" | Vassal contracts: +{INCOME}"/>
+        <string id="BLTGoldIncomeBonus" text="Бонус к доходу: +{INCOME} | " original="Income bonus: +{INCOME} | "/>
+        <string id="BLTGoldIncomeVassalContracts" text="Контракты вассалов: +{INCOME} | " original="Vassal contracts: +{INCOME} | "/>
+        <string id="BLTGoldIncomeTributesReceived" text="Полученная дань: +{INCOME} | " original="Tributes received: +{INCOME} | "/>
+        <string id="BLTGoldIncomeTributesPaid" text="Выплаченная дань: -{AMOUNT} | " original="Tributes paid: -{AMOUNT} | "/>
+        <string id="BLTGoldIncomeTotal" text=" | Итого: {SIGN}{INCOME}/день" original=" | Total: {SIGN}{INCOME}/day"/>
 </strings>
 </base>

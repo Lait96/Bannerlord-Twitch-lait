@@ -3,7 +3,7 @@ layout: default
 title: Управление кланом
 description: Инструкция по команде Клан
 permalink: /clan-command/
-previous_url: /party-command/
+previous_url: /gold-income-command/
 next_url: /family-command/
 ---
 

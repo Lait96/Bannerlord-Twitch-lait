@@ -4,7 +4,7 @@ title: Управление отрядом
 description: Инструкция по команде Отряд
 permalink: /party-command/
 previous_url: /battle-info-command/
-next_url: /clan-command/
+next_url: /gold-income-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

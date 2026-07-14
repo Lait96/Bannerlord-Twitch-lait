@@ -1120,7 +1120,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: false
   RespondInTwitch: true
-- Documentation: ''
+- Aliases: Доход
+  Documentation: ''
   Enabled: true
   Handler: GoldIncomeAction
   HandlerConfig: 

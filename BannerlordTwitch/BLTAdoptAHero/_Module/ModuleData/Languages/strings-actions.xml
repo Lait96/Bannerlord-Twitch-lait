@@ -1924,5 +1924,21 @@
         <string id="BLTEquipCustomItemTypeBanner" text="Banner"/>
         <string id="BLTEquipCustomItemTypeSling" text="Sling"/>
         <string id="BLTEquipCustomItemTypeSlingStones" text="Sling stones"/>
+        <string id="BLTGoldIncomeDisplayName" text="Gold Income"/>
+        <string id="BLTGoldIncomeDescription" text="Daily BLT gold income from fiefs, mercenary contracts, and tributes"/>
+        <string id="BLTGoldIncomeDisabled" text="Gold income is disabled."/>
+        <string id="BLTGoldIncomeNoClan" text="You are not in a clan."/>
+        <string id="BLTGoldIncomeNoSources" text="You have no income sources (no settlements, mercenary contract, or tributes)."/>
+        <string id="BLTGoldIncomeSettlement" text="{SETTLEMENT}: {SIGN}{INCOME} | "/>
+        <string id="BLTGoldIncomeVassalFiefs" text="Vassal fiefs: +{INCOME} | "/>
+        <string id="BLTGoldIncomeTaxRevenue" text="Tax revenue ({RATE}%): +{INCOME} | "/>
+        <string id="BLTGoldIncomeTax" text="Tax ({RATE}%): -{AMOUNT} | "/>
+        <string id="BLTGoldIncomeMercenary" text="Mercenary: +{INCOME}{BONUS}"/>
+        <string id="BLTGoldIncomeVassalContractsWithSeparator" text=" | Vassal contracts: +{INCOME}"/>
+        <string id="BLTGoldIncomeBonus" text="Income bonus: +{INCOME} | "/>
+        <string id="BLTGoldIncomeVassalContracts" text="Vassal contracts: +{INCOME} | "/>
+        <string id="BLTGoldIncomeTributesReceived" text="Tributes received: +{INCOME} | "/>
+        <string id="BLTGoldIncomeTributesPaid" text="Tributes paid: -{AMOUNT} | "/>
+        <string id="BLTGoldIncomeTotal" text=" | Total: {SIGN}{INCOME}/day"/>
 </strings>
 </base>
