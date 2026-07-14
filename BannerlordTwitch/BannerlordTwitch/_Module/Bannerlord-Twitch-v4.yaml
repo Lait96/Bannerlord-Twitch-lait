@@ -518,7 +518,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: 'Use to adjust hero physical features <br> Usage is <code>!hero gender (male/female) / !hero looks (appearance string) / !hero marry (culture/clan/name)</code> <br> Example: !hero gender male'
+- Aliases: Герой
+  Documentation: 'Use to adjust hero physical features <br> Usage is <code>!hero gender (male/female) / !hero looks (appearance string) / !hero marry (culture/clan/name)</code> <br> Example: !hero gender male'
   Enabled: true
   Handler: HeroFeatures
   HandlerConfig:

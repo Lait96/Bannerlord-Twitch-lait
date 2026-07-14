@@ -127,7 +127,7 @@
 		<string id="1lZ8Vcbc" text="Gender"/>
 		<string id="oyxJVLCx" text="Cost of changing gender"/>
 		<string id="jW4WABm2" text="Only on created heroes?"/>
-		<string id="guSdSDEy" text="Only allow swapping gender for heroes that are created, instead of adopted"/>
+		<string id="guSdSDEy" text="Only allow changing gender for heroes that are created, instead of adopted"/>
 		<string id="tlrdxhlh" text="Hero appearance enabled"/>
 		<string id="rnaya1kT" text="Appearance"/>
 		<string id="f1kdzuzz" text="Allow applying bodyproperty string to your character"/>
@@ -1974,5 +1974,41 @@
         <string id="BLTHeirNamedHeroNotFound" text="No hero named '{HeroName}' found to adopt as heir."/>
         <string id="BLTHeirCurrentHeir" text="Heir is {HeirName}"/>
         <string id="BLTHeirNoneToAdopt" text="No heir to adopt"/>
+        <!-- HeroFeatures localization -->
+        <string id="BLTHeroFeaturesRaceEnabled" text="Race command enabled"/>
+        <string id="BLTHeroFeaturesRaceCategory" text="Race"/>
+        <string id="BLTHeroFeaturesRaceEnabledDescription" text="Enable ability to change race"/>
+        <string id="BLTHeroFeaturesForbiddenRaces" text="Forbidden races"/>
+        <string id="BLTHeroFeaturesForbiddenRacesDescription" text="List of race IDs that are forbidden. Usage: 0,1,2"/>
+        <string id="BLTHeroFeaturesCultureEnabled" text="Culture command enabled"/>
+        <string id="BLTHeroFeaturesCultureCategory" text="Culture"/>
+        <string id="BLTHeroFeaturesCultureEnabledDescription" text="Enable ability to change culture"/>
+        <string id="BLTHeroFeaturesForbiddenCultures" text="Forbidden cultures"/>
+        <string id="BLTHeroFeaturesForbiddenCulturesDescription" text="List of cultures that are forbidden. Usage: Vlandia,Battania"/>
+        <string id="BLTHeroFeaturesGenderCommand" text="Change Hero Gender"/>
+        <string id="BLTHeroFeaturesAppearanceCommand" text="Change Hero Appearance"/>
+        <string id="BLTHeroFeaturesMarriageCommand" text="Marriage"/>
+        <string id="BLTHeroFeaturesEnabledCommands" text="&lt;strong&gt;Enabled Commands:&lt;/strong&gt; {commands}"/>
+        <string id="BLTHeroFeaturesGenderConfig" text="&lt;strong&gt;Gender Change Config:&lt;/strong&gt; Price={price}{icon}, Only on created heroes?={createdOnly}"/>
+        <string id="BLTHeroFeaturesMarriageConfig" text="&lt;strong&gt;Marriage Config:&lt;/strong&gt; Price={price}{icon}, Only create spouse?={createOnly}, Allow choose by clan or name?={clanOrName}"/>
+        <string id="BLTHeroFeaturesHeroPregnant" text="Your hero is pregnant!"/>
+        <string id="BLTHeroFeaturesNotNoble" text="Your hero is not a noble"/>
+        <string id="BLTHeroFeaturesRaceDisabled" text="Race command is disabled"/>
+        <string id="BLTHeroFeaturesValidRaces" text="Valid races: {races}"/>
+        <string id="BLTHeroFeaturesRaceChanged" text="Hero race set to {race} ({raceName})"/>
+        <string id="BLTHeroFeaturesCultureDisabled" text="Culture command is disabled"/>
+        <string id="BLTHeroFeaturesSelectCulture" text="Select a culture"/>
+        <string id="BLTHeroFeaturesCultureNotFound" text="No culture named {culture}"/>
+        <string id="BLTHeroFeaturesCultureChanged" text="Changed culture to {culture}"/>
+        <string id="BLTHeroFeaturesSubGender" text="gender"/>
+        <string id="BLTHeroFeaturesSubLooks" text="looks"/>
+        <string id="BLTHeroFeaturesSubMarry" text="marry"/>
+        <string id="BLTHeroFeaturesSubRace" text="race"/>
+        <string id="BLTHeroFeaturesSubCulture" text="culture"/>
+        <string id="BLTHeroFeaturesArgMale" text="male"/>
+        <string id="BLTHeroFeaturesArgFemale" text="female"/>
+        <string id="BLTHeroFeaturesInvalidGender" text="Invalid entry ({male}/{female})"/>
+        <string id="BLTHeroFeaturesEnabledValue" text="Enabled"/>
+        <string id="BLTHeroFeaturesDisabledValue" text="Disabled"/>
 </strings>
 </base>

@@ -878,7 +878,7 @@
 		<string id="1lZ8Vcbc" text="Пол" original="Gender"/>
 		<string id="oyxJVLCx" text="Стоимость смены пола" original="Cost of changing gender"/>
 		<string id="jW4WABm2" text="Только для созданных героев?" original="Only on created heroes?"/>
-		<string id="guSdSDEy" text="Разрешить смену пола только для созданных, а не усыновлённых героев" original="Only allow swapping gender for heroes that are created, instead of adopted"/>
+		<string id="guSdSDEy" text="Разрешить смену пола только для созданных, а не усыновлённых героев" original="Only allow changing gender for heroes that are created, instead of adopted"/>
 		<string id="tlrdxhlh" text="Изменение внешности героя включено" original="Hero appearance enabled"/>
 		<string id="rnaya1kT" text="Внешность" original="Appearance"/>
 		<string id="f1kdzuzz" text="Разрешить применять строку bodyproperties к персонажу" original="Allow applying bodyproperty string to your character"/>
@@ -1900,5 +1900,41 @@
         <string id="BLTHeirNamedHeroNotFound" text="Герой с именем «{HeroName}», подходящий на роль наследника, не найден." original="No hero named '{HeroName}' found to adopt as heir."/>
         <string id="BLTHeirCurrentHeir" text="Текущий наследник — {HeirName}" original="Heir is {HeirName}"/>
         <string id="BLTHeirNoneToAdopt" text="Нет наследника, которого можно усыновить" original="No heir to adopt"/>
+        <!-- HeroFeatures localization -->
+        <string id="BLTHeroFeaturesRaceEnabled" text="Включить команду смены расы" original="Race command enabled"/>
+        <string id="BLTHeroFeaturesRaceCategory" text="Раса" original="Race"/>
+        <string id="BLTHeroFeaturesRaceEnabledDescription" text="Разрешить смену расы" original="Enable ability to change race"/>
+        <string id="BLTHeroFeaturesForbiddenRaces" text="Запрещённые расы" original="Forbidden races"/>
+        <string id="BLTHeroFeaturesForbiddenRacesDescription" text="Список запрещённых идентификаторов рас. Пример: 0,1,2" original="List of race IDs that are forbidden. Usage: 0,1,2"/>
+        <string id="BLTHeroFeaturesCultureEnabled" text="Включить команду смены культуры" original="Culture command enabled"/>
+        <string id="BLTHeroFeaturesCultureCategory" text="Культура" original="Culture"/>
+        <string id="BLTHeroFeaturesCultureEnabledDescription" text="Разрешить смену культуры" original="Enable ability to change culture"/>
+        <string id="BLTHeroFeaturesForbiddenCultures" text="Запрещённые культуры" original="Forbidden cultures"/>
+        <string id="BLTHeroFeaturesForbiddenCulturesDescription" text="Список запрещённых культур. Пример: Vlandia,Battania" original="List of cultures that are forbidden. Usage: Vlandia,Battania"/>
+        <string id="BLTHeroFeaturesGenderCommand" text="Смена пола героя" original="Change Hero Gender"/>
+        <string id="BLTHeroFeaturesAppearanceCommand" text="Изменение внешности героя" original="Change Hero Appearance"/>
+        <string id="BLTHeroFeaturesMarriageCommand" text="Брак" original="Marriage"/>
+        <string id="BLTHeroFeaturesEnabledCommands" text="&lt;strong&gt;Включённые команды:&lt;/strong&gt; {commands}" original="&lt;strong&gt;Enabled Commands:&lt;/strong&gt; {commands}"/>
+        <string id="BLTHeroFeaturesGenderConfig" text="&lt;strong&gt;Настройки смены пола:&lt;/strong&gt; Цена={price}{icon}, Только для созданных героев?={createdOnly}" original="&lt;strong&gt;Gender Change Config:&lt;/strong&gt; Price={price}{icon}, Only on created heroes?={createdOnly}"/>
+        <string id="BLTHeroFeaturesMarriageConfig" text="&lt;strong&gt;Настройки брака:&lt;/strong&gt; Цена={price}{icon}, Только создавать супруга?={createOnly}, Разрешить выбор по клану или имени?={clanOrName}" original="&lt;strong&gt;Marriage Config:&lt;/strong&gt; Price={price}{icon}, Only create spouse?={createOnly}, Allow choose by clan or name?={clanOrName}"/>
+        <string id="BLTHeroFeaturesHeroPregnant" text="Ваша героиня беременна!" original="Your hero is pregnant!"/>
+        <string id="BLTHeroFeaturesNotNoble" text="Ваш герой не является дворянином" original="Your hero is not a noble"/>
+        <string id="BLTHeroFeaturesRaceDisabled" text="Команда смены расы отключена" original="Race command is disabled"/>
+        <string id="BLTHeroFeaturesValidRaces" text="Доступные расы: {races}" original="Valid races: {races}"/>
+        <string id="BLTHeroFeaturesRaceChanged" text="Раса героя изменена на {race} ({raceName})" original="Hero race set to {race} ({raceName})"/>
+        <string id="BLTHeroFeaturesCultureDisabled" text="Команда смены культуры отключена" original="Culture command is disabled"/>
+        <string id="BLTHeroFeaturesSelectCulture" text="Выберите культуру" original="Select a culture"/>
+        <string id="BLTHeroFeaturesCultureNotFound" text="Культура с названием {culture} не найдена" original="No culture named {culture}"/>
+        <string id="BLTHeroFeaturesCultureChanged" text="Культура изменена на {culture}" original="Changed culture to {culture}"/>
+        <string id="BLTHeroFeaturesSubGender" text="пол" original="gender"/>
+        <string id="BLTHeroFeaturesSubLooks" text="внешность" original="looks"/>
+        <string id="BLTHeroFeaturesSubMarry" text="брак" original="marry"/>
+        <string id="BLTHeroFeaturesSubRace" text="раса" original="race"/>
+        <string id="BLTHeroFeaturesSubCulture" text="культура" original="culture"/>
+        <string id="BLTHeroFeaturesArgMale" text="мужчина" original="male"/>
+        <string id="BLTHeroFeaturesArgFemale" text="женщина" original="female"/>
+        <string id="BLTHeroFeaturesInvalidGender" text="Недопустимое значение ({male}/{female})" original="Invalid entry ({male}/{female})"/>
+        <string id="BLTHeroFeaturesEnabledValue" text="Включено" original="Enabled"/>
+        <string id="BLTHeroFeaturesDisabledValue" text="Отключено" original="Disabled"/>
 </strings>
 </base>

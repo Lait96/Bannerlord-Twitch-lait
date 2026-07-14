@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using BannerlordTwitch;
@@ -76,27 +75,27 @@ namespace BLTAdoptAHero.Actions
              PropertyOrder(8), UsedImplicitly]
             public bool ClanorName { get; set; } = false;
 
-            [LocDisplayName("{=Abc123}Enabled"),
-             LocCategory("Race", "{=RaceSettings}Race"),
-             LocDescription("{=Desc123}Enabled"),
+            [LocDisplayName("{=BLTHeroFeaturesRaceEnabled}Race command enabled"),
+             LocCategory("Race", "{=BLTHeroFeaturesRaceCategory}Race"),
+             LocDescription("{=BLTHeroFeaturesRaceEnabledDescription}Enable ability to change race"),
              PropertyOrder(9)]
             public bool RaceEnabled { get; set; } = true;
 
-            [LocDisplayName("{=Abc123}Forbidden Races"),
-             LocCategory("Race", "{=RaceSettings}Race"),
-             LocDescription("{=Desc123}List of race IDs that are forbidden. Usage: 0,1,2"),
+            [LocDisplayName("{=BLTHeroFeaturesForbiddenRaces}Forbidden races"),
+             LocCategory("Race", "{=BLTHeroFeaturesRaceCategory}Race"),
+             LocDescription("{=BLTHeroFeaturesForbiddenRacesDescription}List of race IDs that are forbidden. Usage: 0,1,2"),
              PropertyOrder(10)]
             public string ForbiddenRaces { get; set; } = "";
 
-            [LocDisplayName("{=Abc123}Enabled"),
-             LocCategory("Culture", "{=RaceSettings}Culture"),
-             LocDescription("{=Desc123}Enabled"),
+            [LocDisplayName("{=BLTHeroFeaturesCultureEnabled}Culture command enabled"),
+             LocCategory("Culture", "{=BLTHeroFeaturesCultureCategory}Culture"),
+             LocDescription("{=BLTHeroFeaturesCultureEnabledDescription}Enable ability to change culture"),
              PropertyOrder(11)]
             public bool CultureEnabled { get; set; } = true;
 
-            [LocDisplayName("{=Abc123}Forbidden Cultures"),
-             LocCategory("Culture", "{=RaceSettings}Culture"),
-             LocDescription("{=Desc123}List of cultures that are forbidden. Usage: Vlandia,Battania"),
+            [LocDisplayName("{=BLTHeroFeaturesForbiddenCultures}Forbidden cultures"),
+             LocCategory("Culture", "{=BLTHeroFeaturesCultureCategory}Culture"),
+             LocDescription("{=BLTHeroFeaturesForbiddenCulturesDescription}List of cultures that are forbidden. Usage: Vlandia,Battania"),
              PropertyOrder(12)]
             public string ForbiddenCultures { get; set; } = "";
 
@@ -108,30 +107,28 @@ namespace BLTAdoptAHero.Actions
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                var EnabledCommands = new StringBuilder();
+                var EnabledCommands = new List<string>();
                 if (GenderEnabled)
-                    EnabledCommands.Append("Change Hero Gender, ");
+                    EnabledCommands.Add("{=BLTHeroFeaturesGenderCommand}Change Hero Gender".Translate());
                 if (AppearanceEnabled)
-                    EnabledCommands.Append("Change Hero Appearance");
+                    EnabledCommands.Add("{=BLTHeroFeaturesAppearanceCommand}Change Hero Appearance".Translate());
                 if (MarriageEnabled)
-                    EnabledCommands.Append("Marriage, ");
-                if (EnabledCommands.Length > 0)
-                    generator.Value("<strong>Enabled Commands:</strong> {commands}".Translate(("commands", EnabledCommands.ToString().Substring(0, EnabledCommands.Length - 2))));
+                    EnabledCommands.Add("{=BLTHeroFeaturesMarriageCommand}Marriage".Translate());
+                if (EnabledCommands.Count > 0)
+                    generator.Value("{=BLTHeroFeaturesEnabledCommands}<strong>Enabled Commands:</strong> {commands}".Translate(("commands", string.Join(", ", EnabledCommands))));
 
                 if (GenderEnabled)
-                    generator.Value("<strong>" +
-                                    "Gender Change Config: " +
-                                    "</strong>" +
-                                    "Price={price}{icon}, ".Translate(("price", GenderCost.ToString()), ("icon", Naming.Gold)) +
-                                    "Only on created heroes?={DisabledonNative}".Translate(("DisabledonNative", GenderDisabledonNative.ToString())));
+                    generator.Value("{=BLTHeroFeaturesGenderConfig}<strong>Gender Change Config:</strong> Price={price}{icon}, Only on created heroes?={createdOnly}"
+                        .Translate(("price", GenderCost.ToString()), ("icon", Naming.Gold), ("createdOnly", GetLocalizedBoolean(GenderDisabledonNative))));
                 if (MarriageEnabled)
-                    generator.Value("<strong>" +
-                                    "Marriage Config: " +
-                                    "</strong>" +
-                                    "Price={price}{icon}, ".Translate(("price", MarriageCost.ToString()), ("icon", Naming.Gold)) +
-                                    "Only create spouse?={CreateOnly}, ".Translate(("CreateOnly", OnlySpawnSpouse.ToString())) +
-                                    "Allow choose by clan or name?={Clanorname}".Translate(("Clanorname", ClanorName.ToString())));
+                    generator.Value("{=BLTHeroFeaturesMarriageConfig}<strong>Marriage Config:</strong> Price={price}{icon}, Only create spouse?={createOnly}, Allow choose by clan or name?={clanOrName}"
+                        .Translate(("price", MarriageCost.ToString()), ("icon", Naming.Gold), ("createOnly", GetLocalizedBoolean(OnlySpawnSpouse)), ("clanOrName", GetLocalizedBoolean(ClanorName))));
             }
+
+            private static string GetLocalizedBoolean(bool value)
+                => value
+                    ? "{=BLTHeroFeaturesEnabledValue}Enabled".Translate()
+                    : "{=BLTHeroFeaturesDisabledValue}Disabled".Translate();
 
         }
 
@@ -157,8 +154,9 @@ namespace BLTAdoptAHero.Actions
                 return;
             }
             var splitArgs = context.Args.Split(' ');
-            var command = splitArgs[0];
-            switch (command.ToLower())
+            var rawCommand = splitArgs[0];
+            var command = GetHeroFeaturesCommand(rawCommand);
+            switch (command)
             {
                 case ("gender"):
                     if (!settings.GenderEnabled)
@@ -168,7 +166,8 @@ namespace BLTAdoptAHero.Actions
                     }
                     if (splitArgs.Length < 2 || string.IsNullOrWhiteSpace(splitArgs[1]))
                     {
-                        onFailure("{=rPqyzuoG}Invalid entry (male/female)".Translate());
+                        onFailure("{=BLTHeroFeaturesInvalidGender}Invalid entry ({male}/{female})"
+                            .Translate(("male", "{=BLTHeroFeaturesArgMale}male".Translate()), ("female", "{=BLTHeroFeaturesArgFemale}female".Translate())));
                         return;
                     }
                     if (!BLTAdoptAHeroCampaignBehavior.Current.GetIsCreatedHero(adoptedHero) && settings.GenderDisabledonNative)
@@ -181,7 +180,7 @@ namespace BLTAdoptAHero.Actions
                         onFailure(Naming.NotEnoughGold(settings.GenderCost, BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero)));
                         return;
                     }
-                    if (string.Equals(splitArgs[1].ToLower(), "female", StringComparison.CurrentCultureIgnoreCase))
+                    if (MatchesCommand(splitArgs[1], "{=BLTHeroFeaturesArgFemale}female".Translate(), "female"))
                     {
                         if (adoptedHero.IsFemale)
                         {
@@ -198,7 +197,7 @@ namespace BLTAdoptAHero.Actions
                             adoptedHero.CharacterObject);
                         return;
                     }
-                    else if (string.Equals(splitArgs[1].ToLower(), "male", StringComparison.CurrentCultureIgnoreCase))
+                    else if (MatchesCommand(splitArgs[1], "{=BLTHeroFeaturesArgMale}male".Translate(), "male"))
                     {
                         if (!adoptedHero.IsFemale)
                         {
@@ -207,7 +206,7 @@ namespace BLTAdoptAHero.Actions
                         }
                         if (adoptedHero.IsPregnant)
                         {
-                            onFailure("{=TESTING}Your hero is pregnant!");
+                            onFailure("{=BLTHeroFeaturesHeroPregnant}Your hero is pregnant!".Translate());
                             return;
                         }
                         onSuccess("{=FlGjts5K}Your hero has changed their gender to male".Translate());
@@ -220,7 +219,8 @@ namespace BLTAdoptAHero.Actions
                             adoptedHero.CharacterObject);
                         return;
                     }
-                    onFailure("{=rPqyzuoG}Invalid entry (male/female)".Translate());
+                    onFailure("{=BLTHeroFeaturesInvalidGender}Invalid entry ({male}/{female})"
+                        .Translate(("male", "{=BLTHeroFeaturesArgMale}male".Translate()), ("female", "{=BLTHeroFeaturesArgFemale}female".Translate())));
                     return;
 
                 case ("looks"):
@@ -231,8 +231,8 @@ namespace BLTAdoptAHero.Actions
                             return;
                         }
 
-                        string appearanceArg = context.Args.Length > command.Length
-                            ? context.Args.Substring(command.Length).Trim()
+                        string appearanceArg = context.Args.Length > rawCommand.Length
+                            ? context.Args.Substring(rawCommand.Length).Trim()
                             : null;
 
                         if (string.IsNullOrEmpty(appearanceArg))
@@ -290,7 +290,7 @@ namespace BLTAdoptAHero.Actions
                         }
                         if (adoptedHero.Occupation != Occupation.Lord)
                         {
-                            onFailure("{=TESTING}Not a noble".Translate());
+                            onFailure("{=BLTHeroFeaturesNotNoble}Your hero is not a noble".Translate());
                             return;
                         }
                         if (adoptedHero.Spouse != null)
@@ -309,7 +309,7 @@ namespace BLTAdoptAHero.Actions
                             return;
                         }
 
-                        string spouseArg = context.Args.Length > 1 ? context.Args.Substring(command.Length).Trim() : "";
+                        string spouseArg = context.Args.Length > 1 ? context.Args.Substring(rawCommand.Length).Trim() : "";
 
                         string CleanName(string name)
                         {
@@ -534,7 +534,7 @@ namespace BLTAdoptAHero.Actions
                     {
                         if (!settings.RaceEnabled)
                         {
-                            onFailure("Race command is disabled");
+                            onFailure("{=BLTHeroFeaturesRaceDisabled}Race command is disabled".Translate());
                             return;
                         }
                         var forbiddenRaces = settings.ForbiddenRaces
@@ -552,20 +552,20 @@ namespace BLTAdoptAHero.Actions
                         if (splitArgs.Length < 2 || !int.TryParse(splitArgs[1], out int race) || !validRaces.Any(x => x.RaceId == race))
                         {
                             string list = string.Join(", ", validRaces.Select(x => $"{x.RaceId} ({x.Monster.StringId})"));
-                            onFailure($"Valid races: {list}");
+                            onFailure("{=BLTHeroFeaturesValidRaces}Valid races: {races}".Translate(("races", list)));
                             return;
                         }
 
                         BodyProperties newBody = adoptedHero.CharacterObject.GetBodyPropertiesMin();
                         adoptedHero.CharacterObject.UpdatePlayerCharacterBodyProperties(newBody, race, adoptedHero.IsFemale);
-                        onSuccess($"Hero race set to {race} ({TaleWorlds.Core.FaceGen.GetBaseMonsterFromRace(race)?.StringId})");
+                        onSuccess("{=BLTHeroFeaturesRaceChanged}Hero race set to {race} ({raceName})".Translate(("race", race.ToString()), ("raceName", TaleWorlds.Core.FaceGen.GetBaseMonsterFromRace(race)?.StringId)));
                         return;
                     }
                 case "culture":
                     {
                         if (!settings.CultureEnabled)
                         {
-                            onFailure("Culture command is disabled");
+                            onFailure("{=BLTHeroFeaturesCultureDisabled}Culture command is disabled".Translate());
                             return;
                         }
                         var forbidden = settings.ForbiddenCultures
@@ -579,20 +579,20 @@ namespace BLTAdoptAHero.Actions
 
                         if (splitArgs.Length < 2)
                         {
-                            onFailure("Select a culture");
+                            onFailure("{=BLTHeroFeaturesSelectCulture}Select a culture".Translate());
                             return;
                         }
                         string value = string.Join(" ", splitArgs.Skip(1));
                         var cult = allowedCultures.FirstOrDefault(c => c.Name.ToString().ToLower() == value.ToLower());
                         if (cult == null)
                         {
-                            onFailure($"No culture named {value}");
+                            onFailure("{=BLTHeroFeaturesCultureNotFound}No culture named {culture}".Translate(("culture", value)));
                             return;
                         }
 
                         adoptedHero.Culture = cult;
                         adoptedHero.Clan.Culture = cult;
-                        onSuccess($"Changed culture to {cult.Name}");
+                        onSuccess("{=BLTHeroFeaturesCultureChanged}Changed culture to {culture}".Translate(("culture", cult.Name)));
 
                         break;
                     }
@@ -601,6 +601,21 @@ namespace BLTAdoptAHero.Actions
                     return;
             }
         }
+
+        private static string GetHeroFeaturesCommand(string command)
+        {
+            if (MatchesCommand(command, "{=BLTHeroFeaturesSubGender}gender".Translate(), "gender")) return "gender";
+            if (MatchesCommand(command, "{=BLTHeroFeaturesSubLooks}looks".Translate(), "looks")) return "looks";
+            if (MatchesCommand(command, "{=BLTHeroFeaturesSubMarry}marry".Translate(), "marry")) return "marry";
+            if (MatchesCommand(command, "{=BLTHeroFeaturesSubRace}race".Translate(), "race")) return "race";
+            if (MatchesCommand(command, "{=BLTHeroFeaturesSubCulture}culture".Translate(), "culture")) return "culture";
+            return command?.ToLowerInvariant() ?? "";
+        }
+
+        private static bool MatchesCommand(string value, string localized, string english)
+            => value.Equals(english, StringComparison.OrdinalIgnoreCase)
+               || value.Equals(localized, StringComparison.OrdinalIgnoreCase);
+
         public static Hero SpawnSpouse(Hero adoptedHero, CultureObject cultureArg)
         {
             bool fallback = false;
