@@ -17,7 +17,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 namespace BLTAdoptAHero
 {
     [LocDisplayName("{=3zBXys4m}Equip Hero"),
-     LocDescription("{=3QfHyF8g}Improve adopted heroes equipment"),
+     LocDescription("{=3QfHyF8g}Improve adopted heroes' equipment"),
      UsedImplicitly]
     internal class EquipHero : ActionHandlerBase
     {
@@ -109,7 +109,7 @@ namespace BLTAdoptAHero
             if (!string.IsNullOrWhiteSpace(desiredName))
             {
                 // Check if user explicitly specified "null" to filter for items without culture
-                if (desiredName.Equals("null", StringComparison.OrdinalIgnoreCase))
+                if (MatchesCommand(desiredName, "{=BLTEquipHeroArgNoCulture}null".Translate(), "null"))
                 {
                     selectedCulture = null;
                     cultureFilterSpecified = true;
@@ -170,7 +170,7 @@ namespace BLTAdoptAHero
             // Ensure charClass is not null before using it
             if (charClass == null)
             {
-                onFailure("{=FZh7ZtGp}Character class not found.".Translate());
+                onFailure("{=BLTEquipHeroCharacterClassNotFound}Character class not found.".Translate());
                 return;
             }
 
@@ -200,6 +200,10 @@ namespace BLTAdoptAHero
             //$"Re-equipped Tier {targetTier + 1} ({charClass?.Name ?? "No Class"})"
             // $"Equipped Tier {targetTier + 1} ({charClass?.Name ?? "No Class"})");
         }
+
+        private static bool MatchesCommand(string value, string localized, string english)
+            => value.Equals(english, StringComparison.OrdinalIgnoreCase)
+               || value.Equals(localized, StringComparison.OrdinalIgnoreCase);
 
         internal static void RemoveAllEquipment(Hero adoptedHero)
         {
@@ -464,10 +468,14 @@ namespace BLTAdoptAHero
         {
             var cases = new[]
             {
-                (previousIsEmpty: false, replacementIsEmpty: true, expected: true, name: "keeps previous filled item when replacement is missing"),
-                (previousIsEmpty: false, replacementIsEmpty: false, expected: false, name: "uses replacement when replacement exists"),
-                (previousIsEmpty: true, replacementIsEmpty: true, expected: false, name: "keeps empty slot empty when both are missing"),
-                (previousIsEmpty: true, replacementIsEmpty: false, expected: false, name: "uses replacement for empty slot")
+                (previousIsEmpty: false, replacementIsEmpty: true, expected: true,
+                    name: "{=BLTEquipHeroTestKeepPreviousItem}keeps previous filled item when replacement is missing".Translate()),
+                (previousIsEmpty: false, replacementIsEmpty: false, expected: false,
+                    name: "{=BLTEquipHeroTestUseReplacement}uses replacement when replacement exists".Translate()),
+                (previousIsEmpty: true, replacementIsEmpty: true, expected: false,
+                    name: "{=BLTEquipHeroTestKeepEmptySlot}keeps empty slot empty when both are missing".Translate()),
+                (previousIsEmpty: true, replacementIsEmpty: false, expected: false,
+                    name: "{=BLTEquipHeroTestUseReplacementForEmptySlot}uses replacement for empty slot".Translate())
             };
 
             var failures = cases
@@ -476,8 +484,8 @@ namespace BLTAdoptAHero
                 .ToList();
 
             return failures.Any()
-                ? "FAIL: " + string.Join("; ", failures)
-                : "PASS: armor replacement fallback";
+                ? "{=BLTEquipHeroTestFailure}FAIL: {Failures}".Translate(("Failures", string.Join("; ", failures)))
+                : "{=BLTEquipHeroTestSuccess}PASS: armor replacement fallback".Translate();
         }
 #endif
 

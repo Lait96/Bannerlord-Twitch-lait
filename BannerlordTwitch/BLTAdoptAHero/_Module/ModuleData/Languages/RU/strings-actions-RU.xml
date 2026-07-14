@@ -214,54 +214,62 @@
         <!-- Equip Hero -->
         <string id="3zBXys4m" text="Снарядить героя" original="Equip Hero"/>
         <!-- Improve adopted heroes equipment -->
-        <string id="3QfHyF8g" text="Улучшайте снаряжение приемных героев" original="Improve adopted heroes equipment"/>
+        <string id="3QfHyF8g" text="Улучшает снаряжение усыновлённых героев" original="Improve adopted heroes' equipment"/>
         <!-- Allow Companion Upgrade -->
-        <string id="TGs8URfN" text="Разрешить обновление компаньона" original="Allow Companion Upgrade"/>
+        <string id="TGs8URfN" text="Разрешить улучшение компаньонов" original="Allow Companion Upgrade"/>
         <!-- Allow improvement of adopted heroes who are also companions of the player. -->
-        <string id="6zMgeovT" text="Позволяют улучшать приемных героев, которые также являются товарищами игрока." original="Allow improvement of adopted heroes who are also companions of the player."/>
+        <string id="6zMgeovT" text="Разрешает улучшать снаряжение усыновлённых героев, которые являются компаньонами игрока." original="Allow improvement of adopted heroes who are also companions of the player."/>
         <!-- Cost Tier 1 -->
-        <string id="8qUzSxsQ" text="Уровень затрат 1" original="Cost Tier 1"/>
+        <string id="8qUzSxsQ" text="Стоимость уровня 1" original="Cost Tier 1"/>
         <!-- Gold cost for Tier 1 equipment -->
         <string id="4ipwvHaR" text="Стоимость снаряжения 1-го уровня в золоте" original="Gold cost for Tier 1 equipment"/>
         <!-- Cost Tier 2 -->
-        <string id="bjAzHOqD" text="Уровень затрат 2" original="Cost Tier 2"/>
+        <string id="bjAzHOqD" text="Стоимость уровня 2" original="Cost Tier 2"/>
         <!-- Gold cost for Tier 2 equipment -->
         <string id="3uRKzeJv" text="Стоимость снаряжения 2-го уровня в золоте" original="Gold cost for Tier 2 equipment"/>
         <!-- Cost Tier 3 -->
-        <string id="EUw3jfcC" text="Уровень затрат 3" original="Cost Tier 3"/>
+        <string id="EUw3jfcC" text="Стоимость уровня 3" original="Cost Tier 3"/>
         <!-- Gold cost for Tier 3 equipment -->
         <string id="vRTR2AVO" text="Стоимость снаряжения 3-го уровня в золоте" original="Gold cost for Tier 3 equipment"/>
         <!-- Cost Tier 4 -->
-        <string id="cvWxBhFl" text="Уровень затрат 4" original="Cost Tier 4"/>
+        <string id="cvWxBhFl" text="Стоимость уровня 4" original="Cost Tier 4"/>
         <!-- Gold cost for Tier 4 equipment -->
         <string id="LeCyJf6T" text="Стоимость снаряжения 4-го уровня в золоте" original="Gold cost for Tier 4 equipment"/>
         <!-- Cost Tier 5 -->
-        <string id="Im4cXqCx" text="Уровень затрат 5" original="Cost Tier 5"/>
+        <string id="Im4cXqCx" text="Стоимость уровня 5" original="Cost Tier 5"/>
         <!-- Gold cost for Tier 5 equipment -->
         <string id="4a0P89lE" text="Стоимость снаряжения 5-го уровня в золоте" original="Gold cost for Tier 5 equipment"/>
         <!-- Cost Tier 6 -->
-        <string id="c1CI4H3y" text="Уровень затрат 6" original="Cost Tier 6"/>
+        <string id="c1CI4H3y" text="Стоимость уровня 6" original="Cost Tier 6"/>
         <!-- Gold cost for Tier 6 equipment -->
         <string id="JkrTWsSf" text="Стоимость снаряжения 6-го уровня в золоте" original="Gold cost for Tier 6 equipment"/>
         <!-- Reequip Instead Of Upgrade -->
-        <string id="GaTe1vEL" text="Переснаряжение вместо обновления" original="Reequip Instead Of Upgrade"/>
+        <string id="GaTe1vEL" text="Переснаряжать вместо улучшения" original="Reequip Instead Of Upgrade"/>
         <!-- Whether to re-equip the equipment INSTEAD of upgrading it (you should make TWO commands, one to upgrade and one to reequip) -->
-        <string id="zTiLpc9G" text="Следует ли переоборудовать снаряжение ВМЕСТО его обновления (вы должны выполнить ДВЕ команды, одну для обновления и одну для переснаряжения)" original="Whether to re-equip the equipment INSTEAD of upgrading it (you should make TWO commands, one to upgrade and one to reequip)"/>
+        <string id="zTiLpc9G" text="Переснаряжает героя ВМЕСТО улучшения снаряжения (создайте ДВЕ команды: одну для улучшения, другую для переснаряжения)" original="Whether to re-equip the equipment INSTEAD of upgrading it (you should make TWO commands, one to upgrade and one to reequip)"/>
         <!-- Re-rolls your equipment at your current tier -->
-        <string id="IJtXQh2D" text="Перебрасывает ваше снаряжение на текущий уровень" original="Re-rolls your equipment at your current tier"/>
+        <string id="IJtXQh2D" text="Заново подбирает снаряжение текущего уровня" original="Re-rolls your equipment at your current tier"/>
         <!-- Disallowed for player companions -->
-        <string id="02iAT4Y8" text="Запрещено для товарищей по игрокам" original="Disallowed for player companions"/>
+        <string id="02iAT4Y8" text="Недоступно компаньонам игрока" original="Disallowed for player companions"/>
         <!-- Tier costs -->
-        <string id="wORNXOT5" text="Уровневые затраты" original="Tier costs"/>
+        <string id="wORNXOT5" text="Стоимость уровней" original="Tier costs"/>
         <!-- You are a player companion, you cannot change your own equipment! -->
-        <string id="C9Mhzohr" text="Вы товарищ игрока, вы не можете поменять собственное снаряжение!" original="You are a player companion, you cannot change your own equipment!"/>
+        <string id="C9Mhzohr" text="Вы являетесь компаньоном игрока и не можете менять своё снаряжение!" original="You are a player companion, you cannot change your own equipment!"/>
         <!-- You cannot upgrade equipment, as a mission is active! -->
-        <string id="RoIXssEg" text="Вы не можете улучшать снаряжение, так как миссия активна!" original="You cannot upgrade equipment, as a mission is active!"/>
+        <string id="RoIXssEg" text="Нельзя улучшить снаряжение во время активной миссии!" original="You cannot upgrade equipment, as a mission is active!"/>
         <!-- You cannot upgrade any further! -->
-        <string id="FZh7ZtGp" text="Вы не можете дальше обновляться!" original="You cannot upgrade any further!"/>
-        <string id="fYksbZJp" text="Уровень оснащения {ArmorTier} ({ClassName})" original="Equipped Tier {ArmorTier} ({ClassName})"/>
-        <string id="0KHxea5e" text="Переснаряженный уровень {ArmorTier} ({ClassName})" original="Re-equipped Tier {ArmorTier} ({ClassName})"/>
-        <string id="VlnXNPYS" text="Нет класса" original="No Class"/>
+        <string id="FZh7ZtGp" text="Снаряжение уже достигло максимального уровня!" original="You cannot upgrade any further!"/>
+        <string id="BLTEquipHeroCharacterClassNotFound" text="Класс героя не найден." original="Character class not found."/>
+        <string id="BLTEquipHeroArgNoCulture" text="без культуры" original="null"/>
+        <string id="fYksbZJp" text="Герой снаряжён: уровень {ArmorTier} ({ClassName})" original="Equipped Tier {ArmorTier} ({ClassName})"/>
+        <string id="0KHxea5e" text="Герой переснаряжён: уровень {ArmorTier} ({ClassName})" original="Re-equipped Tier {ArmorTier} ({ClassName})"/>
+        <string id="VlnXNPYS" text="Без класса" original="No Class"/>
+        <string id="BLTEquipHeroTestKeepPreviousItem" text="сохраняет прежний предмет, если замена не найдена" original="keeps previous filled item when replacement is missing"/>
+        <string id="BLTEquipHeroTestUseReplacement" text="использует замену, если она существует" original="uses replacement when replacement exists"/>
+        <string id="BLTEquipHeroTestKeepEmptySlot" text="оставляет пустой слот пустым, если оба предмета отсутствуют" original="keeps empty slot empty when both are missing"/>
+        <string id="BLTEquipHeroTestUseReplacementForEmptySlot" text="использует замену для пустого слота" original="uses replacement for empty slot"/>
+        <string id="BLTEquipHeroTestFailure" text="ОШИБКА: {Failures}" original="FAIL: {Failures}"/>
+        <string id="BLTEquipHeroTestSuccess" text="ПРОЙДЕНО: сохранение прежней брони при отсутствии замены" original="PASS: armor replacement fallback"/>
         <!-- Focus Points -->
         <string id="WihQZ5uq" text="Очки внимания" original="Focus Points"/>
         <!-- Add focus points to heroes skills -->

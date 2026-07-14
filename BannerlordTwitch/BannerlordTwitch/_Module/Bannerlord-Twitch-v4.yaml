@@ -427,7 +427,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: true
   RespondInTwitch: true
-- Documentation: 'Upgrades your heroes equipment tier, replacing any existing equipment of lower tier, except for custom items. The cost depends on the tier you are trying to upgrade to. <br> Usage is <code>!equip (blank for auto upgrade/tier number) </code> <br> Example: !equip 1 or !equip'
+- Aliases: Снаряга
+  Documentation: 'Upgrades your heroes equipment tier, replacing any existing equipment of lower tier, except for custom items. The cost depends on the tier you are trying to upgrade to. An optional argument filters new items by culture; use null for items without culture. <br> Usage is <code>!equip [culture/null]</code> <br> Example: !equip Vlandia or !equip null'
   Enabled: true
   Handler: EquipHero
   HandlerConfig:

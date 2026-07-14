@@ -3,7 +3,7 @@ layout: default
 title: Экипировка особого предмета
 description: Инструкция по команде Экипировать
 permalink: /equip-custom-item-command/
-previous_url: /discard-item-command/
+previous_url: /equip-hero-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>
