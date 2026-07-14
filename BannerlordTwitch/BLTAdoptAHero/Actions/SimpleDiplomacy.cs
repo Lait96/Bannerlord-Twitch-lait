@@ -255,7 +255,7 @@ namespace BLTAdoptAHero
                             {
                                 allianceBehavior.EndAlliance(kingdom, desiredKingdom);
                             }
-                            if (tradeBehavior.HasTradeAgreement(kingdom, desiredKingdom, out _))
+                            if (BannerlordApi.HasTradeAgreement(tradeBehavior, kingdom, desiredKingdom))
                             {
                                 tradeBehavior.EndTradeAgreement(kingdom, desiredKingdom);
                             }
@@ -524,7 +524,7 @@ namespace BLTAdoptAHero
                             onFailure($"At war with {desiredKingdom}");
                             return;
                         }
-                        if (tradeBehavior.HasTradeAgreement(kingdom, desiredKingdom, out _))
+                        if (BannerlordApi.HasTradeAgreement(tradeBehavior, kingdom, desiredKingdom))
                         {
                             onFailure($"Already trading with {desiredKingdom}");
                             return;

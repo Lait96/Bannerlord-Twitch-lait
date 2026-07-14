@@ -671,6 +671,9 @@ namespace BLTAdoptAHero
                 , formationTroopIndex: 0
                 , isAlarmed: isAlarmed
                 , wieldInitialWeapons: true
+#if BL_1_3_15
+                , forceDismounted: false
+#endif
                 , initialPosition: null
                 , initialDirection: null
             );

@@ -25,14 +25,23 @@
         <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
-    <PropertyGroup>
+    <PropertyGroup Condition="!$(Configuration.EndsWith('1.3.15'))">
         <GameVersion>1.4.7</GameVersion>
         <BANNERLORD_GAME_DIR>$(BANNERLORD_GAME_DIR)</BANNERLORD_GAME_DIR>
         <BANNERLORD_GAME_DIR Condition=" '$(BANNERLORD_GAME_DIR)' == '' ">F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord</BANNERLORD_GAME_DIR>
+        <GameModulesDir>$(BANNERLORD_GAME_DIR)\Modules</GameModulesDir>
+        <DefineConstants>$(DefineConstants);BL_1_4_7</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(Configuration.EndsWith('1.3.15'))">
+        <GameVersion>1.3.15</GameVersion>
+        <BANNERLORD_GAME_DIR>F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord V1-3-15</BANNERLORD_GAME_DIR>
+        <GameModulesDir>F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord V1-3-15\Modules</GameModulesDir>
+        <DefineConstants>$(DefineConstants);BL_1_3_15</DefineConstants>
     </PropertyGroup>
     
     <PropertyGroup>
-        <DeployDir>$(BANNERLORD_GAME_DIR)\Modules\$(AssemblyName)\</DeployDir>
+        <DeployDir>$(GameModulesDir)\$(AssemblyName)\</DeployDir>
     </PropertyGroup>
     
     <PropertyGroup Condition="$(Configuration.StartsWith('Debug'))">

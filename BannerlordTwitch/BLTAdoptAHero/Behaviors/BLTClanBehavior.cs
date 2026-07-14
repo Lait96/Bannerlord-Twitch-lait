@@ -289,14 +289,14 @@ namespace BLTAdoptAHero
                 // 1) Try noble templates first
                 var roster = rosters.FirstOrDefault(r =>
                     r.EquipmentCulture == hero.Culture &&
-                    r.EquipmentCategories.HasFlag(EquipmentCategories.IsLordTemplate));
+                    BannerlordApi.IsLordEquipmentTemplate(r));
 
                 if (roster == null)
                 {
                     roster = rosters.FirstOrDefault(r =>
                         r.EquipmentCulture == hero.Culture &&
-                        !r.EquipmentCategories.HasFlag(EquipmentCategories.IsChildEquipmentTemplate) &&
-                        !r.EquipmentCategories.HasFlag(EquipmentCategories.IsTeenagerEquipmentTemplate));
+                        !BannerlordApi.IsChildEquipmentTemplate(r) &&
+                        !BannerlordApi.IsTeenagerEquipmentTemplate(r));
                 }
 
                 if (roster?.AllEquipments?.Count > 0)

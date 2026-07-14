@@ -758,7 +758,7 @@ namespace BLTAdoptAHero.Actions
                     continue;
 
                 StanceLink stance = adoptedHero.Clan.Kingdom.GetStanceWith(k);
-                if (tradeBehavior.HasTradeAgreement(adoptedHero.Clan.Kingdom, k, out _))
+                if (BannerlordApi.HasTradeAgreement(tradeBehavior, adoptedHero.Clan.Kingdom, k))
                 {
                     var tradeDate = tradeBehavior.GetTradeAgreementEndDate(adoptedHero.Clan.Kingdom, k);
                     int tradeDays = (int)(tradeDate - CampaignTime.Now).ToDays;
