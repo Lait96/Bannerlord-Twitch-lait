@@ -1871,5 +1871,58 @@
         <string id="BLTBattleInfoMountHealth" text="- Mount HP: {MountHealth}&#10;"/>
         <string id="BLTBattleInfoCombatStats" text="- Weapon: {Weapon}&#10;- Kills: {Kills}&#10;- Retinue({Retinue}): {RetinueKills}&#10;- Gold: {Gold}&#10;- XP: {XP}&#10;- Power: {Power}% "/>
         <string id="BLTBattleInfoActiveCombat" text="- Active combat"/>
+        <!-- EquipCustomItem localization -->
+        <string id="EquipCustom" text="Equip Custom Item"/>
+        <string id="EquipCustomDesc" text="Equip a custom item from your inventory to all matching slots"/>
+        <string id="EquipCustomEnabled" text="Enabled"/>
+        <string id="EquipCustomGeneral" text="General"/>
+        <string id="EquipCustomEnabledDesc" text="Enable this action"/>
+        <string id="EquipCustomGoldCost" text="Gold Cost"/>
+        <string id="EquipCustomGoldCostDesc" text="Cost in gold to equip a custom item"/>
+        <string id="BLTEquipCustomDocumentationEnabledYes" text="&lt;strong&gt;Enabled:&lt;/strong&gt; Yes"/>
+        <string id="BLTEquipCustomDocumentationGoldCost" text="&lt;strong&gt;Gold Cost:&lt;/strong&gt; {cost}{icon}"/>
+        <string id="BLTEquipCustomDocumentationUsage" text="&lt;strong&gt;Usage:&lt;/strong&gt; !equipcustom [item name or number]"/>
+        <string id="BLTEquipCustomDocumentationListHint" text="Use without arguments to list your custom items"/>
+        <string id="BLTEquipCustomDocumentationEnabledNo" text="&lt;strong&gt;Enabled:&lt;/strong&gt; No"/>
+        <string id="EquipCustomDisabled" text="This action is disabled"/>
+        <string id="EquipCustomInMission" text="You cannot use this action during a mission!"/>
+        <string id="EquipCustomPrisoner" text="You cannot use this action while imprisoned!"/>
+        <string id="EquipCustomNone" text="You don't have any custom items!"/>
+        <string id="EquipCustomNotFound" text="Custom item '{itemName}' not found! Use !equipcustom to see your items."/>
+        <string id="EquipCustomSuccess" text="Equipped {itemName}!"/>
+        <string id="EquipCustomSuccessMulti" text="Equipped {itemName} to {count} slots!"/>
+        <string id="EquipCustomLog" text="{heroName} equipped {itemName}!"/>
+        <string id="EquipCustomNoSlots" text="Could not find any suitable equipment slots for this item!"/>
+        <string id="BLTEquipCustomFailure" text="Failed to equip item: {error}"/>
+        <string id="EquipCustomList" text="Your custom items:"/>
+        <string id="BLTEquipCustomListEntry" text="{index}. {itemName} ({itemType})"/>
+        <string id="EquipCustomListHelp" text="Use: !equipcustom [item name or number]"/>
+        <string id="BLTEquipCustomItemTypeInvalid" text="Invalid"/>
+        <string id="BLTEquipCustomItemTypeHorse" text="Horse"/>
+        <string id="BLTEquipCustomItemTypeOneHandedWeapon" text="One-handed weapon"/>
+        <string id="BLTEquipCustomItemTypeTwoHandedWeapon" text="Two-handed weapon"/>
+        <string id="BLTEquipCustomItemTypePolearm" text="Polearm"/>
+        <string id="BLTEquipCustomItemTypeArrows" text="Arrows"/>
+        <string id="BLTEquipCustomItemTypeBolts" text="Bolts"/>
+        <string id="BLTEquipCustomItemTypeShield" text="Shield"/>
+        <string id="BLTEquipCustomItemTypeBow" text="Bow"/>
+        <string id="BLTEquipCustomItemTypeCrossbow" text="Crossbow"/>
+        <string id="BLTEquipCustomItemTypeThrown" text="Thrown weapon"/>
+        <string id="BLTEquipCustomItemTypeGoods" text="Goods"/>
+        <string id="BLTEquipCustomItemTypeHeadArmor" text="Head armor"/>
+        <string id="BLTEquipCustomItemTypeBodyArmor" text="Body armor"/>
+        <string id="BLTEquipCustomItemTypeLegArmor" text="Leg armor"/>
+        <string id="BLTEquipCustomItemTypeHandArmor" text="Hand armor"/>
+        <string id="BLTEquipCustomItemTypePistol" text="Pistol"/>
+        <string id="BLTEquipCustomItemTypeMusket" text="Musket"/>
+        <string id="BLTEquipCustomItemTypeBullets" text="Bullets"/>
+        <string id="BLTEquipCustomItemTypeAnimal" text="Animal"/>
+        <string id="BLTEquipCustomItemTypeBook" text="Book"/>
+        <string id="BLTEquipCustomItemTypeChestArmor" text="Chest armor"/>
+        <string id="BLTEquipCustomItemTypeCape" text="Cape"/>
+        <string id="BLTEquipCustomItemTypeHorseHarness" text="Horse harness"/>
+        <string id="BLTEquipCustomItemTypeBanner" text="Banner"/>
+        <string id="BLTEquipCustomItemTypeSling" text="Sling"/>
+        <string id="BLTEquipCustomItemTypeSlingStones" text="Sling stones"/>
 </strings>
 </base>

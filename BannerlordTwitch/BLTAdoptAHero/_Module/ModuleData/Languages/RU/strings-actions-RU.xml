@@ -1797,5 +1797,58 @@
         <string id="BLTBattleInfoMountHealth" text="- ОЗ скакуна: {MountHealth}&#10;" original="- Mount HP: {MountHealth}&#10;"/>
         <string id="BLTBattleInfoCombatStats" text="- Оружие: {Weapon}&#10;- Убийства: {Kills}&#10;- Свита ({Retinue}): {RetinueKills}&#10;- Золото: {Gold}&#10;- Опыт: {XP}&#10;- Способность: {Power}% " original="- Weapon: {Weapon}&#10;- Kills: {Kills}&#10;- Retinue({Retinue}): {RetinueKills}&#10;- Gold: {Gold}&#10;- XP: {XP}&#10;- Power: {Power}% "/>
         <string id="BLTBattleInfoActiveCombat" text="- Активно сражается" original="- Active combat"/>
+        <!-- EquipCustomItem localization -->
+        <string id="EquipCustom" text="Экипировать особый предмет" original="Equip Custom Item"/>
+        <string id="EquipCustomDesc" text="Экипирует особый предмет из инвентаря во все подходящие слоты" original="Equip a custom item from your inventory to all matching slots"/>
+        <string id="EquipCustomEnabled" text="Включено" original="Enabled"/>
+        <string id="EquipCustomGeneral" text="Общие" original="General"/>
+        <string id="EquipCustomEnabledDesc" text="Включает эту команду" original="Enable this action"/>
+        <string id="EquipCustomGoldCost" text="Стоимость в золоте" original="Gold Cost"/>
+        <string id="EquipCustomGoldCostDesc" text="Количество золота, необходимое для экипировки особого предмета" original="Cost in gold to equip a custom item"/>
+        <string id="BLTEquipCustomDocumentationEnabledYes" text="&lt;strong&gt;Включено:&lt;/strong&gt; Да" original="&lt;strong&gt;Enabled:&lt;/strong&gt; Yes"/>
+        <string id="BLTEquipCustomDocumentationGoldCost" text="&lt;strong&gt;Стоимость в золоте:&lt;/strong&gt; {cost}{icon}" original="&lt;strong&gt;Gold Cost:&lt;/strong&gt; {cost}{icon}"/>
+        <string id="BLTEquipCustomDocumentationUsage" text="&lt;strong&gt;Использование:&lt;/strong&gt; !equipcustom [название или номер предмета]" original="&lt;strong&gt;Usage:&lt;/strong&gt; !equipcustom [item name or number]"/>
+        <string id="BLTEquipCustomDocumentationListHint" text="Используйте без аргументов, чтобы вывести список особых предметов" original="Use without arguments to list your custom items"/>
+        <string id="BLTEquipCustomDocumentationEnabledNo" text="&lt;strong&gt;Включено:&lt;/strong&gt; Нет" original="&lt;strong&gt;Enabled:&lt;/strong&gt; No"/>
+        <string id="EquipCustomDisabled" text="Эта команда отключена" original="This action is disabled"/>
+        <string id="EquipCustomInMission" text="Эту команду нельзя использовать во время миссии!" original="You cannot use this action during a mission!"/>
+        <string id="EquipCustomPrisoner" text="Эту команду нельзя использовать, находясь в плену!" original="You cannot use this action while imprisoned!"/>
+        <string id="EquipCustomNone" text="У вас нет особых предметов!" original="You don't have any custom items!"/>
+        <string id="EquipCustomNotFound" text="Особый предмет «{itemName}» не найден! Используйте !equipcustom, чтобы просмотреть свои предметы." original="Custom item '{itemName}' not found! Use !equipcustom to see your items."/>
+        <string id="EquipCustomSuccess" text="Экипирован предмет {itemName}!" original="Equipped {itemName}!"/>
+        <string id="EquipCustomSuccessMulti" text="Предмет {itemName} экипирован в слоты (количество: {count})!" original="Equipped {itemName} to {count} slots!"/>
+        <string id="EquipCustomLog" text="{heroName}: экипирован предмет {itemName}!" original="{heroName} equipped {itemName}!"/>
+        <string id="EquipCustomNoSlots" text="Для этого предмета не найдено ни одного подходящего слота экипировки!" original="Could not find any suitable equipment slots for this item!"/>
+        <string id="BLTEquipCustomFailure" text="Не удалось экипировать предмет: {error}" original="Failed to equip item: {error}"/>
+        <string id="EquipCustomList" text="Ваши особые предметы:" original="Your custom items:"/>
+        <string id="BLTEquipCustomListEntry" text="{index}. {itemName} ({itemType})" original="{index}. {itemName} ({itemType})"/>
+        <string id="EquipCustomListHelp" text="Использование: !equipcustom [название или номер предмета]" original="Use: !equipcustom [item name or number]"/>
+        <string id="BLTEquipCustomItemTypeInvalid" text="Недопустимый тип" original="Invalid"/>
+        <string id="BLTEquipCustomItemTypeHorse" text="Лошадь" original="Horse"/>
+        <string id="BLTEquipCustomItemTypeOneHandedWeapon" text="Одноручное оружие" original="One-handed weapon"/>
+        <string id="BLTEquipCustomItemTypeTwoHandedWeapon" text="Двуручное оружие" original="Two-handed weapon"/>
+        <string id="BLTEquipCustomItemTypePolearm" text="Древковое оружие" original="Polearm"/>
+        <string id="BLTEquipCustomItemTypeArrows" text="Стрелы" original="Arrows"/>
+        <string id="BLTEquipCustomItemTypeBolts" text="Болты" original="Bolts"/>
+        <string id="BLTEquipCustomItemTypeShield" text="Щит" original="Shield"/>
+        <string id="BLTEquipCustomItemTypeBow" text="Лук" original="Bow"/>
+        <string id="BLTEquipCustomItemTypeCrossbow" text="Арбалет" original="Crossbow"/>
+        <string id="BLTEquipCustomItemTypeThrown" text="Метательное оружие" original="Thrown weapon"/>
+        <string id="BLTEquipCustomItemTypeGoods" text="Товары" original="Goods"/>
+        <string id="BLTEquipCustomItemTypeHeadArmor" text="Головной доспех" original="Head armor"/>
+        <string id="BLTEquipCustomItemTypeBodyArmor" text="Нательный доспех" original="Body armor"/>
+        <string id="BLTEquipCustomItemTypeLegArmor" text="Доспех для ног" original="Leg armor"/>
+        <string id="BLTEquipCustomItemTypeHandArmor" text="Доспех для рук" original="Hand armor"/>
+        <string id="BLTEquipCustomItemTypePistol" text="Пистолет" original="Pistol"/>
+        <string id="BLTEquipCustomItemTypeMusket" text="Мушкет" original="Musket"/>
+        <string id="BLTEquipCustomItemTypeBullets" text="Пули" original="Bullets"/>
+        <string id="BLTEquipCustomItemTypeAnimal" text="Животное" original="Animal"/>
+        <string id="BLTEquipCustomItemTypeBook" text="Книга" original="Book"/>
+        <string id="BLTEquipCustomItemTypeChestArmor" text="Нагрудный доспех" original="Chest armor"/>
+        <string id="BLTEquipCustomItemTypeCape" text="Плащ" original="Cape"/>
+        <string id="BLTEquipCustomItemTypeHorseHarness" text="Конская сбруя" original="Horse harness"/>
+        <string id="BLTEquipCustomItemTypeBanner" text="Знамя" original="Banner"/>
+        <string id="BLTEquipCustomItemTypeSling" text="Праща" original="Sling"/>
+        <string id="BLTEquipCustomItemTypeSlingStones" text="Камни для пращи" original="Sling stones"/>
 </strings>
 </base>

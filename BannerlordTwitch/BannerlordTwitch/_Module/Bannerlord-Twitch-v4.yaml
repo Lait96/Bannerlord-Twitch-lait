@@ -1183,7 +1183,8 @@ Commands:
   RespondInExtension: false
   RespondInOverlay: false
   RespondInTwitch: true
-- Documentation: ''
+- Aliases: Экипировать
+  Documentation: ''
   Enabled: true
   Handler: EquipCustomItemAction
   HandlerConfig:

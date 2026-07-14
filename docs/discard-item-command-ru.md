@@ -4,6 +4,7 @@ title: Удаление особого предмета
 description: Инструкция по команде выбросить
 permalink: /discard-item-command/
 previous_url: /auction-command/
+next_url: /equip-custom-item-command/
 ---
 
 <a class="doc-breadcrumb" href="{{ '/' | relative_url }}">← Все инструкции</a>

@@ -41,18 +41,18 @@ namespace BLTAdoptAHero.Actions
             {
                 if (Enabled)
                 {
-                    generator.Value("<strong>Enabled:</strong> Yes");
+                    generator.Value("{=BLTEquipCustomDocumentationEnabledYes}<strong>Enabled:</strong> Yes".Translate());
                     if (GoldCost > 0)
                     {
-                        generator.Value("<strong>Gold Cost:</strong> {cost}{icon}"
+                        generator.Value("{=BLTEquipCustomDocumentationGoldCost}<strong>Gold Cost:</strong> {cost}{icon}"
                             .Translate(("cost", GoldCost.ToString()), ("icon", Naming.Gold)));
                     }
-                    generator.Value("<strong>Usage:</strong> !equipcustom [item name or number]");
-                    generator.Value("Use without arguments to list your custom items");
+                    generator.Value("{=BLTEquipCustomDocumentationUsage}<strong>Usage:</strong> !equipcustom [item name or number]".Translate());
+                    generator.Value("{=BLTEquipCustomDocumentationListHint}Use without arguments to list your custom items".Translate());
                 }
                 else
                 {
-                    generator.Value("<strong>Enabled:</strong> No");
+                    generator.Value("{=BLTEquipCustomDocumentationEnabledNo}<strong>Enabled:</strong> No".Translate());
                 }
             }
         }
@@ -161,7 +161,8 @@ namespace BLTAdoptAHero.Actions
             }
             catch (Exception ex)
             {
-                onFailure($"Failed to equip item: {ex.Message}");
+                onFailure("{=BLTEquipCustomFailure}Failed to equip item: {error}"
+                    .Translate(("error", ex.Message)));
                 Log.Error($"EquipCustomItem error: {ex}");
             }
         }
@@ -175,7 +176,11 @@ namespace BLTAdoptAHero.Actions
             {
                 var item = customItems[i];
                 string itemName = RewardHelpers.GetItemNameAndModifiers(item);
-                sb.AppendLine($"{i + 1}. {itemName} ({item.Item.ItemType})");
+                sb.AppendLine("{=BLTEquipCustomListEntry}{index}. {itemName} ({itemType})"
+                    .Translate(
+                        ("index", (i + 1).ToString()),
+                        ("itemName", itemName),
+                        ("itemType", GetItemTypeDisplayName(item.Item.ItemType))));
             }
 
             sb.AppendLine();
@@ -183,6 +188,38 @@ namespace BLTAdoptAHero.Actions
 
             onSuccess(sb.ToString().TrimEnd());
         }
+
+        private static string GetItemTypeDisplayName(ItemObject.ItemTypeEnum itemType) => itemType.ToString() switch
+        {
+            "Invalid" => "{=BLTEquipCustomItemTypeInvalid}Invalid".Translate(),
+            "Horse" => "{=BLTEquipCustomItemTypeHorse}Horse".Translate(),
+            "OneHandedWeapon" => "{=BLTEquipCustomItemTypeOneHandedWeapon}One-handed weapon".Translate(),
+            "TwoHandedWeapon" => "{=BLTEquipCustomItemTypeTwoHandedWeapon}Two-handed weapon".Translate(),
+            "Polearm" => "{=BLTEquipCustomItemTypePolearm}Polearm".Translate(),
+            "Arrows" => "{=BLTEquipCustomItemTypeArrows}Arrows".Translate(),
+            "Bolts" => "{=BLTEquipCustomItemTypeBolts}Bolts".Translate(),
+            "Shield" => "{=BLTEquipCustomItemTypeShield}Shield".Translate(),
+            "Bow" => "{=BLTEquipCustomItemTypeBow}Bow".Translate(),
+            "Crossbow" => "{=BLTEquipCustomItemTypeCrossbow}Crossbow".Translate(),
+            "Thrown" => "{=BLTEquipCustomItemTypeThrown}Thrown weapon".Translate(),
+            "Goods" => "{=BLTEquipCustomItemTypeGoods}Goods".Translate(),
+            "HeadArmor" => "{=BLTEquipCustomItemTypeHeadArmor}Head armor".Translate(),
+            "BodyArmor" => "{=BLTEquipCustomItemTypeBodyArmor}Body armor".Translate(),
+            "LegArmor" => "{=BLTEquipCustomItemTypeLegArmor}Leg armor".Translate(),
+            "HandArmor" => "{=BLTEquipCustomItemTypeHandArmor}Hand armor".Translate(),
+            "Pistol" => "{=BLTEquipCustomItemTypePistol}Pistol".Translate(),
+            "Musket" => "{=BLTEquipCustomItemTypeMusket}Musket".Translate(),
+            "Bullets" => "{=BLTEquipCustomItemTypeBullets}Bullets".Translate(),
+            "Animal" => "{=BLTEquipCustomItemTypeAnimal}Animal".Translate(),
+            "Book" => "{=BLTEquipCustomItemTypeBook}Book".Translate(),
+            "ChestArmor" => "{=BLTEquipCustomItemTypeChestArmor}Chest armor".Translate(),
+            "Cape" => "{=BLTEquipCustomItemTypeCape}Cape".Translate(),
+            "HorseHarness" => "{=BLTEquipCustomItemTypeHorseHarness}Horse harness".Translate(),
+            "Banner" => "{=BLTEquipCustomItemTypeBanner}Banner".Translate(),
+            "Sling" => "{=BLTEquipCustomItemTypeSling}Sling".Translate(),
+            "SlingStones" => "{=BLTEquipCustomItemTypeSlingStones}Sling stones".Translate(),
+            _ => itemType.ToString()
+        };
 
         private EquipmentElement? FindCustomItem(List<EquipmentElement> customItems, string searchTerm)
         {
