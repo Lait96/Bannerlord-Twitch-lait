@@ -1,6 +1,8 @@
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.Core;
+using TaleWorlds.MountAndBlade;
+using NavalDLC.Missions.Objects;
 
 namespace BLTAdoptAHero
 {
@@ -42,6 +44,36 @@ namespace BLTAdoptAHero
             return behavior.HasTradeAgreement(firstKingdom, secondKingdom);
 #else
             return behavior.HasTradeAgreement(firstKingdom, secondKingdom, out _);
+#endif
+        }
+
+        public static bool IsNavalRaidBattle(Mission mission)
+        {
+#if BL_1_3_15
+            return false;
+#else
+            return mission?.IsNavalRaidBattle == true;
+#endif
+        }
+
+        public static bool IsAvailableForNavalSpawn(MissionShip ship)
+        {
+            if (ship == null
+                || !ship.IsInitialized
+                || !ship.IsDeployed
+                || ship.IsRemoved
+                || ship.IsSinking
+                || ship.IsRetreating)
+            {
+                return false;
+            }
+
+#if BL_1_3_15
+            return true;
+#else
+            return !ship.IsSunk
+                   && !ship.BeingAbandoned
+                   && !ship.IsShipNavmeshDisabled;
 #endif
         }
     }

@@ -16,6 +16,7 @@ using SandBox.Missions.MissionLogics;
 using SandBox.Missions.MissionLogics.Arena;
 using SandBox.Tournaments.MissionLogics;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.AgentOrigins;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements.Locations;
 using TaleWorlds.Core;
@@ -328,14 +329,7 @@ namespace BLTAdoptAHero
                 return;
             }
 
-            if (Mission.Current.IsNavalBattle)
-            {
-                BLTSummonBehavior.Current.DoNextTick(() =>
-                {
-                    SummonInNavalBattle(adoptedHero, settings, context, onSuccess, onFailure);
-                });
-            }
-            else if (CampaignMission.Current.Location != null)
+            if (CampaignMission.Current.Location != null)
             {
                 SummonInLocation(adoptedHero, settings, context, onSuccess, onFailure);
             }
@@ -350,6 +344,12 @@ namespace BLTAdoptAHero
 
                     void TrySpawn()
                     {
+                        if (ShouldSummonOnShip(settings))
+                        {
+                            SummonOnShip(adoptedHero, settings, context, onSuccess, onFailure);
+                            return;
+                        }
+
                         try
                         {
                             SummonInBattle(adoptedHero, settings, context, onSuccess, onFailure);
@@ -383,50 +383,28 @@ namespace BLTAdoptAHero
             );
         }
         
-        public class SimpleAgentOrigin : IAgentOriginBase
+        private static bool ShouldSummonOnShip(Settings settings)
         {
-            private readonly BasicCharacterObject _troop;
-            private readonly bool _isOnPlayerSide;
+            var mission = Mission.Current;
+            if (mission == null)
+                return false;
 
-            public SimpleAgentOrigin(BasicCharacterObject troop, bool isOnPlayerSide)
-            {
-                _troop = troop;
-                _isOnPlayerSide = isOnPlayerSide;
-            }
+            if (mission.IsNavalBattle)
+                return true;
 
-            public BasicCharacterObject Troop => _troop;
-            public uint FactionColor => 0;
-            public uint FactionColor2 => 0;
-            public bool HasHeavyArmor => false;
-            public bool HasThrownWeapon => false;
-            public IBattleCombatant BattleCombatant => null;
-            public bool HasShield => false;
-            public bool HasSpear => false;
-            public bool IsUnderPlayersCommand => _isOnPlayerSide;
-            public bool IsInSameArmyAsPlayer => _isOnPlayerSide;
-            public Banner Banner => null;
-            public int Seed => 0;
-            public int UniqueSeed => 0;
+            if (!BannerlordApi.IsNavalRaidBattle(mission))
+                return false;
 
-            public TroopTraitsMask GetTraitsMask() => TroopTraitsMask.None;
-            public void OnAgentRemoved(float agentHealth) { }
-            public void OnScoreHit(BasicCharacterObject victim, BasicCharacterObject formationCaptain, int damage, bool isFatal, bool isTeamKill, WeaponComponentData attackerWeapon) { }
-            public void SetBanner(Banner banner) { }
-            public void SetKilled() { }
-            public void SetRouted(bool isOrderRetreat) { }
-            public void SetWounded() { }
+            var targetTeam = settings.OnPlayerSide ? mission.PlayerTeam : mission.PlayerEnemyTeam;
+            return targetTeam?.Side == BattleSideEnum.Attacker;
         }
-        public static void AddHeroToShip(MissionShip ship, CharacterObject adoptedHero, bool isOnPlayerSide)
-        {
-            IAgentOriginBase heroOrigin = new SimpleAgentOrigin(adoptedHero, isOnPlayerSide);
-            Mission.Current.GetMissionBehavior<NavalAgentsLogic>().AddReservedTroopToShip(heroOrigin, ship);
-        }
-        private static void SummonInNavalBattle(Hero adoptedHero, Settings settings, ReplyContext context,
+
+        private static void SummonOnShip(Hero adoptedHero, Settings settings, ReplyContext context,
         Action<string> onSuccess, Action<string> onFailure)
         {
-            if (!Mission.Current.IsNavalBattle)
+            if (Mission.Current?.IsNavalBattle != true && !BannerlordApi.IsNavalRaidBattle(Mission.Current))
             {
-                onFailure("Not a naval battle!");
+                onFailure("Not a naval mission!");
                 return;
             }
             var heroSummonState = BLTSummonBehavior.Current.GetHeroSummonState(adoptedHero);
@@ -471,13 +449,13 @@ namespace BLTAdoptAHero
                 onFailure("Naval spawn logic not available on this mission.");
                 return;
             }
-            //agentsLogic.SetIgnoreTroopCapacities(true);
-            //agentsLogic.SetIgnoreTroopCapacities(targetTeam.TeamSide, true);
-
             var ships = Mission.Current.MissionObjects
-                .OfType<NavalDLC.Missions.Objects.MissionShip>()
-                .Where(s => s.Team == targetTeam)
-                .OrderBy(s => s.TotalCrewCapacity)
+                .OfType<MissionShip>()
+                .Where(s => s.Team == targetTeam
+                            && BannerlordApi.IsAvailableForNavalSpawn(s))
+                .OrderBy(ship => (float)(agentsLogic.GetActiveAgentCountOfShip(ship)
+                                         + agentsLogic.GetReservedTroopsCountOfShip(ship))
+                                 / Math.Max(1, ship.TotalCrewCapacity))
                 .ToList();
 
             if (!ships.Any())
@@ -485,93 +463,165 @@ namespace BLTAdoptAHero
                 onFailure("No deployable ships available for that side.");
                 return;
             }
-            Agent spawnedAgent;
-            foreach (var ship in ships)
+            var party = heroSummonState?.Party ?? adoptedHero.GetMapEventParty() ?? settings.OnPlayerSide switch
             {
-                try
-                {
+                true when Mission.Current.PlayerTeam?.ActiveAgents.Any() == true => PartyBase.MainParty,
+                false when Mission.Current.PlayerEnemyTeam?.ActiveAgents.Any() == true => Mission.Current
+                    .PlayerEnemyTeam?.TeamAgents?.Select(a => a.Origin?.BattleCombatant as PartyBase)
+                    .Where(p => p != null)
+                    .SelectRandom(),
+                _ => null
+            };
 
-                    agentsLogic.SetIgnoreTroopCapacities(ship, true);
-                    agentsLogic.SetDesiredTroopCountOfShip(ship, ship.TotalCrewCapacity + 100);
-
-
-                    TeamSideEnum teamSide = targetTeam.TeamSide;
-
-                    IAgentOriginBase heroOrigin =
-                        agentsLogic.FindTroopOrigin(teamSide, o => o.Troop != null)
-                        ?? agentsLogic.FindTroopOrigin(teamSide, o => o.Troop != null && o.Troop.IsHero);
-
-                    if (heroOrigin == null)
-                    {
-#if DEBUG
-                        Log.Trace("Missing origin");
-#endif
-                        continue;
-                    }
-
-                    AddHeroToShip(ship, adoptedHero.CharacterObject, settings.OnPlayerSide);
-                    agentsLogic.SpawnNextBatch(teamSide, false, null);
-                    spawnedAgent = adoptedHero.GetAgent();
-                    if (spawnedAgent == null)
-                    {
-#if DEBUG
-                        Log.Trace("Failed to spawn hero on the ship.");
-#endif
-                        continue;
-                    }
-                    break;
-                }
-                catch
-                {
-
-                    continue;
-                }
-            }
-
-            try
+            if (party == null)
             {
-                agentsLogic.AssignTroops(targetTeam.TeamSide, true);
-            }
-            catch (Exception ex)
-            {
-                onFailure($"Naval spawn flow failed: {ex.Message}");
-                return;
-            }
-
-            spawnedAgent = adoptedHero.GetAgent();
-            if (spawnedAgent == null)
-            {
-                onFailure("Failed to spawn hero on the ship.");
+                onFailure("{=jtqEqonE}Could not find a party for you to join!".Translate());
                 return;
             }
 
             bool firstSummon = heroSummonState == null;
+            var originalParty = firstSummon ? adoptedHero.PartyBelongedTo : null;
+            int oldHP = adoptedHero.HitPoints;
+            bool wasLeader = originalParty?.LeaderHero == adoptedHero;
+            bool movedToMissionParty = firstSummon && originalParty?.Party != party;
+
+            IAgentOriginBase heroOrigin = agentsLogic.FindTroopOrigin(targetTeam.TeamSide,
+                origin => origin.Troop == adoptedHero.CharacterObject);
+
+            if (heroOrigin == null)
+            {
+                heroOrigin = new PartyAgentOrigin(party, adoptedHero.CharacterObject);
+            }
+
+            if (agentsLogic.IsAgentOnAnyShip(heroOrigin, out Agent spawnedAgent,
+                    out MissionShip _, targetTeam.TeamSide)
+                && spawnedAgent != null)
+            {
+                onFailure("Hero is already present on a ship.");
+                return;
+            }
+
+            bool originPrepared = agentsLogic.GetTeamTroopOrigins(targetTeam.TeamSide).Contains(heroOrigin);
+            Exception lastSpawnException = null;
+
+            // OnAgentBuild is raised synchronously from SpawnExistingHero. Pre-register the state so
+            // the callback updates this summon instead of treating it as a native battle participant.
             if (firstSummon)
             {
-                var party = adoptedHero.GetMapEventParty() ?? settings.OnPlayerSide switch
-                {
-                    true when Mission.Current.PlayerTeam?.ActiveAgents.Any() == true => PartyBase.MainParty,
-                    false when Mission.Current.PlayerEnemyTeam?.ActiveAgents.Any() == true => Mission.Current
-                        .PlayerEnemyTeam?.TeamAgents?.Select(a => a.Origin?.BattleCombatant as PartyBase)
-                        .Where(p => p != null)
-                        .SelectRandom(),
-                    _ => null
-                };
+                heroSummonState = BLTSummonBehavior.Current.AddHeroSummonState(adoptedHero,
+                    settings.OnPlayerSide, party, forced: false, settings.WithRetinue,
+                    increaseParticipation: false);
+            }
 
-                if (party == null)
+            foreach (var ship in ships)
+            {
+                int troopCountBeforeReservation = 0;
+                bool desiredTroopCountExpanded = false;
+
+                try
                 {
-                    onFailure("{=jtqEqonE}Could not find a party for you to join!".Translate());
-                    return;
+                    if (!originPrepared)
+                    {
+                        if (!agentsLogic.AddReservedTroopToShip(heroOrigin, ship))
+                        {
+                            // A fully staffed ship has no reserve slot. Expand its desired count by
+                            // exactly one instead of disabling capacity checks for the whole mission.
+                            troopCountBeforeReservation = agentsLogic.GetActiveAgentCountOfShip(ship)
+                                                          + agentsLogic.GetReservedTroopsCountOfShip(ship);
+                            agentsLogic.SetDesiredTroopCountOfShip(ship, troopCountBeforeReservation + 1);
+                            desiredTroopCountExpanded = true;
+
+                            if (!agentsLogic.AddReservedTroopToShip(heroOrigin, ship))
+                            {
+                                agentsLogic.SetDesiredTroopCountOfShip(ship, troopCountBeforeReservation);
+                                desiredTroopCountExpanded = false;
+                                continue;
+                            }
+                        }
+
+                        originPrepared = true;
+                    }
+
+                    if (agentsLogic.SpawnExistingHero(heroOrigin, ship, out spawnedAgent)
+                        && spawnedAgent != null)
+                    {
+                        break;
+                    }
+
+                    if (agentsLogic.IsAgentOnAnyShip(heroOrigin, out spawnedAgent,
+                            out MissionShip _, targetTeam.TeamSide)
+                        && spawnedAgent != null)
+                    {
+                        break;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    lastSpawnException = ex;
 
-                var originalParty = adoptedHero.PartyBelongedTo;
-                int oldHP = adoptedHero.HitPoints;
-                bool wasLeader = adoptedHero.PartyBelongedTo?.LeaderHero == adoptedHero;
-                if (originalParty?.Party != party)
+                    if (desiredTroopCountExpanded && !originPrepared)
+                    {
+                        try
+                        {
+                            agentsLogic.SetDesiredTroopCountOfShip(ship, troopCountBeforeReservation);
+                        }
+                        catch (Exception rollbackException)
+                        {
+                            Log.Exception($"[{nameof(SummonHero)}] Failed to restore desired crew count for {ship}",
+                                rollbackException);
+                        }
+                    }
+
+                    Log.Exception($"[{nameof(SummonHero)}] Failed to spawn {adoptedHero} on {ship}", ex);
+
+                    // SpawnExistingHero can throw after creating the agent. Treat that as a successful
+                    // spawn so the mod state remains synchronized with NavalAgentsLogic.
+                    try
+                    {
+                        if (agentsLogic.IsAgentOnAnyShip(heroOrigin, out spawnedAgent,
+                                out MissionShip _, targetTeam.TeamSide)
+                            && spawnedAgent != null)
+                        {
+                            break;
+                        }
+                    }
+                    catch (Exception lookupException)
+                    {
+                        Log.Exception($"[{nameof(SummonHero)}] Failed to locate {adoptedHero} after naval spawn error",
+                            lookupException);
+                    }
+                }
+            }
+
+            if (spawnedAgent == null)
+            {
+                if (firstSummon)
+                    BLTSummonBehavior.Current.RemoveHeroSummonState(heroSummonState);
+
+                onFailure(lastSpawnException == null
+                    ? "No ship has room to spawn the hero."
+                    : "Failed to spawn hero on the available ships.");
+                return;
+            }
+
+            if (movedToMissionParty)
+            {
+                try
                 {
                     originalParty?.Party?.AddMember(adoptedHero.CharacterObject, -1);
                     party.AddMember(adoptedHero.CharacterObject, 1);
                 }
+                catch (Exception ex)
+                {
+                    Log.Exception($"[{nameof(SummonHero)}] Failed to move {adoptedHero} to {party} after naval spawn",
+                        ex);
+                }
+            }
+
+            if (firstSummon)
+            {
+                BLTAdoptAHeroCampaignBehavior.Current.IncreaseParticipationCount(adoptedHero,
+                    settings.OnPlayerSide, forced: false);
 
                 BLTAdoptAHeroCustomMissionBehavior.Current.AddListeners(adoptedHero,
                     onSlowTick: dt =>
@@ -713,7 +763,6 @@ namespace BLTAdoptAHero
                     replaceExisting: false
                 );
 
-                heroSummonState = BLTSummonBehavior.Current.AddHeroSummonState(adoptedHero, settings.OnPlayerSide, party, forced: false, settings.WithRetinue);
             }
 
             //BLTRemoveAgentsBehavior.Current.Add(adoptedHero);
@@ -737,11 +786,6 @@ namespace BLTAdoptAHero
 
             if (settings.GoldCost != 0)
                 BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.GoldCost);
-
-            Log.ShowInformation(!string.IsNullOrEmpty(context.Args)
-                ? context.Args
-                : GetShouts(settings).SelectRandomWeighted(shout => shout.Weight)?.Text?.ToString() ?? "...",
-                adoptedHero.CharacterObject, settings.AlertSound);
 
             onSuccess("You have boarded a ship!");
         }
@@ -1095,8 +1139,11 @@ namespace BLTAdoptAHero
             }
 
             bool DeploymentFlag = Mission.Current.Mode is MissionMode.Deployment;
+            bool isNavalRaidDefender = BannerlordApi.IsNavalRaidBattle(Mission.Current)
+                                       && team?.Side == BattleSideEnum.Defender;
             BLTSummonBehavior.SpawnAgent(settings.OnPlayerSide, adoptedHero.CharacterObject, heroSummonState.Party,
-                adoptedHero.CharacterObject.IsMounted && BLTSummonBehavior.ShouldBeMounted(formationClass), false, !DeploymentFlag);
+                adoptedHero.CharacterObject.IsMounted && BLTSummonBehavior.ShouldBeMounted(formationClass),
+                isNavalRaidDefender, !DeploymentFlag);
 
             // Some random stuff that is required to ensure caches are updated
             foreach (var t in Mission.Current.Teams)

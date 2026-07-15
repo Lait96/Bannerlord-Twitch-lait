@@ -71,7 +71,7 @@ namespace BLTAdoptAHero.Actions
                 return;
             }
 
-            if (Mission.Current.IsNavalBattle)
+            if (Mission.Current.IsNavalBattle || BannerlordApi.IsNavalRaidBattle(Mission.Current))
             {
                 onFailure("{=BLTFormationNoNaval}Cannot change formation in naval battle".Translate());
                 return;

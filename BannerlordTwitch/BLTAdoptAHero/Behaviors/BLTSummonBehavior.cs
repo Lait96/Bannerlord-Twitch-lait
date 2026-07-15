@@ -82,7 +82,8 @@ namespace BLTAdoptAHero
         /// <param name="party"></param>
         /// <param name="forced">Whether the player chose to summon, or was part of the battle without choosing it. This affects what statistics will be updated, so streaks etc. aren't broken</param>
         /// <returns></returns>
-        public HeroSummonState AddHeroSummonState(Hero hero, bool playerSide, PartyBase party, bool forced, bool withRetinue)
+        public HeroSummonState AddHeroSummonState(Hero hero, bool playerSide, PartyBase party, bool forced,
+            bool withRetinue, bool increaseParticipation = true)
         {
             var heroSummonState = new HeroSummonState
             {
@@ -94,9 +95,17 @@ namespace BLTAdoptAHero
             };
             heroSummonStates.Add(heroSummonState);
 
-            BLTAdoptAHeroCampaignBehavior.Current.IncreaseParticipationCount(hero, playerSide, forced);
+            if (increaseParticipation)
+            {
+                BLTAdoptAHeroCampaignBehavior.Current.IncreaseParticipationCount(hero, playerSide, forced);
+            }
 
             return heroSummonState;
+        }
+
+        public void RemoveHeroSummonState(HeroSummonState state)
+        {
+            heroSummonStates.Remove(state);
         }
 
         public override void OnAgentBuild(Agent agent, Banner banner)
@@ -266,7 +275,7 @@ namespace BLTAdoptAHero
                 }
 
                 var mission = Mission.Current;
-                if (mission == null || mission.IsNavalBattle)
+                if (mission == null || mission.IsNavalBattle || BannerlordApi.IsNavalRaidBattle(mission))
                     return;
                 
                 if (BLTAdoptAHeroModule.CommonConfig.AutoFormationForHeroes && !IsDeploymentPhase())
@@ -687,6 +696,7 @@ namespace BLTAdoptAHero
             return Mission.Current.Mode != MissionMode.Stealth
                    && !MissionHelpers.InSiegeMission()
                    && Mission.Current?.IsNavalBattle == false
+                   && !BannerlordApi.IsNavalRaidBattle(Mission.Current)
                    && formationClass is
                        FormationClass.Cavalry or
                        FormationClass.LightCavalry or
@@ -694,6 +704,9 @@ namespace BLTAdoptAHero
                        FormationClass.HorseArcher;
         }
 
-        public static bool RetinueAllowed() => MissionHelpers.InSiegeMission() || MissionHelpers.InFieldBattleMission();
+        public static bool RetinueAllowed()
+            => Mission.Current?.IsNavalBattle == false
+               && !BannerlordApi.IsNavalRaidBattle(Mission.Current)
+               && (MissionHelpers.InSiegeMission() || MissionHelpers.InFieldBattleMission());
     }
 }
