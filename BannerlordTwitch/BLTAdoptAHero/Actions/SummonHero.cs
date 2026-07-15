@@ -399,6 +399,91 @@ namespace BLTAdoptAHero
             return targetTeam?.Side == BattleSideEnum.Attacker;
         }
 
+        private static bool TryReserveByReplacingWeakestNavalParticipant(NavalAgentsLogic agentsLogic,
+            IReadOnlyCollection<MissionShip> capacityBlockedShips, IAgentOriginBase heroOrigin,
+            out MissionShip reservedShip)
+        {
+            var candidate = capacityBlockedShips
+                .SelectMany(ship => agentsLogic.GetActiveAgentsOfShip(ship)
+                    .Where(agent => agent != null
+                                    && agent.IsActive()
+                                    && agent.IsHuman
+                                    && agent != Agent.Main
+                                    && agent != ship.Captain
+                                    && !agent.IsAdopted())
+                    .Select(agent => new { Agent = agent, Ship = ship }))
+                .OrderBy(entry => entry.Agent.Character?.Level ?? int.MaxValue)
+                .ThenBy(entry => entry.Agent.Health)
+                .FirstOrDefault();
+
+            if (candidate == null)
+            {
+                reservedShip = null;
+                return false;
+            }
+
+            reservedShip = candidate.Ship;
+            int originalTroopCount = agentsLogic.GetActiveAgentCountOfShip(reservedShip)
+                                     + agentsLogic.GetReservedTroopsCountOfShip(reservedShip);
+            bool desiredTroopCountChanged = false;
+            bool participantRemoved = false;
+
+            try
+            {
+                // Reserve the hero before removing anyone. The temporary extra desired slot is
+                // reverted after the weakest participant has been replaced.
+                agentsLogic.SetDesiredTroopCountOfShip(reservedShip, originalTroopCount + 1);
+                desiredTroopCountChanged = true;
+
+                if (!agentsLogic.AddReservedTroopToShip(heroOrigin, reservedShip))
+                    return false;
+
+                try
+                {
+                    agentsLogic.RemoveAgentFromShip(candidate.Agent, reservedShip);
+                    participantRemoved = true;
+                    candidate.Agent.State = AgentState.Routed;
+                    candidate.Agent.FadeOut(false, false);
+                }
+                catch (Exception ex)
+                {
+                    // The hero is already safely reserved. Continue with the summon rather than
+                    // losing both the replacement and the reserved origin.
+                    Log.Exception($"[{nameof(SummonHero)}] Failed to remove naval participant "
+                                  + $"{candidate.Agent.Name} from {reservedShip}", ex, noRethrow: true);
+                }
+            }
+            finally
+            {
+                if (desiredTroopCountChanged)
+                {
+                    try
+                    {
+                        agentsLogic.SetDesiredTroopCountOfShip(reservedShip, originalTroopCount);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Exception($"[{nameof(SummonHero)}] Failed to restore desired crew count for {reservedShip}",
+                            ex, noRethrow: true);
+                    }
+                }
+            }
+
+            if (participantRemoved)
+            {
+                Log.Trace($"[{nameof(SummonHero)}] Removed weakest naval participant "
+                          + $"{candidate.Agent.Name} (level {candidate.Agent.Character?.Level ?? 0}) "
+                          + $"from {reservedShip}");
+            }
+            else
+            {
+                Log.Error($"[{nameof(SummonHero)}] Reserved {heroOrigin.Troop} on {reservedShip} "
+                          + "without removing the selected participant");
+            }
+
+            return true;
+        }
+
         private static void SummonOnShip(Hero adoptedHero, Settings settings, ReplyContext context,
         Action<string> onSuccess, Action<string> onFailure)
         {
@@ -503,6 +588,55 @@ namespace BLTAdoptAHero
 
             bool originPrepared = agentsLogic.GetTeamTroopOrigins(targetTeam.TeamSide).Contains(heroOrigin);
             Exception lastSpawnException = null;
+            MissionShip reservedShip = null;
+            var capacityBlockedShips = new List<MissionShip>();
+
+            if (!originPrepared)
+            {
+                foreach (var ship in ships)
+                {
+                    try
+                    {
+                        if (!agentsLogic.AddReservedTroopToShip(heroOrigin, ship))
+                        {
+                            capacityBlockedShips.Add(ship);
+                            continue;
+                        }
+
+                        originPrepared = true;
+                        reservedShip = ship;
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        lastSpawnException = ex;
+                        Log.Exception($"[{nameof(SummonHero)}] Failed to reserve {adoptedHero} on {ship}", ex);
+                    }
+                }
+            }
+
+            if (!originPrepared)
+            {
+                try
+                {
+                    originPrepared = TryReserveByReplacingWeakestNavalParticipant(agentsLogic,
+                        capacityBlockedShips, heroOrigin, out reservedShip);
+                }
+                catch (Exception ex)
+                {
+                    lastSpawnException = ex;
+                    Log.Exception($"[{nameof(SummonHero)}] Failed to replace a naval participant with {adoptedHero}",
+                        ex);
+                }
+            }
+
+            if (!originPrepared)
+            {
+                onFailure(lastSpawnException == null
+                    ? "Could not free a ship slot for the hero."
+                    : "Failed to reserve a ship slot for the hero.");
+                return;
+            }
 
             // OnAgentBuild is raised synchronously from SpawnExistingHero. Pre-register the state so
             // the callback updates this summon instead of treating it as a native battle participant.
@@ -513,35 +647,10 @@ namespace BLTAdoptAHero
                     increaseParticipation: false);
             }
 
-            foreach (var ship in ships)
+            foreach (var ship in ships.OrderBy(ship => ship == reservedShip ? 0 : 1))
             {
-                int troopCountBeforeReservation = 0;
-                bool desiredTroopCountExpanded = false;
-
                 try
                 {
-                    if (!originPrepared)
-                    {
-                        if (!agentsLogic.AddReservedTroopToShip(heroOrigin, ship))
-                        {
-                            // A fully staffed ship has no reserve slot. Expand its desired count by
-                            // exactly one instead of disabling capacity checks for the whole mission.
-                            troopCountBeforeReservation = agentsLogic.GetActiveAgentCountOfShip(ship)
-                                                          + agentsLogic.GetReservedTroopsCountOfShip(ship);
-                            agentsLogic.SetDesiredTroopCountOfShip(ship, troopCountBeforeReservation + 1);
-                            desiredTroopCountExpanded = true;
-
-                            if (!agentsLogic.AddReservedTroopToShip(heroOrigin, ship))
-                            {
-                                agentsLogic.SetDesiredTroopCountOfShip(ship, troopCountBeforeReservation);
-                                desiredTroopCountExpanded = false;
-                                continue;
-                            }
-                        }
-
-                        originPrepared = true;
-                    }
-
                     if (agentsLogic.SpawnExistingHero(heroOrigin, ship, out spawnedAgent)
                         && spawnedAgent != null)
                     {
@@ -558,20 +667,6 @@ namespace BLTAdoptAHero
                 catch (Exception ex)
                 {
                     lastSpawnException = ex;
-
-                    if (desiredTroopCountExpanded && !originPrepared)
-                    {
-                        try
-                        {
-                            agentsLogic.SetDesiredTroopCountOfShip(ship, troopCountBeforeReservation);
-                        }
-                        catch (Exception rollbackException)
-                        {
-                            Log.Exception($"[{nameof(SummonHero)}] Failed to restore desired crew count for {ship}",
-                                rollbackException);
-                        }
-                    }
-
                     Log.Exception($"[{nameof(SummonHero)}] Failed to spawn {adoptedHero} on {ship}", ex);
 
                     // SpawnExistingHero can throw after creating the agent. Treat that as a successful
