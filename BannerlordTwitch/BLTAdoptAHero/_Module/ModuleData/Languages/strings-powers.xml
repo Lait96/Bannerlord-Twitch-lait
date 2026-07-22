@@ -379,7 +379,26 @@
         <string id="DamageDealerGameRole_Name" text="Damage Dealer"/>
         <string id="DamageDealerGameRole_Desc" text="A combat role without additional mechanics"/>
         <string id="HealerGameRole_Name" text="Healer"/>
-        <string id="HealerGameRole_Desc" text="A placeholder for the future healer role"/>
+        <string id="HealerGameRole_Desc" text="Periodically heals wounded allies in an aura and earns gold only for health actually restored. If separated from the group, the Healer temporarily moves toward the nearest ally and releases the override after rejoining them."/>
+        <string id="HealerGameRole_Aura_Category" text="Healing Aura"/>
+        <string id="HealerGameRole_AuraRadius_Name" text="Aura Radius"/>
+        <string id="HealerGameRole_AuraRadius_Desc" text="Radius in metres in which active allies can be healed"/>
+        <string id="HealerGameRole_HealingPerAlly_Name" text="Healing Strength"/>
+        <string id="HealerGameRole_HealingPerAlly_Desc" text="Maximum health restored to one ally by each healing pulse"/>
+        <string id="HealerGameRole_HealingBudget_Name" text="Health Per Pulse"/>
+        <string id="HealerGameRole_HealingBudget_Desc" text="Maximum total health restored across all allies by one pulse"/>
+        <string id="HealerGameRole_HealingPeriod_Name" text="Healing Period"/>
+        <string id="HealerGameRole_HealingPeriod_Desc" text="Seconds between healing pulses"/>
+        <string id="HealerGameRole_Leash_Category" text="Leash"/>
+        <string id="HealerGameRole_LeashDistance_Name" text="Leash Distance"/>
+        <string id="HealerGameRole_LeashDistance_Desc" text="Distance from the nearest ally at which the Healer temporarily moves back toward the group"/>
+        <string id="HealerGameRole_LeashReleaseDistance_Name" text="Leash Release Distance"/>
+        <string id="HealerGameRole_LeashReleaseDistance_Desc" text="Distance from an ally at which normal AI orders resume"/>
+        <string id="HealerGameRole_LeashCheckInterval_Name" text="Leash Check Interval"/>
+        <string id="HealerGameRole_LeashCheckInterval_Desc" text="Seconds between checks of the Healer's distance from allies"/>
+        <string id="HealerGameRole_Rewards_Category" text="Rewards"/>
+        <string id="HealerGameRole_GoldPerHealth_Name" text="Gold Per Health Restored"/>
+        <string id="HealerGameRole_GoldPerHealth_Desc" text="Gold earned per point of health actually restored; overhealing earns nothing"/>
         <string id="TankGameRole_Name" text="Tank"/>
         <string id="TankGameRole_Desc" text="A placeholder for the future tank role"/>
 

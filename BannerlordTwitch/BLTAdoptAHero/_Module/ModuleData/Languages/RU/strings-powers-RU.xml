@@ -361,7 +361,26 @@
         <string id="DamageDealerGameRole_Name" text="Дамагер" original="Damage Dealer"/>
         <string id="DamageDealerGameRole_Desc" text="Боевая роль без дополнительных механик." original="A combat role without additional mechanics"/>
         <string id="HealerGameRole_Name" text="Целитель" original="Healer"/>
-        <string id="HealerGameRole_Desc" text="Заготовка для будущей роли целителя." original="A placeholder for the future healer role"/>
+        <string id="HealerGameRole_Desc" text="Периодически лечит раненых союзников в радиусе ауры и получает золото только за фактически восстановленное здоровье. Оказавшись вдали от группы, целитель временно движется к ближайшему союзнику и после сближения снова подчиняется обычным приказам." original="Periodically heals wounded allies in an aura and earns gold only for health actually restored. If separated from the group, the Healer temporarily moves toward the nearest ally and releases the override after rejoining them."/>
+        <string id="HealerGameRole_Aura_Category" text="Аура лечения" original="Healing Aura"/>
+        <string id="HealerGameRole_AuraRadius_Name" text="Радиус ауры" original="Aura Radius"/>
+        <string id="HealerGameRole_AuraRadius_Desc" text="Радиус в метрах, в котором можно лечить активных союзников" original="Radius in metres in which active allies can be healed"/>
+        <string id="HealerGameRole_HealingPerAlly_Name" text="Сила лечения" original="Healing Strength"/>
+        <string id="HealerGameRole_HealingPerAlly_Desc" text="Максимум здоровья, восстанавливаемого одному союзнику за импульс лечения" original="Maximum health restored to one ally by each healing pulse"/>
+        <string id="HealerGameRole_HealingBudget_Name" text="Здоровье за импульс" original="Health Per Pulse"/>
+        <string id="HealerGameRole_HealingBudget_Desc" text="Максимальный общий объём здоровья, восстанавливаемый всем союзникам за один импульс" original="Maximum total health restored across all allies by one pulse"/>
+        <string id="HealerGameRole_HealingPeriod_Name" text="Период лечения" original="Healing Period"/>
+        <string id="HealerGameRole_HealingPeriod_Desc" text="Интервал в секундах между импульсами лечения" original="Seconds between healing pulses"/>
+        <string id="HealerGameRole_Leash_Category" text="Поводок" original="Leash"/>
+        <string id="HealerGameRole_LeashDistance_Name" text="Дистанция поводка" original="Leash Distance"/>
+        <string id="HealerGameRole_LeashDistance_Desc" text="Расстояние до ближайшего союзника, при котором целитель временно начинает возвращаться к группе" original="Distance from the nearest ally at which the Healer temporarily moves back toward the group"/>
+        <string id="HealerGameRole_LeashReleaseDistance_Name" text="Дистанция отпускания поводка" original="Leash Release Distance"/>
+        <string id="HealerGameRole_LeashReleaseDistance_Desc" text="Расстояние до союзника, после достижения которого целитель снова выполняет обычные приказы ИИ" original="Distance from an ally at which normal AI orders resume"/>
+        <string id="HealerGameRole_LeashCheckInterval_Name" text="Интервал проверки поводка" original="Leash Check Interval"/>
+        <string id="HealerGameRole_LeashCheckInterval_Desc" text="Интервал в секундах между проверками расстояния от целителя до союзников" original="Seconds between checks of the Healer's distance from allies"/>
+        <string id="HealerGameRole_Rewards_Category" text="Награды" original="Rewards"/>
+        <string id="HealerGameRole_GoldPerHealth_Name" text="Золото за единицу лечения" original="Gold Per Health Restored"/>
+        <string id="HealerGameRole_GoldPerHealth_Desc" text="Золото за каждую фактически восстановленную единицу здоровья; избыточное лечение ничего не приносит" original="Gold earned per point of health actually restored; overhealing earns nothing"/>
         <string id="TankGameRole_Name" text="Танк" original="Tank"/>
         <string id="TankGameRole_Desc" text="Заготовка для будущей роли танка." original="A placeholder for the future tank role"/>
 

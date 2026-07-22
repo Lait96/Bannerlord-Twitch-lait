@@ -442,6 +442,7 @@
     <Compile Include="Powers\Core\PassivePowerGroup.cs" />
     <Compile Include="Powers\Core\PowerGroupItemBase.cs" />
     <Compile Include="Powers\GameRoles.cs" />
+    <Compile Include="Powers\HealerGameRole.cs" />
     <Compile Include="Powers\StatModifyPower.cs" />
     <Compile Include="Powers\ReflectDamgePower.cs" />
     <Compile Include="Powers\RogueStealthPower.cs" />

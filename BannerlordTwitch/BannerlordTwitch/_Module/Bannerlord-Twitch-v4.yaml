@@ -3075,7 +3075,15 @@ GlobalConfigs:
       TargetReevaluationIntervalSeconds: 1
       TargetSwitchAdvantage: 3
     - !HealerGameRole
+      AuraRadius: 10
+      GoldPerHealthPoint: 1
+      HealingPerAlly: 8
+      HealingPeriodSeconds: 2
       ID: d79aa782-479c-46cc-8298-722c690c06fc
+      LeashCheckIntervalSeconds: 0.5
+      LeashDistance: 20
+      LeashReleaseDistance: 10
+      MaximumHealingPerPulse: 75
     - !TankGameRole
       ID: 7e16bd2a-5e68-44d5-a137-2cd0fc047f42
     PowerDefs:
