@@ -1,37 +1,47 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using BannerlordTwitch.Util;
-using HarmonyLib;
-using JetBrains.Annotations;
-using TaleWorlds.CampaignSystem;
-using TaleWorlds.Core;
-using TaleWorlds.Engine;
-using TaleWorlds.Library;
-using TaleWorlds.MountAndBlade.View.Tableaus;
 using Path = System.IO.Path;
 
 namespace BannerlordTwitch
 {
-    [HarmonyPatch]
     public class DocumentationGenerator : IDocumentationGenerator
     {
         private int anchor;
-        private readonly List<string> toc = new();
+        private readonly string idPrefix;
+        private readonly bool englishFallback;
         private readonly List<string> content = new();
+        private readonly List<string> starterContent = new();
+        private List<string> activeContent;
+        private List<string> Output => activeContent ?? content;
 
-        private static readonly string CSSFileName = "Bannerlord-Twitch-Documentation.css";
-        private static string CSSFullPath => Path.Combine(Path.GetDirectoryName(typeof(DocumentationGenerator).Assembly.Location) ?? ".", "..", "..", CSSFileName);
+        public DocumentationGenerator(string idPrefix = "guide", bool englishFallback = false)
+        {
+            this.idPrefix = idPrefix;
+            this.englishFallback = englishFallback;
+        }
+
+        private const string CSSFileName = "Bannerlord-Twitch-Documentation.css";
+        private const string ScriptFileName = "Bannerlord-Twitch-Documentation.js";
+        private static string ModuleFilePath(string fileName) => Path.Combine(
+            Path.GetDirectoryName(typeof(DocumentationGenerator).Assembly.Location) ?? ".", "..", "..", fileName);
 
         public async Task Document(IDocumentable documentable)
         {
-            // Make sure previous image writes are all complete or aborted
-            await WaitForPendingImagesAsync();
-            await MainThreadSync.RunWaitAsync(() => documentable.GenerateDocumentation(this));
+            await MainThreadSync.RunWaitAsync(() =>
+            {
+                if (!englishFallback)
+                {
+                    documentable.GenerateDocumentation(this);
+                    return;
+                }
+
+                using (Localization.LocString.UseEnglishFallback())
+                    documentable.GenerateDocumentation(this);
+            });
         }
 
         public static string DocumentationRootDir => Path.Combine(
@@ -40,53 +50,64 @@ namespace BannerlordTwitch
 
         public static string DocumentationPath => Path.Combine(DocumentationRootDir, "index.html");
 
-        public async Task SaveAsync(string title, string introduction, bool addTOC = true)
+        public async Task SaveAsync(string title, string introduction, DocumentationGenerator english = null,
+            bool currentIsRussian = false, string currentLanguage = null)
         {
-            // Wait for image writes first
-            await WaitForPendingImagesAsync();
-
             await MainThreadSync.RunWaitAsync(() =>
             {
-                if (addTOC)
+                var page = new List<string>
                 {
-                    toc.InsertRange(0, new[]
-                    {
-                        "<div class=\"toc-container\">",
-                        "<h2 class=\"toc-title\">Table of Contents</h2>"
-                    });
-                    toc.Add("</div>");
-                    content.InsertRange(0, toc);
-                }
-
-                content.InsertRange(0, new[]
-                {
-                    "<!DOCTYPE html><html>",
+                    "<!DOCTYPE html>",
+                    $"<html lang=\"{(currentIsRussian ? "ru" : "en")}\">",
                     "<head>",
                     "<meta charset=\"utf-8\"/>",
+                    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>",
+                    $"<title>{WebUtility.HtmlEncode(title)}</title>",
                     "<link rel=\"stylesheet\" href=\"style.css\">",
                     "</head>",
-                    "<body>",
-                    "<div class=\"content\">",
-                    $"<h1>{title}</h1>",
-                    $"<p>{introduction}</p>"
-                });
+                    "<body>"
+                };
+                if (english != null)
+                    page.Add($"<div class=\"language-switcher\"><button data-language-select=\"current\" class=\"is-active\">{WebUtility.HtmlEncode(currentLanguage ?? (currentIsRussian ? "Русский" : "Current"))}</button><button data-language-select=\"english\">English</button></div>");
+                page.AddRange(BuildLanguagePage(title, introduction, currentIsRussian, "current", false));
+                if (english != null)
+                    page.AddRange(english.BuildLanguagePage("Bannerlord Twitch Viewer Guide", introduction, false, "english", true));
+                page.Add("<script src=\"guide.js\"></script></body></html>");
 
-                content.Add("</div></html></body>");
-
-                try
-                {
-                    Directory.CreateDirectory(DocumentationRootDir);
-                    File.WriteAllLines(DocumentationPath, content);
-                    string targetCSSFilePath = Path.Combine(DocumentationRootDir, "style.css");
-                    if (File.Exists(targetCSSFilePath))
-                        File.Delete(targetCSSFilePath);
-                    File.Copy(CSSFullPath, targetCSSFilePath);
-                }
-                catch (Exception e)
-                {
-                    Log.Error($"Couldn't write documentation: {e.Message}");
-                }
+                Directory.CreateDirectory(DocumentationRootDir);
+                foreach (string obsoleteImage in Directory.GetFiles(DocumentationRootDir, "blt_img_*.png"))
+                    File.Delete(obsoleteImage);
+                File.WriteAllLines(DocumentationPath, page);
+                CopyModuleFile(CSSFileName, "style.css");
+                CopyModuleFile(ScriptFileName, "guide.js");
             });
+        }
+
+        private IEnumerable<string> BuildLanguagePage(string title, string introduction, bool russian,
+            string language, bool hidden)
+        {
+            string Text(string en, string ru) => russian ? ru : en;
+            yield return $"<div class=\"language-page{(hidden ? " is-language-hidden" : "")}\" data-guide-language=\"{language}\" data-ui-language=\"{(russian ? "ru" : "en")}\">";
+            yield return "<header class=\"guide-header\"><div class=\"guide-header__inner\">";
+            yield return "<span class=\"guide-kicker\">BLT · Bannerlord Twitch</span>";
+            yield return $"<h1>{WebUtility.HtmlEncode(title)}</h1><p>{WebUtility.HtmlEncode(introduction)}</p>";
+            yield return $"<a class=\"developer-guide-link\" href=\"https://lait96.github.io/Bannerlord-Twitch-lait/\" target=\"_blank\" rel=\"noopener noreferrer\"><span>{Text("Developer documentation", "Документация разработчика")}</span><strong>{Text("How every command works", "Как работает каждая команда")} →</strong></a>";
+            yield return "</div></header><main class=\"content\">";
+            foreach (string line in starterContent) yield return line;
+            yield return "<section class=\"guide-search-panel\">";
+            yield return $"<label class=\"guide-search\"><span>{Text("Search the guide", "Поиск по гайду")}</span><input type=\"search\" data-guide-search placeholder=\"{Text("Command, alias, reward or setting…", "Команда, синоним, награда или настройка…")}\" autocomplete=\"off\"/></label>";
+            yield return "<p class=\"guide-search-status\" data-guide-search-status aria-live=\"polite\"></p>";
+            yield return $"<div class=\"guide-filters\" role=\"group\" aria-label=\"{Text("Guide sections", "Разделы гайда")}\"><button class=\"is-active\" type=\"button\" data-guide-filter=\"all\">{Text("All", "Все")}</button><button type=\"button\" data-guide-filter=\"commands\">{Text("Commands", "Команды")}</button><button type=\"button\" data-guide-filter=\"rewards\">{Text("Rewards", "Награды")}</button><button type=\"button\" data-guide-filter=\"classes\">{Text("Classes", "Классы")}</button><button type=\"button\" data-guide-filter=\"settings\">{Text("Settings", "Настройки")}</button><button type=\"button\" data-guide-filter=\"streaks\">{Text("Kill streaks", "Серии убийств")}</button><button type=\"button\" data-guide-filter=\"achievements\">{Text("Achievements", "Достижения")}</button><button type=\"button\" data-guide-filter=\"map\">{Text("Map", "Карта")}</button></div>";
+            yield return "</section><div class=\"filterable-guide-content\">";
+            foreach (string line in content) yield return line;
+            yield return "</div></main></div>";
+        }
+
+        private static void CopyModuleFile(string sourceName, string targetName)
+        {
+            string targetPath = Path.Combine(DocumentationRootDir, targetName);
+            if (File.Exists(targetPath)) File.Delete(targetPath);
+            File.Copy(ModuleFilePath(sourceName), targetPath);
         }
 
         // public void SavePdf()
@@ -123,23 +144,30 @@ namespace BannerlordTwitch
 
         private IDocumentationGenerator ScopedTag(string tag, string css, Action content)
         {
-            this.content.Add(css != null ? $"<{tag} class=\"{css}\">" : $"<{tag}>");
+            Output.Add(css != null ? $"<{tag} class=\"{css}\">" : $"<{tag}>");
             content();
-            this.content.Add($"</{tag}>");
+            Output.Add($"</{tag}>");
             return this;
         }
 
         private IDocumentationGenerator Tag(string tag, string css, string content)
         {
-            this.content.Add(
+            Output.Add(
                 css != null
-                    ? $"<{tag} class={css}>{content}</{tag}>"
+                    ? $"<{tag} class=\"{css}\">{content}</{tag}>"
                     : $"<{tag}>{content}</{tag}>"
                 );
             return this;
         }
 
-        public IDocumentationGenerator Div(string css, Action content) => ScopedTag("div", css, content);
+        public IDocumentationGenerator Div(string css, Action content)
+        {
+            if (css != "starter-guide") return ScopedTag("div", css, content);
+            List<string> previous = activeContent;
+            activeContent = starterContent;
+            try { return ScopedTag("section", css, content); }
+            finally { activeContent = previous; }
+        }
         public IDocumentationGenerator Div(Action content) => Div(null, content);
 
         public IDocumentationGenerator Details(string css, Action content) => ScopedTag("details", css, content);
@@ -152,32 +180,38 @@ namespace BannerlordTwitch
 
         public IDocumentationGenerator H1(string css, string content)
         {
-            toc.Add($"<a href=\"#{++anchor}\"><h1 class=\"toc-h1\">{content}</h1></a>");
-            MakeAnchor($"{anchor}", "");
-            return Tag("h1", css, content);
+            string id = $"{idPrefix}-section-{++anchor}";
+            Output.Add(css == null
+                ? $"<h1 id=\"{id}\">{content}</h1>"
+                : $"<h1 id=\"{id}\" class=\"{css}\">{content}</h1>");
+            return this;
         }
 
         public IDocumentationGenerator H1(string content) => H1(null, content);
 
         public IDocumentationGenerator H2(string css, string content)
         {
-            toc.Add($"<a href=\"#{++anchor}\"><h2 class=\"toc-h2\">{content}</h2></a>");
-            MakeAnchor($"{anchor}", "");
-            return Tag("h2", css, content);
+            string id = $"{idPrefix}-section-{++anchor}";
+            Output.Add(css == null
+                ? $"<h2 id=\"{id}\">{content}</h2>"
+                : $"<h2 id=\"{id}\" class=\"{css}\">{content}</h2>");
+            return this;
         }
 
         public IDocumentationGenerator H2(string content) => H2(null, content);
 
         public IDocumentationGenerator H3(string css, string content)
         {
-            toc.Add($"<a href=\"#{++anchor}\"><h3 class=\"toc-h3\">{content}</h3></a>");
-            MakeAnchor($"{anchor}", "");
-            return Tag("h3", css, content);
+            string id = $"{idPrefix}-section-{++anchor}";
+            Output.Add(css == null
+                ? $"<h3 id=\"{id}\">{content}</h3>"
+                : $"<h3 id=\"{id}\" class=\"{css}\">{content}</h3>");
+            return this;
         }
 
         public IDocumentationGenerator H3(string content) => H3(null, content);
 
-        public IDocumentationGenerator Table(string css, Action content, bool collapsible = true, string summary = "")
+        public IDocumentationGenerator Table(string css, Action content, bool collapsible = false, string summary = "")
         {
             if (!collapsible)
                 return ScopedTag("table", css, content);
@@ -188,7 +222,7 @@ namespace BannerlordTwitch
                 ScopedTag("table", css, content);
             });
         }
-        public IDocumentationGenerator Table(Action content, bool collapsible = true, string summary = "")
+        public IDocumentationGenerator Table(Action content, bool collapsible = false, string summary = "")
         {
             return Table(null, content, collapsible, summary);
         }
@@ -213,248 +247,38 @@ namespace BannerlordTwitch
 
         public IDocumentationGenerator Br()
         {
-            content.Add("<br>");
-            return this;
-        }
-
-        private int imageId;
-        private readonly ConcurrentDictionary<string, object> pendingImages = new();
-
-        private async Task WaitForPendingImagesAsync()
-        {
-            for (int i = 0; i < 100 && !pendingImages.IsEmpty; i++)
-            {
-                await Task.Delay(100);
-            }
-
-            pendingImages.Clear();
-        }
-
-        public IDocumentationGenerator Img(ItemObject item) => Img(null, item);
-        public IDocumentationGenerator Img(string css, ItemObject item)
-        {
-            string localPath = AddImage(css, item.Name.ToString());
-            try
-            {
-                if (File.Exists(localPath))
-                    File.Delete(localPath);
-            }
-            catch
-            {
-                // ignored
-            }
-            pendingImages.TryAdd(localPath, null);
-
-#if e159 || e1510
-            TableauCacheManager.Current.BeginCreateItemTexture(item, 
-                texture => TextureComplete(item.Name.ToString(), localPath, texture));
-#else
-            //TableauCacheManager.Current.BeginCreateItemTexture(item,
-            //    Hero.MainHero.ClanBanner.Serialize(),
-            //    texture => TextureComplete(item.Name.ToString(), localPath, texture));
-#endif
-            return this;
-        }
-
-        public IDocumentationGenerator Img(CharacterCode cc, string altText) => Img(null, cc, altText);
-        public IDocumentationGenerator Img(string css, CharacterCode cc, string altText)
-        {
-            string localPath = AddImage(css, altText);
-            try
-            {
-                if (File.Exists(localPath))
-                    File.Delete(localPath);
-            }
-            catch
-            {
-                // ignored
-            }
-            pendingImages.TryAdd(localPath, null);
-
-            overrideRenderSettings = camera =>
-            {
-                //camera.SetViewVolume(false, -500, 500, 0, 1000, -500, 500);
-                camera.Position -= camera.Direction * 1.2f;
-                camera.Position -= Vec3.Up * 0.6f;
-                camera.SetFovHorizontal(camera.GetFovHorizontal(), 120f / 256f, 0.1f, 1000f);
-                return (120, 256);
-            };
-            //TableauCacheManager.Current.BeginCreateCharacterTexture(cc,
-            //    texture => TextureComplete(altText, localPath, texture), true);
+            Output.Add("<br>");
             return this;
         }
 
         public IDocumentationGenerator MakeAnchor(string tag, Action content)
         {
-            this.content.Add($"<a name=\"{tag}\">");
+            Output.Add($"<a name=\"{tag}\">");
             content();
-            this.content.Add("</a>");
+            Output.Add("</a>");
             return this;
         }
 
         public IDocumentationGenerator MakeAnchor(string tag, string content)
         {
-            this.content.Add($"<a name=\"{tag}\">{content}</a>");
+            Output.Add($"<a name=\"{tag}\">{content}</a>");
             return this;
         }
 
         public IDocumentationGenerator LinkToAnchor(string tag, Action content)
         {
-            this.content.Add($"<a href=\"#{tag}\">");
+            Output.Add($"<a href=\"#{tag}\">");
             content();
-            this.content.Add("</a>");
+            Output.Add("</a>");
             return this;
         }
 
         public IDocumentationGenerator LinkToAnchor(string tag, string content)
         {
-            this.content.Add($"<a href=\"#{tag}\">{content}</a>");
+            Output.Add($"<a href=\"#{tag}\">{content}</a>");
             return this;
         }
 
-        private Bitmap SwapRedAndBlueChannels(Bitmap bitmap)
-        {
-            var imageAttr = new ImageAttributes();
-            imageAttr.SetColorMatrix(new(
-                new[]
-                {
-                    new[] {0.0F, 0.0F, 1.0F, 0.0F, 0.0F},
-                    new[] {0.0F, 1.0F, 0.0F, 0.0F, 0.0F},
-                    new[] {1.0F, 0.0F, 0.0F, 0.0F, 0.0F},
-                    new[] {0.0F, 0.0F, 0.0F, 1.0F, 0.0F},
-                    new[] {0.0F, 0.0F, 0.0F, 0.0F, 1.0F}
-                }
-            ));
-            var temp = new Bitmap(bitmap.Width, bitmap.Height);
-            var pixel = GraphicsUnit.Pixel;
-            using var g = Graphics.FromImage(temp);
-            g.DrawImage(bitmap, Rectangle.Round(bitmap.GetBounds(ref pixel)), 0, 0,
-                bitmap.Width, bitmap.Height, GraphicsUnit.Pixel, imageAttr);
-            return temp;
-        }
-
-        private async void TextureComplete(string name, string localPath, Texture texture)
-        {
-            try
-            {
-                string path = Path.Combine(DocumentationRootDir, localPath);
-                texture.TransformRenderTargetToResource(localPath);
-                texture.SaveToFile(localPath, false);
-                for (int i = 0; i < 100 && !File.Exists(localPath); i++)
-                {
-                    await Task.Delay(100);
-                }
-
-                if (File.Exists(localPath))
-                {
-                    Directory.CreateDirectory(DocumentationRootDir);
-                    if (File.Exists(path))
-                    {
-                        File.Delete(path);
-                    }
-
-                    // Scoped to make sure it gets closed and disposed
-                    using (var bitmap = new Bitmap(localPath))
-                    {
-                        var corrected = SwapRedAndBlueChannels(bitmap);
-                        corrected.Save(path);
-                    }
-
-                    File.Delete(localPath);
-                }
-                else
-                {
-                    Log.Error($"Couldn't export image for {name} to {localPath}");
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Exception("Img", e);
-            }
-
-            pendingImages.TryRemove(localPath, out _);
-        }
-
-        private string AddImage(string css, string name)
-        {
-            string localPath = $"blt_img_{++imageId}.png";
-            if (File.Exists(localPath))
-                File.Delete(localPath);
-            content.Add(css == null
-                ? $"<img src=\"{localPath}\" alt=\"{name}\">"
-                : $"<img class=\"{css}\" src=\"{localPath}\" alt=\"{name}\">");
-            return localPath;
-        }
-
-        private static Func<Camera, (int, int)> overrideRenderSettings;
-
-        //[HarmonyPatch(typeof(ThumbnailRenderRequest), nameof(ThumbnailRenderRequest.CreateForCachedEntityWithoutTexture)), HarmonyPrefix, UsedImplicitly]
-        //private static void CreateForCachedEntityWithoutTexture(Camera camera, ref int width, ref int height)
-        //{
-        //    if (overrideRenderSettings != null)
-        //    {
-        //        (width, height) = overrideRenderSettings(camera);
-        //        overrideRenderSettings = null;
-        //    }
-        //}
-
-        //
-        // private static GameEntity CreateCharacterBaseEntityPostfix(
-        //     CharacterCode characterCode,
-        //     Scene scene,
-        //     ref Camera camera,
-        //     bool isBig)
-        // {
-        //     
-        // }
-        // public static void BeginCreateCharacterTexture(CharacterCode characterCode, Action<Texture> setAction, bool isBig)
-        // {
-        //     if (MBObjectManager.Instance == null)
-        //         return;
-        //
-        //     characterCode.BodyProperties = new (
-        //         new (
-        //             (int) characterCode.BodyProperties.Age, 
-        //             (int) characterCode.BodyProperties.Weight, 
-        //             (int) characterCode.BodyProperties.Build), 
-        //         characterCode.BodyProperties.StaticProperties);
-        //     string str = characterCode.CreateNewCodeString() + (isBig ? "1" : "0") + "_blt";
-        //     Texture texture;
-        //
-        //     var _characterVisuals = (ThumbnailCache) AccessTools.Field(
-        //         typeof(TableauCacheManager), "_characterVisuals").GetValue(TableauCacheManager.Current);
-        //     var _renderCallbacks = (Dictionary<string, TableauCacheManager.RenderDetails>) AccessTools.Field(
-        //         typeof(TableauCacheManager), "_renderCallbacks").GetValue(TableauCacheManager.Current);
-        //     if (_characterVisuals.GetValue(str, out texture))
-        //     {
-        //         if (this._renderCallbacks.ContainsKey(str))
-        //             this._renderCallbacks[str].Actions.Add(setAction);
-        //         else if (setAction != null)
-        //             setAction(texture);
-        //         _characterVisuals.AddReference(str);
-        //     }
-        //     else
-        //     {
-        //         Camera camera = (Camera) null;
-        //         int index = isBig ? 0 : 4;
-        //         GameEntity characterBaseEntity = this.CreateCharacterBaseEntity(characterCode,
-        //             BannerlordTableauManager.TableauCharacterScenes[index], ref camera, isBig);
-        //         GameEntity entity = this.FillEntityWithPose(characterCode, characterBaseEntity,
-        //             BannerlordTableauManager.TableauCharacterScenes[index]);
-        //         int width = 256;
-        //         int height = isBig ? 120 : 184;
-        //         this._thumbnailCreatorView.RegisterEntityWithoutTexture(
-        //             BannerlordTableauManager.TableauCharacterScenes[index], camera, entity, width, height,
-        //             this.characterTableauGPUAllocationIndex, str,
-        //             "character_tableau_" + this._characterCount.ToString());
-        //         ++this._characterCount;
-        //         _characterVisuals.Add(str, (Texture) null);
-        //         _characterVisuals.AddReference(str);
-        //         if (!this._renderCallbacks.ContainsKey(str))
-        //             this._renderCallbacks.Add(str, new TableauCacheManager.RenderDetails(new List<Action<Texture>>()));
-        //         this._renderCallbacks[str].Actions.Add(setAction);
-        //     }
-        // }
         public IDocumentationGenerator MapLabel(float x, float y, string name, string type, string kingdomId, Func<string, string> getFillColor, Func<string, string> getBorderColor)
         {
             // Determine shape

@@ -15,5 +15,14 @@
         <string id="mHkSZwdI" text="Chat Commands"/>
         <!-- Sim Testing Config -->
         <string id="c1lGU26j" text="Sim Testing Config"/>
+        <string id="BLTDocs_Tab" text="Documentation"/>
+        <string id="BLTDocs_Description" text="Generate a compact, searchable guide from the commands, aliases, rewards, classes and settings in the active profile."/>
+        <string id="BLTDocs_PublishHelp" text="Free publishing with Neocities.org:&#10;1. Create a free site at https://neocities.org.&#10;2. Enter its username and password below.&#10;3. Load any campaign save and generate the documentation.&#10;4. Click Upload documentation.&#10;5. Open https://neocities.org/dashboard to find the public site link.&#10;After changing the BLT profile, repeat steps 3–4."/>
+        <string id="BLTDocs_Title" text="Title"/><string id="BLTDocs_Introduction" text="Introduction"/>
+        <string id="BLTDocs_Generate" text="Generate documentation"/><string id="BLTDocs_Open" text="Open documentation"/><string id="BLTDocs_OpenFolder" text="Open documentation folder"/>
+        <string id="BLTDocs_Credentials" text="Enter your Neocities.org username and password (they are stored securely):"/>
+        <string id="BLTDocs_Username" text="Username"/><string id="BLTDocs_Password" text="Password"/>
+        <string id="BLTDocs_UploadHelp" text="Upload the generated documentation folder to your site. Existing site files with the same names will be replaced."/>
+        <string id="BLTDocs_Upload" text="Upload documentation"/><string id="BLTDocs_Generating" text="Generating documentation..."/><string id="BLTDocs_Complete" text="Documentation generation complete"/>
     </strings>
 </base>

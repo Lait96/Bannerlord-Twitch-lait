@@ -196,6 +196,9 @@
         <string id="GlobalCommonConfig_Doc_Reward" text="Reward"/>
         <string id="GlobalCommonConfig_Doc_Requirements" text="Requirements"/>
         <string id="GlobalCommonConfig_Doc_MapLegend" text="Map Legend"/>
+        <string id="GlobalCommonConfig_Doc_CampaignMap" text="Campaign Map"/>
+        <string id="GlobalCommonConfig_Doc_KingdomLeader" text="{Kingdom} — Leader: {Leader}"/>
+        <string id="GlobalCommonConfig_Doc_Map" text="Map"/>
         <string id="GlobalCommonConfig_Doc_Color" text="Color"/>
         <string id="GlobalCommonConfig_Doc_Name" text="Имя"/>
 

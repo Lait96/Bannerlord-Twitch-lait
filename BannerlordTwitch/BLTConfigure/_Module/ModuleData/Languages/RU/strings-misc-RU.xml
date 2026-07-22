@@ -14,5 +14,14 @@
         <string id="mHkSZwdI" text="Команды чата" original="Chat Commands"/>
         <!-- Sim Testing Config -->
         <string id="c1lGU26j" text="Конфигурация тестирования симулятора" original="Sim Testing Config"/>
+        <string id="BLTDocs_Tab" text="Документация" original="Documentation"/>
+        <string id="BLTDocs_Description" text="Создаёт компактный гайд с поиском по командам, синонимам, наградам, классам и настройкам активного профиля." original="Generate a compact, searchable guide from the commands, aliases, rewards, classes and settings in the active profile."/>
+        <string id="BLTDocs_PublishHelp" text="Бесплатная публикация через Neocities.org:&#10;1. Создайте бесплатный сайт на https://neocities.org.&#10;2. Введите ниже его имя пользователя и пароль.&#10;3. Загрузите любое сохранение кампании и создайте документацию.&#10;4. Нажмите «Загрузить документацию».&#10;5. Откройте https://neocities.org/dashboard — там находится публичная ссылка на сайт.&#10;После изменения профиля BLT повторите шаги 3–4." original="Free publishing with Neocities.org: 1. Create a free site. 2. Enter credentials. 3. Generate. 4. Upload. 5. Open dashboard."/>
+        <string id="BLTDocs_Title" text="Заголовок" original="Title"/><string id="BLTDocs_Introduction" text="Введение" original="Introduction"/>
+        <string id="BLTDocs_Generate" text="Создать документацию" original="Generate documentation"/><string id="BLTDocs_Open" text="Открыть документацию" original="Open documentation"/><string id="BLTDocs_OpenFolder" text="Открыть папку документации" original="Open documentation folder"/>
+        <string id="BLTDocs_Credentials" text="Введите имя пользователя и пароль Neocities.org (они хранятся безопасно):" original="Enter your Neocities.org username and password (they are stored securely):"/>
+        <string id="BLTDocs_Username" text="Имя пользователя" original="Username"/><string id="BLTDocs_Password" text="Пароль" original="Password"/>
+        <string id="BLTDocs_UploadHelp" text="Загрузить созданную папку документации на сайт. Файлы сайта с совпадающими именами будут заменены." original="Upload the generated documentation folder to your site. Existing site files with the same names will be replaced."/>
+        <string id="BLTDocs_Upload" text="Загрузить документацию" original="Upload documentation"/><string id="BLTDocs_Generating" text="Создание документации..." original="Generating documentation..."/><string id="BLTDocs_Complete" text="Документация создана" original="Documentation generation complete"/>
     </strings>
 </base>

@@ -196,6 +196,9 @@
         <string id="GlobalCommonConfig_Doc_Reward" text="Награда" original="Reward"/>
         <string id="GlobalCommonConfig_Doc_Requirements" text="Требования" original="Requirements"/>
         <string id="GlobalCommonConfig_Doc_MapLegend" text="Легенда карты" original="Map Legend"/>
+        <string id="GlobalCommonConfig_Doc_CampaignMap" text="Карта кампании" original="Campaign Map"/>
+        <string id="GlobalCommonConfig_Doc_KingdomLeader" text="{Kingdom} — Лидер: {Leader}" original="{Kingdom} — Leader: {Leader}"/>
+        <string id="GlobalCommonConfig_Doc_Map" text="Карта" original="Map"/>
         <string id="GlobalCommonConfig_Doc_Color" text="Цвет" original="Color"/>
         <string id="GlobalCommonConfig_Doc_Name" text="Имя" original="Name"/>
 

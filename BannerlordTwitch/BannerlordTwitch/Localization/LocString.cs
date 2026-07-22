@@ -10,6 +10,17 @@ namespace BannerlordTwitch.Localization
     [TypeConverter(typeof(LocStringConverter))]
     public class LocString
     {
+        [ThreadStatic] private static bool useEnglishFallback;
+
+        private sealed class EnglishFallbackScope : IDisposable
+        {
+            private readonly bool previous = useEnglishFallback;
+            public EnglishFallbackScope() => useEnglishFallback = true;
+            public void Dispose() => useEnglishFallback = previous;
+        }
+
+        public static IDisposable UseEnglishFallback() => new EnglishFallbackScope();
+
         public string Value { get; set; }
 
         [UsedImplicitly]
@@ -30,15 +41,22 @@ namespace BannerlordTwitch.Localization
 
         public static string Translate(string str)
             => !string.IsNullOrEmpty(str)
-                ? new TextObject(str).ToString()
+                ? useEnglishFallback ? GetFallback(str) : new TextObject(str).ToString()
                 : string.Empty;
 
         public static string Translate(string str, params (string key, object value)[] arg)
             => !string.IsNullOrEmpty(str)
-                ? new TextObject(str, arg.ToDictionary(
+                ? new TextObject(useEnglishFallback ? GetFallback(str) : str, arg.ToDictionary(
                     kv => kv.key,
                     kv => kv.value is LocString ? kv.value.ToString() : kv.value)).ToString()
                 : string.Empty;
+
+        private static string GetFallback(string value)
+        {
+            if (!value.StartsWith("{=", StringComparison.Ordinal)) return value;
+            int end = value.IndexOf('}');
+            return end >= 0 ? value.Substring(end + 1) : value;
+        }
     }
 
     public class LocStringConverter : TypeConverter

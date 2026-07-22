@@ -204,28 +204,6 @@ namespace BLTAdoptAHero
                 ? Description.ToString()
                 : "{=A79HrgZ0}Details".Translate());
 
-            generator.Table("hero-class-tiers", () =>
-            {
-                generator.TR(() =>
-                {
-                    for (int i = 1; i <= 6; i++)
-                    {
-                        generator.TH("{=Rs1XNM9K}Tier {TierNumber}".Translate(("TierNumber", i)));
-                    }
-                });
-                generator.TR(() =>
-                {
-                    for (int i = 1; i <= 6; i++)
-                    {
-                        EquipHero.UpgradeEquipment(Hero.MainHero, i, this, replaceSameTier: false, customKeepFilter: _ => false);
-                        generator.TD(() =>
-                            generator.Img(CharacterCode.CreateFrom(Hero.MainHero.CharacterObject),
-                                $"{Name} Tier {i} Example")
-                        );
-                    }
-                });
-            }, false);
-
             generator.Table("hero-class", () =>
             {
                 generator.TR(() => generator
@@ -243,9 +221,6 @@ namespace BLTAdoptAHero
                         generator.TD(() =>
                         {
                             generator.P(EquipmentTypeItemSource.GetFriendlyName(type));
-                            var exampleItem = CampaignHelpers.AllItems.FirstOrDefault(item => item.IsEquipmentType(type));
-                            if (exampleItem != null)
-                                generator.Img("equip-img", exampleItem);
                         });
                     }
                 });
@@ -263,12 +238,6 @@ namespace BLTAdoptAHero
                             generator.TD(() =>
                             {
                                 generator.P("{=YzIcRgBV}Horse".Translate());
-                                var exampleItem = CampaignHelpers.AllItems
-                                    .FirstOrDefault(item
-                                        => item.Type == ItemObject.ItemTypeEnum.Horse
-                                           && item.HorseComponent.Monster.FamilyType == (int)EquipHero.MountFamilyType.horse);
-                                if (exampleItem != null)
-                                    generator.Img("equip-img", exampleItem);
                             });
                         }
                         if (UseCamel)
@@ -276,12 +245,6 @@ namespace BLTAdoptAHero
                             generator.TD(() =>
                             {
                                 generator.P("{=HMclWXR8}Camel".Translate());
-                                var exampleItem = CampaignHelpers.AllItems
-                                    .FirstOrDefault(item
-                                        => item.Type == ItemObject.ItemTypeEnum.Horse
-                                           && item.HorseComponent.Monster.FamilyType == (int)EquipHero.MountFamilyType.camel);
-                                if (exampleItem != null)
-                                    generator.Img("equip-img", exampleItem);
                             });
                         }
                     });

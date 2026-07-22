@@ -229,15 +229,15 @@
         <!-- Two Handed Lance -->
         <string id="Y6CxpaYL" text="Двуручное копье" original="Two Handed Lance"/>
         <!-- One Handed Glaive -->
-        <string id="r22oB2bm" text="Одноручная древковое" original="One Handed Glaive"/>
+        <string id="r22oB2bm" text="Одноручная глефа" original="One Handed Glaive"/>
         <!-- Two Handed Glaive -->
-        <string id="BcmE6Y75" text="Двуручная древковое" original="Two Handed Glaive"/>
+        <string id="BcmE6Y75" text="Двуручная глефа" original="Two Handed Glaive"/>
         <!-- Bow -->
         <string id="rroxl8j3" text="Лук" original="Bow"/>
         <!-- Crossbow -->
         <string id="CztMY8ZE" text="Арбалет" original="Crossbow"/>
         <!-- Arrows -->
-        <string id="DYYyhDUI" text="Стрелкы" original="Arrows"/>
+        <string id="DYYyhDUI" text="Стрелы" original="Arrows"/>
         <!-- Bolts -->
         <string id="i281jKBH" text="Болты" original="Bolts"/>
         <!-- Throwing Knives -->
@@ -245,7 +245,7 @@
         <!-- Throwing Axes -->
         <string id="S1NUKL4r" text="Метательные топоры" original="Throwing Axes"/>
         <!-- Throwing Javelins -->
-        <string id="ND1x0R2V" text="Метание копья" original="Throwing Javelins"/>
+        <string id="ND1x0R2V" text="Метательные копья" original="Throwing Javelins"/>
         <!-- Shield -->
         <string id="p4eF4kc6" text="Щит" original="Shield"/>
         <!-- Stone -->
@@ -590,9 +590,9 @@
         <!-- Two Handed Lance -->
         <string id="6fEElc9f" text="Двуручное копье" original="Two Handed Lance"/>
         <!-- One Handed Glaive -->
-        <string id="ICcCZnli" text="Одноручное древковое" original="One Handed Glaive"/>
+        <string id="ICcCZnli" text="Одноручная глефа" original="One Handed Glaive"/>
         <!-- Two Handed Glaive -->
-        <string id="KpYZoZE9" text="Двуручное древковое" original="Two Handed Glaive"/>
+        <string id="KpYZoZE9" text="Двуручная глефа" original="Two Handed Glaive"/>
         <!-- Bow -->
         <string id="HKYDdm9S" text="Лук" original="Bow"/>
         <!-- Crossbow -->
@@ -611,5 +611,13 @@
         <string id="om9ZF9Mu" text="Щит" original="Shield"/>
         <!-- Stone -->
         <string id="vIT4xG8X" text="Камень" original="Stone"/>
+        <string id="BLTDocs_GettingStarted" text="Как начать играть в BLT" original="Getting started"/><string id="BLTDocs_StarterNote" text="Команды взяты из активного профиля — нажмите на команду, чтобы скопировать её." original="Commands below come from the active profile and can be copied with one click."/>
+        <string id="BLTDocs_StartHero" text="Шаг 1. Создайте героя" original="Create your hero"/><string id="BLTDocs_StartHeroText" text="усыновляет или создаёт героя зрителя. В разделе «Команды» находятся дополнительные варианты выбора культуры и фракции." original="adopts or creates a viewer hero. Check the Commands section for optional culture and faction variants."/>
+        <string id="BLTDocs_StartClass" text="Шаг 2. Выберите класс" original="Choose a class"/><string id="BLTDocs_StartClassText" text="показывает список классов; повторите команду с названием класса, чтобы выбрать его. Снаряжение и силы по уровням описаны в разделе «Классы»." original="shows available classes; repeat the command with a class name to select it. Compare equipment and level powers in the Classes section."/>
+        <string id="BLTDocs_StartBattle" text="Шаг 3. Участвуйте в боях" original="Join battles"/><string id="BLTDocs_StartBattleText" text="призывает героя во время подходящего боя. Убийства и участие дают развитие согласно настройкам стримера." original="summons your hero when a suitable battle is active. Kills and participation provide progression configured by the streamer."/>
+        <string id="BLTDocs_StartProgress" text="Шаг 4. Развивайте героя" original="Develop your hero"/><string id="BLTDocs_StartProgressText" text="улучшают снаряжение, фокусы и атрибуты, если соответствующие команды включены." original="improve equipment, focus points and attributes when those commands are enabled."/>
+        <string id="BLTDocs_StartRetinue" text="Шаг 5. Соберите свиту" original="Build a retinue"/><string id="BLTDocs_StartRetinueText" text="открывает действия найма и улучшения бойцов свиты." original="opens the retinue actions for recruiting and improving companions."/>
+        <string id="BLTDocs_StartWorld" text="Шаг 6. Вступайте в кланы и королевства" original="Join the world"/><string id="BLTDocs_StartWorldText" text="управляют кланами и королевствами. Это поздние механики — сначала развейте героя." original="cover clans and kingdoms. These are later-stage systems, so develop the hero first."/>
+        <string id="BLTDocs_ClassLevel" text="Уровень класса" original="Class level"/><string id="BLTDocs_ClassLevelBase" text="Базовая" original="Base"/>
     </strings>
 </base>

@@ -1,5 +1,4 @@
 ﻿using System;
-using TaleWorlds.Core;
 
 namespace BannerlordTwitch
 {
@@ -26,8 +25,8 @@ namespace BannerlordTwitch
         IDocumentationGenerator H3(string css, string content);
         IDocumentationGenerator H3(string content);
 
-        IDocumentationGenerator Table(string css, Action content, bool collapsible = true, string summary = "View Table");
-        IDocumentationGenerator Table(Action content, bool collapsible = true, string summary = "View Table");
+        IDocumentationGenerator Table(string css, Action content, bool collapsible = false, string summary = "View Table");
+        IDocumentationGenerator Table(Action content, bool collapsible = false, string summary = "View Table");
 
         IDocumentationGenerator TR(string css, Action content);
         IDocumentationGenerator TR(Action content);
@@ -48,12 +47,6 @@ namespace BannerlordTwitch
         IDocumentationGenerator P(string content);
 
         IDocumentationGenerator Br();
-
-        IDocumentationGenerator Img(ItemObject item);
-        IDocumentationGenerator Img(string css, ItemObject item);
-
-        IDocumentationGenerator Img(CharacterCode cc, string altText);
-        IDocumentationGenerator Img(string css, CharacterCode cc, string altText);
 
         IDocumentationGenerator MakeAnchor(string tag, Action content);
         IDocumentationGenerator MakeAnchor(string tag, string content);

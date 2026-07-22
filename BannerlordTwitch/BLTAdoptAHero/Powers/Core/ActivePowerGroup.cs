@@ -9,6 +9,7 @@ using BannerlordTwitch.Localization;
 using BannerlordTwitch.Rewards;
 using BannerlordTwitch.UI;
 using BannerlordTwitch.Util;
+using BLTAdoptAHero.Achievements;
 using JetBrains.Annotations;
 using TaleWorlds.CampaignSystem;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
@@ -156,16 +157,29 @@ namespace BLTAdoptAHero.Powers
         public void GenerateDocumentation(IDocumentationGenerator generator)
         {
             generator.P("power-title", Name.ToString());
-            foreach (var power in Powers)
+            generator.Table("class-power-table", () =>
             {
-                if (power is IDocumentable docPower)
-                {
-                    docPower.GenerateDocumentation(generator);
-                }
-                else
-                {
-                    generator.P(power.ToString());
-                }
+                generator.TR(() => generator
+                    .TH("{=KHoc6FK5}Power".Translate())
+                    .TH("{=BLTDocs_ClassLevel}Class level".Translate())
+                    .TH("{=WLtUn4t7}Requirements".Translate()));
+                foreach (var item in ValidPowers.OrderBy(PowerLevel))
+                    generator.TR(() => generator
+                        .TD(item.Power.ToString())
+                        .TD(LevelText(item))
+                        .TD(OtherRequirements(item)));
+            });
+
+            static int PowerLevel(PowerGroupItemBase item) => item.Requirements
+                .OfType<ClassLevelRequirement>().Select(r => r.MinLevel).DefaultIfEmpty(0).Max();
+            static string LevelText(PowerGroupItemBase item) => PowerLevel(item) == 0
+                ? "{=BLTDocs_ClassLevelBase}Base".Translate()
+                : PowerLevel(item).ToString();
+            static string OtherRequirements(PowerGroupItemBase item)
+            {
+                string result = string.Join(" + ", item.Requirements
+                    .Where(r => r is not ClassLevelRequirement).Select(r => r.ToString()));
+                return string.IsNullOrEmpty(result) ? "—" : result;
             }
         }
         #endregion

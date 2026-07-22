@@ -372,7 +372,7 @@
         <!-- Arrow Stack -->
         <string id="2ehIq5eD" text="Количество стрел" original="Arrow Stack"/>
         <!-- Arrow stack size modifier for custom arrow prize -->
-        <string id="inawRS8e" text="Модификатор размера стека стрелок для пользовательского приза стрелы" original="Arrow stack size modifier for custom arrow prize"/>
+        <string id="inawRS8e" text="Модификатор количества стрел для пользовательской награды" original="Arrow stack size modifier for custom arrow prize"/>
         <!-- Throwing Stack -->
         <string id="JUXQcKMR" text="Количество метательных" original="Throwing Stack"/>
         <!-- Throwing stack size modifier for custom throwing prize -->

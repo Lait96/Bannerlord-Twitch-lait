@@ -97,11 +97,28 @@ namespace BLTAdoptAHero
             {
                 generator.H1("{=GlobalHeroClassConfig_Doc_Classes}Classes".Translate());
 
+                if (ValidClassLevelRequirements.Any())
+                {
+                    generator.H2("{=GlobalHeroClassConfig_ClassLevelRequirements_Name}Class Level Requirements".Translate());
+                    generator.Table("class-level-requirements", () =>
+                    {
+                        generator.TR(() => generator
+                            .TH("{=BLTDocs_ClassLevel}Class level".Translate())
+                            .TH("{=GlobalHeroClassConfig_ClassLevelRequirementsDef_Requirements_Name}Requirements".Translate()));
+                        foreach (var level in ValidClassLevelRequirements)
+                            generator.TR(() => generator
+                                .TD(level.ClassLevel.ToString())
+                                .TD(string.Join(" + ", level.Requirements.Select(r => r.ToString()))));
+                    });
+                }
+
                 foreach (var cl in ValidClasses)
                 {
-                    generator.MakeAnchor(cl.Name.ToString(), () => generator.H2(cl.Name.ToString()));
-                    cl.GenerateDocumentation(generator);
-                    generator.Br();
+                    generator.Details("class-card", () =>
+                    {
+                        generator.Summary("class-card__title", cl.Name.ToString());
+                        generator.Div("class-card__content", () => cl.GenerateDocumentation(generator));
+                    });
                 }
             });
         }

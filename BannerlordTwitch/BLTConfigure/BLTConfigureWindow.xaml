@@ -126,7 +126,7 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <TextBlock Margin="10 2">Documentation</TextBlock>
+                    <TextBlock Margin="10 2" Text="{Binding DocsTabTitle, Mode=OneWay}"/>
                 </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -136,64 +136,36 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" FontSize="16" >
-                        On this tab you can automatically generate documentation for your custom BLT config settings. 
-                        It is generated as a webpage, including a html file, css file, and a set of images.
-                    </TextBlock>
+                    <TextBlock Grid.Row="0" FontSize="16" TextWrapping="Wrap" Text="{Binding DocsTabDescription, Mode=OneWay}"/>
                     <Separator Grid.Row="1" Height="20"/>
                     <ScrollViewer Grid.Row="4">
                         <StackPanel>
-                            <TextBlock>
-                                You have various options for how to distribute it, but the quickest and simplest is to host 
-                                it on <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" 
-                                                 NavigateUri="http://neocities.org">http://neocities.org</Hyperlink>. 
-                                The whole process shouldn't take more than a couple of minutes:<LineBreak/><LineBreak/>
-                                <Bold>1.</Bold> Goto 
-                                <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" 
-                                           NavigateUri="http://neocities.org">http://neocities.org</Hyperlink> and sign up. 
-                                It should create a new website for you with a name you specify.<LineBreak/>
-                                <Bold>2.</Bold> Enter your neocities credentials below<LineBreak/>
-                                <Bold>3.</Bold> Load into a campaign save (it doesn't matter which one)<LineBreak/>
-                                <Bold>4.</Bold> Click the Generate Documentation Button<LineBreak/>
-                                <Bold>5.</Bold> Click the Upload Documentation Button<LineBreak/><LineBreak/>
-                                <Bold>6.</Bold> Reload your save (the process messes up the game state, so you need to reload your save)<LineBreak/><LineBreak/>
-                                Once the files have finished uploading your documentation website should be available. <LineBreak/>
-                                The link is at the top of dashboard page: 
-                                <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" 
-                                           NavigateUri="http://neocities.org/dashboard">https://neocities.org/dashboard
-                                </Hyperlink>.<LineBreak/>
-                                When you change your settings, and want to update the documentation, repeat steps 3 to 5.
-                                <LineBreak/><LineBreak/>
-                                If you have any problems with this process please request help in the discord.
-                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding DocsPublishHelp, Mode=OneWay}"/>
                             <Separator Height="20"/>
-                            <TextBlock DockPanel.Dock="Left" FontSize="16">Title</TextBlock>
+                            <TextBlock DockPanel.Dock="Left" FontSize="16" Text="{Binding DocsTitleLabel, Mode=OneWay}"/>
                             <TextBox Margin="15 5" Text="{Binding ConfigurationRoot.DocsTitle}"/>
-                            <TextBlock DockPanel.Dock="Left" FontSize="16">Introduction</TextBlock>
+                            <TextBlock DockPanel.Dock="Left" FontSize="16" Text="{Binding DocsIntroductionLabel, Mode=OneWay}"/>
                             <TextBox VerticalScrollBarVisibility="Visible" Margin="15 5" MinHeight="60" MaxHeight="120" Text="{Binding ConfigurationRoot.DocsIntroduction}" TextWrapping="Wrap" AcceptsReturn="True"/>
                             <WrapPanel Margin="15 5" Orientation="Horizontal">
                                 <Button Name="GenerateDocumentationButton" Margin="0 0 15 0" HorizontalAlignment="Left" 
-                                        Click="GenerateDocumentationButton_OnClick">Generate Documentation</Button>
+                                        Click="GenerateDocumentationButton_OnClick" Content="{Binding DocsGenerateButton, Mode=OneWay}"/>
                                 <Button Margin="0 0 15 0" HorizontalAlignment="Left" 
-                                        Click="OpenGeneratedDocumentationButton_OnClick">Open Documentation</Button>
+                                        Click="OpenGeneratedDocumentationButton_OnClick" Content="{Binding DocsOpenButton, Mode=OneWay}"/>
                                 <Button Margin="0 0 15 0" HorizontalAlignment="Left" 
-                                        Click="OpenGeneratedDocumentationFolderButton_OnClick">Open Documentation Folder</Button>
+                                        Click="OpenGeneratedDocumentationFolderButton_OnClick" Content="{Binding DocsOpenFolderButton, Mode=OneWay}"/>
                             </WrapPanel>
                             <TextBlock Margin="15 5" Name="GenerateDocumentationResult"/>
                             <Separator Height="20"/>
                             <TextBlock>
-                                <Run>Enter your Neocities.org username and password below (they will be stored securely):</Run>
+                                <Run Text="{Binding DocsCredentialsHelp, Mode=OneWay}"/>
                             </TextBlock>
                             <StackPanel Margin="0 10" Orientation="Horizontal">
-                                <TextBlock Margin="15 0 10 0">Username</TextBlock><TextBox Name="NeocitiesUsername" VerticalAlignment="Center" MinWidth="150"/>
-                                <TextBlock Margin="15 0 10 0">Password</TextBlock><PasswordBox Name="NeocitiesPassword" VerticalAlignment="Center" MinWidth="150"/>
+                                <TextBlock Margin="15 0 10 0" Text="{Binding DocsUsernameLabel, Mode=OneWay}"/><TextBox Name="NeocitiesUsername" VerticalAlignment="Center" MinWidth="150"/>
+                                <TextBlock Margin="15 0 10 0" Text="{Binding DocsPasswordLabel, Mode=OneWay}"/><PasswordBox Name="NeocitiesPassword" VerticalAlignment="Center" MinWidth="150"/>
                             </StackPanel>
-                            <TextBlock>
-                                Now you can click this button to upload the current contents of your documentation folder directly to your site,
-                                replacing whatever is currently there:
-                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding DocsUploadHelp, Mode=OneWay}"/>
                             <Button Name="UploadDocumentationButton" Margin="15 10" HorizontalAlignment="Left"
-                                    Click="UploadDocumentation_OnClick">Upload Documentation</Button>
+                                    Click="UploadDocumentation_OnClick" Content="{Binding DocsUploadButton, Mode=OneWay}"/>
                             <TextBlock Margin="15 5" Name="UploadStatus"/>
                         </StackPanel>
                     </ScrollViewer>

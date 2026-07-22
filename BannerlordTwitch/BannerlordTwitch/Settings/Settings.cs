@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Net;
 using BannerlordTwitch.Rewards;
 using BannerlordTwitch.Util;
 using TaleWorlds.Library;
@@ -207,40 +208,48 @@ namespace BannerlordTwitch
 
         public void GenerateDocumentation(IDocumentationGenerator generator)
         {
-            generator.Div("commands", () =>
+            GenerateStarterGuide(generator);
+
+            generator.Div("guide-section commands", () =>
             {
                 generator.H1("{=JlFpeaxe}Commands".Translate());
                 generator.Table(() =>
                 {
                     generator.TR(() => generator
                         .TH("{=15umM0Xo}Command".Translate())
+                        .TH("{=BLT_Command_Aliases_Name}Aliases".Translate())
                         .TH("{=J6daarYb}Description".Translate())
                         .TH("{=e2Fu7JYS}Settings".Translate()));
                     foreach (var d in Commands.Where(c => c.Enabled))
                     {
                         generator.TR(() =>
                         {
-                            generator.TD(d.Name.ToString());
+                            generator.TD("copy-command", $"!{d.Name}");
+                            generator.TD(d.AliasList.Any()
+                                ? string.Join(", ", d.AliasList.Select(alias => $"!{alias}"))
+                                : "—");
                             generator.TD(string.IsNullOrEmpty(d.Documentation.ToString())
                                 ? d.Help.ToString()
                                 : d.Documentation.ToString());
                             generator.TD(() =>
                             {
-                                if (d.HandlerConfig is IDocumentable doc)
+                                if (d.HandlerConfig == null) return;
+
+                                generator.Details("entry-details", () =>
                                 {
-                                    doc.GenerateDocumentation(generator);
-                                }
-                                else if (d.HandlerConfig != null)
-                                {
-                                    DocumentationHelpers.AutoDocument(generator, d.HandlerConfig);
-                                }
+                                    generator.Summary("{=A79HrgZ0}Details".Translate());
+                                    if (d.HandlerConfig is IDocumentable doc)
+                                        doc.GenerateDocumentation(generator);
+                                    else
+                                        DocumentationHelpers.AutoDocument(generator, d.HandlerConfig);
+                                });
                             });
                         });
                     }
                 });
             });
             generator.Br();
-            generator.Div("rewards", () =>
+            generator.Div("guide-section rewards", () =>
             {
                 generator.H1("{=u6xsREDY}Channel Point Rewards".Translate());
                 generator.Table(() =>
@@ -258,26 +267,82 @@ namespace BannerlordTwitch
                                 ? r.RewardSpec.Prompt?.ToString() : r.Documentation.ToString());
                             generator.TD(() =>
                             {
-                                if (r.HandlerConfig is IDocumentable doc)
+                                if (r.HandlerConfig == null) return;
+
+                                generator.Details("entry-details", () =>
                                 {
-                                    doc.GenerateDocumentation(generator);
-                                }
-                                else if (r.HandlerConfig != null)
-                                {
-                                    DocumentationHelpers.AutoDocument(generator, r.HandlerConfig);
-                                }
+                                    generator.Summary("{=A79HrgZ0}Details".Translate());
+                                    if (r.HandlerConfig is IDocumentable doc)
+                                        doc.GenerateDocumentation(generator);
+                                    else
+                                        DocumentationHelpers.AutoDocument(generator, r.HandlerConfig);
+                                });
                             });
                         });
                     }
                 });
             });
             generator.Br();
-            generator.Div("global-configs", () =>
+            generator.Div("guide-section global-configs", () =>
             {
                 foreach (var g in GlobalConfigs.Select(c => c.Config).OfType<IDocumentable>())
                 {
                     g.GenerateDocumentation(generator);
                 }
+            });
+        }
+
+        private void GenerateStarterGuide(IDocumentationGenerator generator)
+        {
+            string CommandFor(params string[] handlers)
+            {
+                Command command = EnabledCommands.FirstOrDefault(c => handlers.Contains(c.Handler));
+                if (command == null) return null;
+                string value = command.Name?.ToString() ?? command.AliasList.FirstOrDefault();
+                return string.IsNullOrWhiteSpace(value) ? null : "!" + value.TrimStart('!');
+            }
+
+            string Chip(string command, string suffix = null) => command == null
+                ? ""
+                : $"<button type=\"button\" class=\"starter-command copy-chip\">{WebUtility.HtmlEncode(command + suffix)}</button>";
+
+            string adopt = CommandFor("AdoptAHero");
+            string chooseClass = CommandFor("SetHeroClass");
+            string summon = CommandFor("SummonHero");
+            string power = CommandFor("UsePower");
+            string equipment = CommandFor("UpgradeAction");
+            string focus = CommandFor("FocusPoints");
+            string attributes = CommandFor("AttributePoints");
+            string retinue = CommandFor("Retinue", "Retinue2");
+            string clan = CommandFor("ClanManagement");
+            string kingdom = CommandFor("KingdomManagement");
+
+            generator.Div("starter-guide", () =>
+            {
+                generator.H2("{=BLTDocs_GettingStarted}Getting started".Translate());
+                generator.P("starter-note", "{=BLTDocs_StarterNote}Commands below come from the active profile and can be copied with one click.".Translate());
+                generator.Div("newbie-steps", () =>
+                {
+                    StarterStep("1", "{=BLTDocs_StartHero}Create your hero".Translate(),
+                        $"{Chip(adopt)} {"{=BLTDocs_StartHeroText}adopts or creates a viewer hero. Check the Commands section for optional culture and faction variants.".Translate()}");
+                    StarterStep("2", "{=BLTDocs_StartClass}Choose a class".Translate(),
+                        $"{Chip(chooseClass, " list")} {"{=BLTDocs_StartClassText}shows available classes; repeat the command with a class name to select it. Compare equipment and level powers in the Classes section.".Translate()}");
+                    StarterStep("3", "{=BLTDocs_StartBattle}Join battles".Translate(),
+                        $"{Chip(summon)} {"{=BLTDocs_StartBattleText}summons your hero when a suitable battle is active. Kills and participation provide progression configured by the streamer.".Translate()} {Chip(power)}");
+                    StarterStep("4", "{=BLTDocs_StartProgress}Develop your hero".Translate(),
+                        $"{Chip(equipment)} {Chip(focus)} {Chip(attributes)} {"{=BLTDocs_StartProgressText}improve equipment, focus points and attributes when those commands are enabled.".Translate()}");
+                    StarterStep("5", "{=BLTDocs_StartRetinue}Build a retinue".Translate(),
+                        $"{Chip(retinue)} {"{=BLTDocs_StartRetinueText}opens the retinue actions for recruiting and improving companions.".Translate()}");
+                    StarterStep("6", "{=BLTDocs_StartWorld}Join the world".Translate(),
+                        $"{Chip(clan)} {Chip(kingdom)} {"{=BLTDocs_StartWorldText}cover clans and kingdoms. These are later-stage systems, so develop the hero first.".Translate()}");
+                });
+            });
+
+            void StarterStep(string number, string title, string body) => generator.Div("newbie-step", () =>
+            {
+                generator.P("newbie-step__number", number);
+                generator.H3(title);
+                generator.P(body);
             });
         }
 

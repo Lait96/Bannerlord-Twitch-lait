@@ -26,6 +26,7 @@ using BLTConfigure.UI;
 using Newtonsoft.Json;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade;
 using BinaryReader = System.IO.BinaryReader;
 using BinaryWriter = System.IO.BinaryWriter;
 
@@ -67,6 +68,28 @@ namespace BLTConfigure
         public string OverlayUrl => BLTOverlay.BLTOverlay.UrlRoot;
 
         public ObservableCollection<LogMessage> LogEntries { get; } = new();
+
+        private static bool DocsRussian => new[] { "Русский", "Russian", "RU" }
+            .Any(value => value.Equals(BannerlordConfig.Language, StringComparison.OrdinalIgnoreCase));
+        private static string DocsUi(string english, string russian) => DocsRussian ? russian : english;
+
+        public string DocsTabTitle => DocsUi("Documentation", "Документация");
+        public string DocsTabDescription => DocsUi(
+            "Generate a compact, searchable guide from the commands, aliases, rewards, classes and settings in the active profile.",
+            "Создаёт компактный гайд с поиском по командам, синонимам, наградам, классам и настройкам активного профиля.");
+        public string DocsPublishHelp => DocsUi(
+            "Free publishing with Neocities.org:\n1. Create a free site at https://neocities.org.\n2. Enter its username and password below.\n3. Load any campaign save and generate the documentation.\n4. Click Upload documentation.\n5. Open https://neocities.org/dashboard to find the public site link.\nAfter changing the BLT profile, repeat steps 3–4.",
+            "Бесплатная публикация через Neocities.org:\n1. Создайте бесплатный сайт на https://neocities.org.\n2. Введите ниже его имя пользователя и пароль.\n3. Загрузите любое сохранение кампании и создайте документацию.\n4. Нажмите «Загрузить документацию».\n5. Откройте https://neocities.org/dashboard — там находится публичная ссылка на сайт.\nПосле изменения профиля BLT повторите шаги 3–4.");
+        public string DocsTitleLabel => DocsUi("Title", "Заголовок");
+        public string DocsIntroductionLabel => DocsUi("Introduction", "Введение");
+        public string DocsGenerateButton => DocsUi("Generate documentation", "Создать документацию");
+        public string DocsOpenButton => DocsUi("Open documentation", "Открыть документацию");
+        public string DocsOpenFolderButton => DocsUi("Open documentation folder", "Открыть папку документации");
+        public string DocsCredentialsHelp => DocsUi("Enter your Neocities.org username and password (they are stored securely):", "Введите имя пользователя и пароль Neocities.org (они хранятся безопасно):");
+        public string DocsUsernameLabel => DocsUi("Username", "Имя пользователя");
+        public string DocsPasswordLabel => DocsUi("Password", "Пароль");
+        public string DocsUploadHelp => DocsUi("Upload the generated documentation folder to your site. Existing site files with the same names will be replaced.", "Загрузить созданную папку документации на сайт. Файлы сайта с совпадающими именами будут заменены.");
+        public string DocsUploadButton => DocsUi("Upload documentation", "Загрузить документацию");
 
         public BLTConfigureWindow()
         {
@@ -356,36 +379,40 @@ namespace BLTConfigure
             if (Campaign.Current?.GameStarted != true)
             {
                 GenerateDocumentationResult.Foreground = ErrorStatusForeground;
-                GenerateDocumentationResult.Text =
-                    $"You need to start the campaign, or load a save before generating documentation!";
+                GenerateDocumentationResult.Text = DocsUi(
+                    "Start a campaign or load a save before generating documentation.",
+                    "Перед созданием документации начните кампанию или загрузите сохранение.");
                 return;
             }
 
             try
             {
                 GenerateDocumentationButton.IsEnabled = false;
-                GenerateDocumentationResult.Text = "Generating Documentation...";
-                var docs = new DocumentationGenerator();
+                GenerateDocumentationResult.Text = DocsUi("Generating documentation...", "Создание документации...");
+                string gameLanguage = BannerlordConfig.Language ?? "English";
+                bool isEnglish = gameLanguage.Equals("English", StringComparison.OrdinalIgnoreCase);
+                bool isRussian = gameLanguage.Equals("Русский", StringComparison.OrdinalIgnoreCase) ||
+                                 gameLanguage.Equals("Russian", StringComparison.OrdinalIgnoreCase) ||
+                                 gameLanguage.Equals("RU", StringComparison.OrdinalIgnoreCase);
+                var docs = new DocumentationGenerator("current");
                 await docs.Document(ConfigurationRoot.EditedSettings);
-                await docs.SaveAsync(ConfigurationRoot.DocsTitle, ConfigurationRoot.DocsIntroduction);
-                GenerateDocumentationResult.Text = "Documentation Generation Complete";
+                DocumentationGenerator englishDocs = null;
+                if (!isEnglish)
+                {
+                    englishDocs = new DocumentationGenerator("english", true);
+                    await englishDocs.Document(ConfigurationRoot.EditedSettings);
+                }
+                await docs.SaveAsync(ConfigurationRoot.DocsTitle, ConfigurationRoot.DocsIntroduction,
+                    englishDocs, isRussian, gameLanguage);
+                GenerateDocumentationResult.Text = DocsUi("Documentation generation complete", "Документация создана");
                 GenerateDocumentationResult.Foreground = Brushes.Black;
             }
             catch (Exception ex)
             {
                 GenerateDocumentationResult.Foreground = ErrorStatusForeground;
                 GenerateDocumentationResult.Text =
-                    $"Couldn't generate the documentation: {ex.Message}";
+                    DocsUi("Couldn't generate the documentation: ", "Не удалось создать документацию: ") + ex.Message;
             }
-
-            MainThreadSync.Run(() =>
-                InformationManager.ShowInquiry(
-                    new InquiryData(
-                        "You must reload your save now!",
-                        "After generating documentation you must reload your save before continuing, as the state has been changed by the generation process.",
-                        true, false, "{=hpFXglKx}Okay".Translate(), null,
-                        () => { }, () => { }), true)
-            );
 
             GenerateDocumentationButton.IsEnabled = true;
         }
@@ -402,15 +429,13 @@ namespace BLTConfigure
                 catch (Exception ex)
                 {
                     GenerateDocumentationResult.Foreground = ErrorStatusForeground;
-                    GenerateDocumentationResult.Text =
-                        $"Couldn't open the documentation: {ex.Message}";
+                    GenerateDocumentationResult.Text = DocsUi("Couldn't open the documentation: ", "Не удалось открыть документацию: ") + ex.Message;
                 }
             }
             else
             {
                 GenerateDocumentationResult.Foreground = ErrorStatusForeground;
-                GenerateDocumentationResult.Text =
-                    "Documentation file doesn't exist, did you generate the documentation yet?";
+                GenerateDocumentationResult.Text = DocsUi("Documentation file doesn't exist. Generate it first.", "Файл документации не существует. Сначала создайте его.");
             }
         }
 
@@ -426,15 +451,13 @@ namespace BLTConfigure
                 catch (Exception ex)
                 {
                     GenerateDocumentationResult.Foreground = ErrorStatusForeground;
-                    GenerateDocumentationResult.Text =
-                        $"Couldn't open the documentation {ex.Message}";
+                    GenerateDocumentationResult.Text = DocsUi("Couldn't open the documentation folder: ", "Не удалось открыть папку документации: ") + ex.Message;
                 }
             }
             else
             {
                 GenerateDocumentationResult.Foreground = ErrorStatusForeground;
-                GenerateDocumentationResult.Text =
-                    "Documentation folder doesn't exist, did you generate the documentation yet?";
+                GenerateDocumentationResult.Text = DocsUi("Documentation folder doesn't exist. Generate it first.", "Папка документации не существует. Сначала создайте её.");
             }
         }
 
@@ -456,20 +479,20 @@ namespace BLTConfigure
         {
             if (!Directory.Exists(DocumentationGenerator.DocumentationRootDir))
             {
-                UploadStatus.Text = "Documentation directory does not exist, did you Generate Documentation yet?";
+                UploadStatus.Text = DocsUi("Documentation directory does not exist. Generate it first.", "Папка документации не существует. Сначала создайте её.");
                 UploadStatus.Foreground = ErrorStatusForeground;
                 return;
             }
             string[] files = Directory.GetFiles(DocumentationGenerator.DocumentationRootDir);
             if (!files.Any())
             {
-                UploadStatus.Text = "No documentation files found, did you Generate Documentation yet?";
+                UploadStatus.Text = DocsUi("No documentation files found. Generate them first.", "Файлы документации не найдены. Сначала создайте их.");
                 UploadStatus.Foreground = ErrorStatusForeground;
                 return;
             }
             if (files.All(f => Path.GetFileName(f) != "index.html"))
             {
-                UploadStatus.Text = "Documentation doesn't contain index.html file, did you Generate Documentation yet?";
+                UploadStatus.Text = DocsUi("Documentation does not contain index.html. Generate it again.", "В документации нет index.html. Создайте её повторно.");
                 UploadStatus.Foreground = ErrorStatusForeground;
                 return;
             }
@@ -483,7 +506,7 @@ namespace BLTConfigure
                     Convert.ToBase64String(
                         Encoding.ASCII.GetBytes($"{NeocitiesUsername.Text}:{NeocitiesPassword.Password}")));
 
-                UploadStatus.Text = "Checking for existing files on the site...";
+                UploadStatus.Text = DocsUi("Checking for existing files on the site...", "Проверка существующих файлов на сайте...");
 
                 var filesResponse = await httpClient.GetAsync($"https://neocities.org/api/list");
                 filesResponse.EnsureSuccessStatusCode();
@@ -496,19 +519,19 @@ namespace BLTConfigure
                     .ToList();
                 if (deleteList.Any())
                 {
-                    UploadStatus.Text = "Deleting existing files from the site...";
+                    UploadStatus.Text = DocsUi("Deleting existing files from the site...", "Удаление старых файлов с сайта...");
                     var deleteResponse = await httpClient.PostAsync($"https://neocities.org/api/delete",
                         new FormUrlEncodedContent(deleteList));
                     deleteResponse.EnsureSuccessStatusCode();
                 }
 
-                UploadStatus.Text = "Upload in progress (might take a few seconds or longer)...";
+                UploadStatus.Text = DocsUi("Upload in progress (might take a few seconds or longer)...", "Загрузка на сайт (может занять некоторое время)...");
 
                 const int chunkSize = 20;
                 int filesDone = 0;
                 while (filesDone < files.Length)
                 {
-                    UploadStatus.Text = $"Uploading {filesDone} / {files.Length}...";
+                    UploadStatus.Text = DocsUi("Uploading", "Загружено") + $" {filesDone} / {files.Length}...";
                     var chunk = files.Skip(filesDone).Take(chunkSize);
                     filesDone += chunkSize;
 
@@ -527,11 +550,11 @@ namespace BLTConfigure
                     response.EnsureSuccessStatusCode();
                 }
 
-                UploadStatus.Text = "Upload complete!";
+                UploadStatus.Text = DocsUi("Upload complete!", "Загрузка завершена!");
             }
             catch (Exception ex)
             {
-                UploadStatus.Text = $"Error uploading: {ex.Message}";
+                UploadStatus.Text = DocsUi("Error uploading: ", "Ошибка загрузки: ") + ex.Message;
                 UploadStatus.Foreground = ErrorStatusForeground;
             }
 

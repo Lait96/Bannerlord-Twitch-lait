@@ -630,6 +630,14 @@
         <string id="om9ZF9Mu" text="Shield"/>
         <!-- Stone -->
         <string id="vIT4xG8X" text="Stone"/>
+        <string id="BLTDocs_GettingStarted" text="Getting started"/><string id="BLTDocs_StarterNote" text="Commands below come from the active profile and can be copied with one click."/>
+        <string id="BLTDocs_StartHero" text="Create your hero"/><string id="BLTDocs_StartHeroText" text="adopts or creates a viewer hero. Check the Commands section for optional culture and faction variants."/>
+        <string id="BLTDocs_StartClass" text="Choose a class"/><string id="BLTDocs_StartClassText" text="shows available classes; repeat the command with a class name to select it. Compare equipment and level powers in the Classes section."/>
+        <string id="BLTDocs_StartBattle" text="Join battles"/><string id="BLTDocs_StartBattleText" text="summons your hero when a suitable battle is active. Kills and participation provide progression configured by the streamer."/>
+        <string id="BLTDocs_StartProgress" text="Develop your hero"/><string id="BLTDocs_StartProgressText" text="improve equipment, focus points and attributes when those commands are enabled."/>
+        <string id="BLTDocs_StartRetinue" text="Build a retinue"/><string id="BLTDocs_StartRetinueText" text="opens the retinue actions for recruiting and improving companions."/>
+        <string id="BLTDocs_StartWorld" text="Join the world"/><string id="BLTDocs_StartWorldText" text="cover clans and kingdoms. These are later-stage systems, so develop the hero first."/>
+        <string id="BLTDocs_ClassLevel" text="Class level"/><string id="BLTDocs_ClassLevelBase" text="Base"/>
 
     </strings>
 </base>

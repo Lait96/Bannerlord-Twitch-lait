@@ -90,20 +90,24 @@ namespace BLTAdoptAHero.Actions
 
         public class UpgradeSystemDocumentation : IDocumentable
         {
+            private readonly GlobalCommonConfig config;
+
+            internal UpgradeSystemDocumentation(GlobalCommonConfig config = null) => this.config = config;
+
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
                 generator.H1("{=BLT_UpgradeDocsSystem}Upgrade System".Translate());
                 generator.P("{=BLT_UpgradeDocsOverview}This section contains all available upgrades organized by type and restrictions.".Translate());
 
-                var config = GlobalCommonConfig.Get();
-                if (config == null)
+                var source = config ?? GlobalCommonConfig.Get();
+                if (source == null)
                 {
                     generator.P("{=BLT_UpgradeConfigUnavailable}Configuration not available".Translate());
                     return;
                 }
 
-                GenerateUpgradeCounts(generator, config);
-                GenerateUpgradesTables(generator, config);
+                GenerateUpgradeCounts(generator, source);
+                GenerateUpgradesTables(generator, source);
             }
 
             private void GenerateUpgradeCounts(IDocumentationGenerator generator, GlobalCommonConfig config)

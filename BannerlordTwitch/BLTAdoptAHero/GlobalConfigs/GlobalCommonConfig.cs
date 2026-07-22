@@ -873,14 +873,15 @@ namespace BLTAdoptAHero
                     });
                 }
             });
-            new UpgradeSystemDocumentation().GenerateDocumentation(generator);
+            generator.Div("settings-config upgrades-config", () =>
+                new UpgradeSystemDocumentation(this).GenerateDocumentation(generator));
             if (ShowCampaignMapOverlay)
             {
                 var kingdoms = MapHub.CurrentMapData?.Kingdoms;
                 if (kingdoms == null || kingdoms.Count == 0)
                     return;
 
-                generator.H1("Campaign Map");
+                generator.H1("{=GlobalCommonConfig_Doc_CampaignMap}Campaign Map".Translate());
                 generator.H2("{=GlobalCommonConfig_Doc_MapLegend}Map Legend".Translate());
 
                 generator.Table("legend", () =>
@@ -908,7 +909,8 @@ namespace BLTAdoptAHero
                             );
 
                             var rkingdom = Kingdom.All.FirstOrDefault(f => f.StringId == kingdom.Id);
-                            string names = $"{kingdom.Name} - Leader: {rkingdom?.Leader?.Name}";
+                            string names = "{=GlobalCommonConfig_Doc_KingdomLeader}{Kingdom} — Leader: {Leader}"
+                                .Translate(("Kingdom", kingdom.Name), ("Leader", rkingdom?.Leader?.Name));
                             generator.TD(names);
                         });
                     }
@@ -920,7 +922,7 @@ namespace BLTAdoptAHero
                     return;
 
                 var segments = MapHub.CurrentMapData.Coastline;
-                generator.H2("Map");
+                generator.H2("{=GlobalCommonConfig_Doc_Map}Map".Translate());
 
                 generator.Div(() =>
                 {
