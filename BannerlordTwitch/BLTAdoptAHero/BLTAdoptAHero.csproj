@@ -442,6 +442,7 @@
     <Compile Include="Powers\Core\PowerGroupItemBase.cs" />
     <Compile Include="Powers\StatModifyPower.cs" />
     <Compile Include="Powers\ReflectDamgePower.cs" />
+    <Compile Include="Powers\RogueStealthPower.cs" />
     <Compile Include="Powers\TakeDamagePower.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

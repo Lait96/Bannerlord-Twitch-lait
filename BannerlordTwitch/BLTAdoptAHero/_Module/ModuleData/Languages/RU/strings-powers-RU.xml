@@ -355,5 +355,26 @@
         <string id="stFtZvfp" text="{DamageModifierPercent}% урона" original="{DamageModifierPercent}% damage"/>
         <!-- Damage -->
         <string id="GrBznDeq" text="Урон" original="Damage"/>
+
+        <!-- RogueStealthPower -->
+        <string id="RogueStealthPower_Name" text="Скрытность разбойника" original="Rogue Stealth Power"/>
+        <string id="RogueStealthPower_Desc" text="Скрывает героя от выбора целью врагами, пока тот приближается к обособленным противникам" original="Hides the hero from enemy targeting while approaching isolated enemies"/>
+        <string id="RogueStealthPower_IsolationRadius_Name" text="Радиус изоляции" original="Isolation Radius"/>
+        <string id="RogueStealthPower_IsolationRadius_Desc" text="Минимальное расстояние в метрах от цели до её ближайшего активного союзника" original="Minimum distance in metres from a target to its nearest active ally"/>
+        <string id="RogueStealthPower_MaxTargetDistance_Name" text="Максимальная дальность цели" original="Maximum Target Distance"/>
+        <string id="RogueStealthPower_MaxTargetDistance_Desc" text="Максимальное расстояние по прямой в метрах для приоритетных целей" original="Maximum straight-line distance in metres for priority targets"/>
+        <string id="RogueStealthPower_ReevaluationInterval_Name" text="Интервал переоценки цели" original="Target Reevaluation Interval"/>
+        <string id="RogueStealthPower_ReevaluationInterval_Desc" text="Интервал в секундах между поисками обособленной цели" original="Seconds between searches for an isolated target"/>
+        <string id="RogueStealthPower_SwitchAdvantage_Name" text="Порог смены цели" original="Target Switch Advantage"/>
+        <string id="RogueStealthPower_SwitchAdvantage_Desc" text="Дополнительное расстояние до ближайшего союзника, необходимое для смены приоритетной цели" original="Extra nearest-ally distance required before switching priority targets"/>
+        <string id="RogueStealthPower_RecoveryDelay_Name" text="Задержка восстановления скрытности" original="Stealth Recovery Delay"/>
+        <string id="RogueStealthPower_RecoveryDelay_Desc" text="Время без полученного урона, после которого скрытность может восстановиться" original="Seconds without receiving damage before stealth can return"/>
+        <string id="RogueStealthPower_DisengageEnemyCount_Name" text="Число врагов для отхода" original="Disengagement Enemy Count"/>
+        <string id="RogueStealthPower_DisengageEnemyCount_Desc" text="Количество ближайших врагов, при котором видимый разбойник начинает разрывать дистанцию" original="Nearby enemy count that makes a visible Rogue create distance"/>
+        <string id="RogueStealthPower_DisengageRadius_Name" text="Радиус тактического отхода" original="Disengagement Radius"/>
+        <string id="RogueStealthPower_DisengageRadius_Desc" text="Радиус в метрах для обнаружения врагов, окружающих видимого разбойника" original="Radius in metres used to detect enemies surrounding a visible Rogue"/>
+        <string id="RogueStealthPower_DisengageDistance_Name" text="Дистанция тактического отхода" original="Disengagement Distance"/>
+        <string id="RogueStealthPower_DisengageDistance_Desc" text="Расстояние в метрах, на которое разбойник пытается отойти от окружения" original="Distance in metres the Rogue tries to move away from an encirclement"/>
+        <string id="RogueStealthPower_PublicDesc" text="Враги не могут выбрать героя целью, пока тот выслеживает обособленных противников; нанесение или получение урона раскрывает разбойника." original="Cannot be targeted while stalking isolated enemies; dealing or receiving damage reveals the Rogue."/>
     </strings>
 </base>

@@ -373,5 +373,26 @@
         <string id="stFtZvfp" text="{DamageModifierPercent}% damage"/>
         <!-- Damage -->
         <string id="GrBznDeq" text="Damage"/>
+
+        <!-- RogueStealthPower -->
+        <string id="RogueStealthPower_Name" text="Rogue Stealth Power"/>
+        <string id="RogueStealthPower_Desc" text="Hides the hero from enemy targeting while approaching isolated enemies"/>
+        <string id="RogueStealthPower_IsolationRadius_Name" text="Isolation Radius"/>
+        <string id="RogueStealthPower_IsolationRadius_Desc" text="Minimum distance in metres from a target to its nearest active ally"/>
+        <string id="RogueStealthPower_MaxTargetDistance_Name" text="Maximum Target Distance"/>
+        <string id="RogueStealthPower_MaxTargetDistance_Desc" text="Maximum straight-line distance in metres for priority targets"/>
+        <string id="RogueStealthPower_ReevaluationInterval_Name" text="Target Reevaluation Interval"/>
+        <string id="RogueStealthPower_ReevaluationInterval_Desc" text="Seconds between searches for an isolated target"/>
+        <string id="RogueStealthPower_SwitchAdvantage_Name" text="Target Switch Advantage"/>
+        <string id="RogueStealthPower_SwitchAdvantage_Desc" text="Extra nearest-ally distance required before switching priority targets"/>
+        <string id="RogueStealthPower_RecoveryDelay_Name" text="Stealth Recovery Delay"/>
+        <string id="RogueStealthPower_RecoveryDelay_Desc" text="Seconds without receiving damage before stealth can return"/>
+        <string id="RogueStealthPower_DisengageEnemyCount_Name" text="Disengagement Enemy Count"/>
+        <string id="RogueStealthPower_DisengageEnemyCount_Desc" text="Nearby enemy count that makes a visible Rogue create distance"/>
+        <string id="RogueStealthPower_DisengageRadius_Name" text="Disengagement Radius"/>
+        <string id="RogueStealthPower_DisengageRadius_Desc" text="Radius in metres used to detect enemies surrounding a visible Rogue"/>
+        <string id="RogueStealthPower_DisengageDistance_Name" text="Disengagement Distance"/>
+        <string id="RogueStealthPower_DisengageDistance_Desc" text="Distance in metres the Rogue tries to move away from an encirclement"/>
+        <string id="RogueStealthPower_PublicDesc" text="Cannot be targeted while stalking isolated enemies; dealing or receiving damage reveals the Rogue."/>
     </strings>
 </base>
