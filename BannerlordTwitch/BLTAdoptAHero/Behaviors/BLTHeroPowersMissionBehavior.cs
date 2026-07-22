@@ -40,10 +40,10 @@ namespace BLTAdoptAHero
             {
                 var hero = agent.GetAdoptedHero();
                 var heroClass = hero?.GetClass();
-                // If the hero has a class (thus can have passive powers), and isn't already
-                // known, then call the init method for the passive powers
+                // If the hero has a class and isn't already known, initialize its permanent role and powers.
                 if (hero != null && heroClass != null && activeHeroes.Add(hero))
                 {
+                    heroClass.GameRole?.ApplyToHero(hero);
                     heroClass.PassivePower?.OnHeroJoinedBattle(hero);
                     BLTAdoptAHeroCampaignBehavior.Current?.ApplyAchievementPassivePowers(hero);
                 }

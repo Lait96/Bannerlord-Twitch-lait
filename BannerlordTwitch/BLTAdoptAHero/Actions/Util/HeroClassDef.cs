@@ -17,8 +17,11 @@ using YamlDotNet.Serialization;
 namespace BLTAdoptAHero
 {
     [LocDisplayName("{=ph50k2xB}Class")]
-    public sealed class HeroClassDef : IDocumentable, ICloneable
+    public sealed class HeroClassDef : IDocumentable, ICloneable, ILoaded
     {
+        [YamlIgnore, Browsable(false)]
+        private GlobalHeroPowerConfig PowerConfig { get; set; }
+
         [ReadOnly(true), UsedImplicitly]
         public Guid ID { get; set; } = Guid.NewGuid();
 
@@ -79,14 +82,20 @@ namespace BLTAdoptAHero
          PropertyOrder(8), UsedImplicitly]
         public bool UseCamel { get; set; }
 
+        [LocDisplayName("{=HeroClassDef_GameRole_Name}Game Role"),
+         LocDescription("{=HeroClassDef_GameRole_Desc}The permanent gameplay style used by this class"),
+         ItemsSource(typeof(GameRoleDefBase.ItemSource)),
+         PropertyOrder(9), UsedImplicitly]
+        public Guid GameRoleID { get; set; }
+
         [LocDisplayName("{=MvddFKo4}Passive Power"),
          LocDescription("{=F8a2nXYo}Passive hero power: this will always apply to the hero (i.e. a permanent buff)"),
-         PropertyOrder(9), ExpandableObject, Expand, UsedImplicitly]
+         PropertyOrder(10), ExpandableObject, Expand, UsedImplicitly]
         public PassivePowerGroup PassivePower { get; set; } = new() { Name = "{=MvddFKo4}Passive Power" };
 
         [LocDisplayName("{=wdCMNOGd}Active Power"),
          LocDescription("{=I4ASwveG}Active hero power: this power will be triggered only when the UseHeroPower action is used by the viewer, via reward or command (i.e. a temporary buff)"),
-         PropertyOrder(10), ExpandableObject, Expand, UsedImplicitly]
+         PropertyOrder(11), ExpandableObject, Expand, UsedImplicitly]
         public ActivePowerGroup ActivePower { get; set; } = new() { Name = "{=wdCMNOGd}Active Power" };
         #endregion
 
@@ -134,6 +143,9 @@ namespace BLTAdoptAHero
         public bool Mounted => UseHorse || UseCamel;
 
         [YamlIgnore, Browsable(false)]
+        public GameRoleDefBase GameRole => PowerConfig?.GetGameRole(GameRoleID);
+
+        [YamlIgnore, Browsable(false)]
         public IEnumerable<SkillObject> WeaponSkills =>
             SkillGroup.GetSkillsForEquipmentType(SlotItems)
                 .Where(s => s != SkillsEnum.None)
@@ -166,6 +178,16 @@ namespace BLTAdoptAHero
             + (UseCamel ? " (" + "{=FpgyZk0F}Use Camel".Translate() + ")" : "");
 
         #endregion
+
+        public HeroClassDef()
+        {
+            PowerConfig = ConfigureContext.CurrentlyEditedSettings == null
+                ? null
+                : GlobalHeroPowerConfig.Get(ConfigureContext.CurrentlyEditedSettings);
+        }
+
+        public void OnLoaded(BannerlordTwitch.Settings settings) =>
+            PowerConfig = GlobalHeroPowerConfig.Get(settings);
 
         #region ICloneable
         public object Clone()
@@ -253,6 +275,9 @@ namespace BLTAdoptAHero
 
             generator.Table("hero-class", () =>
             {
+                generator.TR(() => generator
+                    .TD("{=HeroClassDef_GameRole_Name}Game Role".Translate())
+                    .TD(() => (GameRole ?? PowerConfig?.GetGameRole(Guid.Empty))?.GenerateDocumentation(generator)));
                 generator.TR(()
                     => generator.TD("{=MvddFKo4}Passive Power".Translate()).TD(() => PassivePower.GenerateDocumentation(generator)));
                 generator.TR(()

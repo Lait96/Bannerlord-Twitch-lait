@@ -183,6 +183,8 @@
         <string id="Us7G1v2T" text="Whether to allow camel (can be combined with Use Horse"/>
         <!-- Passive Power -->
         <string id="MvddFKo4" text="Passive Power"/>
+        <string id="HeroClassDef_GameRole_Name" text="Game Role"/>
+        <string id="HeroClassDef_GameRole_Desc" text="The permanent gameplay style used by this class"/>
         <!-- Passive hero power: this will always apply to the hero (i.e. a permanent buff) -->
         <string id="F8a2nXYo" text="Passive hero power: this will always apply to the hero (i.e. a permanent buff)"/>
         <!-- Active Power -->

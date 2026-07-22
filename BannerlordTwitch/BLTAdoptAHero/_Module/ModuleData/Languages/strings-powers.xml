@@ -374,8 +374,17 @@
         <!-- Damage -->
         <string id="GrBznDeq" text="Damage"/>
 
+        <!-- Game Roles -->
+        <string id="GameRoleDefBase_Type" text="Role"/>
+        <string id="DamageDealerGameRole_Name" text="Damage Dealer"/>
+        <string id="DamageDealerGameRole_Desc" text="A combat role without additional mechanics"/>
+        <string id="HealerGameRole_Name" text="Healer"/>
+        <string id="HealerGameRole_Desc" text="A placeholder for the future healer role"/>
+        <string id="TankGameRole_Name" text="Tank"/>
+        <string id="TankGameRole_Desc" text="A placeholder for the future tank role"/>
+
         <!-- RogueStealthPower -->
-        <string id="RogueStealthPower_Name" text="Rogue Stealth Power"/>
+        <string id="RogueStealthPower_Name" text="Rogue"/>
         <string id="RogueStealthPower_Desc" text="Hides the hero from enemy targeting while approaching isolated enemies"/>
         <string id="RogueStealthPower_IsolationRadius_Name" text="Isolation Radius"/>
         <string id="RogueStealthPower_IsolationRadius_Desc" text="Minimum distance in metres from a target to its nearest active ally"/>
@@ -393,6 +402,6 @@
         <string id="RogueStealthPower_DisengageRadius_Desc" text="Radius in metres used to detect enemies surrounding a visible Rogue"/>
         <string id="RogueStealthPower_DisengageDistance_Name" text="Disengagement Distance"/>
         <string id="RogueStealthPower_DisengageDistance_Desc" text="Distance in metres the Rogue tries to move away from an encirclement"/>
-        <string id="RogueStealthPower_PublicDesc" text="Cannot be targeted while stalking isolated enemies; dealing or receiving damage reveals the Rogue."/>
+        <string id="RogueStealthPower_PublicDesc" text="While hidden, the Rogue cannot be selected as a target and stalks isolated enemies, preferring fighters on foot. Dealing or receiving damage reveals the Rogue; when surrounded, the Rogue tries to create distance, and returns to stealth after avoiding damage for the configured recovery time."/>
     </strings>
 </base>

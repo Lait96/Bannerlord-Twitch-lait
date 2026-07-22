@@ -26,8 +26,10 @@ namespace BannerlordTwitch.UI
         {
             Editor.PropertyName = DefaultCollectionEditor.GetQualifiedName(propertyItem);
             Editor.ItemsSourceType = propertyItem.PropertyType;
-            Editor.NewItemTypes = derivedTypes.Value;
+            Editor.NewItemTypes = derivedTypes.Value.Where(IncludeType).ToList();
             base.ResolveValueBinding(propertyItem);
         }
+
+        protected virtual bool IncludeType(Type type) => true;
     }
 }

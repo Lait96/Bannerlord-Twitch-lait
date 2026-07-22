@@ -226,8 +226,10 @@
         <!-- Hero Power Config -->
         <string id="GlobalHeroPowerConfig_PowerDefs_Name" text="Power Definitions"/>
         <string id="GlobalHeroPowerConfig_PowerDefs_Desc" text="Defined powers"/>
+        <string id="GlobalHeroPowerConfig_GameRoleDefs_Name" text="Game Role Definitions"/>
+        <string id="GlobalHeroPowerConfig_GameRoleDefs_Desc" text="Defined game roles and their configuration"/>
         <string id="GlobalHeroPowerConfig_DisablePowersInTournaments_Name" text="Disable Powers In Tournaments"/>
-        <string id="GlobalHeroPowerConfig_DisablePowersInTournaments_Desc" text="Whether powers are disabled in a tournament"/>
+        <string id="GlobalHeroPowerConfig_DisablePowersInTournaments_Desc" text="Whether powers and game roles are disabled in a tournament"/>
 
         <!-- GlobalTournamentConfig.cs -->
         <string id="GlobalTournamentConfig_Name" text="Tournament Config"/>

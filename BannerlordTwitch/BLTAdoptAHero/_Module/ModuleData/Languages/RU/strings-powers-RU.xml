@@ -356,8 +356,17 @@
         <!-- Damage -->
         <string id="GrBznDeq" text="Урон" original="Damage"/>
 
+        <!-- Game Roles -->
+        <string id="GameRoleDefBase_Type" text="Роль" original="Role"/>
+        <string id="DamageDealerGameRole_Name" text="Дамагер" original="Damage Dealer"/>
+        <string id="DamageDealerGameRole_Desc" text="Боевая роль без дополнительных механик." original="A combat role without additional mechanics"/>
+        <string id="HealerGameRole_Name" text="Целитель" original="Healer"/>
+        <string id="HealerGameRole_Desc" text="Заготовка для будущей роли целителя." original="A placeholder for the future healer role"/>
+        <string id="TankGameRole_Name" text="Танк" original="Tank"/>
+        <string id="TankGameRole_Desc" text="Заготовка для будущей роли танка." original="A placeholder for the future tank role"/>
+
         <!-- RogueStealthPower -->
-        <string id="RogueStealthPower_Name" text="Скрытность разбойника" original="Rogue Stealth Power"/>
+        <string id="RogueStealthPower_Name" text="Разбойник" original="Rogue"/>
         <string id="RogueStealthPower_Desc" text="Скрывает героя от выбора целью врагами, пока тот приближается к обособленным противникам" original="Hides the hero from enemy targeting while approaching isolated enemies"/>
         <string id="RogueStealthPower_IsolationRadius_Name" text="Радиус изоляции" original="Isolation Radius"/>
         <string id="RogueStealthPower_IsolationRadius_Desc" text="Минимальное расстояние в метрах от цели до её ближайшего активного союзника" original="Minimum distance in metres from a target to its nearest active ally"/>
@@ -375,6 +384,6 @@
         <string id="RogueStealthPower_DisengageRadius_Desc" text="Радиус в метрах для обнаружения врагов, окружающих видимого разбойника" original="Radius in metres used to detect enemies surrounding a visible Rogue"/>
         <string id="RogueStealthPower_DisengageDistance_Name" text="Дистанция тактического отхода" original="Disengagement Distance"/>
         <string id="RogueStealthPower_DisengageDistance_Desc" text="Расстояние в метрах, на которое разбойник пытается отойти от окружения" original="Distance in metres the Rogue tries to move away from an encirclement"/>
-        <string id="RogueStealthPower_PublicDesc" text="Враги не могут выбрать героя целью, пока тот выслеживает обособленных противников; нанесение или получение урона раскрывает разбойника." original="Cannot be targeted while stalking isolated enemies; dealing or receiving damage reveals the Rogue."/>
+        <string id="RogueStealthPower_PublicDesc" text="В скрытности враги не могут выбрать разбойника целью, а сам он выслеживает обособленных противников, предпочитая пеших бойцов. Нанесение или получение урона раскрывает разбойника; оказавшись в окружении, он старается разорвать дистанцию и возвращается в скрытность, если не получает урон в течение настроенного времени восстановления." original="While hidden, the Rogue cannot be selected as a target and stalks isolated enemies, preferring fighters on foot. Dealing or receiving damage reveals the Rogue; when surrounded, the Rogue tries to create distance, and returns to stealth after avoiding damage for the configured recovery time."/>
     </strings>
 </base>

@@ -3061,6 +3061,23 @@ GlobalConfigs:
   Id: Buffet - Effects Config
 - Config:
     DisablePowersInTournaments: true
+    GameRoleDefs:
+    - !DamageDealerGameRole
+      ID: 0d4a6d25-86b7-4f4d-bd7a-c38b3fb46cd2
+    - !RogueStealthPower
+      DisengagementDistance: 10
+      DisengagementEnemyCount: 3
+      DisengagementRadius: 5
+      ID: ca2ed9bc-bc8a-48bf-89b7-389779fdba5c
+      IsolationRadius: 8
+      MaximumTargetDistance: 45
+      StealthRecoveryDelaySeconds: 3
+      TargetReevaluationIntervalSeconds: 1
+      TargetSwitchAdvantage: 3
+    - !HealerGameRole
+      ID: d79aa782-479c-46cc-8298-722c690c06fc
+    - !TankGameRole
+      ID: 7e16bd2a-5e68-44d5-a137-2cd0fc047f42
     PowerDefs:
     - !AddHealthPower
       HealthModifierPercent: 125

@@ -169,6 +169,8 @@
         <string id="Us7G1v2T" text="Разрешить ли верблюд (можно комбинировать с Использовать верблюд" original="Whether to allow camel (can be combined with Use Horse"/>
         <!-- Passive Power -->
         <string id="MvddFKo4" text="Пассивная сила" original="Passive Power"/>
+        <string id="HeroClassDef_GameRole_Name" text="Игровая роль" original="Game Role"/>
+        <string id="HeroClassDef_GameRole_Desc" text="Постоянный стиль игры, заданный для этого класса." original="The permanent gameplay style used by this class"/>
         <!-- Passive hero power: this will always apply to the hero (i.e. a permanent buff) -->
         <string id="F8a2nXYo" text="Пассивная сила героя: всегда будет применяться к герою (т.е. постоянный бафф)" original="Passive hero power: this will always apply to the hero (i.e. a permanent buff)"/>
         <!-- Active Power -->

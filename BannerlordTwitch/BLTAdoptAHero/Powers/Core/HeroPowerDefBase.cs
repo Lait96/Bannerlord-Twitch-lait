@@ -30,7 +30,7 @@ namespace BLTAdoptAHero.Powers
          LocCategory("General", "{=C5T5nnix}General"),
          LocDescription("{=lzvJC8bf}Name of the power that will be shown in game"),
          InstanceName, PropertyOrder(1), UsedImplicitly]
-        public LocString Name { get; set; } = "{=aQgYs3mI}Enter Name Here";
+        public virtual LocString Name { get; set; } = "{=aQgYs3mI}Enter Name Here";
         #endregion
 
         #region Implementation Details

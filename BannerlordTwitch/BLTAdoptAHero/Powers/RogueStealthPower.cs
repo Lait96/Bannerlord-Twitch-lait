@@ -17,15 +17,18 @@ using YamlDotNet.Serialization;
 
 namespace BLTAdoptAHero.Powers
 {
-    [LocDisplayName("{=RogueStealthPower_Name}Rogue Stealth Power"),
+    [LocDisplayName("{=RogueStealthPower_Name}Rogue"),
      LocDescription("{=RogueStealthPower_Desc}Hides the hero from enemy targeting while approaching isolated enemies"),
      UsedImplicitly]
-    public class RogueStealthPower : HeroPowerDefBase, IHeroPowerPassive, IDocumentable
+    public class RogueStealthPower : GameRoleDefBase
     {
         private const float TargetProtectionIntervalSeconds = 0.15f;
         private const float DisengagementCheckIntervalSeconds = 0.25f;
         private const float DisengagementRepathIntervalSeconds = 0.75f;
         private const int MainActionChannel = 1;
+
+        [YamlIgnore]
+        protected override LocString RoleName => "{=RogueStealthPower_Name}Rogue";
 
         [LocDisplayName("{=RogueStealthPower_IsolationRadius_Name}Isolation Radius"),
          LocCategory("Power Config", "{=75UOuDM}Power Config"),
@@ -83,7 +86,9 @@ namespace BLTAdoptAHero.Powers
          PropertyOrder(8), UsedImplicitly]
         public float DisengagementDistance { get; set; } = 10f;
 
-        void IHeroPowerPassive.OnHeroJoinedBattle(Hero hero, PowerHandler.Handlers handlers)
+        protected override bool HasGameplayEffects => true;
+
+        protected override void OnHeroJoinedBattle(Hero hero, PowerHandler.Handlers handlers)
         {
             handlers.OnAgentBuild += agent =>
             {
@@ -97,9 +102,9 @@ namespace BLTAdoptAHero.Powers
 
         [YamlIgnore, Browsable(false)]
         public override LocString Description =>
-            "{=RogueStealthPower_PublicDesc}Cannot be targeted while stalking isolated enemies; dealing or receiving damage reveals the Rogue.";
+            "{=RogueStealthPower_PublicDesc}While hidden, the Rogue cannot be selected as a target and stalks isolated enemies, preferring fighters on foot. Dealing or receiving damage reveals the Rogue; when surrounded, the Rogue tries to create distance, and returns to stealth after avoiding damage for the configured recovery time.";
 
-        public void GenerateDocumentation(IDocumentationGenerator generator) => generator.P(Description.ToString());
+        public override void GenerateDocumentation(IDocumentationGenerator generator) => generator.P(Description.ToString());
 
         private enum RogueAbilityState
         {

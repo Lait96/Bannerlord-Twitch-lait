@@ -158,6 +158,32 @@
         </Border>
     </DataTemplate>
 
+    <!-- GameRoleDefBase -->
+    <DataTemplate DataType="{x:Type adoptAHero:Powers.GameRoleDefBase}">
+        <Border Style="{StaticResource ItemBackground}" HorizontalAlignment="Stretch">
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" FontWeight="Bold"
+                           Text="{Binding Name, Mode=OneTime}"
+                           VerticalAlignment="Center" Margin="4 0"/>
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Text="{Binding RoleTypeLabel, Mode=OneTime}"
+                           VerticalAlignment="Center" Margin="4 0"/>
+                <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                           Text="{Binding Description, Mode=OneTime}"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center" Margin="4 0"/>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
     <!-- HeroPowerDefBase -->
     <DataTemplate DataType="{x:Type adoptAHero:Powers.HeroPowerDefBase}">
         <Border Style="{StaticResource ItemBackground}" HorizontalAlignment="Stretch">
@@ -510,7 +536,7 @@
                                                 Modifiers="Control" Key="D" />
                                 </Grid.InputBindings>
                                 
-                                <ContentControl Margin="0,0,0,5"
+                                <ContentControl x:Name="PART_TypeSelectionLabel" Margin="0,0,0,5"
                                                 Content="{TemplateBinding TypeSelectionLabel}" />
                                 <ComboBox x:Name="PART_NewItemTypesComboBox"
                                           Grid.Row="1" Grid.Column="0"
@@ -531,7 +557,7 @@
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
-                                <Button Margin="3,0,0,3"
+                                <Button x:Name="PART_AddButton" Margin="3,0,0,3"
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         Padding="5,0"
@@ -601,6 +627,11 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <Trigger SourceName="PART_NewItemTypesComboBox" Property="HasItems" Value="False">
+                            <Setter TargetName="PART_TypeSelectionLabel" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_NewItemTypesComboBox" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_AddButton" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
                         <Trigger Property="IsEnabled"
                                  Value="False">
                             <Setter Property="Foreground"
