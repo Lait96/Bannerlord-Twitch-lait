@@ -27,6 +27,8 @@ namespace BLTAdoptAHero
                 AgentState agentState, KillingBlow blow);
             public delegate void GotKilledDelegate(Agent victimAgent, Agent attackerAgent,
                 AgentState agentState, KillingBlow blow);
+            public delegate void AgentRemovedDelegate(Agent victimAgent, Agent attackerAgent,
+                AgentState agentState, KillingBlow blow);
 
             public delegate void DoDamageDelegate(Agent attackerAgent, Agent victimAgent,
                 BLTHeroPowersMissionBehavior.RegisterBlowParams blowParams);
@@ -66,6 +68,7 @@ namespace BLTAdoptAHero
             public event MissionOverDelegate OnMissionOver;
             public event GotAKillDelegate OnGotAKill;
             public event GotKilledDelegate OnGotKilled;
+            public event AgentRemovedDelegate OnAgentRemoved;
             public event DoDamageDelegate OnDoDamage;
             public event TakeDamageDelegate OnTakeDamage;
             public event DecideWeaponCollisionReactionDelegate OnDecideWeaponCollisionReaction;
@@ -89,6 +92,8 @@ namespace BLTAdoptAHero
                 => OnGotAKill?.Invoke(attackerAgent, victimAgent, agentState, blow);
             public void GotKilled(Agent victimAgent, Agent attackerAgent, AgentState agentState, KillingBlow blow)
                 => OnGotKilled?.Invoke(victimAgent, attackerAgent, agentState, blow);
+            public void AgentRemoved(Agent victimAgent, Agent attackerAgent, AgentState agentState, KillingBlow blow)
+                => OnAgentRemoved?.Invoke(victimAgent, attackerAgent, agentState, blow);
 
             public void DoDamage(Agent attackerAgent, Agent victimAgent,
                 BLTHeroPowersMissionBehavior.RegisterBlowParams blowParams)

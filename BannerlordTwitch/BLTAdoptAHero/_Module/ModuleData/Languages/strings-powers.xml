@@ -400,7 +400,21 @@
         <string id="HealerGameRole_GoldPerHealth_Name" text="Gold Per Health Restored"/>
         <string id="HealerGameRole_GoldPerHealth_Desc" text="Gold earned per point of health actually restored; overhealing earns nothing"/>
         <string id="TankGameRole_Name" text="Tank"/>
-        <string id="TankGameRole_Desc" text="A placeholder for the future tank role"/>
+        <string id="TankGameRole_Desc" text="Periodically encourages nearby enemies to prefer the Tank without disabling their normal target selection. The Tank makes short moves toward nearby allies when safely able to lead aggroed enemies to the group, and receives a share of normal gold and experience when an ally defeats an enemy still focused on the Tank."/>
+        <string id="TankGameRole_Aggro_Category" text="Aggro"/>
+        <string id="TankGameRole_AggroRadius_Name" text="Aggro Radius"/>
+        <string id="TankGameRole_AggroRadius_Desc" text="Radius in metres in which enemies can be influenced to prefer the Tank"/>
+        <string id="TankGameRole_AggroStrength_Name" text="Aggro Priority Strength"/>
+        <string id="TankGameRole_AggroStrength_Desc" text="How much farther than an enemy's current target the Tank may be while still attracting that enemy"/>
+        <string id="TankGameRole_MaximumTargets_Name" text="Maximum Aggro Targets"/>
+        <string id="TankGameRole_MaximumTargets_Desc" text="Maximum number of enemies simultaneously tracked and influenced by the role"/>
+        <string id="TankGameRole_EvaluationInterval_Name" text="Aggro Evaluation Interval"/>
+        <string id="TankGameRole_EvaluationInterval_Desc" text="Seconds between searches for enemies that the Tank can attract"/>
+        <string id="TankGameRole_ReplacementThreshold_Name" text="Target Replacement Threshold"/>
+        <string id="TankGameRole_ReplacementThreshold_Desc" text="How many metres closer a new enemy must be before replacing a tracked enemy"/>
+        <string id="TankGameRole_Rewards_Category" text="Rewards"/>
+        <string id="TankGameRole_RewardShare_Name" text="Participation Reward Share"/>
+        <string id="TankGameRole_RewardShare_Desc" text="Percentage of normal gold and experience received when an ally defeats an enemy aggroed to the Tank"/>
 
         <!-- RogueStealthPower -->
         <string id="RogueStealthPower_Name" text="Rogue"/>

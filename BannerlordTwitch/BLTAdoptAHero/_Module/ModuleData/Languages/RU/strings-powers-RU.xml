@@ -382,7 +382,21 @@
         <string id="HealerGameRole_GoldPerHealth_Name" text="Золото за единицу лечения" original="Gold Per Health Restored"/>
         <string id="HealerGameRole_GoldPerHealth_Desc" text="Золото за каждую фактически восстановленную единицу здоровья; избыточное лечение ничего не приносит" original="Gold earned per point of health actually restored; overhealing earns nothing"/>
         <string id="TankGameRole_Name" text="Танк" original="Tank"/>
-        <string id="TankGameRole_Desc" text="Заготовка для будущей роли танка." original="A placeholder for the future tank role"/>
+        <string id="TankGameRole_Desc" text="Периодически побуждает ближайших врагов предпочитать танка, не отключая их обычный выбор цели. Когда это безопасно, танк делает короткие перемещения к союзникам, подводя к группе сагренных врагов, и получает долю обычного золота и опыта, если союзник побеждает врага, всё ещё сосредоточенного на танке." original="Periodically encourages nearby enemies to prefer the Tank without disabling their normal target selection. The Tank makes short moves toward nearby allies when safely able to lead aggroed enemies to the group, and receives a share of normal gold and experience when an ally defeats an enemy still focused on the Tank."/>
+        <string id="TankGameRole_Aggro_Category" text="Агро" original="Aggro"/>
+        <string id="TankGameRole_AggroRadius_Name" text="Радиус агро" original="Aggro Radius"/>
+        <string id="TankGameRole_AggroRadius_Desc" text="Радиус в метрах, в котором враги могут предпочесть танка своей текущей цели" original="Radius in metres in which enemies can be influenced to prefer the Tank"/>
+        <string id="TankGameRole_AggroStrength_Name" text="Сила приоритета агро" original="Aggro Priority Strength"/>
+        <string id="TankGameRole_AggroStrength_Desc" text="Определяет, насколько дальше текущей цели может находиться танк и всё ещё привлекать врага" original="How much farther than an enemy's current target the Tank may be while still attracting that enemy"/>
+        <string id="TankGameRole_MaximumTargets_Name" text="Максимум целей агро" original="Maximum Aggro Targets"/>
+        <string id="TankGameRole_MaximumTargets_Desc" text="Максимальное число врагов, одновременно отслеживаемых и привлекаемых ролью" original="Maximum number of enemies simultaneously tracked and influenced by the role"/>
+        <string id="TankGameRole_EvaluationInterval_Name" text="Интервал оценки агро" original="Aggro Evaluation Interval"/>
+        <string id="TankGameRole_EvaluationInterval_Desc" text="Интервал в секундах между поисками врагов, которых может привлечь танк" original="Seconds between searches for enemies that the Tank can attract"/>
+        <string id="TankGameRole_ReplacementThreshold_Name" text="Порог замены цели" original="Target Replacement Threshold"/>
+        <string id="TankGameRole_ReplacementThreshold_Desc" text="Насколько ближе в метрах должен быть новый враг, чтобы заменить уже отслеживаемого" original="How many metres closer a new enemy must be before replacing a tracked enemy"/>
+        <string id="TankGameRole_Rewards_Category" text="Награды" original="Rewards"/>
+        <string id="TankGameRole_RewardShare_Name" text="Доля награды за участие" original="Participation Reward Share"/>
+        <string id="TankGameRole_RewardShare_Desc" text="Процент обычного золота и опыта, получаемый, когда союзник побеждает сагренного на танка врага" original="Percentage of normal gold and experience received when an ally defeats an enemy aggroed to the Tank"/>
 
         <!-- RogueStealthPower -->
         <string id="RogueStealthPower_Name" text="Разбойник" original="Rogue"/>

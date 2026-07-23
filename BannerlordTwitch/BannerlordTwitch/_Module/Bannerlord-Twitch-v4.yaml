@@ -3085,7 +3085,13 @@ GlobalConfigs:
       LeashReleaseDistance: 10
       MaximumHealingPerPulse: 75
     - !TankGameRole
+      AggroEvaluationIntervalSeconds: 1
+      AggroPriorityStrength: 1.25
+      AggroRadius: 20
       ID: 7e16bd2a-5e68-44d5-a137-2cd0fc047f42
+      MaximumAggroTargets: 8
+      SharedRewardPercentage: 35
+      TargetReplacementThreshold: 3
     PowerDefs:
     - !AddHealthPower
       HealthModifierPercent: 125

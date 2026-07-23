@@ -250,6 +250,8 @@ namespace BLTAdoptAHero
             powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent,
                 handlers => handlers.GotAKill(attackerAgent, victimAgent, agentState, blow),
                 handlers => handlers.GotKilled(victimAgent, attackerAgent, agentState, blow));
+            powerHandler.CallHandlersForAll(
+                handlers => handlers.AgentRemoved(victimAgent, attackerAgent, agentState, blow));
         }
 
         protected override void OnEndMission()

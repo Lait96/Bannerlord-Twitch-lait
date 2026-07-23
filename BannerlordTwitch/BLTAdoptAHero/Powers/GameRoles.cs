@@ -17,16 +17,4 @@ namespace BLTAdoptAHero.Powers
             "{=DamageDealerGameRole_Desc}A combat role without additional mechanics";
     }
 
-    [LocDisplayName("{=TankGameRole_Name}Tank"),
-     LocDescription("{=TankGameRole_Desc}A placeholder for the future tank role"),
-     UsedImplicitly]
-    public sealed class TankGameRole : GameRoleDefBase
-    {
-        [YamlIgnore]
-        protected override LocString RoleName => "{=TankGameRole_Name}Tank";
-
-        [YamlIgnore]
-        public override LocString Description =>
-            "{=TankGameRole_Desc}A placeholder for the future tank role";
-    }
 }
