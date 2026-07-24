@@ -260,6 +260,11 @@ summary { cursor: pointer; color: var(--accent-strong); font-weight: 700; }
 .class-card__title { padding: 13px 15px; background: var(--surface-raised); color: var(--highlight); }
 .class-card__content { padding: 4px 14px 14px; }
 .class-card table { margin: 10px 0; box-shadow: none; }
+.game-role-config { display: flex; flex-direction: column; gap: 12px; }
+.role-card { margin: 0; overflow: hidden; }
+.role-card__title { color: var(--highlight); }
+.role-card__content { padding-top: 4px; }
+.role-card__content table { margin: 10px 0; box-shadow: none; }
 
 .class-grid {
     display: grid;

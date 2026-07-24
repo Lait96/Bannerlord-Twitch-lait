@@ -277,7 +277,7 @@ namespace BLTAdoptAHero
             {
                 generator.TR(() => generator
                     .TD("{=HeroClassDef_GameRole_Name}Game Role".Translate())
-                    .TD(() => (GameRole ?? PowerConfig?.GetGameRole(Guid.Empty))?.GenerateDocumentation(generator)));
+                    .TD((GameRole ?? PowerConfig?.GetGameRole(Guid.Empty))?.Name.ToString() ?? string.Empty));
                 generator.TR(()
                     => generator.TD("{=MvddFKo4}Passive Power".Translate()).TD(() => PassivePower.GenerateDocumentation(generator)));
                 generator.TR(()

@@ -15,7 +15,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 namespace BLTAdoptAHero
 {
     [LocDisplayName("{=GlobalHeroPowerConfig_Name}Power Config")]
-    public class GlobalHeroPowerConfig : IUpdateFromDefault, ILoaded
+    public class GlobalHeroPowerConfig : IUpdateFromDefault, ILoaded, IDocumentable
     {
         #region Static
         private const string ID = "Adopt A Hero - Power Config";
@@ -148,6 +148,24 @@ namespace BLTAdoptAHero
         {
             if (GameRoleDefs.All(role => role is not T))
                 GameRoleDefs.Add(create());
+        }
+        #endregion
+
+        #region IDocumentable
+        public void GenerateDocumentation(IDocumentationGenerator generator)
+        {
+            generator.Div("game-role-config", () =>
+            {
+                generator.H1("{=GlobalHeroPowerConfig_Doc_GameRoles}Game Roles".Translate());
+                foreach (var role in GameRoleDefs)
+                {
+                    generator.Details("role-card", () =>
+                    {
+                        generator.Summary("role-card__title", role.Name.ToString());
+                        generator.Div("role-card__content", () => role.GenerateDocumentation(generator));
+                    });
+                }
+            });
         }
         #endregion
     }

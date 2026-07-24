@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using BannerlordTwitch;
 using BannerlordTwitch.Helpers;
 using BannerlordTwitch.Localization;
 using BannerlordTwitch.UI;
@@ -31,42 +32,42 @@ namespace BLTAdoptAHero.Powers
         private const float MovementDestinationTolerance = 1.5f;
         private const float MovementRestartDelaySeconds = 2f;
 
-        [LocDisplayName("{=TankGameRole_AggroRadius_Name}Aggro Radius"),
+        [Document, LocDisplayName("{=TankGameRole_AggroRadius_Name}Aggro Radius"),
          LocCategory("Aggro", "{=TankGameRole_Aggro_Category}Aggro"),
          LocDescription("{=TankGameRole_AggroRadius_Desc}Radius in metres in which enemies can be influenced to prefer the Tank"),
          UIRange(1f, 60f, 1f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(1), UsedImplicitly]
         public float AggroRadius { get; set; } = 20f;
 
-        [LocDisplayName("{=TankGameRole_AggroStrength_Name}Aggro Priority Strength"),
+        [Document, LocDisplayName("{=TankGameRole_AggroStrength_Name}Aggro Priority Strength"),
          LocCategory("Aggro", "{=TankGameRole_Aggro_Category}Aggro"),
          LocDescription("{=TankGameRole_AggroStrength_Desc}How much farther than an enemy's current target the Tank may be while still attracting that enemy"),
          UIRange(0.25f, 3f, 0.05f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(2), UsedImplicitly]
         public float AggroPriorityStrength { get; set; } = 1.25f;
 
-        [LocDisplayName("{=TankGameRole_MaximumTargets_Name}Maximum Aggro Targets"),
+        [Document, LocDisplayName("{=TankGameRole_MaximumTargets_Name}Maximum Aggro Targets"),
          LocCategory("Aggro", "{=TankGameRole_Aggro_Category}Aggro"),
          LocDescription("{=TankGameRole_MaximumTargets_Desc}Maximum number of enemies simultaneously tracked and influenced by the role"),
          UIRange(0, 50, 1), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(3), UsedImplicitly]
         public int MaximumAggroTargets { get; set; } = 8;
 
-        [LocDisplayName("{=TankGameRole_EvaluationInterval_Name}Aggro Evaluation Interval"),
+        [Document, LocDisplayName("{=TankGameRole_EvaluationInterval_Name}Aggro Evaluation Interval"),
          LocCategory("Aggro", "{=TankGameRole_Aggro_Category}Aggro"),
          LocDescription("{=TankGameRole_EvaluationInterval_Desc}Seconds between searches for enemies that the Tank can attract"),
          UIRange(0.25f, 5f, 0.25f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(4), UsedImplicitly]
         public float AggroEvaluationIntervalSeconds { get; set; } = 1f;
 
-        [LocDisplayName("{=TankGameRole_ReplacementThreshold_Name}Target Replacement Threshold"),
+        [Document, LocDisplayName("{=TankGameRole_ReplacementThreshold_Name}Target Replacement Threshold"),
          LocCategory("Aggro", "{=TankGameRole_Aggro_Category}Aggro"),
          LocDescription("{=TankGameRole_ReplacementThreshold_Desc}How many metres closer a new enemy must be before replacing a tracked enemy"),
          UIRange(0f, 20f, 0.5f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(5), UsedImplicitly]
         public float TargetReplacementThreshold { get; set; } = 3f;
 
-        [LocDisplayName("{=TankGameRole_RewardShare_Name}Participation Reward Share"),
+        [Document, LocDisplayName("{=TankGameRole_RewardShare_Name}Participation Reward Share"),
          LocCategory("Rewards", "{=TankGameRole_Rewards_Category}Rewards"),
          LocDescription("{=TankGameRole_RewardShare_Desc}Percentage of normal gold and experience received when an ally defeats an enemy aggroed to the Tank"),
          UIRange(0f, 100f, 1f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),

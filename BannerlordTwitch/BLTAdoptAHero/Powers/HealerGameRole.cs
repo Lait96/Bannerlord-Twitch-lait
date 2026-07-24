@@ -25,56 +25,56 @@ namespace BLTAdoptAHero.Powers
         private const float LeashDestinationChangeThreshold = 2f;
         private const float LeashAnchorSwitchDistanceRatio = 0.75f;
 
-        [LocDisplayName("{=HealerGameRole_AuraRadius_Name}Aura Radius"),
+        [Document, LocDisplayName("{=HealerGameRole_AuraRadius_Name}Aura Radius"),
          LocCategory("Healing Aura", "{=HealerGameRole_Aura_Category}Healing Aura"),
          LocDescription("{=HealerGameRole_AuraRadius_Desc}Radius in metres in which active allies can be healed"),
          UIRange(1f, 30f, 0.5f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(1), UsedImplicitly]
         public float AuraRadius { get; set; } = 10f;
 
-        [LocDisplayName("{=HealerGameRole_HealingPerAlly_Name}Healing Strength"),
+        [Document, LocDisplayName("{=HealerGameRole_HealingPerAlly_Name}Healing Strength"),
          LocCategory("Healing Aura", "{=HealerGameRole_Aura_Category}Healing Aura"),
          LocDescription("{=HealerGameRole_HealingPerAlly_Desc}Maximum health restored to one ally by each healing pulse"),
          UIRange(0f, 100f, 1f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(2), UsedImplicitly]
         public float HealingPerAlly { get; set; } = 8f;
 
-        [LocDisplayName("{=HealerGameRole_HealingBudget_Name}Health Per Pulse"),
+        [Document, LocDisplayName("{=HealerGameRole_HealingBudget_Name}Health Per Pulse"),
          LocCategory("Healing Aura", "{=HealerGameRole_Aura_Category}Healing Aura"),
          LocDescription("{=HealerGameRole_HealingBudget_Desc}Maximum total health restored across all allies by one pulse"),
          UIRange(0f, 1000f, 5f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(3), UsedImplicitly]
         public float MaximumHealingPerPulse { get; set; } = 75f;
 
-        [LocDisplayName("{=HealerGameRole_HealingPeriod_Name}Healing Period"),
+        [Document, LocDisplayName("{=HealerGameRole_HealingPeriod_Name}Healing Period"),
          LocCategory("Healing Aura", "{=HealerGameRole_Aura_Category}Healing Aura"),
          LocDescription("{=HealerGameRole_HealingPeriod_Desc}Seconds between healing pulses"),
          UIRange(0.25f, 10f, 0.25f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(4), UsedImplicitly]
         public float HealingPeriodSeconds { get; set; } = 2f;
 
-        [LocDisplayName("{=HealerGameRole_LeashDistance_Name}Leash Distance"),
+        [Document, LocDisplayName("{=HealerGameRole_LeashDistance_Name}Leash Distance"),
          LocCategory("Leash", "{=HealerGameRole_Leash_Category}Leash"),
          LocDescription("{=HealerGameRole_LeashDistance_Desc}Distance from the nearest ally at which the Healer temporarily moves back toward the group"),
          UIRange(5f, 100f, 1f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(5), UsedImplicitly]
         public float LeashDistance { get; set; } = 20f;
 
-        [LocDisplayName("{=HealerGameRole_LeashReleaseDistance_Name}Leash Release Distance"),
+        [Document, LocDisplayName("{=HealerGameRole_LeashReleaseDistance_Name}Leash Release Distance"),
          LocCategory("Leash", "{=HealerGameRole_Leash_Category}Leash"),
          LocDescription("{=HealerGameRole_LeashReleaseDistance_Desc}Distance from an ally at which normal AI orders resume"),
          UIRange(2f, 50f, 1f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(6), UsedImplicitly]
         public float LeashReleaseDistance { get; set; } = 10f;
 
-        [LocDisplayName("{=HealerGameRole_LeashCheckInterval_Name}Leash Check Interval"),
+        [Document, LocDisplayName("{=HealerGameRole_LeashCheckInterval_Name}Leash Check Interval"),
          LocCategory("Leash", "{=HealerGameRole_Leash_Category}Leash"),
          LocDescription("{=HealerGameRole_LeashCheckInterval_Desc}Seconds between checks of the Healer's distance from allies"),
          UIRange(0.25f, 5f, 0.25f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(7), UsedImplicitly]
         public float LeashCheckIntervalSeconds { get; set; } = 0.5f;
 
-        [LocDisplayName("{=HealerGameRole_GoldPerHealth_Name}Gold Per Health Restored"),
+        [Document, LocDisplayName("{=HealerGameRole_GoldPerHealth_Name}Gold Per Health Restored"),
          LocCategory("Rewards", "{=HealerGameRole_Rewards_Category}Rewards"),
          LocDescription("{=HealerGameRole_GoldPerHealth_Desc}Gold earned per point of health actually restored; overhealing earns nothing"),
          UIRange(0f, 100f, 0.5f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),

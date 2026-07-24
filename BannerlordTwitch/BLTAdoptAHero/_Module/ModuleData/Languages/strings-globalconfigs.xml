@@ -212,6 +212,7 @@
 
         <!-- Hero Class Documentation -->
         <string id="GlobalHeroClassConfig_Doc_Classes" text="Classes"/>
+        <string id="GlobalHeroPowerConfig_Doc_GameRoles" text="Game Roles"/>
 
         <!-- Class Level Requirements -->
         <string id="GlobalHeroClassConfig_ClassLevelRequirementsDef_Name" text="Class Level Requirements Definition"/>

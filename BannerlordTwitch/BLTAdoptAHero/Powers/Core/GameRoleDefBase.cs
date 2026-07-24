@@ -55,8 +55,11 @@ namespace BLTAdoptAHero.Powers
 
         protected virtual void OnHeroJoinedBattle(Hero hero, PowerHandler.Handlers handlers) { }
 
-        public virtual void GenerateDocumentation(IDocumentationGenerator generator) =>
+        public virtual void GenerateDocumentation(IDocumentationGenerator generator)
+        {
             generator.P(Description.ToString());
+            DocumentationHelpers.AutoDocument(generator, this);
+        }
 
         public override string ToString() => RoleName.ToString();
 

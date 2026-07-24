@@ -30,6 +30,7 @@
         const rewards = page.querySelector(".guide-section.rewards");
         const globalConfigs = page.querySelector(".guide-section.global-configs");
         const classConfig = globalConfigs?.querySelector(".class-config");
+        const gameRoleConfig = globalConfigs?.querySelector(".game-role-config");
         const commonConfig = globalConfigs?.querySelector(".common-config");
         const settingsConfigs = Array.from(globalConfigs?.querySelectorAll(":scope > .settings-config") || []);
         const commonGroups = [];
@@ -54,6 +55,7 @@
         if (commands) availableFilters.add("commands");
         if (rewards) availableFilters.add("rewards");
         if (classConfig) availableFilters.add("classes");
+        if (gameRoleConfig) availableFilters.add("roles");
         if (settingsConfigs.length) availableFilters.add("settings");
         commonGroups.forEach(group => availableFilters.add(group.category));
         filters.forEach(button => button.hidden = !availableFilters.has(button.dataset.guideFilter));
@@ -75,10 +77,11 @@
         const selectFilter = filter => {
             setHidden(commands, filter !== "all" && filter !== "commands");
             setHidden(rewards, filter !== "all" && filter !== "rewards");
-            const globalFilter = ["classes", "settings", "streaks", "achievements", "map"].includes(filter);
+            const globalFilter = ["classes", "roles", "settings", "streaks", "achievements", "map"].includes(filter);
             setHidden(globalConfigs, filter === "commands" || filter === "rewards");
             setHidden(classConfig, globalFilter && filter !== "classes");
-            setHidden(commonConfig, filter === "classes");
+            setHidden(gameRoleConfig, globalFilter && filter !== "roles");
+            setHidden(commonConfig, filter === "classes" || filter === "roles");
             settingsConfigs.forEach(section => setHidden(section, globalFilter && filter !== "settings"));
             commonGroups.forEach(group => group.elements.forEach(element =>
                 setHidden(element, globalFilter && filter !== "classes" && group.category !== filter)));

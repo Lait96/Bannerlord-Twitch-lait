@@ -30,56 +30,56 @@ namespace BLTAdoptAHero.Powers
         [YamlIgnore]
         protected override LocString RoleName => "{=RogueStealthPower_Name}Rogue";
 
-        [LocDisplayName("{=RogueStealthPower_IsolationRadius_Name}Isolation Radius"),
+        [Document, LocDisplayName("{=RogueStealthPower_IsolationRadius_Name}Isolation Radius"),
          LocCategory("Power Config", "{=75UOuDM}Power Config"),
          LocDescription("{=RogueStealthPower_IsolationRadius_Desc}Minimum distance in metres from a target to its nearest active ally"),
          UIRange(1, 30, 1), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(1), UsedImplicitly]
         public float IsolationRadius { get; set; } = 8f;
 
-        [LocDisplayName("{=RogueStealthPower_MaxTargetDistance_Name}Maximum Target Distance"),
+        [Document, LocDisplayName("{=RogueStealthPower_MaxTargetDistance_Name}Maximum Target Distance"),
          LocCategory("Power Config", "{=75UOuDM}Power Config"),
          LocDescription("{=RogueStealthPower_MaxTargetDistance_Desc}Maximum straight-line distance in metres for priority targets"),
          UIRange(5, 100, 5), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(2), UsedImplicitly]
         public float MaximumTargetDistance { get; set; } = 45f;
 
-        [LocDisplayName("{=RogueStealthPower_ReevaluationInterval_Name}Target Reevaluation Interval"),
+        [Document, LocDisplayName("{=RogueStealthPower_ReevaluationInterval_Name}Target Reevaluation Interval"),
          LocCategory("Power Config", "{=75UOuDM}Power Config"),
          LocDescription("{=RogueStealthPower_ReevaluationInterval_Desc}Seconds between searches for an isolated target"),
          UIRange(0.25f, 5f, 0.25f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(3), UsedImplicitly]
         public float TargetReevaluationIntervalSeconds { get; set; } = 1f;
 
-        [LocDisplayName("{=RogueStealthPower_SwitchAdvantage_Name}Target Switch Advantage"),
+        [Document, LocDisplayName("{=RogueStealthPower_SwitchAdvantage_Name}Target Switch Advantage"),
          LocCategory("Power Config", "{=75UOuDM}Power Config"),
          LocDescription("{=RogueStealthPower_SwitchAdvantage_Desc}Extra nearest-ally distance required before switching priority targets"),
          UIRange(0f, 15f, 0.5f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(4), UsedImplicitly]
         public float TargetSwitchAdvantage { get; set; } = 3f;
 
-        [LocDisplayName("{=RogueStealthPower_RecoveryDelay_Name}Stealth Recovery Delay"),
+        [Document, LocDisplayName("{=RogueStealthPower_RecoveryDelay_Name}Stealth Recovery Delay"),
          LocCategory("Power Config", "{=75UOuDM}Power Config"),
          LocDescription("{=RogueStealthPower_RecoveryDelay_Desc}Seconds without receiving damage before stealth can return"),
          UIRange(0.5f, 10f, 0.5f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(5), UsedImplicitly]
         public float StealthRecoveryDelaySeconds { get; set; } = 3f;
 
-        [LocDisplayName("{=RogueStealthPower_DisengageEnemyCount_Name}Disengagement Enemy Count"),
+        [Document, LocDisplayName("{=RogueStealthPower_DisengageEnemyCount_Name}Disengagement Enemy Count"),
          LocCategory("Power Config", "{=75UOuDM}Power Config"),
          LocDescription("{=RogueStealthPower_DisengageEnemyCount_Desc}Nearby enemy count that makes a visible Rogue create distance"),
          UIRange(2, 10, 1),
          PropertyOrder(6), UsedImplicitly]
         public int DisengagementEnemyCount { get; set; } = 3;
 
-        [LocDisplayName("{=RogueStealthPower_DisengageRadius_Name}Disengagement Radius"),
+        [Document, LocDisplayName("{=RogueStealthPower_DisengageRadius_Name}Disengagement Radius"),
          LocCategory("Power Config", "{=75UOuDM}Power Config"),
          LocDescription("{=RogueStealthPower_DisengageRadius_Desc}Radius in metres used to detect enemies surrounding a visible Rogue"),
          UIRange(2f, 12f, 0.5f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(7), UsedImplicitly]
         public float DisengagementRadius { get; set; } = 5f;
 
-        [LocDisplayName("{=RogueStealthPower_DisengageDistance_Name}Disengagement Distance"),
+        [Document, LocDisplayName("{=RogueStealthPower_DisengageDistance_Name}Disengagement Distance"),
          LocCategory("Power Config", "{=75UOuDM}Power Config"),
          LocDescription("{=RogueStealthPower_DisengageDistance_Desc}Distance in metres the Rogue tries to move away from an encirclement"),
          UIRange(3f, 20f, 1f), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
@@ -103,8 +103,6 @@ namespace BLTAdoptAHero.Powers
         [YamlIgnore, Browsable(false)]
         public override LocString Description =>
             "{=RogueStealthPower_PublicDesc}While hidden, the Rogue cannot be selected as a target and stalks isolated enemies, preferring fighters on foot. Dealing or receiving damage reveals the Rogue; when surrounded, the Rogue tries to create distance, and returns to stealth after avoiding damage for the configured recovery time.";
-
-        public override void GenerateDocumentation(IDocumentationGenerator generator) => generator.P(Description.ToString());
 
         private enum RogueAbilityState
         {
