@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using BannerlordTwitch.Util;
 using Newtonsoft.Json;
 using static BannerlordTwitch.BLTModule;
 using BLTOverlay;
@@ -46,7 +47,7 @@ namespace BLTOverlay
             }
             catch (Exception ex)
             {
-                // swallow or log
+                Log.Error($"Extension receiver polling failed: {ex}");
             }
         }
 

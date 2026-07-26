@@ -6,6 +6,10 @@
         <OutputBuildRoot>$(SolutionDir)build\</OutputBuildRoot>
         <OutputConfigRoot>$(OutputBuildRoot)$(Configuration)\</OutputConfigRoot>
         <OutputModuleRoot>$(OutputConfigRoot)$(AssemblyName)\</OutputModuleRoot>
+        <ProgramFiles64>$([System.Environment]::GetEnvironmentVariable('ProgramW6432'))</ProgramFiles64>
+        <SevenZipExe Condition="'$(SevenZipExe)' == '' and Exists('$(ProgramFiles64)\7-Zip\7z.exe')">$(ProgramFiles64)\7-Zip\7z.exe</SevenZipExe>
+        <SevenZipExe Condition="'$(SevenZipExe)' == '' and Exists('$(ProgramFiles)\7-Zip\7z.exe')">$(ProgramFiles)\7-Zip\7z.exe</SevenZipExe>
+        <SevenZipExe Condition="'$(SevenZipExe)' == ''">7z.exe</SevenZipExe>
     </PropertyGroup>
 
     <!-- Required to trick IDE into setting the configs -->
@@ -15,7 +19,6 @@
         <OutputPackageRoot>$(SolutionDir)deploy\debug\</OutputPackageRoot>
         <Optimize>false</Optimize>
         <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
-        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
         <XamlDebuggingInformation>True</XamlDebuggingInformation>
     </PropertyGroup>
     
@@ -23,7 +26,6 @@
         <OutputPackageRoot>$(SolutionDir)deploy\release\</OutputPackageRoot>
         <Optimize>true</Optimize>
         <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
-        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <PropertyGroup Condition="!$(Configuration.EndsWith('1.3.15'))">
         <GameVersion>1.4.7</GameVersion>

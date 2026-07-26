@@ -480,7 +480,6 @@ namespace BLTAdoptAHero.Actions
                     break;
                 //case "vassal":
                 //    HandleVassalCommand(settings, adoptedHero, desiredName, onSuccess, onFailure);
-                        break;
                 case "release":
                     HandleReleaseCommand(settings, adoptedHero, desiredName, onSuccess, onFailure);
                     break;

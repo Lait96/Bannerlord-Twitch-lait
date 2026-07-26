@@ -71,10 +71,6 @@
       <HintPath>$(BANNERLORD_GAME_DIR)\bin\Win64_Shipping_Client\TaleWorlds.Core.ViewModelCollection.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.Diamond.AccessProvider.Epic.dll">
-      <HintPath>F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.Diamond.AccessProvider.Epic.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="$(BANNERLORD_GAME_DIR)\bin\Win64_Shipping_Client\TaleWorlds.Diamond.AccessProvider.GDK.dll">
       <HintPath>$(BANNERLORD_GAME_DIR)\bin\Win64_Shipping_Client\TaleWorlds.Diamond.AccessProvider.GDK.dll</HintPath>
       <Private>False</Private>
@@ -133,10 +129,6 @@
     </Reference>
     <Reference Include="$(BANNERLORD_GAME_DIR)\bin\Win64_Shipping_Client\TaleWorlds.GauntletUI.PrefabSystem.dll">
       <HintPath>$(BANNERLORD_GAME_DIR)\bin\Win64_Shipping_Client\TaleWorlds.GauntletUI.PrefabSystem.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.GauntletUI.TooltipExtensions.dll">
-      <HintPath>F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.GauntletUI.TooltipExtensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="$(BANNERLORD_GAME_DIR)\bin\Win64_Shipping_Client\TaleWorlds.InputSystem.dll">

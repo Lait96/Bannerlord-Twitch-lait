@@ -79,10 +79,7 @@ namespace BLTAdoptAHero
             }
             catch (Exception e)
             {
-                Log.Error($"Detach failed for agent {agent?.Name ?? "unknown"}");
-#if DEBUG
-                Log.Trace(e.StackTrace);
-#endif              
+                Log.Error($"Detach failed for agent {agent?.Name ?? "unknown"}: {e}");
             }
             return null;
         }
@@ -704,10 +701,7 @@ namespace BLTAdoptAHero
                     try { formation.DetachUnit(agent, IsLoose); }
                     catch (Exception e)
                     {
-                        Log.Error($"BLTHeroDetachment: DetachUnit failed for {agent.Name}");
-#if DEBUG
-                        Log.Trace(e.StackTrace);
-#endif
+                        Log.Error($"BLTHeroDetachment: DetachUnit failed for {agent.Name}: {e}");
                     }
                 }
                 // If fileIndex == -1, agent is unpositioned — skip DetachUnit entirely.

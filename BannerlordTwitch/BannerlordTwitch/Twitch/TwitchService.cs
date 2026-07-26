@@ -119,8 +119,6 @@ namespace BannerlordTwitch
         public string channelId;
         public readonly AuthSettings authSettings;
 
-        private TwitchPubSub pubSub;
-
         private readonly Settings settings;
         private CancellationToken token;
 
