@@ -166,6 +166,7 @@ namespace BLTAdoptAHero.Powers
                 float radiusSquared = Math.Max(0f, power.AuraRadius) * Math.Max(0f, power.AuraRadius);
                 var woundedAllies = Mission.Current.Agents
                     .Where(IsValidHealingTarget)
+                    .Where(agent => BannerlordApi.CanAgentsNavigateToEachOther(healer, agent))
                     .Where(agent => healer.Position.DistanceSquared(agent.Position) <= radiusSquared)
                     .Select(agent => new
                     {
@@ -229,7 +230,8 @@ namespace BLTAdoptAHero.Powers
                 float nearestDistanceSquared = float.MaxValue;
                 foreach (var ally in Mission.Current.Agents)
                 {
-                    if (!IsValidHealingTarget(ally))
+                    if (!IsValidHealingTarget(ally) ||
+                        !BannerlordApi.CanAgentsNavigateToEachOther(healer, ally))
                         continue;
 
                     float distanceSquared = healer.Position.DistanceSquared(ally.Position);
@@ -263,7 +265,8 @@ namespace BLTAdoptAHero.Powers
                     return;
                 }
 
-                float anchorDistanceSquared = IsValidHealingTarget(leashAnchor)
+                float anchorDistanceSquared = IsValidHealingTarget(leashAnchor) &&
+                                              BannerlordApi.CanAgentsNavigateToEachOther(healer, leashAnchor)
                     ? healer.Position.DistanceSquared(leashAnchor.Position)
                     : float.MaxValue;
                 if (nearestAlly != leashAnchor &&
@@ -284,7 +287,8 @@ namespace BLTAdoptAHero.Powers
 
             private void TryUpdateLeashDestination(float releaseDistance)
             {
-                if (!IsValidHealingTarget(leashAnchor))
+                if (!IsValidHealingTarget(leashAnchor) ||
+                    !BannerlordApi.CanAgentsNavigateToEachOther(healer, leashAnchor))
                     return;
 
                 Vec2 towardHealer = healer.Position.AsVec2 - leashAnchor.Position.AsVec2;

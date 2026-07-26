@@ -1,7 +1,9 @@
+using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
+using NavalDLC.Missions;
 using NavalDLC.Missions.Objects;
 
 namespace BLTAdoptAHero
@@ -54,6 +56,34 @@ namespace BLTAdoptAHero
 #else
             return mission?.IsNavalRaidBattle == true;
 #endif
+        }
+
+        public static bool CanAgentsNavigateToEachOther(Agent first, Agent second)
+        {
+            if (first == null || second == null)
+                return false;
+
+            var mission = Mission.Current;
+            if (mission?.IsNavalBattle != true && !IsNavalRaidBattle(mission))
+                return true;
+
+            var firstNaval = first.GetComponent<AgentNavalComponent>();
+            var secondNaval = second.GetComponent<AgentNavalComponent>();
+            var firstShip = firstNaval?.SteppedShip;
+            var secondShip = secondNaval?.SteppedShip;
+            if (firstShip != null && secondShip != null)
+            {
+                if (firstShip == secondShip)
+                    return true;
+
+                ulong firstIsland = firstNaval.GetSteppedCombinedShipIsland();
+                ulong secondIsland = secondNaval.GetSteppedCombinedShipIsland();
+                return firstIsland != 0UL && firstIsland == secondIsland;
+            }
+
+            var destination = second.Position;
+            float pathDistance = first.GetPathDistanceToPoint(ref destination);
+            return pathDistance >= 0f && !float.IsNaN(pathDistance) && !float.IsInfinity(pathDistance);
         }
 
         public static bool IsAvailableForNavalSpawn(MissionShip ship)

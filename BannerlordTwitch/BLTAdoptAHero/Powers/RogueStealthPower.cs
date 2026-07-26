@@ -329,7 +329,8 @@ namespace BLTAdoptAHero.Powers
                 foreach (var other in enemies)
                 {
                     if (other == candidate || candidate.Team == null || other.Team == null ||
-                        !candidate.Team.IsFriendOf(other.Team))
+                        !candidate.Team.IsFriendOf(other.Team) ||
+                        !BannerlordApi.CanAgentsNavigateToEachOther(candidate, other))
                         continue;
 
                     nearestSquared = Math.Min(nearestSquared,
@@ -366,6 +367,7 @@ namespace BLTAdoptAHero.Powers
                 var nearbyEnemies = Mission.Current.Agents
                     .Where(IsValidEnemy)
                     .Where(enemy => !enemy.IsMount)
+                    .Where(enemy => BannerlordApi.CanAgentsNavigateToEachOther(rogue, enemy))
                     .Where(enemy => rogue.Position.DistanceSquared(enemy.Position) <=
                                     power.DisengagementRadius * power.DisengagementRadius)
                     .ToList();
@@ -587,7 +589,8 @@ namespace BLTAdoptAHero.Powers
 
             private static Agent FindReplacementTarget(Agent enemy) => Mission.Current?.Agents
                 .Where(candidate => IsValidVisibleTarget(enemy, candidate))
-                .OrderBy(candidate => enemy.Position.DistanceSquared(candidate.Position))
+                .OrderByDescending(candidate => BannerlordApi.CanAgentsNavigateToEachOther(enemy, candidate))
+                .ThenBy(candidate => enemy.Position.DistanceSquared(candidate.Position))
                 .FirstOrDefault();
 
             private static bool IsValidVisibleTarget(Agent observer, Agent candidate) =>

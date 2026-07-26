@@ -157,7 +157,8 @@ namespace BLTAdoptAHero.Powers
             {
                 foreach (var pair in trackedEnemies.ToList())
                 {
-                    if (!IsValidEnemy(pair.Key))
+                    if (!IsValidEnemy(pair.Key) ||
+                        !BannerlordApi.CanAgentsNavigateToEachOther(tank, pair.Key))
                     {
                         trackedEnemies.Remove(pair.Key);
                         continue;
@@ -177,7 +178,8 @@ namespace BLTAdoptAHero.Powers
                 {
                     bool valid = IsValidEnemy(enemy);
                     float distanceSquared = valid ? tank.Position.DistanceSquared(enemy.Position) : float.MaxValue;
-                    if (!valid || distanceSquared > radiusSquared)
+                    if (!valid || distanceSquared > radiusSquared ||
+                        !BannerlordApi.CanAgentsNavigateToEachOther(tank, enemy))
                         trackedEnemies.Remove(enemy);
                 }
 
@@ -190,7 +192,8 @@ namespace BLTAdoptAHero.Powers
 
                 var agents = Mission.Current.Agents;
                 var untrackedEnemies = agents
-                    .Where(enemy => !trackedEnemies.ContainsKey(enemy) && IsValidEnemy(enemy))
+                    .Where(enemy => !trackedEnemies.ContainsKey(enemy) && IsValidEnemy(enemy) &&
+                                    BannerlordApi.CanAgentsNavigateToEachOther(tank, enemy))
                     .Select(enemy => new
                     {
                         Enemy = enemy,
@@ -324,6 +327,7 @@ namespace BLTAdoptAHero.Powers
                 float allySearchRadiusSquared = MovementAllySearchRadius * MovementAllySearchRadius;
                 Agent nearestAlly = agents
                     .Where(IsValidAlly)
+                    .Where(ally => BannerlordApi.CanAgentsNavigateToEachOther(tank, ally))
                     .Where(ally => tank.Position.DistanceSquared(ally.Position) <= allySearchRadiusSquared)
                     .OrderBy(ally => tank.Position.DistanceSquared(ally.Position))
                     .FirstOrDefault();
