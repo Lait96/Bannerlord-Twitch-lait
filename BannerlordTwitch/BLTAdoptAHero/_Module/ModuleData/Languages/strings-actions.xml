@@ -1447,6 +1447,10 @@
 		<string id="BLTFormationDetachmentsDesc" text="Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls, focus, fire and mount) and control their retinue. When disabled, these commands are unavailable; formation selection and front/back positioning still work."/>
 		<string id="BLTFormationEnemyFollowName" text="Enemy follow"/>
 		<string id="BLTFormationEnemyFollowDesc" text="Allow enemy BLT characters to use follow against the streamer. This effectively makes the streamer their priority target."/>
+		<string id="BLTFormationAllowHunterName" text="Hunter commands"/>
+		<string id="BLTFormationAllowHunterDesc" text="Allow viewers to enable or disable hunting enemy BLT heroes."/>
+		<string id="BLTFormationAllowSiegeName" text="Siege weapon entry"/>
+		<string id="BLTFormationAllowSiegeDesc" text="Allow viewers to occupy ranged siege weapons. Leaving a siege weapon is always available."/>
 		<string id="BLTFormationUsageNumber" text="&lt;strong&gt;Usage:&lt;/strong&gt; number"/>
 		<string id="BLTFormationUsageFrontBack" text="- front/back"/>
 		<string id="BLTFormationUsageHeroCommands" text="- charge/hold/follow/return/gate/walls"/>
@@ -1467,6 +1471,34 @@
 		<string id="BLTFormationSubFire" text="fire"/>
 		<string id="BLTFormationSubMount" text="mount"/>
 		<string id="BLTFormationSubFocus" text="focus"/>
+		<string id="BLTFormationSubLayout" text="layout"/>
+		<string id="BLTFormationSubIgnore" text="ignore"/>
+		<string id="BLTFormationSubHunter" text="hunter"/>
+		<string id="BLTFormationSubSiege" text="siege"/>
+		<string id="BLTFormationSubStatus" text="status"/>
+		<string id="BLTFormationLayoutLeft" text="left"/>
+		<string id="BLTFormationLayoutCenter" text="center"/>
+		<string id="BLTFormationLayoutRight" text="right"/>
+		<string id="BLTFormationLayoutFront" text="front"/>
+		<string id="BLTFormationLayoutBack" text="back"/>
+		<string id="BLTFormationDefault" text="default"/>
+		<string id="BLTFormationLayoutUsage" text="Usage: layout left/center/right/front/back/default"/>
+		<string id="BLTFormationIgnoreReset" text="reset"/>
+		<string id="BLTFormationIgnoreUsage" text="Usage: ignore infantry/ranged/cavalry/horsearcher/reset"/>
+		<string id="BLTFormationHunterOn" text="on"/>
+		<string id="BLTFormationHunterOff" text="off"/>
+		<string id="BLTFormationHunterUsage" text="Usage: hunter on/off"/>
+		<string id="BLTFormationHunterEnabled" text="Hunter preference enabled; primary order unchanged"/>
+		<string id="BLTFormationHunterDisabled" text="Hunter preference disabled; primary order unchanged"/>
+		<string id="BLTFormationSiegeEnter" text="enter"/>
+		<string id="BLTFormationSiegeLeave" text="leave"/>
+		<string id="BLTFormationSiegeUsage" text="Usage: siege enter/leave"/>
+		<string id="BLTFormationSecondaryUpdated" text="Formation preference updated; primary order unchanged"/>
+		<string id="BLTFormationStatusDefault" text="Primary: formation; no secondary preferences"/>
+		<string id="BLTFormationStatusLine" text="Primary: {primary}; layout: {depth}/{side}; ignored: {ignored}; hunter: {hunter} ({target}); focus: {focus}; fire: {fire}; mount: {mount}; siege: {siege}"/>
+		<string id="BLTFormationStatusAssigned" text="assigned"/>
+		<string id="BLTFormationUsageSecondary" text="- layout left/center/right/front/back/default, ignore class/reset, hunter on/off"/>
+		<string id="BLTFormationUsageSiegeStatus" text="- siege enter/leave, status"/>
 		<string id="BLTFormationFireHold" text="hold"/>
 		<string id="BLTFormationFireDefault" text="default"/>
 		<string id="BLTFormationMountOn" text="on"/>
@@ -1487,6 +1519,8 @@
 		<string id="BLTFormationRetinueCommandOk" text="Retinue: {command} ok ({count})"/>
 		<string id="BLTFormationReturned" text="Returned to formation control"/>
 		<string id="BLTFormationEnemyFollowOff" text="Enemy follow is disabled"/>
+		<string id="BLTFormationHunterOffByStreamer" text="Hunter commands are disabled by the streamer"/>
+		<string id="BLTFormationSiegeEntryOff" text="Entering siege weapons is disabled by the streamer"/>
 		<string id="BLTFormationNoNaval" text="Cannot change formation in naval battle"/>
 		<string id="BLTFormationNoTournament" text="Cannot change formation in tournament"/>
 		<string id="BLTFormationNoFrontBackSiege" text="Front/back movement is disabled in sieges"/>

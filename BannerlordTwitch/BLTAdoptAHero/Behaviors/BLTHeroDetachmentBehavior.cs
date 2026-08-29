@@ -12,7 +12,35 @@ namespace BLTAdoptAHero
 {
     internal class BLTHeroDetachmentBehavior : AutoMissionBehavior<BLTHeroDetachmentBehavior>
     {
-        private enum DetachmentOrder { None, Charge, Hold, Follow, Navigate }
+        private enum DetachmentOrder { None, Charge, Hold, Follow, Navigate, Siege }
+
+        public enum FormationSidePreference { Default, Left, Center, Right }
+        public enum FormationDepthPreference { Default, Front, Back }
+
+        public sealed class ControlStatus
+        {
+            public string PrimaryOrder;
+            public FormationSidePreference Side;
+            public FormationDepthPreference Depth;
+            public IReadOnlyCollection<FormationClass> IgnoredClasses;
+            public bool Hunter;
+            public Agent HunterTarget;
+            public FormationClass? FocusClass;
+            public FiringOrder.RangedWeaponUsageOrderEnum? Firing;
+            public RidingOrder.RidingOrderEnum? Riding;
+            public RangedSiegeWeapon SiegeWeapon;
+            public bool IsDetached;
+        }
+
+        private sealed class ControlPreferences
+        {
+            public FormationSidePreference Side;
+            public FormationDepthPreference Depth;
+            public readonly HashSet<FormationClass> IgnoredClasses = new();
+            public bool Hunter;
+            public Agent HunterTarget;
+            public float LastFormationPositionUpdate;
+        }
 
         private class DetachmentState
         {
@@ -26,13 +54,90 @@ namespace BLTAdoptAHero
             public FiringOrder.RangedWeaponUsageOrderEnum? FiringOverride;
             public RidingOrder.RidingOrderEnum? RidingOverride;
             public int SelectedMountIndex = -1;
+            public RangedSiegeWeapon SiegeWeapon;
+            public DetachmentOrder PreviousOrder;
+            public RidingOrder.RidingOrderEnum? PreviousRidingOverride;
+            public int PreviousSelectedMountIndex = -1;
         }
 
         private readonly Dictionary<Agent, DetachmentState> _detachments = new();
+        private readonly Dictionary<Agent, ControlPreferences> _preferences = new();
+        private readonly Dictionary<StandingPoint, Agent> _siegeReservations = new();
         // Reused buffer to avoid allocation on every tick
         private readonly List<KeyValuePair<Agent, DetachmentState>> _tickBuffer = new();
+        private readonly List<KeyValuePair<Agent, ControlPreferences>> _preferenceTickBuffer = new();
 
         public bool IsDetached(Agent agent) => _detachments.ContainsKey(agent);
+
+        private ControlPreferences GetPreferences(Agent agent)
+        {
+            if (!_preferences.TryGetValue(agent, out var preferences))
+                _preferences[agent] = preferences = new ControlPreferences();
+            return preferences;
+        }
+
+        public void SetFormationSide(Agent agent, FormationSidePreference preference)
+            => GetPreferences(agent).Side = preference;
+
+        public void SetFormationDepth(Agent agent, FormationDepthPreference preference)
+            => GetPreferences(agent).Depth = preference;
+
+        public bool SetIgnoredClass(Agent agent, FormationClass formationClass, bool ignored)
+        {
+            var preferences = GetPreferences(agent);
+            if (ignored)
+            {
+                if (_detachments.TryGetValue(agent, out var state) && state.FocusClass == formationClass)
+                    state.FocusClass = null;
+                return preferences.IgnoredClasses.Add(formationClass);
+            }
+            return preferences.IgnoredClasses.Remove(formationClass);
+        }
+
+        public void ClearIgnoredClasses(Agent agent) => GetPreferences(agent).IgnoredClasses.Clear();
+
+        public void SetHunter(Agent agent, bool enabled)
+        {
+            var preferences = GetPreferences(agent);
+            preferences.Hunter = enabled;
+            if (!enabled)
+            {
+                preferences.HunterTarget = null;
+                agent.SetTargetAgent(null);
+                agent.SetAutomaticTargetSelection(true);
+            }
+            ApplyTargetPreferences(agent);
+        }
+
+        public ControlStatus GetControlStatus(Agent agent)
+        {
+            _preferences.TryGetValue(agent, out var preferences);
+            _detachments.TryGetValue(agent, out var state);
+            return new ControlStatus
+            {
+                PrimaryOrder = GetOrderName(state?.Order ?? DetachmentOrder.None),
+                Side = preferences?.Side ?? FormationSidePreference.Default,
+                Depth = preferences?.Depth ?? FormationDepthPreference.Default,
+                IgnoredClasses = preferences?.IgnoredClasses.ToList() ?? new List<FormationClass>(),
+                Hunter = preferences?.Hunter == true,
+                HunterTarget = preferences?.HunterTarget,
+                FocusClass = state?.FocusClass,
+                Firing = state?.FiringOverride,
+                Riding = state?.RidingOverride,
+                SiegeWeapon = state?.SiegeWeapon,
+                IsDetached = state != null
+            };
+        }
+
+        private static string GetOrderName(DetachmentOrder order) => order switch
+        {
+            DetachmentOrder.Charge => "charge",
+            DetachmentOrder.Hold => "hold",
+            DetachmentOrder.Follow => "follow",
+            DetachmentOrder.Navigate => "navigate",
+            DetachmentOrder.Siege => "siege",
+            _ => "formation"
+        };
 
         public bool TryGetDetachment(Agent agent, out HeroDetachment detachment)
         {
@@ -87,10 +192,19 @@ namespace BLTAdoptAHero
         public string Attach(Agent agent)
         {
             if (agent == null) return "Invalid agent";
-            if (!agent.IsDetachedFromFormation) return "Not detached";
             _detachments.TryGetValue(agent, out var state);
-            if (state != null) CleanupDetachment(agent, state);
-            else agent.Formation?.AttachUnit(agent);
+            if (state != null)
+            {
+                if (agent.CurrentlyUsedGameObject != null)
+                    agent.StopUsingGameObjectMT(true, Agent.StopUsingGameObjectFlags.None);
+                ReleaseSiegeReservation(agent, state);
+                CleanupDetachment(agent, state);
+            }
+            else
+            {
+                if (!agent.IsDetachedFromFormation) return "Not detached";
+                agent.Formation?.AttachUnit(agent);
+            }
             return null;
         }
 
@@ -98,6 +212,7 @@ namespace BLTAdoptAHero
         {
             if (agent == null || !agent.IsActive()) return "Invalid agent";
             if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
+            ExitSiegeModeForNewOrder(agent, state);
             try
             {
                 agent.DisableScriptedMovement();
@@ -120,6 +235,7 @@ namespace BLTAdoptAHero
         {
             if (agent == null || !agent.IsActive()) return "Invalid agent";
             if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
+            ExitSiegeModeForNewOrder(agent, state);
 
             state.HoldPosition = agent.GetWorldPosition();
             state.Detachment.ClearFollowTarget();
@@ -134,6 +250,7 @@ namespace BLTAdoptAHero
             if (agent == null || !agent.IsActive()) return "Invalid agent";
             if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
             if (Mission.Current?.MainAgent == null) return "Invalid follow target";
+            ExitSiegeModeForNewOrder(agent, state);
 
             agent.DisableScriptedMovement();
             agent.DisableScriptedCombatMovement();
@@ -149,6 +266,7 @@ namespace BLTAdoptAHero
             if (agent == null || !agent.IsActive()) return "Invalid agent";
             if (target == null || !target.IsActive()) return "Invalid follow target";
             if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
+            ExitSiegeModeForNewOrder(agent, state);
 
             agent.DisableScriptedMovement();
             agent.DisableScriptedCombatMovement();
@@ -173,6 +291,7 @@ namespace BLTAdoptAHero
 
             if (target == null) return "No target formation";
 
+            GetPreferences(agent).IgnoredClasses.Remove(targetClass);
             state.FocusClass = targetClass;
             ApplyFocus(agent, state);
             return null;
@@ -209,11 +328,139 @@ namespace BLTAdoptAHero
             return null;
         }
 
+        public string UseSiegeWeapon(Agent agent)
+        {
+            if (!Mission.Current.IsSiegeBattle) return "Not a siege";
+            if (agent == null || !agent.IsActive()) return "Invalid agent";
+            if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
+
+            var candidates = Mission.Current.ActiveMissionObjects
+                .OfType<RangedSiegeWeapon>()
+                .Where(weapon => !weapon.IsDeactivated && !weapon.IsDestroyed)
+                .Where(weapon => weapon.Side == agent.Team.Side)
+                .Where(weapon => weapon.PilotStandingPoint != null
+                                 && !weapon.PilotStandingPoint.IsDeactivated
+                                 && !weapon.PilotStandingPoint.IsDisabledForAgent(agent))
+                .OrderBy(weapon => weapon.GameEntity.GlobalPosition.DistanceSquared(agent.Position))
+                .ToList();
+
+            if (candidates.Count == 0) return "No available ranged siege weapon";
+
+            RangedSiegeWeapon selected = null;
+            foreach (var weapon in candidates)
+            {
+                var pilot = weapon.PilotStandingPoint;
+                var occupant = pilot.UserAgent ?? pilot.MovingAgent;
+                if (_siegeReservations.TryGetValue(pilot, out var reservedBy)
+                    && reservedBy != null && reservedBy.IsActive() && reservedBy != agent)
+                    continue;
+                if (occupant != null && occupant != agent && occupant.GetAdoptedHero() != null)
+                    continue;
+                selected = weapon;
+                break;
+            }
+
+            if (selected == null) return "All ranged siege weapons are occupied by BLT heroes";
+
+            ReleaseSiegeReservation(agent, state);
+            var standingPoint = selected.PilotStandingPoint;
+            var npc = standingPoint.UserAgent ?? standingPoint.MovingAgent;
+            if (npc != null && npc != agent)
+            {
+                if (standingPoint.UserAgent == npc)
+                    npc.StopUsingGameObjectMT(true, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
+                else
+                    standingPoint.OnMoveToStopped(npc);
+            }
+
+            state.PreviousOrder = state.Order == DetachmentOrder.Siege ? state.PreviousOrder : state.Order;
+            if (state.Order != DetachmentOrder.Siege)
+            {
+                state.PreviousRidingOverride = state.RidingOverride;
+                state.PreviousSelectedMountIndex = state.SelectedMountIndex;
+            }
+            state.RidingOverride = RidingOrder.RidingOrderEnum.Dismount;
+            state.SelectedMountIndex = -1;
+            ApplyRidingOrder(agent, state);
+            state.SiegeWeapon = selected;
+            state.Order = DetachmentOrder.Siege;
+            _siegeReservations[standingPoint] = agent;
+            standingPoint.FavoredUser = agent;
+            BeginUsingSiegeWeapon(agent, state);
+            return null;
+        }
+
+        public string LeaveSiegeWeapon(Agent agent)
+        {
+            if (agent == null || !agent.IsActive()) return "Invalid agent";
+            if (!_detachments.TryGetValue(agent, out var state) || state.SiegeWeapon == null)
+                return "Hero is not assigned to a siege weapon";
+
+            if (agent.CurrentlyUsedGameObject != null)
+                agent.StopUsingGameObjectMT(true, Agent.StopUsingGameObjectFlags.None);
+            ReleaseSiegeReservation(agent, state);
+            var previousOrder = state.PreviousOrder;
+            state.Order = previousOrder;
+            state.PreviousOrder = DetachmentOrder.None;
+            state.RidingOverride = state.PreviousRidingOverride;
+            state.PreviousRidingOverride = null;
+            state.SelectedMountIndex = state.PreviousSelectedMountIndex;
+            state.PreviousSelectedMountIndex = -1;
+            if (previousOrder == DetachmentOrder.None)
+                return Attach(agent);
+            ReapplyPrimaryOrder(agent, state);
+            return null;
+        }
+
+        private void BeginUsingSiegeWeapon(Agent agent, DetachmentState state)
+        {
+            if (agent.MountAgent != null) return;
+            var point = state.SiegeWeapon?.PilotStandingPoint;
+            if (point == null || point.IsDeactivated) return;
+            if (point.UserAgent != null && point.UserAgent != agent) return;
+            if (agent.CurrentlyUsedGameObject != point)
+                agent.UseGameObject(point, state.SiegeWeapon.PilotStandingPointSlotIndex);
+        }
+
+        private void ReleaseSiegeReservation(Agent agent, DetachmentState state)
+        {
+            var point = state?.SiegeWeapon?.PilotStandingPoint;
+            if (point != null && _siegeReservations.TryGetValue(point, out var owner) && owner == agent)
+            {
+                _siegeReservations.Remove(point);
+                if (point.FavoredUser == agent) point.FavoredUser = null;
+            }
+            if (state != null) state.SiegeWeapon = null;
+        }
+
+        private void ExitSiegeModeForNewOrder(Agent agent, DetachmentState state)
+        {
+            if (state?.SiegeWeapon == null) return;
+            if (agent.CurrentlyUsedGameObject != null)
+                agent.StopUsingGameObjectMT(true, Agent.StopUsingGameObjectFlags.None);
+            ReleaseSiegeReservation(agent, state);
+            state.PreviousOrder = DetachmentOrder.None;
+            state.RidingOverride = state.PreviousRidingOverride;
+            state.PreviousRidingOverride = null;
+            state.SelectedMountIndex = state.PreviousSelectedMountIndex;
+            state.PreviousSelectedMountIndex = -1;
+        }
+
+        private static void ReapplyPrimaryOrder(Agent agent, DetachmentState state)
+        {
+            switch (state.Order)
+            {
+                case DetachmentOrder.Charge: ApplyCharge(agent, state); break;
+                case DetachmentOrder.Hold: ApplyHold(agent, state); break;
+            }
+        }
+
         public string TargetDoor(Agent agent)
         {
             if (!Mission.Current.IsSiegeBattle) return "Not a siege";
             if (agent == null || !agent.IsActive()) return "Invalid agent";
             if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
+            ExitSiegeModeForNewOrder(agent, state);
             state.Detachment.ClearFollowTarget();
 
             try
@@ -272,6 +519,7 @@ namespace BLTAdoptAHero
             if (!Mission.Current.IsSiegeBattle) return "Not a siege";
             if (agent == null || !agent.IsActive()) return "Invalid agent";
             if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
+            ExitSiegeModeForNewOrder(agent, state);
             state.Detachment.ClearFollowTarget();
 
             try
@@ -451,10 +699,45 @@ namespace BLTAdoptAHero
                         case DetachmentOrder.Navigate:
                             ApplyNavigate(agent, state);
                             break;
+                        case DetachmentOrder.Siege:
+                            if (state.SiegeWeapon == null || state.SiegeWeapon.IsDestroyed || state.SiegeWeapon.IsDeactivated)
+                            {
+                                ReleaseSiegeReservation(agent, state);
+                                var previousOrder = state.PreviousOrder;
+                                state.Order = previousOrder;
+                                state.PreviousOrder = DetachmentOrder.None;
+                                state.RidingOverride = state.PreviousRidingOverride;
+                                state.PreviousRidingOverride = null;
+                                state.SelectedMountIndex = state.PreviousSelectedMountIndex;
+                                state.PreviousSelectedMountIndex = -1;
+                                if (previousOrder == DetachmentOrder.None)
+                                {
+                                    Attach(agent);
+                                    continue;
+                                }
+                                ReapplyPrimaryOrder(agent, state);
+                            }
+                            else
+                                BeginUsingSiegeWeapon(agent, state);
+                            break;
                     }
                 }
 
-                ApplyOverrides(agent, state);
+                if (state.Order == DetachmentOrder.Siege)
+                    ApplyRidingOrder(agent, state);
+                else
+                    ApplyOverrides(agent, state);
+            }
+
+            _preferenceTickBuffer.Clear();
+            _preferenceTickBuffer.AddRange(_preferences);
+            foreach (var pair in _preferenceTickBuffer)
+            {
+                var agent = pair.Key;
+                if (agent == null || !agent.IsActive()) continue;
+                if (_detachments.ContainsKey(agent)) continue;
+                ApplyTargetPreferences(agent);
+                ApplyFormationPositionPreference(agent, pair.Value);
             }
         }
 
@@ -462,19 +745,31 @@ namespace BLTAdoptAHero
             AgentState agentState, KillingBlow blow)
         {
             if (killedAgent != null && _detachments.TryGetValue(killedAgent, out var state))
+            {
+                ReleaseSiegeReservation(killedAgent, state);
                 CleanupDetachmentOnDeath(killedAgent, state);
+            }
+            if (killedAgent != null) _preferences.Remove(killedAgent);
         }
 
         public override void OnAgentDeleted(Agent affectedAgent)
         {
             if (affectedAgent != null)
+            {
+                if (_detachments.TryGetValue(affectedAgent, out var state))
+                    ReleaseSiegeReservation(affectedAgent, state);
                 _detachments.Remove(affectedAgent);
+                _preferences.Remove(affectedAgent);
+            }
         }
 
         protected override void OnEndMission()
         {
             _detachments.Clear();
             _tickBuffer.Clear();
+            _preferences.Clear();
+            _preferenceTickBuffer.Clear();
+            _siegeReservations.Clear();
         }
 
         // --- Helpers ---
@@ -539,13 +834,13 @@ namespace BLTAdoptAHero
             agent.HumanAIComponent?.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.Default);
         }
 
-        private static void ApplyOverrides(Agent agent, DetachmentState state)
+        private void ApplyOverrides(Agent agent, DetachmentState state)
         {
             agent.HumanAIComponent?.RefreshBehaviorValues(
                 state.MovementBehaviorOrder,
                 agent.Formation?.ArrangementOrder.OrderEnum ?? ArrangementOrder.ArrangementOrderEnum.Line);
 
-            ApplyFocus(agent, state);
+            ApplyTargetPreferences(agent);
 
             if (state.FiringOverride.HasValue)
                 agent.SetFiringOrder(state.FiringOverride.Value);
@@ -554,9 +849,12 @@ namespace BLTAdoptAHero
                 ApplyRidingOrder(agent, state);
         }
 
-        private static void ApplyFocus(Agent agent, DetachmentState state)
+        private void ApplyFocus(Agent agent, DetachmentState state)
         {
             if (!state.FocusClass.HasValue) return;
+
+            var preferences = GetPreferences(agent);
+            if (preferences.IgnoredClasses.Contains(state.FocusClass.Value)) return;
 
             var target = Mission.Current.Teams
                 .Where(team => team != null && team.IsEnemyOf(agent.Team))
@@ -569,6 +867,98 @@ namespace BLTAdoptAHero
             if (target == null) return;
             agent.SetAutomaticTargetSelection(true);
             agent.SetTargetFormationIndex(target.Index);
+        }
+
+        private void ApplyTargetPreferences(Agent agent)
+        {
+            if (!_preferences.TryGetValue(agent, out var preferences)) return;
+
+            if (preferences.Hunter)
+            {
+                var target = Mission.Current.Agents
+                    .Where(candidate => candidate != null && candidate.IsActive()
+                                        && candidate.Team != null && candidate.Team.IsEnemyOf(agent.Team)
+                                        && candidate.GetAdoptedHero() != null
+                                        && (candidate.Formation == null
+                                            || !preferences.IgnoredClasses.Contains(candidate.Formation.PhysicalClass)))
+                    .OrderBy(candidate => candidate.Position.DistanceSquared(agent.Position))
+                    .FirstOrDefault();
+                preferences.HunterTarget = target;
+                if (target != null)
+                {
+                    agent.SetAutomaticTargetSelection(false);
+                    agent.SetTargetAgent(target);
+                    if (target.Formation != null) agent.SetTargetFormationIndex(target.Formation.Index);
+                    return;
+                }
+                agent.SetTargetAgent(null);
+                agent.SetAutomaticTargetSelection(true);
+            }
+            else
+                preferences.HunterTarget = null;
+
+            if (_detachments.TryGetValue(agent, out var state) && state.FocusClass.HasValue
+                && !preferences.IgnoredClasses.Contains(state.FocusClass.Value))
+            {
+                ApplyFocus(agent, state);
+                return;
+            }
+
+            if (preferences.IgnoredClasses.Count > 0)
+            {
+                var target = Mission.Current.Teams
+                    .Where(team => team != null && team.IsEnemyOf(agent.Team))
+                    .SelectMany(team => team.FormationsIncludingSpecialAndEmpty)
+                    .Where(formation => formation != null && formation.CountOfUnits > 0
+                                        && !preferences.IgnoredClasses.Contains(formation.PhysicalClass))
+                    .OrderBy(formation => formation.CachedAveragePosition.DistanceSquared(agent.Position.AsVec2))
+                    .FirstOrDefault();
+                agent.SetAutomaticTargetSelection(true);
+                agent.SetTargetFormationIndex(target?.Index ?? -1);
+            }
+        }
+
+        private static void ApplyFormationPositionPreference(Agent agent, ControlPreferences preferences)
+        {
+            if (preferences.Side == FormationSidePreference.Default
+                && preferences.Depth == FormationDepthPreference.Default) return;
+            if (Mission.Current.CurrentTime - preferences.LastFormationPositionUpdate < 2f) return;
+            preferences.LastFormationPositionUpdate = Mission.Current.CurrentTime;
+
+            var formation = agent.Formation;
+            if (formation?.Arrangement == null || agent is not IFormationUnit unit) return;
+            int width = Math.Max(1, (int)formation.Arrangement.Width);
+            int currentFile = unit.FormationFileIndex;
+            int currentRank = unit.FormationRankIndex;
+            if (currentFile < 0 || currentRank < 0) return;
+
+            bool Matches(IFormationUnit candidate)
+            {
+                bool sideMatches = preferences.Side switch
+                {
+                    FormationSidePreference.Left => candidate.FormationFileIndex < Math.Max(1, width / 3),
+                    FormationSidePreference.Center => candidate.FormationFileIndex >= width / 3
+                                                      && candidate.FormationFileIndex < Math.Max(width / 3 + 1, width * 2 / 3),
+                    FormationSidePreference.Right => candidate.FormationFileIndex >= width * 2 / 3,
+                    _ => true
+                };
+                bool depthMatches = preferences.Depth switch
+                {
+                    FormationDepthPreference.Front => candidate.FormationRankIndex == 0,
+                    FormationDepthPreference.Back => candidate.FormationRankIndex == formation.Arrangement.RankCount - 1,
+                    _ => true
+                };
+                return sideMatches && depthMatches;
+            }
+
+            if (Matches(unit)) return;
+            var candidate = formation.Arrangement.GetAllUnits()
+                .Where(other => other != unit && other is Agent otherAgent && otherAgent.GetHero() == null)
+                .Where(Matches)
+                .OrderBy(other => Math.Abs(other.FormationFileIndex - currentFile)
+                                  + Math.Abs(other.FormationRankIndex - currentRank))
+                .FirstOrDefault();
+            if (candidate != null) formation.Arrangement.SwitchUnitLocations(candidate, unit);
         }
 
         private static void ApplyRidingOrder(Agent agent, DetachmentState state)
