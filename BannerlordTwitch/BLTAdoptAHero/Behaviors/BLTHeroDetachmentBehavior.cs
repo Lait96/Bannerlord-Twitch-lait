@@ -71,7 +71,50 @@ namespace BLTAdoptAHero
         private readonly List<Agent> _rangedPriorityBuffer = new();
         private float _rangedPriorityTimer;
 
-        public bool IsDetached(Agent agent) => _detachments.ContainsKey(agent);
+        public bool IsDetached(Agent agent)
+        {
+            if (agent == null || !_detachments.TryGetValue(agent, out var state)) return false;
+            if (ReferenceEquals(agent.Detachment, state.Detachment)) return true;
+            ReleaseStaleDetachment(agent, state);
+            return false;
+        }
+
+        private void ReleaseStaleDetachment(Agent agent, DetachmentState state)
+        {
+            _detachments.Remove(agent);
+            ReleaseSiegeReservation(agent, state, !agent.IsDetachedFromFormation);
+            state.Detachment.ForgetAgent(agent);
+            DestroyOwnedDetachment(state.Detachment);
+            if (agent.IsActive() && !agent.IsDetachedFromFormation)
+                RestoreFormationOrders(agent);
+        }
+
+        private static void DestroyOwnedDetachment(HeroDetachment detachment)
+        {
+            var manager = detachment?.ParentFormation?.Team?.DetachmentManager;
+            if (manager?.ContainsDetachment(detachment) == true)
+                manager.DestroyDetachment(detachment);
+        }
+
+        internal static void RestoreFormationOrders(Agent agent)
+        {
+            var formation = agent.Formation;
+            if (formation == null) return;
+            agent.DisableScriptedMovement();
+            agent.DisableScriptedCombatMovement();
+            agent.SetScriptedFlags(Agent.AIScriptedFrameFlags.None);
+            agent.SetScriptedCombatFlags(Agent.AISpecialCombatModeFlags.None);
+            agent.SetTargetAgent(null);
+            agent.SetTargetFormationIndex(-1);
+            agent.SetAutomaticTargetSelection(true);
+            agent.SetSelectedMountIndex(-1);
+            agent.SetFiringOrder(formation.FiringOrder.OrderEnum);
+            agent.SetRidingOrder(formation.RidingOrder.OrderEnum);
+            agent.HumanAIComponent?.RefreshBehaviorValues(
+                formation.GetReadonlyMovementOrderReference().OrderEnum, formation.ArrangementOrder.OrderEnum);
+            agent.UpdateFormationOrders();
+            agent.ForceAiBehaviorSelection();
+        }
 
         private ControlPreferences GetPreferences(Agent agent)
         {
@@ -98,7 +141,12 @@ namespace BLTAdoptAHero
             return preferences.IgnoredClasses.Remove(formationClass);
         }
 
-        public void ClearIgnoredClasses(Agent agent) => GetPreferences(agent).IgnoredClasses.Clear();
+        public void ClearIgnoredClasses(Agent agent)
+        {
+            GetPreferences(agent).IgnoredClasses.Clear();
+            agent.SetTargetFormationIndex(-1);
+            ApplyTargetPreferences(agent);
+        }
 
         public void SetHunter(Agent agent, bool enabled)
         {
@@ -108,6 +156,7 @@ namespace BLTAdoptAHero
             {
                 preferences.HunterTarget = null;
                 agent.SetTargetAgent(null);
+                agent.SetTargetFormationIndex(-1);
                 agent.SetAutomaticTargetSelection(true);
             }
             ApplyTargetPreferences(agent);
@@ -115,6 +164,7 @@ namespace BLTAdoptAHero
 
         public ControlStatus GetControlStatus(Agent agent)
         {
+            IsDetached(agent);
             _preferences.TryGetValue(agent, out var preferences);
             _detachments.TryGetValue(agent, out var state);
             return new ControlStatus
@@ -146,7 +196,7 @@ namespace BLTAdoptAHero
 
         public bool TryGetDetachment(Agent agent, out HeroDetachment detachment)
         {
-            if (agent != null && _detachments.TryGetValue(agent, out var state))
+            if (IsDetached(agent) && _detachments.TryGetValue(agent, out var state))
             {
                 detachment = state.Detachment;
                 return true;
@@ -158,27 +208,22 @@ namespace BLTAdoptAHero
         public string Detach(Agent agent)
         {
             if (agent == null || !agent.IsActive()) return "Invalid agent";
-            if (_detachments.ContainsKey(agent)) return "Already detached";
+            if (IsDetached(agent)) return "Already detached";
 
             var formation = agent.Formation;
             if (formation == null) return "No formation";
 
+            HeroDetachment detachment = null;
             try
             {
-                var detachment = new HeroDetachment(formation);
-                formation.JoinDetachment(detachment);
-
-                
                 if (agent.IsDetachedFromFormation)
                 {
                     if (!agent.TryAttachToFormation())
-                    {
                         return "Failed to detach";
-                    }
-                    
                 }
-                              
-                agent.Formation?.DetachUnit(agent, false);
+                detachment = new HeroDetachment(formation);
+                formation.JoinDetachment(detachment);
+                formation.DetachUnit(agent, true);
                 detachment.AddAgentAtSlotIndex(agent, 0);
         
                 _detachments[agent] = new DetachmentState
@@ -190,6 +235,11 @@ namespace BLTAdoptAHero
             catch (Exception e)
             {
                 Log.Error($"Detach failed for agent {agent?.Name ?? "unknown"}: {e}");
+                detachment?.RemoveAgent(agent);
+                DestroyOwnedDetachment(detachment);
+                if (formation.DetachedUnits.Contains(agent)) formation.AttachUnit(agent);
+                RestoreFormationOrders(agent);
+                return "{=BLTFormationControlFailed}Could not apply the formation command".Translate();
             }
             return null;
         }
@@ -197,6 +247,7 @@ namespace BLTAdoptAHero
         public string Attach(Agent agent)
         {
             if (agent == null) return "Invalid agent";
+            IsDetached(agent);
             _detachments.TryGetValue(agent, out var state);
             if (state != null)
             {
@@ -208,7 +259,8 @@ namespace BLTAdoptAHero
             else
             {
                 if (!agent.IsDetachedFromFormation) return "Not detached";
-                agent.Formation?.AttachUnit(agent);
+                agent.TryAttachToFormation();
+                RestoreFormationOrders(agent);
             }
             return null;
         }
@@ -231,7 +283,11 @@ namespace BLTAdoptAHero
                 state.Order = DetachmentOrder.Charge;
                 ApplyCharge(agent, state);
             }
-            catch { }
+            catch (Exception e)
+            {
+                Log.Error($"Charge failed for {agent.Name}: {e}");
+                return "{=BLTFormationControlFailed}Could not apply the formation command".Translate();
+            }
 
             return null;
         }
@@ -306,13 +362,7 @@ namespace BLTAdoptAHero
         {
             if (agent == null || !agent.IsActive()) return "Invalid agent";
             if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
-            var target = Mission.Current.Teams
-                .Where(team => team != null && team.IsEnemyOf(agent.Team))
-                .SelectMany(team => team.FormationsIncludingSpecialAndEmpty)
-                .Where(formation => formation != null && formation.CountOfUnits > 0)
-                .Where(formation => formation.PhysicalClass == targetClass)
-                .OrderBy(formation => formation.CachedAveragePosition.DistanceSquared(agent.Position.AsVec2))
-                .FirstOrDefault();
+            var target = FindFocusFormation(agent, targetClass);
 
             if (target == null) return "No target formation";
 
@@ -321,6 +371,18 @@ namespace BLTAdoptAHero
             ApplyFocus(agent, state);
             return null;
         }
+
+        public string ValidateFocus(Agent agent, FormationClass targetClass)
+            => FindFocusFormation(agent, targetClass) == null ? "No target formation" : null;
+
+        private static Formation FindFocusFormation(Agent agent, FormationClass targetClass)
+            => Mission.Current.Teams
+                .Where(team => team != null && team.IsEnemyOf(agent.Team))
+                .SelectMany(team => team.FormationsIncludingSpecialAndEmpty)
+                .Where(formation => formation != null && formation.CountOfUnits > 0)
+                .Where(formation => formation.PhysicalClass == targetClass)
+                .OrderBy(formation => formation.CachedAveragePosition.DistanceSquared(agent.Position.AsVec2))
+                .FirstOrDefault();
 
         public string ClearFocus(Agent agent)
         {
@@ -393,12 +455,7 @@ namespace BLTAdoptAHero
             var standingPoint = selected.PilotStandingPoint;
             var npc = standingPoint.UserAgent ?? standingPoint.MovingAgent;
             if (npc != null && npc != agent)
-            {
-                if (standingPoint.UserAgent == npc)
-                    npc.StopUsingGameObjectMT(true, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
-                else
-                    standingPoint.OnMoveToStopped(npc);
-            }
+                npc.StopUsingGameObjectMT(true, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
 
             state.PreviousOrder = state.Order == DetachmentOrder.Siege ? state.PreviousOrder : state.Order;
             if (state.Order != DetachmentOrder.Siege)
@@ -445,13 +502,19 @@ namespace BLTAdoptAHero
             var point = state.SiegeWeapon?.PilotStandingPoint;
             if (point == null || point.IsDeactivated) return;
             if (point.UserAgent != null && point.UserAgent != agent) return;
-            if (agent.CurrentlyUsedGameObject != point)
-                agent.UseGameObject(point, state.SiegeWeapon.PilotStandingPointSlotIndex);
+            if (agent.CurrentlyUsedGameObject == point) return;
+            if (agent.HumanAIComponent?.GetCurrentlyMovingGameObject() != point
+                || !agent.AIMoveToGameObjectIsEnabled())
+                agent.AIMoveToGameObjectEnable(point, state.Detachment, Agent.AIScriptedFrameFlags.NoAttack);
         }
 
-        private void ReleaseSiegeReservation(Agent agent, DetachmentState state)
+        private void ReleaseSiegeReservation(Agent agent, DetachmentState state, bool stopUse = true)
         {
             var point = state?.SiegeWeapon?.PilotStandingPoint;
+            if (point != null && stopUse
+                && (agent.CurrentlyUsedGameObject == point
+                    || agent.HumanAIComponent?.GetCurrentlyMovingGameObject() == point))
+                agent.StopUsingGameObjectMT(true, Agent.StopUsingGameObjectFlags.None);
             if (point != null && _siegeReservations.TryGetValue(point, out var owner) && owner == agent)
             {
                 _siegeReservations.Remove(point);
@@ -488,8 +551,6 @@ namespace BLTAdoptAHero
             if (!Mission.Current.IsSiegeBattle) return "Not a siege";
             if (agent == null || !agent.IsActive()) return "Invalid agent";
             if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
-            ExitSiegeModeForNewOrder(agent, state);
-            state.Detachment.ClearFollowTarget();
 
             try
             {
@@ -511,10 +572,11 @@ namespace BLTAdoptAHero
 
                 if (nearestGate == null) return "No gate found";
 
-                agent.DisableScriptedMovement();
-
                 if (agent.Team.IsAttacker)
                 {
+                    ExitSiegeModeForNewOrder(agent, state);
+                    state.Detachment.ClearFollowTarget();
+                    agent.DisableScriptedMovement();
                     state.Order = DetachmentOrder.None;
                     agent.SetScriptedTargetEntity(
                         nearestGate.GameEntity,
@@ -523,12 +585,15 @@ namespace BLTAdoptAHero
                 }
                 else
                 {
-                    WorldPosition pos = nearestGate.MiddlePosition != null
-                        ? nearestGate.MiddlePosition.Position
-                        : nearestGate.WaitPosition.Position;
+                    var gatePosition = nearestGate.MiddlePosition ?? nearestGate.WaitPosition;
+                    if (gatePosition == null) return "Gate has no valid position";
+                    WorldPosition pos = gatePosition.Position;
 
                     if (!pos.IsValid) return "Gate has no valid position";
 
+                    ExitSiegeModeForNewOrder(agent, state);
+                    state.Detachment.ClearFollowTarget();
+                    agent.DisableScriptedMovement();
                     state.NavigationTarget = pos;
                     state.MovementBehaviorOrder = MovementOrder.MovementOrderEnum.Move;
                     state.Order = DetachmentOrder.Navigate;
@@ -537,7 +602,11 @@ namespace BLTAdoptAHero
                     agent.SetScriptedPosition(ref pos, false, Agent.AIScriptedFrameFlags.NeverSlowDown);
                 }
             }
-            catch { }
+            catch (Exception e)
+            {
+                Log.Error($"Gate order failed for {agent.Name}: {e}");
+                return "{=BLTFormationControlFailed}Could not apply the formation command".Translate();
+            }
 
             return null;
         }
@@ -547,15 +616,8 @@ namespace BLTAdoptAHero
             if (!Mission.Current.IsSiegeBattle) return "Not a siege";
             if (agent == null || !agent.IsActive()) return "Invalid agent";
             if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
-            ExitSiegeModeForNewOrder(agent, state);
-            state.Detachment.ClearFollowTarget();
-
             try
             {
-                state.Order = DetachmentOrder.None;
-                agent.DisableScriptedMovement();
-                agent.DisableScriptedCombatMovement();
-
                 float nearestDist = float.MaxValue;
                 WorldPosition targetPos = default;
                 bool found = false;
@@ -635,6 +697,7 @@ namespace BLTAdoptAHero
                         //else
                         //{
 
+                        if (bestWall.MiddlePosition == null) return "No defender pos";
                         targetPos = bestWall.MiddlePosition.Position;
                         found = true;
 
@@ -682,7 +745,12 @@ namespace BLTAdoptAHero
                 }
 
                 if (!found) return "No valid target (wall/tower/ladder)";
+                if (!targetPos.IsValid) return "No valid target (wall/tower/ladder)";
 
+                ExitSiegeModeForNewOrder(agent, state);
+                state.Detachment.ClearFollowTarget();
+                agent.DisableScriptedMovement();
+                agent.DisableScriptedCombatMovement();
                 state.NavigationTarget = targetPos;
                 state.MovementBehaviorOrder = MovementOrder.MovementOrderEnum.Move;
                 state.Order = DetachmentOrder.Navigate;
@@ -690,7 +758,11 @@ namespace BLTAdoptAHero
                 SetAgentNavigatingAggressively(agent);
                 agent.SetScriptedPosition(ref targetPos, false, Agent.AIScriptedFrameFlags.NeverSlowDown);
             }
-            catch { }
+            catch (Exception e)
+            {
+                Log.Error($"Wall order failed for {agent.Name}: {e}");
+                return "{=BLTFormationControlFailed}Could not apply the formation command".Translate();
+            }
             return null;
         }
 
@@ -711,6 +783,7 @@ namespace BLTAdoptAHero
                 // Re-check still in dict — could have been removed by OnAgentRemoved during tick
                 if (!_detachments.ContainsKey(agent)) continue;
                 if (!agent.IsActive()) continue;
+                if (!IsDetached(agent)) continue;
 
                 bool mounting = state.RidingOverride == RidingOrder.RidingOrderEnum.Mount
                                 && agent.MountAgent == null;
@@ -796,7 +869,12 @@ namespace BLTAdoptAHero
             if (affectedAgent != null)
             {
                 if (_detachments.TryGetValue(affectedAgent, out var state))
-                    ReleaseSiegeReservation(affectedAgent, state);
+                {
+                    _detachments.Remove(affectedAgent);
+                    ReleaseSiegeReservation(affectedAgent, state, false);
+                    state.Detachment.ForgetAgent(affectedAgent);
+                    DestroyOwnedDetachment(state.Detachment);
+                }
                 _detachments.Remove(affectedAgent);
                 _preferences.Remove(affectedAgent);
                 _rangedPriorityAgents.Remove(affectedAgent);
@@ -903,6 +981,13 @@ namespace BLTAdoptAHero
             var direction = (target.Position.AsVec2 - agent.Position.AsVec2).Normalized();
             var position = target.GetWorldPosition();
             position.SetVec2(position.AsVec2 - direction * Math.Max(0f, range));
+            if (position.IsValid && (!Mission.Current.IsPositionInsideBoundaries(position.AsVec2)
+                || position.GetNavMesh() == UIntPtr.Zero))
+            {
+                float penalty = 1f;
+                position = Mission.Current.GetAlternatePositionForNavmeshlessOrOutOfBoundsPosition(
+                    position.AsVec2 - agent.Position.AsVec2, position, ref penalty);
+            }
             if (!position.IsValid || !Mission.Current.IsPositionInsideBoundaries(position.AsVec2)
                 || position.GetNavMesh() == UIntPtr.Zero)
             {
@@ -941,7 +1026,7 @@ namespace BLTAdoptAHero
                 {
                     for (var slot = EquipmentIndex.WeaponItemBeginSlot; slot < EquipmentIndex.NumAllWeaponSlots; slot++)
                     {
-                        if (!agent.Equipment.HasAmmo(slot, out _, out _, out _)) continue;
+                        if (!agent.Equipment.HasAmmo(slot, out _, out _, out bool emptySlot) || emptySlot) continue;
                         agent.TryToWieldWeaponInSlot(slot, Agent.WeaponWieldActionType.WithAnimation, false);
                         break;
                     }
@@ -950,21 +1035,27 @@ namespace BLTAdoptAHero
         }
 
         private bool CanPrioritizeRanged(Agent agent)
-            => agent.IsActive() && agent.IsHuman && agent.IsAIControlled && !agent.IsRetreating()
-                && agent.HumanAIComponent != null && agent.CurrentlyUsedGameObject == null
-                && agent.GetFiringOrder() != (int)FiringOrder.RangedWeaponUsageOrderEnum.HoldYourFire
-                && agent.HasRangedWeapon(true)
-                && (_detachments.ContainsKey(agent)
-                    || (agent.Formation?.GetReadonlyMovementOrderReference().OrderEnum != MovementOrder.MovementOrderEnum.Retreat
-                        && agent.Formation?.GetReadonlyMovementOrderReference().OrderEnum != MovementOrder.MovementOrderEnum.FallBack))
-                && (!_detachments.TryGetValue(agent, out var state)
-                    || (state.Order != DetachmentOrder.Siege
-                        && state.FiringOverride != FiringOrder.RangedWeaponUsageOrderEnum.HoldYourFire
-                        && !(state.RidingOverride == RidingOrder.RidingOrderEnum.Mount && agent.MountAgent == null)));
+        {
+            if (!agent.IsActive() || !agent.IsHuman || !agent.IsAIControlled || agent.IsRetreating()
+                || agent.HumanAIComponent == null || agent.CurrentlyUsedGameObject != null
+                || agent.GetFiringOrder() == (int)FiringOrder.RangedWeaponUsageOrderEnum.HoldYourFire
+                || !agent.HasRangedWeapon(true)) return false;
+            if (!_detachments.TryGetValue(agent, out var state)
+                || !ReferenceEquals(agent.Detachment, state.Detachment))
+            {
+                var movement = agent.Formation?.GetReadonlyMovementOrderReference().OrderEnum;
+                return movement != MovementOrder.MovementOrderEnum.Retreat
+                    && movement != MovementOrder.MovementOrderEnum.FallBack;
+            }
+            return state.Order != DetachmentOrder.Siege
+                && state.FiringOverride != FiringOrder.RangedWeaponUsageOrderEnum.HoldYourFire
+                && !(state.RidingOverride == RidingOrder.RidingOrderEnum.Mount && agent.MountAgent == null);
+        }
 
         private void RefreshCombatBehavior(Agent agent)
         {
             _detachments.TryGetValue(agent, out var state);
+            if (state != null && !ReferenceEquals(agent.Detachment, state.Detachment)) state = null;
             agent.HumanAIComponent?.RefreshBehaviorValues(
                 state?.MovementBehaviorOrder ?? agent.Formation?.GetReadonlyMovementOrderReference().OrderEnum
                     ?? MovementOrder.MovementOrderEnum.Stop,
@@ -976,6 +1067,7 @@ namespace BLTAdoptAHero
             var ai = agent?.HumanAIComponent;
             if (ai == null || !agent.IsActive() || !agent.IsAIControlled) return;
             _detachments.TryGetValue(agent, out var state);
+            if (state != null && !ReferenceEquals(agent.Detachment, state.Detachment)) state = null;
             // RefreshBehaviorValues always selects DefaultDetached before inspecting the order.
             if (state?.Order == DetachmentOrder.Charge)
                 ai.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.Charge);
@@ -1095,7 +1187,8 @@ namespace BLTAdoptAHero
 
             var formation = agent.Formation;
             if (formation?.Arrangement == null || agent is not IFormationUnit unit) return;
-            int width = Math.Max(1, (int)formation.Arrangement.Width);
+            var units = formation.Arrangement.GetAllUnits();
+            int width = Math.Max(1, units.Select(other => other.FormationFileIndex).DefaultIfEmpty(-1).Max() + 1);
             int currentFile = unit.FormationFileIndex;
             int currentRank = unit.FormationRankIndex;
             if (currentFile < 0 || currentRank < 0) return;
@@ -1120,8 +1213,8 @@ namespace BLTAdoptAHero
             }
 
             if (Matches(unit)) return;
-            var candidate = formation.Arrangement.GetAllUnits()
-                .Where(other => other != unit && other is Agent otherAgent && otherAgent.GetHero() == null)
+            var candidate = units
+                .Where(other => other != unit && other.FormationFileIndex >= 0 && other.FormationRankIndex >= 0)
                 .Where(Matches)
                 .OrderBy(other => Math.Abs(other.FormationFileIndex - currentFile)
                                   + Math.Abs(other.FormationRankIndex - currentRank))
@@ -1146,16 +1239,15 @@ namespace BLTAdoptAHero
             try { ClearAgentNavigatingAggressively(agent); } catch { }
 
             var detachment = state.Detachment;
-            var formation = agent.Formation;
-
             try { detachment?.RemoveAgent(agent); } catch { }
-            try { if (formation != null) formation.LeaveDetachment(detachment); } catch { }
-
             _detachments.Remove(agent);
+            DestroyOwnedDetachment(detachment);
         }
 
         private void CleanupDetachment(Agent agent, DetachmentState state)
         {
+            // Remove control before AttachUnit refreshes AI and invokes our Harmony postfix.
+            _detachments.Remove(agent);
             ClearAgentNavigatingAggressively(agent);
 
             var detachment = state.Detachment;
@@ -1165,22 +1257,17 @@ namespace BLTAdoptAHero
             detachment?.RemoveAgent(agent);
 
             // 2. force engine state reset BEFORE reattach
-            if (formation != null)
-            {
-                formation.LeaveDetachment(detachment);
-
-
-                agent.TryRemoveAllDetachmentScores();
-            }
+            DestroyOwnedDetachment(detachment);
+            agent.TryRemoveAllDetachmentScores();
 
             // 3. reattach cleanly
-            if (formation != null)
+            if (formation != null && ReferenceEquals(agent.Detachment, detachment))
             {
                 formation.AttachUnit(agent);
             }
 
 
-            _detachments.Remove(agent);
+            RestoreFormationOrders(agent);
         }
     }
 
@@ -1285,6 +1372,11 @@ namespace BLTAdoptAHero
             // Guard: only call scripted movement disables if agent is still valid
             try { agent.DisableScriptedMovement(); } catch { }
             try { agent.DisableScriptedCombatMovement(); } catch { }
+        }
+
+        public void ForgetAgent(Agent agent)
+        {
+            _agents.Remove(agent);
         }
 
         public void FormationStartUsing(Formation formation)

@@ -442,6 +442,9 @@ namespace BLTAdoptAHero
                 if (adoptedHero == null)
                     continue;
 
+                if (agent.IsDetachedFromFormation || ManualFormationOverrides.Contains(agent))
+                    continue;
+
                 hasAnyBltHeroes = true;
 
                 if (agent.Formation != targetFormation)

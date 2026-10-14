@@ -27,10 +27,11 @@ namespace CombatPolicyTests
     public class Weapon { public WeaponUsage CurrentUsageItem = new WeaponUsage(); }
     public class Equipment
     {
+        public bool EmptyFirstStack;
         public bool HasAmmo(EquipmentIndex slot, out int usage, out bool loaded, out bool empty)
         {
-            usage = 0; loaded = false; empty = false;
-            return slot == EquipmentIndex.WeaponItemBeginSlot;
+            usage = 0; loaded = false; empty = EmptyFirstStack && (int)slot == 0;
+            return (int)slot == 0 || (EmptyFirstStack && (int)slot == 1);
         }
     }
     public class Agent
@@ -38,12 +39,12 @@ namespace CombatPolicyTests
         public enum WeaponWieldActionType { WithAnimation }
         public bool Active = true, IsHuman = true, IsAIControlled = true, Ammo = true, Adopted = true;
         public bool Retreating;
-        public object CurrentlyUsedGameObject, MountAgent;
+        public object CurrentlyUsedGameObject, MountAgent, Detachment;
         public HumanAIComponent HumanAIComponent = new HumanAIComponent();
         public Formation Formation = new Formation();
         public Equipment Equipment = new Equipment();
         public Weapon WieldedWeapon = new Weapon();
-        public int Firing, WieldRequests;
+        public int Firing, WieldRequests, LastWieldSlot = -1;
         public bool IsActive() => Active;
         public bool IsRetreating() => Retreating;
         public bool HasRangedWeapon(bool check) => Ammo;
@@ -52,6 +53,7 @@ namespace CombatPolicyTests
         public void TryToWieldWeaponInSlot(EquipmentIndex slot, WeaponWieldActionType type, bool spawn)
         {
             WieldRequests++;
+            LastWieldSlot = (int)slot;
             WieldedWeapon.CurrentUsageItem.IsRangedWeapon = true;
         }
     }
@@ -90,6 +92,7 @@ namespace CombatPolicyTests
         private enum DetachmentOrder { None, Charge, Hold, Follow, Navigate, Siege, Advance }
         private class DetachmentState
         {
+            public object Detachment;
             public DetachmentOrder Order;
             public MovementOrder.MovementOrderEnum MovementBehaviorOrder = MovementOrder.MovementOrderEnum.Stop;
             public FiringOrder.RangedWeaponUsageOrderEnum? FiringOverride;
@@ -102,8 +105,10 @@ namespace CombatPolicyTests
         public bool HasPriority(Agent agent) => _rangedPriorityAgents.Contains(agent);
         public void Order(Agent agent, string order, bool holdFire = false, bool mounting = false)
         {
+            agent.Detachment = new object();
             _detachments[agent] = new DetachmentState
             {
+                Detachment = agent.Detachment,
                 Order = (DetachmentOrder)Enum.Parse(typeof(DetachmentOrder), order),
                 FiringOverride = holdFire ? (FiringOrder.RangedWeaponUsageOrderEnum?)FiringOrder.RangedWeaponUsageOrderEnum.HoldYourFire : null,
                 RidingOverride = mounting ? (RidingOrder.RidingOrderEnum?)RidingOrder.RidingOrderEnum.Mount : null
@@ -143,6 +148,10 @@ __POLICY__
             Check(friendly.WieldRequests == 1, "Ranged weapon requested");
             policy.Tick();
             Check(friendly.WieldRequests == 1, "No repeated wield while ranged weapon held");
+            var thrower = Add(policy);
+            thrower.Equipment.EmptyFirstStack = true;
+            policy.Tick();
+            Check(thrower.LastWieldSlot == 1, "Empty throwable stack skipped despite compatible ammo in another slot");
             friendly.HumanAIComponent.RefreshBehaviorValues(MovementOrder.MovementOrderEnum.Charge, ArrangementOrder.ArrangementOrderEnum.Line);
             Check(Weight(friendly, HumanAIComponent.AISimpleBehaviorKind.Ranged) > 8, "Formation refresh reapplies priority");
             friendly.Ammo = false;
@@ -175,6 +184,9 @@ __POLICY__
             policy.Order(friendly, "Advance");
             friendly.HumanAIComponent.RefreshBehaviorValues(MovementOrder.MovementOrderEnum.Advance, ArrangementOrder.ArrangementOrderEnum.Line);
             Check(friendly.HumanAIComponent.ValueSet == HumanAIComponent.BehaviorValueSet.Default, "Advance restores ranged capable native weights");
+            friendly.Detachment = null;
+            friendly.HumanAIComponent.RefreshBehaviorValues(MovementOrder.MovementOrderEnum.Stop, ArrangementOrder.ArrangementOrderEnum.Line);
+            Check(friendly.HumanAIComponent.ValueSet == HumanAIComponent.BehaviorValueSet.DefaultDetached, "Stale control cannot overwrite engine profile");
             BLTAdoptAHeroModule.CommonConfig.PrioritizeRangedAmmo = true;
             friendly.IsAIControlled = false;
             policy.Tick();

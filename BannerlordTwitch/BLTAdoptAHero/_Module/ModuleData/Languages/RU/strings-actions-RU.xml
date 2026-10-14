@@ -1973,5 +1973,8 @@
         <string id="BLTHeroFeaturesDisabledValue" text="Отключено" original="Disabled"/>
         <string id="BLTFormationSubAdvance" text="сблизиться" original="advance" />
         <string id="BLTFormationAdvanceNoAmmo" text="Нужно стрелковое оружие с боезапасом" original="A ranged weapon with ammunition is required" />
+        <string id="BLTFormationControlFailed" text="Не удалось выполнить команду формации" original="Could not apply the formation command" />
+        <string id="BLTFormationSiegeOnly" text="Эта команда доступна только в осаде" original="This command is only available in sieges" />
+        <string id="BLTFormationFollowUnavailable" text="Нет активной цели для следования" original="No active follow target" />
     </strings>
 </base>

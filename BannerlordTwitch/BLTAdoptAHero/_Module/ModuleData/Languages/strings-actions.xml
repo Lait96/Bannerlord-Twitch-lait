@@ -2047,5 +2047,8 @@
         <string id="BLTHeroFeaturesDisabledValue" text="Disabled"/>
         <string id="BLTFormationSubAdvance" text="advance" />
         <string id="BLTFormationAdvanceNoAmmo" text="A ranged weapon with ammunition is required" />
+        <string id="BLTFormationControlFailed" text="Could not apply the formation command" />
+        <string id="BLTFormationSiegeOnly" text="This command is only available in sieges" />
+        <string id="BLTFormationFollowUnavailable" text="No active follow target" />
     </strings>
 </base>

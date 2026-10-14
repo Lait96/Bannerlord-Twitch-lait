@@ -69,6 +69,16 @@ namespace BLTAdoptAHero.Actions
 
         public override Type HandlerConfigType => typeof(Settings);
 
+        internal bool ExecuteDiagnostic(Agent agent, string args, out string response)
+        {
+            bool success = false;
+            string message = "No command response";
+            ExecuteInternal(agent.GetHero(), ReplyContext.FromUser(null, "FormationTest", args),
+                new Settings(), s => { success = true; message = s; }, s => message = s);
+            response = message;
+            return success;
+        }
+
         protected override void ExecuteInternal(Hero adoptedHero, ReplyContext context, object config,
             Action<string> onSuccess, Action<string> onFailure)
         {
@@ -100,7 +110,7 @@ namespace BLTAdoptAHero.Actions
             string num = splitArgs.Length > 0 ? splitArgs[0] : "";
 
             var agent = adoptedHero.GetAgent();
-            if (agent == null)
+            if (agent == null || !agent.IsActive() || agent.Team == null)
             {
                 onFailure("{=BLTFormationNoHero}No hero".Translate());
                 return;
@@ -184,6 +194,17 @@ namespace BLTAdoptAHero.Actions
                     onFailure("{=BLTFormationAdvanceNoAmmo}A ranged weapon with ammunition is required".Translate());
                     return;
                 }
+                if ((command == "gate" || command == "walls") && !Mission.Current.IsSiegeBattle)
+                {
+                    onFailure("{=BLTFormationSiegeOnly}This command is only available in sieges".Translate());
+                    return;
+                }
+                if (command == "follow" && Mission.Current.MainAgent?.IsActive() != true)
+                {
+                    onFailure("{=BLTFormationFollowUnavailable}No active follow target".Translate());
+                    return;
+                }
+                bool wasDetached = behavior.IsDetached(agent);
                 var error = EnsureDetached(behavior, agent);
                 if (error == null)
                     error = command switch
@@ -197,7 +218,11 @@ namespace BLTAdoptAHero.Actions
                     _ => "Unknown command"
                 };
 
-                if (error != null) onFailure(error);
+                if (error != null)
+                {
+                    if (!wasDetached && behavior.IsDetached(agent)) behavior.Attach(agent);
+                    onFailure(error);
+                }
                 else onSuccess("{=BLTFormationCommandOk}{command} ok".Translate(("command", GetFormationCommandDisplayName(command))));
                 return;
             }
@@ -255,13 +280,13 @@ namespace BLTAdoptAHero.Actions
                     onSuccess($"{GetFormationClassDisplayName(formType)} {position}/{count} {currentFormation.CountOfUnits} | {sb}");
                     return;
                 }
-                var attachError = EnsureAttached(behavior, agent);
-                if (attachError != null) { onFailure(attachError); return; }
                 if (numb > count || numb <= 0)
                 {
                     onFailure("{=BLTFormationInvalidNumber}Invalid number".Translate());
                     return;
                 }
+                var attachError = EnsureAttached(behavior, agent);
+                if (attachError != null) { onFailure(attachError); return; }
 
                 var newformation = allFormations.ElementAt(numb - 1);
                 TransferHeroToFormation(agent, newformation);
@@ -306,13 +331,13 @@ namespace BLTAdoptAHero.Actions
                     onSuccess($"{GetFormationClassDisplayName(formType)} {position}/{count} {currentFormation.CountOfUnits} | {sb}");
                     return;
                 }
-                var attachError = EnsureAttached(behavior, agent);
-                if (attachError != null) { onFailure(attachError); return; }
                 if (numb > count || numb <= 0)
                 {
                     onFailure("{=BLTFormationInvalidNumber}Invalid number".Translate());
                     return;
                 }
+                var attachError = EnsureAttached(behavior, agent);
+                if (attachError != null) { onFailure(attachError); return; }
 
                 var newformation = allFormations.ElementAt(numb - 1);
                 TransferHeroToFormation(agent, newformation);
@@ -340,7 +365,7 @@ namespace BLTAdoptAHero.Actions
 
         private static string EnsureAttached(BLTHeroDetachmentBehavior behavior, Agent agent)
         {
-            if (behavior == null || !behavior.IsDetached(agent)) return null;
+            if (behavior == null || (!behavior.IsDetached(agent) && !agent.IsDetachedFromFormation)) return null;
             return behavior.Attach(agent);
         }
 
@@ -355,8 +380,7 @@ namespace BLTAdoptAHero.Actions
             agent.SetScriptedFlags(Agent.AIScriptedFrameFlags.None);
             agent.SetAutomaticTargetSelection(true);
             agent.SetTargetFormationIndex(-1);
-            agent.UpdateFormationOrders();
-            agent.ForceAiBehaviorSelection();
+            BLTHeroDetachmentBehavior.RestoreFormationOrders(agent);
             return null;
         }
 
@@ -430,6 +454,7 @@ namespace BLTAdoptAHero.Actions
             bool mountOff = command == "mount"
                             && MatchesCommand(argument, "{=BLTFormationMountOff}off".Translate(), "off");
             var focusClass = FormationClass.NumberOfRegularFormations;
+            int selectedMountIndex = -1;
             bool hasFocusClass = command == "focus" && !clearFocus
                                  && TryGetFocusClass(argument, out focusClass);
 
@@ -454,6 +479,9 @@ namespace BLTAdoptAHero.Actions
                 if (!settings.Detach) { onFailure("{=BLTFormationDetachOff}Detach commands are off".Translate()); return; }
                 if (behavior == null) { onFailure("{=BLTFormationDetachInactive}Detachment system not active".Translate()); return; }
                 if (!Mission.Current.IsDeploymentFinished) { onFailure("{=BLTFormationNoDetachDeploying}Cannot detach while deploying".Translate()); return; }
+                if (mountOn) error = FindNearestMount(agent, out selectedMountIndex);
+                if (hasFocusClass) error = behavior.ValidateFocus(agent, focusClass);
+                if (error != null) { onFailure(error); return; }
                 error = EnsureDetached(behavior, agent);
             }
 
@@ -470,10 +498,10 @@ namespace BLTAdoptAHero.Actions
                         if (mountOff)
                             error = behavior.SetRidingOrder(agent, RidingOrder.RidingOrderEnum.Dismount);
                         else if (mountOn)
-                            error = MountNearest(behavior, agent);
+                            error = behavior.SetRidingOrder(agent, RidingOrder.RidingOrderEnum.Mount, selectedMountIndex);
                         break;
                     case "focus":
-                        if (clearFocus) error = behavior?.ClearFocus(agent) ?? ClearFocus(agent);
+                        if (clearFocus) error = behavior != null ? behavior.ClearFocus(agent) : ClearFocus(agent);
                         else error = behavior.Focus(agent, focusClass);
                         break;
                 }
@@ -626,15 +654,17 @@ namespace BLTAdoptAHero.Actions
             return null;
         }
 
-        private static string MountNearest(BLTHeroDetachmentBehavior behavior, Agent agent)
+        private static string FindNearestMount(Agent agent, out int mountIndex)
         {
+            mountIndex = -1;
             if (agent.MountAgent != null) return "Hero is already mounted";
             var mount = Mission.Current.Agents
                 .Where(a => a != null && a.IsActive() && a.IsMount && a.RiderAgent == null)
                 .OrderBy(a => a.Position.DistanceSquared(agent.Position))
                 .FirstOrDefault();
             if (mount == null || mount.Position.DistanceSquared(agent.Position) > 900f) return "No free mount nearby";
-            return behavior.SetRidingOrder(agent, RidingOrder.RidingOrderEnum.Mount, mount.Index);
+            mountIndex = mount.Index;
+            return null;
         }
 
         private bool TryGetFocusClass(string value, out FormationClass formationClass)
