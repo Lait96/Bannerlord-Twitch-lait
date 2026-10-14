@@ -9,6 +9,7 @@
         <ProgramFiles64>$([System.Environment]::GetEnvironmentVariable('ProgramW6432'))</ProgramFiles64>
         <SevenZipExe Condition="'$(SevenZipExe)' == '' and Exists('$(ProgramFiles64)\7-Zip\7z.exe')">$(ProgramFiles64)\7-Zip\7z.exe</SevenZipExe>
         <SevenZipExe Condition="'$(SevenZipExe)' == '' and Exists('$(ProgramFiles)\7-Zip\7z.exe')">$(ProgramFiles)\7-Zip\7z.exe</SevenZipExe>
+        <SevenZipExe Condition="'$(SevenZipExe)' == '' and Exists('D:\7-Zip\7z.exe')">D:\7-Zip\7z.exe</SevenZipExe>
         <SevenZipExe Condition="'$(SevenZipExe)' == ''">7z.exe</SevenZipExe>
     </PropertyGroup>
 
@@ -30,7 +31,7 @@
     <PropertyGroup Condition="!$(Configuration.EndsWith('1.3.15'))">
         <GameVersion>1.4.7</GameVersion>
         <BANNERLORD_GAME_DIR>$(BANNERLORD_GAME_DIR)</BANNERLORD_GAME_DIR>
-        <BANNERLORD_GAME_DIR Condition=" '$(BANNERLORD_GAME_DIR)' == '' ">F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord</BANNERLORD_GAME_DIR>
+        <BANNERLORD_GAME_DIR Condition=" '$(BANNERLORD_GAME_DIR)' == '' ">D:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord</BANNERLORD_GAME_DIR>
         <GameModulesDir>$(BANNERLORD_GAME_DIR)\Modules</GameModulesDir>
         <DefineConstants>$(DefineConstants);BL_1_4_7</DefineConstants>
     </PropertyGroup>
