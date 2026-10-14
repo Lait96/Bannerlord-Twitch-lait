@@ -32,16 +32,14 @@ namespace BannerlordTwitch
         private static extern int SetWindowText(IntPtr hWnd, string text);
 
 #if BL_1_3_15
-        private const string ExpectedVersion = "v1.3.15";
-        private static readonly string[] SupportedVersions = { ExpectedVersion };
+        private const string ExpectedVersion = "v1.3.*";
 #else
-        private const string ExpectedVersion = "v1.4.7";
-        private static readonly string[] SupportedVersions = { "v1.4.5", "v1.4.6", ExpectedVersion };
+        private const string ExpectedVersion = "v1.4.*";
 #endif
 
         static BLTModule()
         {
-            if (!SupportedVersions.Any(GameVersion.IsVersion))
+            if (!GameVersion.IsVersion(ExpectedVersion))
             {
                 MessageBox.Show("{=IO9rnFpk}This build of the mod is for game version {ExpectedVersion}. You are running game version {GameVersion}. Exiting now."
                     .Translate(

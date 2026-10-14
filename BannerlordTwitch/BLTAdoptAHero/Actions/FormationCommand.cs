@@ -30,7 +30,7 @@ namespace BLTAdoptAHero.Actions
 
             [LocDisplayName("{=BLTFormationDetachmentsName}Detachments"),
              LocCategory("General", "{=TESTING}General"),
-             LocDescription("{=BLTFormationDetachmentsDesc}Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls, focus, fire and mount) and control their retinue. When disabled, these commands are unavailable; formation selection and front/back positioning still work."),
+             LocDescription("{=BLTFormationDetachmentsDesc}Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, advance, hold, follow, gate, walls, focus, fire and mount) and control their retinue. When disabled, these commands are unavailable; formation selection and front/back positioning still work."),
              PropertyOrder(2), UsedImplicitly]
             public bool Detach { get; set; } = true;
 
@@ -56,7 +56,7 @@ namespace BLTAdoptAHero.Actions
             {
                 generator.Value("{=BLTFormationUsageNumber}<strong>Usage:</strong> number".Translate());
                 generator.Value("{=BLTFormationUsageFrontBack}- front/back".Translate());
-                generator.Value("{=BLTFormationUsageHeroCommands}- charge/hold/follow/return/gate/walls".Translate());
+                generator.Value("{=BLTFormationUsageHeroCommands}- charge/advance/hold/follow/return/gate/walls".Translate());
                 generator.Value("{=BLTFormationUsageRetinue}- retinue follow/attack/return".Translate());
                 generator.Value("{=BLTFormationUsageAdvanced}- fire hold/default, mount on/off, focus all/infantry/ranged/cavalry/horsearcher".Translate());
                 generator.Value("{=BLTFormationUsageSecondary}- layout left/center/right/front/back/default, ignore class/reset, hunter on/off".Translate());
@@ -165,7 +165,7 @@ namespace BLTAdoptAHero.Actions
                 return;
             }
 
-            var keywords = new[] { "charge", "hold", "follow", "gate", "walls" };
+            var keywords = new[] { "charge", "advance", "hold", "follow", "gate", "walls" };
             if (keywords.Contains(command))
             {      
                 if (!settings.Detach) { onFailure("{=BLTFormationDetachOff}Detach commands are off".Translate()); return; }
@@ -179,11 +179,17 @@ namespace BLTAdoptAHero.Actions
                     return;
                 }
 
+                if (command == "advance" && !agent.HasRangedWeapon(true))
+                {
+                    onFailure("{=BLTFormationAdvanceNoAmmo}A ranged weapon with ammunition is required".Translate());
+                    return;
+                }
                 var error = EnsureDetached(behavior, agent);
                 if (error == null)
                     error = command switch
                 {
                     "charge" => behavior.Charge(agent),
+                    "advance" => behavior.Advance(agent),
                     "hold" => behavior.Hold(agent),
                     "follow" => behavior.FollowMainAgent(agent),
                     "gate" => behavior.TargetDoor(agent),
@@ -589,6 +595,7 @@ namespace BLTAdoptAHero.Actions
         private string GetPrimaryOrderDisplayName(string order) => order switch
         {
             "charge" => "{=BLTFormationSubCharge}charge".Translate(),
+            "advance" => "{=BLTFormationSubAdvance}advance".Translate(),
             "hold" => "{=BLTFormationSubHold}hold".Translate(),
             "follow" => "{=BLTFormationSubFollow}follow".Translate(),
             "siege" => "{=BLTFormationSubSiege}siege".Translate(),
@@ -722,6 +729,7 @@ namespace BLTAdoptAHero.Actions
             if (MatchesCommand(command, "{=BLTFormationSubFront}front".Translate(), "front")) return "front";
             if (MatchesCommand(command, "{=BLTFormationSubBack}back".Translate(), "back")) return "back";
             if (MatchesCommand(command, "{=BLTFormationSubCharge}charge".Translate(), "charge")) return "charge";
+            if (MatchesCommand(command, "{=BLTFormationSubAdvance}advance".Translate(), "advance")) return "advance";
             if (MatchesCommand(command, "{=BLTFormationSubHold}hold".Translate(), "hold")) return "hold";
             if (MatchesCommand(command, "{=BLTFormationSubFollow}follow".Translate(), "follow")) return "follow";
             if (MatchesCommand(command, "{=BLTFormationSubGate}gate".Translate(), "gate")) return "gate";
@@ -749,6 +757,7 @@ namespace BLTAdoptAHero.Actions
             "front" => "{=BLTFormationSubFront}front".Translate(),
             "back" => "{=BLTFormationSubBack}back".Translate(),
             "charge" => "{=BLTFormationSubCharge}charge".Translate(),
+            "advance" => "{=BLTFormationSubAdvance}advance".Translate(),
             "hold" => "{=BLTFormationSubHold}hold".Translate(),
             "follow" => "{=BLTFormationSubFollow}follow".Translate(),
             "gate" => "{=BLTFormationSubGate}gate".Translate(),

@@ -357,5 +357,7 @@
         <string id="GlobalTournamentConfig_Betting_BettingOnFinalOnly_Desc" text="Разрешает делать ставки только на финальный раунд." original="Allow betting only on the final round"/>
         
         
+        <string id="BLTPrioritizeRangedAmmoName" text="Приоритет расходования боезапаса" original="Prioritize ranged ammunition" />
+        <string id="BLTPrioritizeRangedAmmoDesc" text="БЛТ-герои под управлением ИИ предпочитают стрельбу и игровое маневрирование стрелков, пока есть боезапас, даже при приказе формации атаковать. Учитываются запрет стрельбы, индивидуальное позиционирование, отступление, посадка на коня и осадные орудия. После исчерпания боезапаса возвращается обычный ближний бой." original="Adopted AI heroes aggressively prefer shooting and native ranged movement while ammunition remains, even under formation attack orders. Explicit hold fire, individual positioning, retreat, mounting and siege weapon use are respected. Melee resumes when ammunition runs out." />
     </strings>
 </base>

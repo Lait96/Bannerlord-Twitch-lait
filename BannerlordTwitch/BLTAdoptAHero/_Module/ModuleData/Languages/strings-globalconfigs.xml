@@ -358,5 +358,7 @@
         
         
         
+        <string id="BLTPrioritizeRangedAmmoName" text="Prioritize ranged ammunition" />
+        <string id="BLTPrioritizeRangedAmmoDesc" text="Adopted AI heroes aggressively prefer shooting and native ranged movement while ammunition remains, even under formation attack orders. Explicit hold fire, individual positioning, retreat, mounting and siege weapon use are respected. Melee resumes when ammunition runs out." />
     </strings>
 </base>

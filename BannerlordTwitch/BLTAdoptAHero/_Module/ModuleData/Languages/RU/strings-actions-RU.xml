@@ -1352,7 +1352,7 @@
 		<string id="BLTFormationRespectClassName" text="Учитывать класс" original="Respect class"/>
 		<string id="BLTFormationRespectClassDesc" text="Выключите, чтобы разрешить любые формации; иначе пехота сможет переходить только в пехотные формации" original="Turn off to allow any formation; otherwise infantry can only change to other infantry formations"/>
 		<string id="BLTFormationDetachmentsName" text="Отделение героя" original="Detachments"/>
-		<string id="BLTFormationDetachmentsDesc" text="Управляет автоматическим отделением БЛТ-персонажей от формаций. Когда настройка включена, зрители могут использовать индивидуальные боевые приказы (атака, стоять, следовать, ворота, стены, фокус, стрельба и конь) и управлять своей свитой. Когда настройка выключена, эти команды недоступны; выбор формации и позиции впереди/сзади продолжает работать." original="Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls, focus, fire and mount) and control their retinue. When disabled, these commands are unavailable; formation selection and front/back positioning still work."/>
+		<string id="BLTFormationDetachmentsDesc" text="Управляет автоматическим отделением БЛТ-персонажей от формаций. Когда настройка включена, зрители могут использовать индивидуальные боевые приказы (атака, сблизиться, стоять, следовать, ворота, стены, фокус, стрельба, конь и осадное) и управлять своей свитой. Когда настройка выключена, эти команды недоступны; выбор формации, позиция впереди/сзади, строй, игнор, охотник и статус продолжают работать." original="Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, advance, hold, follow, gate, walls, focus, fire, mount and siege) and control their retinue. When disabled, these commands are unavailable; formation selection, front/back positioning, layout, ignore, hunter and status still work."/>
 		<string id="BLTFormationEnemyFollowName" text="Следование противников" original="Enemy follow"/>
 		<string id="BLTFormationEnemyFollowDesc" text="Разрешить вражеским БЛТ-персонажам использовать следование за стримером. Фактически стример становится для них приоритетной целью." original="Allow enemy BLT characters to use follow against the streamer. This effectively makes the streamer their priority target."/>
 		<string id="BLTFormationAllowHunterName" text="Команды охотника" original="Hunter commands"/>
@@ -1406,7 +1406,7 @@
 		<string id="BLTFormationArrangementColumn" text="Колонна" original="Column"/>
 		<string id="BLTFormationArrangementScatter" text="Врассыпную" original="Scatter"/>
         <string id="Yp3nKs8W" text="Команда смены формации отключена, пока включено автоматическое распределение BLT героев по формациям." />
-		<string id="BLTFormationUsageHeroCommands" text="- атака/стоять/следовать/вернуться/ворота/стены" original="- charge/hold/follow/return/gate/walls"/>
+		<string id="BLTFormationUsageHeroCommands" text="- атака/сблизиться/стоять/следовать/вернуться/ворота/стены" original="- charge/advance/hold/follow/return/gate/walls"/>
 		<string id="BLTFormationUsageRetinue" text="- свита следовать/атака/вернуться" original="- retinue follow/attack/return"/>
 		<string id="BLTFormationUsageAdvanced" text="- стрельба «не стрелять»/«по умолчанию», конь сесть/спешиться, фокус все/пехота/лучники/кавалерия/конные" original="- fire hold/default, mount on/off, focus all/infantry/ranged/cavalry/horsearcher"/>
 		<string id="BLTFormationUsageAutoDetach" text="- Индивидуальные приказы автоматически отделяют героя; вернуться восстанавливает обычное управление формацией" original="- Individual orders detach the hero automatically; return restores normal formation control"/>
@@ -1467,6 +1467,7 @@
 		<string id="BLTFormationEnemyFollowOff" text="Следование за стримером для противников отключено" original="Enemy follow is disabled"/>
 		<string id="BLTFormationHunterOffByStreamer" text="Команды охотника отключены стримером" original="Hunter commands are disabled by the streamer"/>
 		<string id="BLTFormationSiegeEntryOff" text="Занятие осадных орудий отключено стримером" original="Entering siege weapons is disabled by the streamer"/>
+		<string id="BLTFormationSiegeMountBlocked" text="Нельзя сесть на коня, пока используется осадное орудие" original="Cannot mount while using a siege weapon"/>
         <string id="BLTPartyManagementName" text="Управление отрядом" original="Party Management"/>
         <string id="BLTPartyManagementDescription" text="Позволяет зрителям управлять своими отрядами и армиями" original="Allow viewers to manage their parties and armies"/>
         <string id="BLTPartyOrderExpiry" text="Срок приказа отряду (дни)" original="Party Order Expiry (Days)"/>
@@ -1970,5 +1971,7 @@
         <string id="BLTHeroFeaturesInvalidGender" text="Недопустимое значение ({male}/{female})" original="Invalid entry ({male}/{female})"/>
         <string id="BLTHeroFeaturesEnabledValue" text="Включено" original="Enabled"/>
         <string id="BLTHeroFeaturesDisabledValue" text="Отключено" original="Disabled"/>
-</strings>
+        <string id="BLTFormationSubAdvance" text="сблизиться" original="advance" />
+        <string id="BLTFormationAdvanceNoAmmo" text="Нужно стрелковое оружие с боезапасом" original="A ranged weapon with ammunition is required" />
+    </strings>
 </base>

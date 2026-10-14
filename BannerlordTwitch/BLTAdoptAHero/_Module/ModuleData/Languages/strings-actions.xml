@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
     <tags>
         <tag language="English" />
@@ -1444,7 +1444,7 @@
 		<string id="BLTFormationRespectClassName" text="Respect class"/>
 		<string id="BLTFormationRespectClassDesc" text="Turn off to allow any formation; otherwise infantry can only change to other infantry formations"/>
 		<string id="BLTFormationDetachmentsName" text="Detachments"/>
-		<string id="BLTFormationDetachmentsDesc" text="Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, hold, follow, gate, walls, focus, fire and mount) and control their retinue. When disabled, these commands are unavailable; formation selection and front/back positioning still work."/>
+		<string id="BLTFormationDetachmentsDesc" text="Controls automatic detachment of BLT characters from their formations. When enabled, viewers can use individual combat orders (charge, advance, hold, follow, gate, walls, focus, fire, mount and siege) and control their retinue. When disabled, these commands are unavailable; formation selection, front/back positioning, layout, ignore, hunter and status still work."/>
 		<string id="BLTFormationEnemyFollowName" text="Enemy follow"/>
 		<string id="BLTFormationEnemyFollowDesc" text="Allow enemy BLT characters to use follow against the streamer. This effectively makes the streamer their priority target."/>
 		<string id="BLTFormationAllowHunterName" text="Hunter commands"/>
@@ -1453,7 +1453,7 @@
 		<string id="BLTFormationAllowSiegeDesc" text="Allow viewers to occupy ranged siege weapons. Leaving a siege weapon is always available."/>
 		<string id="BLTFormationUsageNumber" text="&lt;strong&gt;Usage:&lt;/strong&gt; number"/>
 		<string id="BLTFormationUsageFrontBack" text="- front/back"/>
-		<string id="BLTFormationUsageHeroCommands" text="- charge/hold/follow/return/gate/walls"/>
+		<string id="BLTFormationUsageHeroCommands" text="- charge/advance/hold/follow/return/gate/walls"/>
 		<string id="BLTFormationUsageRetinue" text="- retinue follow/attack/return"/>
 		<string id="BLTFormationUsageAdvanced" text="- fire hold/default, mount on/off, focus all/infantry/ranged/cavalry/horsearcher"/>
 		<string id="BLTFormationUsageAutoDetach" text="- Individual orders detach the hero automatically; return restores normal formation control"/>
@@ -1521,6 +1521,7 @@
 		<string id="BLTFormationEnemyFollowOff" text="Enemy follow is disabled"/>
 		<string id="BLTFormationHunterOffByStreamer" text="Hunter commands are disabled by the streamer"/>
 		<string id="BLTFormationSiegeEntryOff" text="Entering siege weapons is disabled by the streamer"/>
+		<string id="BLTFormationSiegeMountBlocked" text="Cannot mount while using a siege weapon"/>
 		<string id="BLTFormationNoNaval" text="Cannot change formation in naval battle"/>
 		<string id="BLTFormationNoTournament" text="Cannot change formation in tournament"/>
 		<string id="BLTFormationNoFrontBackSiege" text="Front/back movement is disabled in sieges"/>
@@ -2044,5 +2045,7 @@
         <string id="BLTHeroFeaturesInvalidGender" text="Invalid entry ({male}/{female})"/>
         <string id="BLTHeroFeaturesEnabledValue" text="Enabled"/>
         <string id="BLTHeroFeaturesDisabledValue" text="Disabled"/>
-</strings>
+        <string id="BLTFormationSubAdvance" text="advance" />
+        <string id="BLTFormationAdvanceNoAmmo" text="A ranged weapon with ammunition is required" />
+    </strings>
 </base>

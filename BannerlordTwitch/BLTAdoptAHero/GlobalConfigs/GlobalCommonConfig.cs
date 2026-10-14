@@ -282,6 +282,12 @@ namespace BLTAdoptAHero
          LocDescription("{=GlobalCommonConfig_Category_Battle_AutoFormationForHeroes_Desc}Automatically assign adopted BLT heroes to predefined formations during battle. Field battles: infantry (4), ranged (5), cavalry (6), horse archers (7). Sieges: infantry (6), ranged (7). Manual formation commands override this for that hero until the mission ends."),
          PropertyOrder(14), Document, UsedImplicitly]
         public bool AutoFormationForHeroes { get; set; } = true;
+
+        [LocDisplayName("{=BLTPrioritizeRangedAmmoName}Prioritize ranged ammunition"),
+         LocCategory("Battle", "{=GlobalCommonConfig_Category_Battle}Battle"),
+         LocDescription("{=BLTPrioritizeRangedAmmoDesc}Adopted AI heroes aggressively prefer shooting and native ranged movement while ammunition remains, even under formation attack orders. Explicit hold fire, individual positioning, retreat, mounting and siege weapon use are respected. Melee resumes when ammunition runs out."),
+         PropertyOrder(16), Document, UsedImplicitly]
+        public bool PrioritizeRangedAmmo { get; set; } = true;
         
         [LocDisplayName("{=GlobalCommonConfig_Category_Battle_EnableEnemyBltAttack_Name}Enable Enemy BLT Attack"),
          LocCategory("Battle", "{=GlobalCommonConfig_Category_Battle}Battle"),

@@ -7,12 +7,13 @@ using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using BannerlordTwitch.Helpers;
 using BannerlordTwitch.Util;
+using HarmonyLib;
 
 namespace BLTAdoptAHero
 {
     internal class BLTHeroDetachmentBehavior : AutoMissionBehavior<BLTHeroDetachmentBehavior>
     {
-        private enum DetachmentOrder { None, Charge, Hold, Follow, Navigate, Siege }
+        private enum DetachmentOrder { None, Charge, Hold, Follow, Navigate, Siege, Advance }
 
         public enum FormationSidePreference { Default, Left, Center, Right }
         public enum FormationDepthPreference { Default, Front, Back }
@@ -66,6 +67,9 @@ namespace BLTAdoptAHero
         // Reused buffer to avoid allocation on every tick
         private readonly List<KeyValuePair<Agent, DetachmentState>> _tickBuffer = new();
         private readonly List<KeyValuePair<Agent, ControlPreferences>> _preferenceTickBuffer = new();
+        private readonly HashSet<Agent> _rangedPriorityAgents = new();
+        private readonly List<Agent> _rangedPriorityBuffer = new();
+        private float _rangedPriorityTimer;
 
         public bool IsDetached(Agent agent) => _detachments.ContainsKey(agent);
 
@@ -132,6 +136,7 @@ namespace BLTAdoptAHero
         private static string GetOrderName(DetachmentOrder order) => order switch
         {
             DetachmentOrder.Charge => "charge",
+            DetachmentOrder.Advance => "advance",
             DetachmentOrder.Hold => "hold",
             DetachmentOrder.Follow => "follow",
             DetachmentOrder.Navigate => "navigate",
@@ -245,6 +250,26 @@ namespace BLTAdoptAHero
             return null;
         }
 
+        public string Advance(Agent agent)
+        {
+            if (agent == null || !agent.IsActive()) return "Invalid agent";
+            if (!agent.HasRangedWeapon(true))
+                return "{=BLTFormationAdvanceNoAmmo}A ranged weapon with ammunition is required".Translate();
+            if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
+            ExitSiegeModeForNewOrder(agent, state);
+            agent.DisableScriptedMovement();
+            agent.DisableScriptedCombatMovement();
+            agent.SetScriptedCombatFlags(Agent.AISpecialCombatModeFlags.None);
+            agent.SetScriptedFlags(Agent.AIScriptedFrameFlags.None);
+            state.Detachment.ClearFollowTarget();
+            state.MovementBehaviorOrder = MovementOrder.MovementOrderEnum.Advance;
+            state.Order = DetachmentOrder.Advance;
+            state.LastNavigationReissueTime = -1f;
+            ApplyAdvance(agent, state);
+            ApplyOverrides(agent, state);
+            return null;
+        }
+
         public string FollowMainAgent(Agent agent)
         {
             if (agent == null || !agent.IsActive()) return "Invalid agent";
@@ -321,6 +346,8 @@ namespace BLTAdoptAHero
         {
             if (agent == null || !agent.IsActive()) return "Invalid agent";
             if (!_detachments.TryGetValue(agent, out var state)) return "Not detached";
+            if (state.Order == DetachmentOrder.Siege && order == RidingOrder.RidingOrderEnum.Mount)
+                return "{=BLTFormationSiegeMountBlocked}Cannot mount while using a siege weapon".Translate();
             state.RidingOverride = order;
             state.SelectedMountIndex = selectedMountIndex;
             state.Detachment.SuppressMovement(order == RidingOrder.RidingOrderEnum.Mount && agent.MountAgent == null);
@@ -446,11 +473,12 @@ namespace BLTAdoptAHero
             state.PreviousSelectedMountIndex = -1;
         }
 
-        private static void ReapplyPrimaryOrder(Agent agent, DetachmentState state)
+        private void ReapplyPrimaryOrder(Agent agent, DetachmentState state)
         {
             switch (state.Order)
             {
                 case DetachmentOrder.Charge: ApplyCharge(agent, state); break;
+                case DetachmentOrder.Advance: ApplyAdvance(agent, state); break;
                 case DetachmentOrder.Hold: ApplyHold(agent, state); break;
             }
         }
@@ -696,6 +724,9 @@ namespace BLTAdoptAHero
                         case DetachmentOrder.Charge:
                             ApplyCharge(agent, state);
                             break;
+                        case DetachmentOrder.Advance:
+                            ApplyAdvance(agent, state);
+                            break;
                         case DetachmentOrder.Navigate:
                             ApplyNavigate(agent, state);
                             break;
@@ -739,6 +770,13 @@ namespace BLTAdoptAHero
                 ApplyTargetPreferences(agent);
                 ApplyFormationPositionPreference(agent, pair.Value);
             }
+
+            _rangedPriorityTimer += dt;
+            if (_rangedPriorityTimer >= 0.5f)
+            {
+                _rangedPriorityTimer = 0f;
+                UpdateRangedPriority();
+            }
         }
 
         public override void OnAgentRemoved(Agent killedAgent, Agent killerAgent,
@@ -750,6 +788,7 @@ namespace BLTAdoptAHero
                 CleanupDetachmentOnDeath(killedAgent, state);
             }
             if (killedAgent != null) _preferences.Remove(killedAgent);
+            if (killedAgent != null) _rangedPriorityAgents.Remove(killedAgent);
         }
 
         public override void OnAgentDeleted(Agent affectedAgent)
@@ -760,6 +799,7 @@ namespace BLTAdoptAHero
                     ReleaseSiegeReservation(affectedAgent, state);
                 _detachments.Remove(affectedAgent);
                 _preferences.Remove(affectedAgent);
+                _rangedPriorityAgents.Remove(affectedAgent);
             }
         }
 
@@ -770,6 +810,9 @@ namespace BLTAdoptAHero
             _preferences.Clear();
             _preferenceTickBuffer.Clear();
             _siegeReservations.Clear();
+            _rangedPriorityAgents.Clear();
+            _rangedPriorityBuffer.Clear();
+            _rangedPriorityTimer = 0f;
         }
 
         // --- Helpers ---
@@ -831,7 +874,129 @@ namespace BLTAdoptAHero
             agent.SetScriptedCombatFlags(Agent.AISpecialCombatModeFlags.None);
             agent.SetScriptedFlags(Agent.AIScriptedFrameFlags.None);
             agent.SetAutomaticTargetSelection(true);
-            agent.HumanAIComponent?.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.Default);
+            agent.HumanAIComponent?.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.Charge);
+        }
+
+        private void ApplyAdvance(Agent agent, DetachmentState state)
+        {
+            if (Mission.Current.CurrentTime - state.LastNavigationReissueTime < 0.5f) return;
+            state.LastNavigationReissueTime = Mission.Current.CurrentTime;
+            ApplyTargetPreferences(agent);
+            var preferences = GetPreferences(agent);
+            var target = Mission.Current.Agents
+                .Where(other => other.IsActive() && other.IsHuman && other.Team != null
+                    && other.Team.IsEnemyOf(agent.Team)
+                    && (other.Formation == null || !preferences.IgnoredClasses.Contains(other.Formation.PhysicalClass))
+                    && (!state.FocusClass.HasValue || other.Formation?.PhysicalClass == state.FocusClass))
+                .OrderBy(other => other == preferences.HunterTarget ? 0 : 1)
+                .ThenBy(other => other.Position.DistanceSquared(agent.Position))
+                .FirstOrDefault();
+            if (target == null)
+            {
+                agent.DisableScriptedMovement();
+                return;
+            }
+
+            // Vanilla Advance stops ranged formations at MissileRangeAdjusted from their target.
+            // Use the individual agent's range so mixed formations and throwing weapons work too.
+            float range = agent.HasRangedWeapon(true) ? agent.GetMissileRangeWithHeightDifferenceAux(target.Position.z) : 0f;
+            var direction = (target.Position.AsVec2 - agent.Position.AsVec2).Normalized();
+            var position = target.GetWorldPosition();
+            position.SetVec2(position.AsVec2 - direction * Math.Max(0f, range));
+            if (!position.IsValid || !Mission.Current.IsPositionInsideBoundaries(position.AsVec2)
+                || position.GetNavMesh() == UIntPtr.Zero)
+            {
+                agent.DisableScriptedMovement();
+                return;
+            }
+            if (agent.Position.AsVec2.DistanceSquared(position.AsVec2) <= 4f)
+                agent.DisableScriptedMovement();
+            else
+                agent.SetScriptedPosition(ref position, false, Agent.AIScriptedFrameFlags.None);
+        }
+
+        private void UpdateRangedPriority()
+        {
+            var mission = Mission.Current;
+            bool enabled = BLTAdoptAHeroModule.CommonConfig.PrioritizeRangedAmmo
+                && mission?.Mode == MissionMode.Battle && mission.IsDeploymentFinished
+                && !mission.IsNavalBattle && !BannerlordApi.IsNavalRaidBattle(mission);
+            _rangedPriorityBuffer.Clear();
+            _rangedPriorityBuffer.AddRange(_rangedPriorityAgents);
+            foreach (var agent in _rangedPriorityBuffer)
+            {
+                if (enabled && CanPrioritizeRanged(agent)) continue;
+                _rangedPriorityAgents.Remove(agent);
+                if (agent.IsActive()) RefreshCombatBehavior(agent);
+            }
+            if (!enabled) return;
+            foreach (var agent in mission.Agents)
+            {
+                if (!CanPrioritizeRanged(agent) || agent.GetAdoptedHero() == null) continue;
+                _rangedPriorityAgents.Add(agent);
+                ApplyCombatBehavior(agent);
+                if (agent.GetFiringOrder() != (int)FiringOrder.RangedWeaponUsageOrderEnum.HoldYourFire
+                    && agent.WieldedWeapon.CurrentUsageItem?.IsRangedWeapon != true
+                    && !agent.HumanAIComponent.IsInImportantCombatAction())
+                {
+                    for (var slot = EquipmentIndex.WeaponItemBeginSlot; slot < EquipmentIndex.NumAllWeaponSlots; slot++)
+                    {
+                        if (!agent.Equipment.HasAmmo(slot, out _, out _, out _)) continue;
+                        agent.TryToWieldWeaponInSlot(slot, Agent.WeaponWieldActionType.WithAnimation, false);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private bool CanPrioritizeRanged(Agent agent)
+            => agent.IsActive() && agent.IsHuman && agent.IsAIControlled && !agent.IsRetreating()
+                && agent.HumanAIComponent != null && agent.CurrentlyUsedGameObject == null
+                && agent.GetFiringOrder() != (int)FiringOrder.RangedWeaponUsageOrderEnum.HoldYourFire
+                && agent.HasRangedWeapon(true)
+                && (_detachments.ContainsKey(agent)
+                    || (agent.Formation?.GetReadonlyMovementOrderReference().OrderEnum != MovementOrder.MovementOrderEnum.Retreat
+                        && agent.Formation?.GetReadonlyMovementOrderReference().OrderEnum != MovementOrder.MovementOrderEnum.FallBack))
+                && (!_detachments.TryGetValue(agent, out var state)
+                    || (state.Order != DetachmentOrder.Siege
+                        && state.FiringOverride != FiringOrder.RangedWeaponUsageOrderEnum.HoldYourFire
+                        && !(state.RidingOverride == RidingOrder.RidingOrderEnum.Mount && agent.MountAgent == null)));
+
+        private void RefreshCombatBehavior(Agent agent)
+        {
+            _detachments.TryGetValue(agent, out var state);
+            agent.HumanAIComponent?.RefreshBehaviorValues(
+                state?.MovementBehaviorOrder ?? agent.Formation?.GetReadonlyMovementOrderReference().OrderEnum
+                    ?? MovementOrder.MovementOrderEnum.Stop,
+                agent.Formation?.ArrangementOrder.OrderEnum ?? ArrangementOrder.ArrangementOrderEnum.Line);
+        }
+
+        internal void ApplyCombatBehavior(Agent agent)
+        {
+            var ai = agent?.HumanAIComponent;
+            if (ai == null || !agent.IsActive() || !agent.IsAIControlled) return;
+            _detachments.TryGetValue(agent, out var state);
+            // RefreshBehaviorValues always selects DefaultDetached before inspecting the order.
+            if (state?.Order == DetachmentOrder.Charge)
+                ai.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.Charge);
+            else if (state?.Order == DetachmentOrder.Advance)
+                ai.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.Default);
+
+            bool priority = BLTAdoptAHeroModule.CommonConfig.PrioritizeRangedAmmo
+                && _rangedPriorityAgents.Contains(agent) && CanPrioritizeRanged(agent);
+            if (!priority) return;
+            ai.OverrideBehaviorParams(HumanAIComponent.AISimpleBehaviorKind.Ranged, 20f, 7f, 20f, 20f, 20f);
+            ai.OverrideBehaviorParams(HumanAIComponent.AISimpleBehaviorKind.RangedHorseback, 20f, 15f, 20f, 30f, 20f);
+            ai.OverrideBehaviorParams(HumanAIComponent.AISimpleBehaviorKind.Melee, 8f, 2f, 0.1f, 20f, 0.1f);
+            ai.OverrideBehaviorParams(HumanAIComponent.AISimpleBehaviorKind.ChargeHorseback, 2f, 3f, 0.1f, 30f, 0.1f);
+            // Ordinary formations (including Charge) must not beat the ranged combat movement.
+            // Explicit individual positioning and retreat orders still retain their movement.
+            if (state == null || state.Order == DetachmentOrder.Charge)
+            {
+                var movement = agent.Formation?.GetReadonlyMovementOrderReference().OrderEnum;
+                if (movement != MovementOrder.MovementOrderEnum.Retreat && movement != MovementOrder.MovementOrderEnum.FallBack)
+                    ai.OverrideBehaviorParams(HumanAIComponent.AISimpleBehaviorKind.GoToPos, 0f, 7f, 0f, 20f, 0f);
+            }
         }
 
         private void ApplyOverrides(Agent agent, DetachmentState state)
@@ -839,6 +1004,8 @@ namespace BLTAdoptAHero
             agent.HumanAIComponent?.RefreshBehaviorValues(
                 state.MovementBehaviorOrder,
                 agent.Formation?.ArrangementOrder.OrderEnum ?? ArrangementOrder.ArrangementOrderEnum.Line);
+
+            ApplyCombatBehavior(agent);
 
             ApplyTargetPreferences(agent);
 
@@ -892,6 +1059,7 @@ namespace BLTAdoptAHero
                     return;
                 }
                 agent.SetTargetAgent(null);
+                agent.SetTargetFormationIndex(-1);
                 agent.SetAutomaticTargetSelection(true);
             }
             else
@@ -1016,6 +1184,13 @@ namespace BLTAdoptAHero
         }
     }
 
+
+    [HarmonyPatch(typeof(HumanAIComponent), nameof(HumanAIComponent.RefreshBehaviorValues))]
+    internal static class BLTHeroCombatBehaviorPatch
+    {
+        private static void Postfix(Agent ___Agent)
+            => BLTHeroDetachmentBehavior.Current?.ApplyCombatBehavior(___Agent);
+    }
 
     internal class HeroDetachment : IDetachment
     {
